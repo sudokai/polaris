@@ -33,6 +33,7 @@ The skills below sit next to this one, and they are hidden from automatic select
 - **Asked to pause, or about to run out of context** → the Pause safely playbook.
 - **A session taught something worth keeping**, the user says "reflect", or asked to turn the user's habits into playbooks or skills → the `reflect` skill (`../reflect/SKILL.md`).
 - **Asked to change which models polaris uses** → the `setup-polaris` skill (`../setup-polaris/SKILL.md`).
+- **Asked to install or update polaris in the user's harnesses** → the `install-polaris` skill (`../install-polaris/SKILL.md`).
 - **A skill or playbook is broken mid-task** → finish the task without silently working around it, and propose the fix as a separate change.
 
 ## Principles

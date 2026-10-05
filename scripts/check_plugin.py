@@ -21,6 +21,7 @@ EXPECTED_SKILLS = {
     "create-verification-skill",
     "figure-it-out",
     "how",
+    "install-polaris",
     "maintain-verification-skill",
     "prove-it",
     "recall",
@@ -40,6 +41,7 @@ HARNESS_FACT_FILES = (
     "polaris/references/models.md",
     "polaris/references/harnesses.md",
     "setup-polaris/",
+    "install-polaris/",
 )
 
 MARKDOWN_LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")

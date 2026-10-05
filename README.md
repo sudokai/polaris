@@ -10,7 +10,7 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 - **Design and correction:** `architect` and `correct`.
 - **Large work:** `figure-it-out` and `show-me-your-work`.
 - **Learning from history:** `reflect` and `recall`.
-- **Setup:** `setup-polaris`.
+- **Setup:** `setup-polaris` and `install-polaris`.
 
 ## Install
 
@@ -20,7 +20,9 @@ The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plug
 - **Codex:** the repository is its own marketplace (`.agents/plugins/marketplace.json`). Run `codex plugin marketplace add <path-to-polaris>`, then `codex plugin add polaris@polaris`. The manifest is `.codex-plugin/plugin.json`.
 - **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.
 - **pi:** run `pi install <path-to-polaris>`. pi reads `package.json`.
-- **Hermes:** run `hermes plugins install <git URL>`, then `hermes plugins enable polaris`. Hermes reads `plugin.json`.
+- **Hermes:** run `hermes plugins install <git URL or file://path>`, then `hermes plugins enable polaris`. Hermes reads `plugin.json`.
+
+To install or refresh it in every harness on your machine, run `/install-polaris`.
 
 ## Use
 
