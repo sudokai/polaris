@@ -1,0 +1,47 @@
+# polaris
+
+polaris is an agent plugin that guides coding agents through a codebase and through a workflow. Its router skill, `polaris`, matches each task to a playbook or a skill, and names the engineering principles that govern each decision. Its skills focus on mapping code before changing it, designing architecture that agents can extend safely, proving behavior on the real app, and learning from past sessions.
+
+## What's inside
+
+- **Router:** `skills/polaris/`, with 24 principles in `principles/`, playbooks in `playbooks/`, the model role table in `references/models.md`, and per-harness facts in `references/harnesses.md`.
+- **Mapping:** `how`, `why`, and `blast-radius`.
+- **Verification:** `create-verification-skill`, `maintain-verification-skill`, and `prove-it`.
+- **Design and correction:** `architect` and `correct`.
+- **Large work:** `figure-it-out` and `show-me-your-work`.
+- **Learning from history:** `reflect` and `recall`.
+- **Setup:** `setup-polaris`.
+
+## Install
+
+The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plugin.json` and `skills/`), plus a small manifest for each harness that needs one.
+
+- **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`, which also lists the role agents in `com.anthropic.claude-code/agents/`.
+- **Codex:** the repository is its own marketplace (`.agents/plugins/marketplace.json`). Run `codex plugin marketplace add <path-to-polaris>`, then `codex plugin add polaris@polaris`. The manifest is `.codex-plugin/plugin.json`.
+- **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.
+- **pi:** run `pi install <path-to-polaris>`. pi reads `package.json`.
+- **Hermes:** run `hermes plugins install <git URL>`, then `hermes plugins enable polaris`. Hermes reads `plugin.json`.
+
+## Use
+
+Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you want. To apply polaris without typing it each time, add this line to your global agent instructions:
+
+```markdown
+- For nontrivial engineering tasks, apply the `polaris` skill.
+```
+
+To change which models the roles use, run `/setup-polaris`.
+
+## Develop
+
+Run the structural check before you commit:
+
+```bash
+python3 scripts/check_plugin.py
+```
+
+It checks skill frontmatter, link targets, the router's indexes, and that no harness-specific terms appear outside the files meant to hold them. In Claude Code, `claude plugin validate .` also checks the manifest.
+
+## License
+
+MIT. polaris is derived from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan, which is also MIT-licensed. See `LICENSE`.

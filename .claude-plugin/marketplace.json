@@ -1,0 +1,14 @@
+{
+  "name": "polaris",
+  "description": "The polaris agent plugin.",
+  "owner": {
+    "name": "Kaixi Luo"
+  },
+  "plugins": [
+    {
+      "name": "polaris",
+      "source": "./",
+      "description": "Router skill, principles, and playbooks for mapping code, agent-friendly design, and proving behavior."
+    }
+  ]
+}
