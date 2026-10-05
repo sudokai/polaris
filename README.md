@@ -34,6 +34,10 @@ Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you wan
 
 To change which models the roles use, run `/setup-polaris`.
 
+## Local files
+
+polaris keeps its local files in `.agents/polaris/` in a project and in `~/.agents/polaris/` for every project: model overrides, local playbooks, overrides of bundled skills, the deferred-fix backlog, and resume notes. A project override wins over a user override, and both win over the bundled skill or playbook. `reflect` records lessons there instead of editing the plugin. `skills/polaris/references/locations.md` is the full contract.
+
 ## Develop
 
 Run the structural check before you commit:

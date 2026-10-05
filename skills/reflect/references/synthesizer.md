@@ -22,7 +22,7 @@ Apply each criterion to every finding:
 - Convergence: findings echoed by 2+ reviewers or miners carry higher confidence. Singletons must clear a higher bar on the other criteria.
 - Decision-changing: a future agent does something different because of the edit, not just reads more text.
 - Structural-mechanism check: when architecture, a type, a lint rule, a script, or a test could enforce a rule, route it to the repo (`correct`) instead of skill prose. Skill prose is for things mechanisms cannot enforce.
-- Already-covered: read the target skill before accepting any body-edit row. If the proposal duplicates clear, well-placed existing guidance, reject as `already-covered`. The issue is execution, not the skill. If the existing guidance is buried, weak, or easy to skip past, accept the row but reframe the proposal as a wording / placement improvement to make it fire (not a duplicate addition).
+- Already-covered: read the target skill (its effective version: an existing override if there is one) before accepting any body-edit row. If the proposal duplicates clear, well-placed existing guidance, reject as `already-covered`. The issue is execution, not the skill. If the existing guidance is buried, weak, or easy to skip past, accept the row but reframe the proposal as a wording / placement improvement to make it fire (not a duplicate addition).
 
 ## Scope rules
 
@@ -47,17 +47,20 @@ Output exactly the format below. No preamble, no narration. One sentence per cel
 
 ## Accepted
 
-| Problem | Proposal | Destination | Repo |
+| Problem | Proposal | Destination | Scope |
 |---|---|---|---|
-| <gap in a skill the parent used> | <change to that skill's body> | `edit: <skill path + section>` | <repo where the skill's source lives> |
-| <skill existed but didn't trigger> | <tune the skill's description so it fires next time> | `tune description: <skill path>` | <repo> |
-| <narrow procedure that keeps repeating> | <draft a new skill> | `new skill: <kebab-name>` | <repo> |
-| <workflow across several skills> | <draft a new playbook> | `new playbook: <kebab-name>` | <repo> |
-| <gap in an polaris playbook or principle> | <change to it> | `edit: <playbook or principle path>` | <repo> |
-| <personal preference> | <one operational line> | `instruction file` | <the user's own file if the evidence spans two or more projects, otherwise the current project's file> |
-| <repo-side mistake or environment gap> | <the fix> | `correct: <level: architecture, type, lint, test, or docs>` | <current project> |
+| <gap in an polaris skill the parent used> | <change to that skill's body> | `override: <skill name + section>` | <project or user> |
+| <gap in a standalone skill the parent used> | <change to that skill's body> | `edit: <skill path + section>` | <the skill's own location> |
+| <polaris skill existed but didn't run> | <one instruction-file line naming the situation and the skill> | `trigger: <skill name>` | <project or user; plugin source if every polaris user would miss it> |
+| <standalone skill existed but didn't trigger> | <tune the skill's description so it fires next time> | `tune description: <skill path>` | <the skill's own location> |
+| <narrow procedure that keeps repeating> | <draft a new skill> | `new skill: <kebab-name>` | <project or user> |
+| <workflow across several skills> | <draft a new playbook> | `new playbook: <kebab-name>` | <project or user> |
+| <gap in an polaris playbook> | <change to it> | `override playbook: <playbook name>` | <project or user> |
+| <defect every polaris user would hit, such as a gap in a principle> | <change to the bundled file> | `upstream: <bundled path>` | plugin source |
+| <personal preference> | <one operational line> | `instruction file` | <project if it is about this repository; user if the evidence spans two or more projects; the harness name if it applies to one harness> |
+| <repo-side mistake or environment gap> | <the fix> | `correct: <level: architecture, type, lint, test, or docs>` | project |
 
-One row per finding. The user approves row by row. For a `correct` row, propose the level from the evidence: a first occurrence usually gets a rule row in the repo's instruction file (`docs`), and a repeat gets the highest level that works. `correct` checks its rule table for an earlier occurrence before it settles on `docs`.
+One row per finding. The user approves row by row. Scope is `project` for a lesson about this repository and `user` for one that holds across projects. For a `correct` row, propose the level from the evidence: a first occurrence usually gets a rule row in the repo's instruction file (`docs`), and a repeat gets the highest level that works. `correct` checks its rule table for an earlier occurrence before it settles on `docs`.
 
 ## Rejected
 

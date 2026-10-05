@@ -34,8 +34,8 @@ The `pi` column uses the `codex` models, written as `provider/id` as pi expects.
 
 Two optional files override the default table. The first file that sets a role wins:
 
-1. `.polaris/models.md` in the project root.
-2. `~/.config/polaris/models.md` for every project.
+1. `.agents/polaris/models.md` in the project root.
+2. `~/.agents/polaris/models.md` for every project.
 3. The default table.
 
 An override file sets only the roles it lists. In Claude Code, overrides are agent files instead (see **Applying a role in each harness**). Each harness has its own section. Each line is `- <role>: <model>, <effort>`, or `- <role>: inherit` to use the session's model. The effort is optional.

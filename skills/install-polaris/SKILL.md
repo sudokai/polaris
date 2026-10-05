@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # Install polaris
 
+This is the bundled `install-polaris` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/install-polaris/SKILL.md` or `~/.agents/polaris/skills/install-polaris/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
+
 Install or refresh the plugin from its source repository, in each harness found on this machine. Use the repository's absolute path as `<repo>`: the directory that holds `plugin.json`. If the current directory is not that repository, ask the user for the path.
 
 Run the steps for each harness that is present (`command -v <binary>`), and skip the others. Run `python3 <repo>/scripts/check_plugin.py` first, and stop if it fails.
@@ -22,29 +24,24 @@ Run the steps for each harness that is present (`command -v <binary>`), and skip
 
 Cursor's plugin loading from `~/.cursor/plugins/local/` is unconfirmed. After linking, ask the user to restart Cursor and check that the polaris skills are listed. Report the step as unverified until they confirm.
 
-## 2. Add the router rule
+## 2. Connect the shared instructions
 
-Add this line to each global instruction file that exists:
+Portable preferences, including the router rule, live once in `~/.agents/AGENTS.md`. Each harness's global instruction file, and how to share the file with it, are under **Global instruction files** in `../polaris/references/harnesses.md`. These are global files, so ask the user before each change, and never delete or overwrite content.
 
-```markdown
-- For nontrivial engineering tasks, apply the `polaris` skill.
-```
+1. Make sure `~/.agents/AGENTS.md` contains this line. If the line is missing, append it. If the file is missing, create it with only this line.
 
-| Harness | File | Where the line goes |
-| --- | --- | --- |
-| `claude-code` | `~/.agents/AGENTS.md`, which `~/.claude/AGENTS.md` links to | End of the list |
-| `cursor` | `~/.cursor/rules/agents.mdc` | End of the file, after its frontmatter |
-| `hermes` | `~/.hermes/SOUL.md` | End of the Global Rules list |
+   ```markdown
+   - For nontrivial engineering tasks, apply the `polaris` skill.
+   ```
 
-Codex and pi are not listed. Their global instruction paths are unconfirmed, so do not guess one.
-
-For each file:
-
-1. Skip it if it already contains the line.
-2. Skip it if it does not exist. Do not create it.
-3. Ask the user before editing it, because these are global instructions.
-4. Append only that line. Leave every other rule unchanged, even when it differs from the other files.
+2. For `claude-code`, `codex`, and `pi`, check the global instruction file:
+   - If it is a symbolic link to `~/.agents/AGENTS.md`, it is connected.
+   - If it does not exist, create the link.
+   - If it is a regular file, keep it. Add the router line if it is missing. Show the lines of `~/.agents/AGENTS.md` that the file lacks, and add the ones the user approves.
+3. For `hermes`, treat `~/.hermes/SOUL.md` as a regular file, and add lines to its list of rules if it has one.
+4. For `cursor`, find the rule in `~/.cursor/rules/` that copies `~/.agents/AGENTS.md`. If it differs from the shared file, show the difference and refresh the copy only with approval. If no rule copies the shared file, create `agents.mdc` with `alwaysApply: true` frontmatter and a copy of the shared file.
+5. Check each changed harness with the one-shot check in `../polaris/references/harnesses.md`. Report a connection as working only after its check passes.
 
 ## 3. Report
 
-Give one line per harness: installed, refreshed, already current, skipped (not present), or unverified. Name each instruction file that changed, and each harness that needs a restart.
+Give one line per harness: installed, refreshed, already current, skipped (not present), or unverified. Give the state of its instruction connection: connected and checked, changed and checked, unverified, or unsupported. Name each instruction file that changed, and each harness that needs a restart.

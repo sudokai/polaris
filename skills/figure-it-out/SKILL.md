@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # Figure it out
 
+This is the bundled `figure-it-out` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/figure-it-out/SKILL.md` or `~/.agents/polaris/skills/figure-it-out/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
+
 When the task matches no playbook, design one. The deliverable before any code is the workflow itself: a sequence of phases that scales rigor to the task, runs the scientific method, and leaves a decision trail a human can audit after stepping away.
 
 ## Start

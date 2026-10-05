@@ -35,6 +35,19 @@ Write a project-local skill, such as a `verify-<app>` skill, to the project skil
 - **`cursor`**: `.cursor/skills/`
 - **`codex`**, **`pi`**, **`hermes`**, or an unknown harness: `.agents/skills/`
 
+## User skill directories
+
+Write a user-level skill to the user skill directory for the harness. If the user already keeps skills in one of these directories, or links them from a shared directory, follow that arrangement.
+
+- **`claude-code`**: `~/.claude/skills/`
+- **`cursor`**: `~/.cursor/skills/`
+- **`hermes`**: `~/.hermes/skills/`
+- **`codex`** and **`pi`**: `~/.agents/skills/`
+
+To share one skill across harnesses, keep it in `~/.agents/skills/` and link it into the other harnesses' directories.
+
+Bundled skill overrides do not go here. See `locations.md`.
+
 ## Skill-creation skills
 
 When a skill says to create or substantially edit a skill, use the harness's skill-creation skill if it has one. Otherwise, write the `SKILL.md` directly.
@@ -44,3 +57,19 @@ When a skill says to create or substantially edit a skill, use the harness's ski
 - **`claude-code`**: a `skill-creator` skill, if the user has installed one.
 - **`hermes`**: its skill management tool, if it can create skills.
 - **`pi`**: none. Write the `SKILL.md` directly.
+
+## Global instruction files
+
+Each harness reads its own global instruction file:
+
+- **`claude-code`**: `~/.claude/AGENTS.md`
+- **`codex`**: `$CODEX_HOME/AGENTS.md`, by default `~/.codex/AGENTS.md`
+- **`pi`**: `~/.pi/agent/AGENTS.md`
+- **`hermes`**: `~/.hermes/SOUL.md`
+- **`cursor`**: a rule file in `~/.cursor/rules/` with `alwaysApply: true` frontmatter, such as `agents.mdc`
+
+Portable user preferences live once in `~/.agents/AGENTS.md`. To share it, make a harness's file a symbolic link to it. A Cursor rule needs its own frontmatter, so it holds a copy of the shared file instead, which must be refreshed after the shared file changes. A file that already holds its own content stays a separate file. Add the shared lines to it, as the `install-polaris` skill describes.
+
+A preference that applies to one harness goes in that harness's global instruction file, not in the shared file.
+
+To check that a harness loads its file, run a one-shot session and ask whether its context contains a line from the file: `claude -p`, `codex exec --skip-git-repo-check`, `pi -p`, or `hermes -z`. Check `cursor` in the editor, because its command-line agent does not load this file.

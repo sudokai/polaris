@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # Why
 
+This is the bundled `why` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/why/SKILL.md` or `~/.agents/polaris/skills/why/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
+
 Investigate the motivation and intent behind code.
 
 Companion to the `how` skill (`../how/SKILL.md`). `how` answers what the code does and how it works. `why` answers what forces led to its shape.

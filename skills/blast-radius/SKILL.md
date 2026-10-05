@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # Blast radius
 
+This is the bundled `blast-radius` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/blast-radius/SKILL.md` or `~/.agents/polaris/skills/blast-radius/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
+
 Find what a change breaks somewhere else, before it ships. Use for "blast radius of X", "what could this break", or reviewing a small diff you don't trust yet.
 
 Companion to `how` and `why`. `how` tells you what the code does. `why` tells you why it's shaped that way. Blast radius tells you what it breaks somewhere else.

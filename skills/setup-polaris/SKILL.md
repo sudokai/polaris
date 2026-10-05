@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # Setup polaris
 
+This is the bundled `setup-polaris` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/setup-polaris/SKILL.md` or `~/.agents/polaris/skills/setup-polaris/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
+
 Write an override for polaris's role table. The default table, the override format, and the precedence order are in `../polaris/references/models.md`. Read that file first.
 
 ## 1. Identify the harness
@@ -27,14 +29,14 @@ If you cannot detect them, ask the user to paste the models they can use. Never 
 
 ## 3. Show the current table
 
-Build the current table for this harness: the default column, overridden by `~/.config/polaris/models.md`, then by `.polaris/models.md`. For Claude Code, the overrides are the agent files described in step 5. Show each role with its model and effort, and mark any model that is not in the detected set as needing a choice.
+Build the current table for this harness: the default column, overridden by `~/.agents/polaris/models.md`, then by `.agents/polaris/models.md`. For Claude Code, the overrides are the agent files described in step 5. Show each role with its model and effort, and mark any model that is not in the detected set as needing a choice.
 
 ## 4. Ask what to change
 
 Ask which roles to change. Offer the detected models, their effort levels, and `inherit`. Then ask where to save:
 
-- **This project**: `.polaris/models.md`, or `.claude/agents/` in Claude Code.
-- **Every project**: `~/.config/polaris/models.md`, or `~/.claude/agents/` in Claude Code.
+- **This project**: `.agents/polaris/models.md`, or `.claude/agents/` in Claude Code.
+- **Every project**: `~/.agents/polaris/models.md`, or `~/.claude/agents/` in Claude Code.
 
 Use the harness's question tool when it has one. Otherwise, ask in plain text.
 

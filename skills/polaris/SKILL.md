@@ -5,18 +5,20 @@ description: "Route engineering work through polaris's principles, playbooks, an
 
 # polaris
 
+This is the bundled `polaris` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/polaris/SKILL.md` or `~/.agents/polaris/skills/polaris/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `references/locations.md` describes.
+
 Read this file in full before any work. It routes the task to a playbook or a skill, and it names the principles that govern every decision.
 
 ## For each new task
 
 1. If the user says "new task", or the subject changes, match again. Do not continue the previous playbook.
-2. Match the task to a playbook in **Playbooks**. If one matches, run it as `playbooks/README.md` describes.
+2. Match the task to a playbook in **Playbooks**, or to a local playbook. If one matches, run it as `playbooks/README.md` describes.
 3. If no playbook matches, work directly from the principles and the triggers below. Route large or cross-cutting work to the `figure-it-out` skill (`../figure-it-out/SKILL.md`).
 4. Before you apply a principle, read its file in `principles/`.
 
 ## Triggers
 
-The skills below sit next to this one, and they are hidden from automatic selection. Run a skill by reading its `SKILL.md` at the path given, relative to this file, and following it. Skills refer to each other the same way. When you brief a subagent to run a skill, give it the skill file's absolute path.
+The skills below sit next to this one, and they are hidden from automatic selection. Run a skill by reading its effective `SKILL.md` and following it: a local override if one exists, otherwise the bundled file at the path given, relative to this file. Skills refer to each other the same way. When you brief a subagent to run a skill, give it the effective file's absolute path. `references/locations.md` defines overrides, local playbooks, and where polaris writes its files.
 
 - **About to change code you have not traced**, or asked how something works → the `how` skill (`../how/SKILL.md`).
 - **Asked why code is shaped the way it is**, or looking for regression history → the `why` skill (`../why/SKILL.md`).
@@ -81,7 +83,7 @@ Read a principle's file in full before you apply it. Each entry says when it app
 
 ## Playbooks
 
-Run a matched playbook as `playbooks/README.md` describes: copy its steps into the todo list verbatim, and keep skipped steps with `skip: <reason>`.
+Run a matched playbook as `playbooks/README.md` describes: copy its steps into the todo list verbatim, and keep skipped steps with `skip: <reason>`. Also match the local playbooks in `.agents/polaris/playbooks/` in the project root and in `~`, as `references/locations.md` describes.
 
 - **Set up verification.** The project has no scripted way to launch its app, drive a feature, and capture evidence. `playbooks/set-up-verification.md`.
 - **Session pickup.** Resume or take over another agent's unfinished work from a transcript, a branch, or a resume note. `playbooks/session-pickup.md`.

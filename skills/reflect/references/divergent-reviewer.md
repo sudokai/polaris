@@ -22,14 +22,14 @@ This section applies only to findings that point at a skill. A repo-side finding
 
 Findings that point at a skill must point to skills, tools, or MCPs that this transcript invoked, read, or edited. Speculative routings to skills the parent never opened do not count. To check whether a skill was used, scan the transcript for:
 
-- Reads of or edits to any `SKILL.md`, playbook, principle file, or skill reference file, in project, user, or plugin skill directories
+- Reads of or edits to any `SKILL.md`, playbook, principle file, or skill reference file, in project, user, or plugin skill directories, or in an polaris override directory (`.agents/polaris/skills/` in the project or in `~`)
 - Subagent briefs that name a skill path
 - Tool calls (Shell, Grep, MCP, etc.) that match a skill's documented commands
 
 Two valid shapes for a skill finding:
 
 - The session invoked, read, or edited the skill, and you found a real gap in its body. Route to the skill's relevant section.
-- The skill was visible in the catalog but did not trigger when it would have helped. Tune the skill's description so future agents pick it up. Route as `tune description: <skill path>`.
+- The skill existed but did not run when it would have helped. For an polaris skill, which the router's Triggers list chooses, route as `trigger: <skill name>`. For any other skill, tune its description so future agents pick it up, and route as `tune description: <skill path>`.
 
 The "skill should have been invoked but wasn't" bullet above is the canonical missed-trigger case. Route those to `tune description`. If the skill was neither used nor a missed-trigger candidate, drop the finding.
 

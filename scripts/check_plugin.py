@@ -82,6 +82,9 @@ def check_skill_frontmatter(skills_dir: Path) -> list[Problem]:
         for key in ("name", "description"):
             if not fields.get(key):
                 problems.append(Problem(skill_file, 1, f"frontmatter has no `{key}`"))
+        override_path = f".agents/polaris/skills/{skill_file.parent.name}/SKILL.md"
+        if override_path not in skill_file.read_text():
+            problems.append(Problem(skill_file, 0, f"missing the override line that names `{override_path}`"))
         if fields.get("name") and fields["name"] != skill_file.parent.name:
             problems.append(
                 Problem(skill_file, 1, f"name `{fields['name']}` does not match directory `{skill_file.parent.name}`")
