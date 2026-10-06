@@ -18,7 +18,7 @@ Run the steps for each harness that is present (`command -v <binary>`), and skip
 | `codex` | `codex plugin list` shows `polaris@polaris` | `codex plugin marketplace add <repo>`, then `codex plugin add polaris@polaris` | `codex plugin add polaris@polaris`. It re-copies the plugin into Codex's cache. `codex plugin marketplace upgrade` fails for a local marketplace. |
 | `cursor` | `~/.cursor/plugins/local/polaris` exists | Run the Cursor copy command below | Run the same command to refresh the copy. |
 | `pi` | `pi list` shows `<repo>` | `pi install <repo>` | Nothing: pi reads `<repo>`. |
-| `hermes` | `hermes plugins list` shows `polaris` | `hermes plugins install file://<repo> --enable` | `hermes plugins install file://<repo> --force`. Hermes keeps its own copy. |
+| `hermes` | `hermes plugins list` shows `polaris` | `hermes plugins install file://<repo> --enable` | `hermes plugins install file://<repo> --force`. Hermes clones the last commit, so uncommitted changes do not reach it. |
 | `dsh` | `~/.dsh/profiles/<profile>/package.json` lists `polaris` under `dsh.profile.bundles`, for each profile in `~/.dsh/profiles/` | `dsh plugin --profile <profile> add <repo>` for each profile | Nothing: the profile links `<repo>`. |
 
 Cursor rejects local-plugin symbolic links whose targets resolve outside `~/.cursor/plugins/local/`. Run this command, with `repo` set to `<repo>`, for both install and refresh:
