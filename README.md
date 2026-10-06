@@ -26,11 +26,7 @@ To install or refresh it in every harness on your machine, run `/install-polaris
 
 ## Use
 
-Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you want. To apply polaris without typing it each time, add this line to your global agent instructions:
-
-```markdown
-- For nontrivial engineering tasks, apply the `polaris` skill.
-```
+Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you want.
 
 To change which models the roles use, run `/setup-polaris`.
 

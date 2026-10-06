@@ -1,6 +1,6 @@
 ---
 name: install-polaris
-description: "Install or refresh the polaris plugin in every supported harness on this machine (Claude Code, Codex, Cursor, pi, Hermes), and add the router rule to their global instructions. Use for /install-polaris, \"install polaris everywhere\", or after changing the plugin."
+description: "Install or refresh the polaris plugin in every supported harness on this machine (Claude Code, Codex, Cursor, pi, Hermes). Use for /install-polaris, \"install polaris everywhere\", or after changing the plugin."
 disable-model-invocation: true
 ---
 
@@ -24,23 +24,17 @@ Run the steps for each harness that is present (`command -v <binary>`), and skip
 
 Cursor's plugin loading from `~/.cursor/plugins/local/` is unconfirmed. After linking, ask the user to restart Cursor and check that the polaris skills are listed. Report the step as unverified until they confirm.
 
-## 2. Connect the shared instructions
+## 2. Connect shared preferences
 
-Portable preferences, including the router rule, live once in `~/.agents/AGENTS.md`. Each harness's global instruction file, and how to share the file with it, are under **Global instruction files** in `../polaris/references/harnesses.md`. These are global files, so ask the user before each change, and never delete or overwrite content.
+Portable preferences live once in `~/.agents/AGENTS.md`. Each harness's global instruction file, and how to share the file with it, are under **Global instruction files** in `../polaris/references/harnesses.md`. These are global files, so ask the user before each change, and never delete or overwrite content.
 
-1. Make sure `~/.agents/AGENTS.md` contains this line. If the line is missing, append it. If the file is missing, create it with only this line.
-
-   ```markdown
-   - For nontrivial engineering tasks, apply the `polaris` skill.
-   ```
-
-2. For `claude-code`, `codex`, and `pi`, check the global instruction file:
+1. For `claude-code`, `codex`, and `pi`, check the global instruction file:
    - If it is a symbolic link to `~/.agents/AGENTS.md`, it is connected.
    - If it does not exist, create the link.
-   - If it is a regular file, keep it. Add the router line if it is missing. Show the lines of `~/.agents/AGENTS.md` that the file lacks, and add the ones the user approves.
-3. For `hermes`, treat `~/.hermes/SOUL.md` as a regular file, and add lines to its list of rules if it has one.
-4. For `cursor`, find the rule in `~/.cursor/rules/` that copies `~/.agents/AGENTS.md`. If it differs from the shared file, show the difference and refresh the copy only with approval. If no rule copies the shared file, create `agents.mdc` with `alwaysApply: true` frontmatter and a copy of the shared file.
-5. Check each changed harness with the one-shot check in `../polaris/references/harnesses.md`. Report a connection as working only after its check passes.
+   - If it is a regular file, keep it. Show the lines of `~/.agents/AGENTS.md` that the file lacks, and add the ones the user approves.
+2. For `hermes`, treat `~/.hermes/SOUL.md` as a regular file, and add lines to its list of rules if it has one.
+3. For `cursor`, find the rule in `~/.cursor/rules/` that copies `~/.agents/AGENTS.md`. If it differs from the shared file, show the difference and refresh the copy only with approval. If no rule copies the shared file, create `agents.mdc` with `alwaysApply: true` frontmatter and a copy of the shared file.
+4. Check each changed harness with the one-shot check in `../polaris/references/harnesses.md`. Report a connection as working only after its check passes.
 
 ## 3. Report
 

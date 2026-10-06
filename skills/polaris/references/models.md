@@ -23,9 +23,9 @@ Never start a subagent only to switch models. A subagent loses the context you h
 
 | Role | `claude-code` | `codex` | `cursor` | `pi` |
 | --- | --- | --- | --- | --- |
-| `ultra` | `claude-opus-5-5`, high | `gpt-6.1-sol`, xhigh | Grok 4.7, xhigh | `openai/gpt-6.1-sol`, xhigh |
-| `deep` | `claude-opus-5-5`, medium | `gpt-6.1-sol`, high | Grok 4.7, high | `openai/gpt-6.1-sol`, high |
-| `standard` | `claude-opus-5-5`, low | `gpt-6.1-sol`, low | Grok 4.7, medium | `openai/gpt-6.1-sol`, low |
+| `ultra` | `claude-opus-5-5`, high | `gpt-6.1-sol`, high | Grok 4.7, high | `openai/gpt-6.1-sol`, high |
+| `deep` | `claude-opus-5-5`, medium | `gpt-6.1-sol`, medium | Grok 4.7, medium | `openai/gpt-6.1-sol`, medium |
+| `standard` | `claude-opus-5-5`, low | `gpt-6-luna`, xhigh | Grok 4.7, low | `openai/gpt-6-luna`, xhigh |
 | `fast` | `claude-sonnet-5-5`, medium | `gpt-6-luna`, high | `composer-2.5` | `openai/gpt-6-luna`, high |
 
 The `pi` column uses the `codex` models, written as `provider/id` as pi expects. It works only when OpenAI access is configured in pi. Hermes has no column, because it cannot set a model per subagent. `/setup-polaris` writes a column that matches the models you have.
