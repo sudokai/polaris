@@ -21,6 +21,7 @@ The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plug
 - **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.
 - **pi:** run `pi install <path-to-polaris>`. pi reads `package.json`.
 - **Hermes:** run `hermes plugins install <git URL or file://path>`, then `hermes plugins enable polaris`. Hermes reads `plugin.json`.
+- **DeepSeek Harness (`dsh`):** run `dsh plugin --profile <profile> add <path-to-polaris>` for each profile. dsh reads `package.json` and `cordis.patch.yml`.
 
 To install or refresh it in every harness on your machine, run `/install-polaris`.
 

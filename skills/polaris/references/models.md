@@ -21,12 +21,12 @@ Never start a subagent only to switch models. A subagent loses the context you h
 
 ## Default table
 
-| Role | `claude-code` | `codex` | `cursor` | `pi` |
-| --- | --- | --- | --- | --- |
-| `ultra` | `claude-opus-5-5`, high | `gpt-6.1-sol`, high | Grok 4.7, high | `openai/gpt-6.1-sol`, high |
-| `deep` | `claude-opus-5-5`, medium | `gpt-6.1-sol`, medium | Grok 4.7, medium | `openai/gpt-6.1-sol`, medium |
-| `standard` | `claude-opus-5-5`, low | `gpt-6-luna`, xhigh | Grok 4.7, low | `openai/gpt-6-luna`, xhigh |
-| `fast` | `claude-sonnet-5-5`, medium | `gpt-6-luna`, high | `composer-2.5` | `openai/gpt-6-luna`, high |
+| Role | `claude-code` | `codex` | `cursor` | `pi` | `dsh` |
+| --- | --- | --- | --- | --- | --- |
+| `ultra` | `claude-opus-5-5`, high | `gpt-6.1-sol`, high | Grok 4.7, high | `openai/gpt-6.1-sol`, high | `deepseek-flash`, max |
+| `deep` | `claude-opus-5-5`, medium | `gpt-6.1-sol`, medium | Grok 4.7, medium | `openai/gpt-6.1-sol`, medium | `deepseek-flash`, max |
+| `standard` | `claude-opus-5-5`, low | `gpt-6-luna`, xhigh | Grok 4.7, low | `openai/gpt-6-luna`, xhigh | `deepseek-flash`, high |
+| `fast` | `claude-sonnet-5-5`, medium | `gpt-6-luna`, high | `composer-2.5` | `openai/gpt-6-luna`, high | `deepseek-flash`, high |
 
 The `pi` column uses the `codex` models, written as `provider/id` as pi expects. It works only when OpenAI access is configured in pi. Hermes has no column, because it cannot set a model per subagent. `/setup-polaris` writes a column that matches the models you have.
 
@@ -51,6 +51,9 @@ An override file sets only the roles it lists. In Claude Code, overrides are age
 
 ## pi
 - deep: anthropic/claude-opus-5-5, high
+
+## dsh
+- fast: inherit
 ```
 
 Read both override files, if they exist, before you start the first subagent of a task.
@@ -66,6 +69,7 @@ Identify the harness from your system prompt and tools. If you cannot tell, trea
 - **`codex`**: set `fork_turns` to `"none"` and pass `model` and `reasoning_effort`. A subagent that copies the conversation (`fork_turns` omitted or `"all"`) keeps the session's model and effort and ignores both. The subagent starts empty, so put everything it needs in its prompt.
 - **`cursor`**: pass the model slug. The slug carries the effort, for example a Grok 4.7 slug that ends in `xhigh`. Use the exact slug that the spawn tool accepts.
 - **`pi`**: pi has no subagent tool of its own, but an installed extension can add one. If the session has one, pass the model and the thinking level in the form its parameters accept. If it has none, use the no-subagent fallback.
+- **`dsh`**: pass `model` and `reasoning_effort`, with the `provider` that `list_subagent_models` reports for the model. The subagent tool has these fields only when the session's agent preset asks for them and subagent model selection is turned on in the profile. The default `standard` preset asks for them. If the tool lacks them, use the fallback for a harness that cannot set a model per subagent.
 - **`hermes`**: a spawn cannot set its model or effort. Every subagent uses `delegation.model` and `delegation.reasoning_effort` from `~/.hermes/config.yaml`, or the session's model and effort when they are unset. Roles do not apply.
 
 ## Fallbacks

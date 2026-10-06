@@ -1,6 +1,6 @@
 ---
 name: install-polaris
-description: "Install or refresh the polaris plugin in every supported harness on this machine (Claude Code, Codex, Cursor, pi, Hermes). Use for /install-polaris, \"install polaris everywhere\", or after changing the plugin."
+description: "Install or refresh the polaris plugin in every supported harness on this machine (Claude Code, Codex, Cursor, pi, Hermes, DeepSeek Harness). Use for /install-polaris, \"install polaris everywhere\", or after changing the plugin."
 disable-model-invocation: true
 ---
 
@@ -21,6 +21,7 @@ Run the steps for each harness that is present (`command -v <binary>`), and skip
 | `cursor` | `~/.cursor/plugins/local/polaris` exists | Run the Cursor copy command below | Run the same command to refresh the copy. |
 | `pi` | `pi list` shows `<repo>` | `pi install <repo>` | Nothing: pi reads `<repo>`. |
 | `hermes` | `hermes plugins list` shows `polaris` | `hermes plugins install file://<repo> --enable` | `hermes plugins install file://<repo> --force`. Hermes keeps its own copy. |
+| `dsh` | `~/.dsh/profiles/<profile>/package.json` lists `polaris` under `dsh.profile.bundles`, for each profile in `~/.dsh/profiles/` | `dsh plugin --profile <profile> add <repo>` for each profile | Nothing: the profile links `<repo>`. |
 
 Cursor rejects local-plugin symbolic links whose targets resolve outside `~/.cursor/plugins/local/`. Set `repo` to the absolute source path, then run this command for both install and refresh:
 
@@ -35,6 +36,8 @@ rsync -a --delete --exclude='.git/' "$repo/" "$destination/"
 ```
 
 After copying, ask the user to restart Cursor and check that the polaris skills are listed. Report Cursor loading as unverified until they confirm.
+
+The repository is a dsh bundle: `cordis.patch.yml` adds its `skills/` directory to the profile. dsh installs bundles per profile, including the desktop app's profile. Ask the user to start a new session in each profile and check that the `polaris` skill is listed. Report dsh loading as unverified until they confirm.
 
 ## 2. Check global instructions
 

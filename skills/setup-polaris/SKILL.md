@@ -12,9 +12,25 @@ Write an override for polaris's role table. The default table, the override form
 
 ## 1. Identify the harness
 
-Identify the harness from your system prompt and tools: `claude-code`, `codex`, `cursor`, `pi`, or `hermes`. If it is none of these, say so and stop. polaris has no column for it.
+Identify the harness from your system prompt and tools: `claude-code`, `codex`, `cursor`, `pi`, `dsh`, or `hermes`. If it is none of these, say so and stop. polaris has no column for it.
 
-If the harness is `pi` and the session has no subagent tool, tell the user that roles apply only when an installed pi extension adds one, and stop. If it is `hermes`, tell the user that a spawn cannot choose its model or effort, so roles do not apply. Every subagent uses `delegation.model` and `delegation.reasoning_effort` from `~/.hermes/config.yaml`, or the session's model and effort when they are unset. Stop.
+If the harness is `pi` and the session has no subagent tool, tell the user that roles apply only when an installed pi extension adds one, and stop. If the harness is `dsh` and the subagent tool has no `model` field, tell the user to turn on subagent model selection for the profile and allow the role models, then start a new session, and stop. Each profile has its own setting:
+
+- **Desktop app:** open **Plugins** in the sidebar, then select **Subagent** in the Official group.
+- **A command-line profile:** add an entry to `~/.dsh/profiles/<profile>/cordis.patch.yml`. Find the entry's `id` with `dsh --profile <profile> --dump-config`. It is the entry whose `name` is `@deepseek-ai/dsh-tool-subagent/model-selection-settings`. For example, in `dsh-tui`:
+
+  ```yaml
+  - id: dsh-tui-subagent-model-selection-settings
+    config:
+      enabled: true
+      allowedModels:
+        - provider: <provider>
+          model: <model>
+  ```
+
+If the setting is on and the tool still has no `model` field, the session's agent preset does not ask for model selection. Tell the user that roles do not apply with that preset, and stop.
+
+If the harness is `hermes`, tell the user that a spawn cannot choose its model or effort, so roles do not apply. Every subagent uses `delegation.model` and `delegation.reasoning_effort` from `~/.hermes/config.yaml`, or the session's model and effort when they are unset. Stop.
 
 ## 2. Detect the available models
 
@@ -24,6 +40,7 @@ List the models and effort levels that this harness can give a subagent. Use the
 - **`codex`**: `~/.codex/models_cache.json`, which lists each model and its supported reasoning efforts.
 - **`cursor`**: the model slugs that the subagent spawn tool accepts.
 - **`pi`**: `pi --list-models`, which lists each available `provider/id`, and the thinking levels `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. pi lowers a level that the model does not support. Check that the subagent tool accepts a model and a thinking level. If it accepts neither, say so and stop.
+- **`dsh`**: the `list_subagent_models` tool, which lists each allowed provider and model with its reasoning efforts.
 
 If you cannot detect them, ask the user to paste the models they can use. Never write a model you have not confirmed is available. `inherit` is always valid. It means the role runs on the session's model.
 
@@ -44,7 +61,7 @@ Use the harness's question tool when it has one. Otherwise, ask in plain text.
 
 Write only the roles the user changed. Every other role keeps falling through to the next level.
 
-- **`codex`**, **`cursor`**, or **`pi`**: rewrite the whole override file in the format from `../polaris/references/models.md`. Keep the other harnesses' sections in the file unchanged. Remove a role line when the user sets it back to the default.
+- **`codex`**, **`cursor`**, **`pi`**, or **`dsh`**: rewrite the whole override file in the format from `../polaris/references/models.md`. Keep the other harnesses' sections in the file unchanged. Remove a role line when the user sets it back to the default.
 - **`claude-code`**: a spawn cannot set effort, so write one agent file per changed role, named `polaris-<role>.md`, in the chosen agents directory:
 
   ```markdown
