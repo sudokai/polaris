@@ -36,18 +36,12 @@ rsync -a --delete --exclude='.git/' "$repo/" "$destination/"
 
 After copying, ask the user to restart Cursor and check that the polaris skills are listed. Report Cursor loading as unverified until they confirm.
 
-## 2. Connect shared preferences
+## 2. Check global instructions
 
-Portable preferences live once in `~/.agents/AGENTS.md`. Each harness's global instruction file, and how to share the file with it, are under **Global instruction files** in `../polaris/references/harnesses.md`. These are global files, so ask the user before each change, and never delete or overwrite content.
+Each harness's global instruction file and its one-shot check are under **Global instruction files** in `../polaris/references/harnesses.md`.
 
-1. For `claude-code`, `codex`, and `pi`, check the global instruction file:
-   - If it is a symbolic link to `~/.agents/AGENTS.md`, it is connected.
-   - If it does not exist, create the link.
-   - If it is a regular file, keep it. Show the lines of `~/.agents/AGENTS.md` that the file lacks, and add the ones the user approves.
-2. For `hermes`, treat `~/.hermes/SOUL.md` as a regular file, and add lines to its list of rules if it has one.
-3. For `cursor`, find the rule in `~/.cursor/rules/` that copies `~/.agents/AGENTS.md`. If it differs from the shared file, show the difference and refresh the copy only with approval. If no rule copies the shared file, create `agents.mdc` with `alwaysApply: true` frontmatter and a copy of the shared file.
-4. Check each changed harness with the one-shot check in `../polaris/references/harnesses.md`. Report a connection as working only after its check passes.
+For each installed harness, report whether its global instruction file exists. Run the harness's check only when the user asks.
 
 ## 3. Report
 
-Give one line per harness: installed, refreshed, already current, skipped (not present), or unverified. Give the state of its instruction connection: connected and checked, changed and checked, unverified, or unsupported. Name each instruction file that changed, and each harness that needs a restart.
+Give one line per harness: installed, refreshed, already current, skipped (not present), or unverified. Say whether its global instruction file exists, and give the check result if you ran one. Name each harness that needs a restart.

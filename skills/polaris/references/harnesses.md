@@ -68,8 +68,4 @@ Each harness reads its own global instruction file:
 - **`hermes`**: `~/.hermes/SOUL.md`
 - **`cursor`**: a rule file in `~/.cursor/rules/` with `alwaysApply: true` frontmatter, such as `agents.mdc`
 
-Portable user preferences live once in `~/.agents/AGENTS.md`. To share it, make a harness's file a symbolic link to it. A Cursor rule needs its own frontmatter, so it holds a copy of the shared file instead, which must be refreshed after the shared file changes. A file that already holds its own content stays a separate file. Add the shared lines to it, as the `install-polaris` skill describes.
-
-A preference that applies to one harness goes in that harness's global instruction file, not in the shared file.
-
 To check that a harness loads its file, run a one-shot session and ask whether its context contains a line from the file: `claude -p`, `codex exec --skip-git-repo-check`, `pi -p`, or `hermes -z`. Check `cursor` in the editor, because its command-line agent does not load this file.
