@@ -18,11 +18,23 @@ Run the steps for each harness that is present (`command -v <binary>`), and skip
 | --- | --- | --- | --- |
 | `claude-code` | `claude plugin list` shows `polaris@polaris` | `claude plugin marketplace add <repo>`, then `claude plugin install polaris@polaris` | `claude plugin marketplace update polaris`, then `claude plugin update polaris@polaris`. The plugin is read from `<repo>`, so a new session or `/reload-plugins` picks up edits. |
 | `codex` | `codex plugin list` shows `polaris@polaris` | `codex plugin marketplace add <repo>`, then `codex plugin add polaris@polaris` | `codex plugin add polaris@polaris`. It re-copies the plugin into Codex's cache. `codex plugin marketplace upgrade` fails for a local marketplace. |
-| `cursor` | `~/.cursor/plugins/local/polaris` exists | `ln -sfn <repo> ~/.cursor/plugins/local/polaris` | Nothing: the link follows `<repo>`. |
+| `cursor` | `~/.cursor/plugins/local/polaris` exists | Run the Cursor copy command below | Run the same command to refresh the copy. |
 | `pi` | `pi list` shows `<repo>` | `pi install <repo>` | Nothing: pi reads `<repo>`. |
 | `hermes` | `hermes plugins list` shows `polaris` | `hermes plugins install file://<repo> --enable` | `hermes plugins install file://<repo> --force`. Hermes keeps its own copy. |
 
-Cursor's plugin loading from `~/.cursor/plugins/local/` is unconfirmed. After linking, ask the user to restart Cursor and check that the polaris skills are listed. Report the step as unverified until they confirm.
+Cursor rejects local-plugin symbolic links whose targets resolve outside `~/.cursor/plugins/local/`. Set `repo` to the absolute source path, then run this command for both install and refresh:
+
+```sh
+repo="/absolute/path/to/polaris"
+destination="$HOME/.cursor/plugins/local/polaris"
+mkdir -p "$(dirname "$destination")"
+if [ -L "$destination" ]; then
+  rm "$destination"
+fi
+rsync -a --delete --exclude='.git/' "$repo/" "$destination/"
+```
+
+After copying, ask the user to restart Cursor and check that the polaris skills are listed. Report Cursor loading as unverified until they confirm.
 
 ## 2. Connect shared preferences
 
