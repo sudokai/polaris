@@ -6,9 +6,7 @@ disable-model-invocation: true
 
 # Install polaris
 
-This is the bundled `install-polaris` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/install-polaris/SKILL.md` or `~/.agents/polaris/skills/install-polaris/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
-Install or refresh the plugin from its source repository, in each harness found on this machine. Use the repository's absolute path as `<repo>`: the directory that holds `plugin.json`. If the current directory is not that repository, ask the user for the path.
+Install or refresh the plugin from this repository, in each harness found on this machine. Use the repository root's absolute path as `<repo>`.
 
 Run the steps for each harness that is present (`command -v <binary>`), and skip the others. Run `python3 <repo>/scripts/check_plugin.py` first, and stop if it fails.
 
@@ -23,7 +21,7 @@ Run the steps for each harness that is present (`command -v <binary>`), and skip
 | `hermes` | `hermes plugins list` shows `polaris` | `hermes plugins install file://<repo> --enable` | `hermes plugins install file://<repo> --force`. Hermes keeps its own copy. |
 | `dsh` | `~/.dsh/profiles/<profile>/package.json` lists `polaris` under `dsh.profile.bundles`, for each profile in `~/.dsh/profiles/` | `dsh plugin --profile <profile> add <repo>` for each profile | Nothing: the profile links `<repo>`. |
 
-Cursor rejects local-plugin symbolic links whose targets resolve outside `~/.cursor/plugins/local/`. Set `repo` to the absolute source path, then run this command for both install and refresh:
+Cursor rejects local-plugin symbolic links whose targets resolve outside `~/.cursor/plugins/local/`. Run this command, with `repo` set to `<repo>`, for both install and refresh:
 
 ```sh
 repo="/absolute/path/to/polaris"
@@ -41,7 +39,7 @@ The repository is a dsh bundle: `cordis.patch.yml` adds its `skills/` directory 
 
 ## 2. Check global instructions
 
-Each harness's global instruction file and its one-shot check are under **Global instruction files** in `../polaris/references/harnesses.md`.
+Each harness's global instruction file and its one-shot check are under **Global instruction files** in `<repo>/skills/polaris/references/harnesses.md`.
 
 For each installed harness, report whether its global instruction file exists. Run the harness's check only when the user asks.
 

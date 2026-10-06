@@ -10,7 +10,7 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 - **Design and correction:** `architect` and `correct`.
 - **Large work:** `figure-it-out` and `show-me-your-work`.
 - **Learning from history:** `reflect` and `recall`.
-- **Setup:** `setup-polaris` and `install-polaris`.
+- **Setup:** `setup-polaris`.
 
 ## Install
 
@@ -23,7 +23,7 @@ The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plug
 - **Hermes:** run `hermes plugins install <git URL or file://path>`, then `hermes plugins enable polaris`. Hermes reads `plugin.json`.
 - **DeepSeek Harness (`dsh`):** run `dsh plugin --profile <profile> add <path-to-polaris>` for each profile. dsh reads `package.json` and `cordis.patch.yml`.
 
-To install or refresh it in every harness on your machine, run `/install-polaris`.
+To install or refresh it in every harness on your machine, run the repository's `install-polaris` skill from a session in this repository.
 
 ## Use
 
