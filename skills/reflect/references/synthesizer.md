@@ -22,13 +22,13 @@ Apply each criterion to every finding:
 - Convergence: findings echoed by 2+ reviewers or miners carry higher confidence. Singletons must clear a higher bar on the other criteria.
 - Decision-changing: a future agent does something different because of the edit, not just reads more text.
 - Structural-mechanism check: when architecture, a type, a lint rule, a script, or a test could enforce a rule, route it to the repo (`correct`) instead of skill prose. Skill prose is for things mechanisms cannot enforce.
-- Already-covered: read the target skill (its effective version: an existing override if there is one) before accepting any body-edit row. If the proposal duplicates clear, well-placed existing guidance, reject as `already-covered`. The issue is execution, not the skill. If the existing guidance is buried, weak, or easy to skip past, accept the row but reframe the proposal as a wording / placement improvement to make it fire (not a duplicate addition).
+- Already-covered: read the target skill (its effective version: an existing override if there is one) before accepting any body-edit row. If the proposal duplicates clear, well-placed existing guidance, reject as `already-covered`, because the issue is execution, not the skill. If the existing guidance is buried, weak, or easy to skip past, accept the row but reframe the proposal as a wording / placement improvement that makes it fire (not a duplicate addition).
 
 ## Scope rules
 
 Apply only the line that matches the scope.
 
-- **session:** Skill-was-used. Applies only to findings that point at a skill; repo-side findings are exempt. Accept such a finding only if it routes to a skill, tool, or MCP that the parent invoked, read, or edited in the transcript. A skill the session edited counts as used, so a critique of that edit is in scope. If the skill wasn't used but should have been, route to `tune description: <skill path>` so it triggers next time. If neither, reject as `skill-not-used`.
+- **session:** Skill-was-used. Applies only to findings that point at a skill; repo-side findings are exempt. Accept such a finding only if it routes to a skill, tool, or MCP that the parent invoked, read, or edited in the transcript. A skill the session edited counts as used, so a critique of that edit is in scope. If the skill wasn't used but should have been, route an polaris skill to `trigger: <skill name>` and any other skill to `tune description: <skill path>`. If neither, reject as `skill-not-used`.
 - **history:** Seen-twice. Accept a pattern only if it has at least two occurrences, preferably in two or more slices; otherwise reject as `one-off`. A preference that the user stated once and contradicted another time is noise; reject it as `contradicted`.
 
 Drop (implementation details that drift):
