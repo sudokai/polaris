@@ -21,12 +21,12 @@ Never start a subagent only to switch models. A subagent loses the context you h
 
 ## Default table
 
-| Role | `claude-code` | `codex` | `cursor` | `pi` | `dsh` |
-| --- | --- | --- | --- | --- | --- |
-| `ultra` | `claude-opus-5-5`, high | `gpt-6.1-sol`, high | Grok 4.7, high | `openai/gpt-6.1-sol`, high | `deepseek-flash`, max |
-| `deep` | `claude-opus-5-5`, medium | `gpt-6.1-sol`, medium | Grok 4.7, medium | `openai/gpt-6.1-sol`, medium | `deepseek-flash`, max |
-| `standard` | `claude-opus-5-5`, low | `gpt-6-luna`, xhigh | Grok 4.7, low | `openai/gpt-6-luna`, xhigh | `deepseek-flash`, high |
-| `fast` | `claude-sonnet-5-5`, medium | `gpt-6-luna`, high | `composer-2.5` | `openai/gpt-6-luna`, high | `deepseek-flash`, high |
+| Role | `claude-code` | `codex` | `cursor` | `pi` | `dsh` | `grok-build` |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ultra` | `claude-opus-5-5`, high | `gpt-6.1-sol`, high | Grok 4.7, high | `openai/gpt-6.1-sol`, high | `deepseek-flash`, max | `grok-4.7`, high |
+| `deep` | `claude-opus-5-5`, medium | `gpt-6.1-sol`, medium | Grok 4.7, medium | `openai/gpt-6.1-sol`, medium | `deepseek-flash`, max | `grok-4.7`, medium |
+| `standard` | `claude-opus-5-5`, low | `gpt-6-luna`, xhigh | Grok 4.7, low | `openai/gpt-6-luna`, xhigh | `deepseek-flash`, high | `grok-4.7`, low |
+| `fast` | `claude-sonnet-5-5`, medium | `gpt-6-luna`, high | `composer-2.5` | `openai/gpt-6-luna`, high | `deepseek-flash`, high | `grok-4.7-build-fast`, low |
 
 The `pi` column uses the `codex` models, written as `provider/id` as pi expects. It works only when OpenAI access is configured in pi. Hermes has no column, because it cannot set a model per subagent. `/setup-polaris` writes a column that matches the models you have.
 
@@ -38,7 +38,7 @@ Two optional files override the default table. The first file that sets a role w
 2. `~/.agents/polaris/models.md` for every project.
 3. The default table.
 
-An override file sets only the roles it lists. In Claude Code, overrides are agent files instead (see **Applying a role in each harness**). Each harness has its own section. Each line is `- <role>: <model>, <effort>`, or `- <role>: inherit` to use the session's model. The effort is optional.
+An override file sets only the roles it lists. In Claude Code and Grok Build, overrides are agent files instead (see **Applying a role in each harness**). Each harness has its own section. Each line is `- <role>: <model>, <effort>`, or `- <role>: inherit` to use the session's model. The effort is optional.
 
 ```markdown
 # polaris model overrides
@@ -70,6 +70,10 @@ Identify the harness from your system prompt and tools. If you cannot tell, trea
 - **`cursor`**: pass the model slug. The slug carries the effort, for example a Grok 4.7 slug that ends in `xhigh`. Use the exact slug that the spawn tool accepts.
 - **`pi`**: pi has no subagent tool of its own, but an installed extension can add one. If the session has one, pass the model and the thinking level in the form its parameters accept. If it has none, use the no-subagent fallback.
 - **`dsh`**: pass `model` and `reasoning_effort`, with the `provider` that `list_subagent_models` reports for the model. The subagent tool has these fields only when the session's agent preset asks for them and subagent model selection is turned on in the profile. The default `standard` preset asks for them. If the tool lacks them, use the fallback for a harness that cannot set a model per subagent.
+- **`grok-build`**: a spawn can set its agent type but not its model or effort, so polaris ships one agent per role that sets both. Start the subagent with the agent type for its role:
+  - If an override agent `polaris-<role>` exists in `.grok/agents/` or `~/.grok/agents/`, use that name. `/setup-polaris` writes these files for Grok Build instead of an override line.
+  - Otherwise use the plugin's agent `polaris:<role>`, for example `polaris:deep`.
+  - For `inherit`, omit the agent type.
 - **`hermes`**: a spawn cannot set its model or effort. Every subagent uses `delegation.model` and `delegation.reasoning_effort` from `~/.hermes/config.yaml`, or the session's model and effort when they are unset. Roles do not apply.
 
 ## Fallbacks

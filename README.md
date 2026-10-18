@@ -18,6 +18,7 @@ The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plug
 
 - **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`, which also lists the role agents in `com.anthropic.claude-code/agents/`.
 - **Codex:** the repository is its own marketplace (`.agents/plugins/marketplace.json`). Run `codex plugin marketplace add <path-to-polaris>`, then `codex plugin add polaris@polaris`. The manifest is `.codex-plugin/plugin.json`.
+- **Grok Build:** run `grok plugin install <path-to-polaris> --trust`. Role agents are in `agents/`. Grok copies the plugin at install time. To pick up later edits, run `grok plugin uninstall polaris --confirm`, install it again, and start a new session.
 - **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.
 - **pi:** run `pi install <path-to-polaris>`. pi reads `package.json`.
 - **Hermes:** run `hermes plugins install <git URL or file://path>`, then `hermes plugins enable polaris`. Hermes reads `plugin.json`.

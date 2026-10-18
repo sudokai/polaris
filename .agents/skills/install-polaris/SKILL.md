@@ -1,6 +1,6 @@
 ---
 name: install-polaris
-description: "Install or refresh the polaris plugin in every supported harness on this machine (Claude Code, Codex, Cursor, pi, Hermes, DeepSeek Harness). Use for /install-polaris, \"install polaris everywhere\", or after changing the plugin."
+description: "Install or refresh the polaris plugin in every supported harness on this machine (Claude Code, Codex, Grok Build, Cursor, pi, Hermes, DeepSeek Harness). Use for /install-polaris, \"install polaris everywhere\", or after changing the plugin."
 disable-model-invocation: true
 ---
 
@@ -16,6 +16,7 @@ Run the steps for each harness that is present (`command -v <binary>`), and skip
 | --- | --- | --- | --- |
 | `claude-code` | `claude plugin list` shows `polaris@polaris` | `claude plugin marketplace add <repo>`, then `claude plugin install polaris@polaris` | `claude plugin marketplace update polaris`, then `claude plugin update polaris@polaris`. The plugin is read from `<repo>`, so a new session or `/reload-plugins` picks up edits. |
 | `codex` | `codex plugin list` shows `polaris@polaris` | `codex plugin marketplace add <repo>`, then `codex plugin add polaris@polaris` | `codex plugin add polaris@polaris`. It re-copies the plugin into Codex's cache. `codex plugin marketplace upgrade` fails for a local marketplace. |
+| `grok-build` | `grok plugin list` shows `polaris` | `grok plugin install <repo> --trust` | `grok plugin uninstall polaris --confirm`, then the install command again. Grok copies the plugin at install time, and `grok plugin update` leaves that copy unchanged. Start a new session after installing. |
 | `cursor` | `~/.cursor/plugins/local/polaris` exists | Run the Cursor copy command below | Run the same command to refresh the copy. |
 | `pi` | `pi list` shows `<repo>` | `pi install <repo>` | Nothing: pi reads `<repo>`. |
 | `hermes` | `hermes plugins list` shows `polaris` | `hermes plugins install file://<repo> --enable` | `hermes plugins install file://<repo> --force`. Hermes clones the last commit, so uncommitted changes do not reach it. |
