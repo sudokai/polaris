@@ -3,7 +3,7 @@
 ## Not yet verified
 
 - **`disable-model-invocation` in Codex and Hermes.** If either ignores it, the hidden skills stay visible there. That is harmless, because the router still opens them by path.
-- **Agent-invocable skills in each harness.** That the thirteen skills without `disable-model-invocation` start on their own outside `/polaris`, and that the commands in `references/harnesses.md` under **Typing a skill command** are right outside Claude Code and pi.
+- **Agent-invocable skills in each harness.** That the fourteen skills without `disable-model-invocation` start on their own outside `/polaris`, and that the commands in `references/harnesses.md` under **Typing a skill command** are right outside Claude Code and pi.
 - **Hermes:** installing from a local path, and whether its skill management tool can create new skills.
 - **`dsh`:** the `max` effort level and the `deepseek-flash` model, and loading in `dsh-tui` and the desktop app. `dsh-tui` needs a terminal, and no headless profile exists to test it.
 - **Grok Build:** that a role agent's model and effort apply to a running subagent. The agent appeared on `spawn_subagent`, but no child was started.
