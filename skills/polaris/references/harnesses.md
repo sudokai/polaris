@@ -2,6 +2,20 @@
 
 Facts about each harness that polaris skills need, apart from models (see `models.md`). Identify the harness from your system prompt and tools.
 
+## User model settings
+
+User model settings belong to the current harness. Project settings remain in `.agents/polaris/models.yaml`; see [locations](locations.md#user-model-settings) for scope and migration rules.
+
+| Harness | User model settings file |
+| --- | --- |
+| `claude-code` | `~/.claude/polaris/models.yaml` |
+| `codex` | `$CODEX_HOME/polaris/models.yaml`, default `~/.codex/polaris/models.yaml` |
+| `cursor` | `~/.cursor/polaris/models.yaml` |
+| `grok-build` | `$GROK_HOME/polaris/models.yaml`, default `~/.grok/polaris/models.yaml` |
+| `pi` | `~/.pi/agent/polaris/models.yaml` |
+| `dsh` | `$DSH_HOME/polaris/models.yaml`, default `~/.dsh/polaris/models.yaml` |
+| `hermes` | None; use Hermes's existing delegation settings |
+
 ## Continuing subagents
 
 Continue related work only when the available tool preserves the child's conversation. A reusable agent definition alone does not preserve a prior run. Check the session's tool schema; do not assume installed versions expose every documented capability. If continuation is unavailable, start fresh with a concise handoff. Independent review always starts fresh.

@@ -31,7 +31,7 @@ Identify `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, or `hermes
 
 ## 2. Read configuration and detect capabilities
 
-Read the current harness section from `.agents/polaris/models.yaml` and `~/.agents/polaris/models.yaml`. Merge settings as `models.md` specifies; do not read or migrate legacy role files. Suggest the existing profile/budget, otherwise the harness default and medium.
+Read the current harness section from `.agents/polaris/models.yaml` and its user model settings file in `../polaris/references/locations.md#user-model-settings`. Follow that reference's path and migration rules. Merge settings as `models.md` specifies; do not read or migrate legacy role files. Suggest the existing profile/budget, otherwise the harness default and medium.
 
 Detect model IDs, connection routes, supported efforts, tool support, and required image support from the harness:
 
@@ -58,7 +58,7 @@ Show all five kind/level combinations and the separate unclassified allocation w
 
 ## 4. Save configuration and required definitions
 
-Write only the selected scope's settings to `.agents/polaris/models.yaml` or `~/.agents/polaris/models.yaml`. Preserve other harness sections and unrelated settings. Omit unchanged defaults; remove a setting when the user resets it so the next scope applies. Do not erase an intentional empty fallback list. Show a diff before writing a user-scope file outside git, as `../polaris/references/locations.md` requires.
+For **this project**, write `.agents/polaris/models.yaml`. For **every project**, write the current harness's user model settings file from `../polaris/references/locations.md#user-model-settings`; this scope applies only to that harness. Preserve the `harnesses` mapping, other harness sections, and unrelated settings. Omit unchanged defaults; remove a setting when the user resets it so the next scope applies. Do not erase an intentional empty fallback list. Show a diff before writing a user-scope file outside git, as `../polaris/references/locations.md` requires.
 
 For harnesses needing agent definitions, follow **Agent definitions** in `models.md`. Generate one per distinct resolved primary/fallback pair rather than per kind/level. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions.
 

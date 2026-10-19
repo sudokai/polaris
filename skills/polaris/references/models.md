@@ -51,7 +51,7 @@ If the harness is unknown, do not guess that it can apply a pair. Report the lim
 
 ## Configuration
 
-Read `.agents/polaris/models.yaml` in the project root and `~/.agents/polaris/models.yaml`. Their `harnesses` mapping contains sections identified by the harness names above. Missing files/settings fall through to bundled defaults. Legacy `models.md` and role overrides are not read or migrated.
+Read `.agents/polaris/models.yaml` in the project root and the current harness's user model settings file from [locations](locations.md#user-model-settings). Their `harnesses` mapping contains sections identified by the harness names above; read only the current harness's section. Missing files/settings fall through to bundled defaults. Legacy `models.md` and role overrides are not read or migrated.
 
 ```yaml
 harnesses:

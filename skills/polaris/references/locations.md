@@ -6,14 +6,14 @@ Where polaris reads and writes its local files, and how it finds local playbooks
 
 - **Project root:** the output of `git rev-parse --show-toplevel`, or the current directory outside git.
 - **Project polaris root:** `<project>/.agents/polaris/`.
-- **User polaris root:** `~/.agents/polaris/`.
+- **User polaris root:** `~/.agents/polaris/` for local playbooks. Model settings use the current harness's configuration directory below.
 - **Bundled:** the plugin's own `skills/` directory. Never edit an installed copy of it.
 
 ## What goes where
 
 | Category | Project | User |
 | --- | --- | --- |
-| Model budgets and overrides | `.agents/polaris/models.yaml` | `~/.agents/polaris/models.yaml` |
+| Model budgets and overrides | `.agents/polaris/models.yaml` | The current harness's model settings file below |
 | Local playbooks | `.agents/polaris/playbooks/<name>.md` | `~/.agents/polaris/playbooks/<name>.md` |
 | New standalone skills | The project skill directory in `harnesses.md` | The user skill directory in `harnesses.md` |
 | Edits to an existing standalone skill | The directory that holds it | The directory that holds it |
@@ -22,9 +22,17 @@ Where polaris reads and writes its local files, and how it finds local playbooks
 | Deferred repo fixes | `.agents/polaris/backlog.md` | None |
 | Resume notes | `.agents/polaris/resume/<slug>.md`, kept out of git | None |
 
-Commit everything under `.agents/polaris/` except `resume/`. A file in the user polaris root is usually outside git, so show it as a diff before writing it.
+Commit everything under `.agents/polaris/` except `resume/`. User files are usually outside git, so show a diff before writing them.
 
 Choose the scope from the evidence. A lesson about this repository goes to the project. A lesson that holds across projects goes to the user.
+
+## User model settings
+
+Read and write only the current harness's file. Project settings remain shared in `.agents/polaris/models.yaml`. Both scopes keep the `harnesses` mapping defined in `models.md`.
+
+Use the current harness's path in [harnesses](harnesses.md#user-model-settings).
+
+Do not read or write `~/.agents/polaris/models.yaml`. If it exists, report that it is no longer used. Offer to move the current harness's section into its user model settings file, preserving existing destination settings and the source file. Migrate only when requested.
 
 ## Local playbooks
 
