@@ -21,7 +21,10 @@ EXPECTED_SKILLS = {
     "create-formal-verification-skill",
     "create-verification-skill",
     "decision-log",
+    "deslop",
     "diagnose",
+    "discuss",
+    "domain-modeling",
     "figure-it-out",
     "fix-change-detector-tests",
     "how",
@@ -36,8 +39,13 @@ EXPECTED_SKILLS = {
     "restate-my-intent",
     "setup-polaris",
     "sharpen",
+    "show-me",
     "speak-human",
+    "sweep-residue",
+    "tdd",
+    "visual-pr",
     "why",
+    "write-discoverable-code",
 }
 
 # Skills that an agent may start on its own (docs/adr/0013). A skill belongs here
@@ -49,12 +57,18 @@ EXPECTED_SKILLS = {
 # and in Codex `allow_implicit_invocation: false` in `agents/openai.yaml`.
 AGENT_INVOCABLE_SKILLS = {
     "decision-log",
+    "deslop",
     "diagnose",
+    "discuss",
+    "domain-modeling",
     "fix-change-detector-tests",
     "ketchup",
     "prototype",
     "prove-it",
     "restate-my-intent",
+    "sweep-residue",
+    "tdd",
+    "write-discoverable-code",
 }
 
 HARNESS_SPECIFIC_TERMS = re.compile(
