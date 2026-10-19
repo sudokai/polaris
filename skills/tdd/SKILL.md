@@ -38,7 +38,7 @@ RIGHT (vertical):
 
 ### 1. Planning
 
-Use the project's terms from `GLOSSARY.md` in test names and interfaces, and respect the decision records in `docs/adr/` for the area you're touching.
+Use the project's terms from `GLOSSARY.md` in test names and interfaces, and respect the ADRs in `docs/adr/` for the area you're touching.
 
 Before writing any code:
 
