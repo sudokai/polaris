@@ -40,9 +40,13 @@ EXPECTED_SKILLS = {
     "why",
 }
 
-# Skills that an agent may start on its own. Every other skill except the router
-# is hidden: `disable-model-invocation: true`, and in Codex
-# `allow_implicit_invocation: false` in `agents/openai.yaml`.
+# Skills that an agent may start on its own (docs/adr/0013). A skill belongs here
+# only when all three hold:
+#   1. It is useful without the router.
+#   2. It is cheap: it starts no fan-out of subagents and writes nothing beyond the task.
+#   3. The user wants it in sessions that did not start with `/polaris`.
+# Every other skill except the router is hidden: `disable-model-invocation: true`,
+# and in Codex `allow_implicit_invocation: false` in `agents/openai.yaml`.
 AGENT_INVOCABLE_SKILLS = {
     "decision-log",
     "diagnose",
@@ -122,10 +126,13 @@ def check_invocation(skills_dir: Path) -> list[Problem]:
         hidden_from_model = fields.get("disable-model-invocation") == "true"
         hidden_from_codex = sidecar.exists() and "allow_implicit_invocation: false" in sidecar.read_text()
         expected = "hidden" if should_hide else "agent-invocable"
+        rule = "see docs/adr/0013 for which skills belong in AGENT_INVOCABLE_SKILLS"
         if hidden_from_model != should_hide:
-            problems.append(Problem(skill_file, 1, f"{expected} skill has the wrong `disable-model-invocation`"))
+            problems.append(
+                Problem(skill_file, 1, f"{expected} skill has the wrong `disable-model-invocation`; {rule}")
+            )
         if hidden_from_codex != should_hide:
-            problems.append(Problem(sidecar, 0, f"{expected} skill has the wrong `allow_implicit_invocation`"))
+            problems.append(Problem(sidecar, 0, f"{expected} skill has the wrong `allow_implicit_invocation`; {rule}"))
     return problems
 
 

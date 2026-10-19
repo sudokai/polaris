@@ -14,7 +14,7 @@ _Avoid_: mode, router mode, main skill
 A directory with a `SKILL.md` that tells an agent how to do one kind of task.
 
 **Agent-invocable skill**:
-A bundled skill that an agent can start on its own, without `/polaris`, because it is useful alone and cheap. `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py` lists them.
+A bundled skill that an agent can start on its own, without `/polaris`. It meets three conditions: it is useful without the router, it is cheap (no fan-out of subagents, no writes beyond the task), and the user wants it in sessions that did not start with `/polaris`. `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py` lists them.
 
 **Hidden skill**:
 A bundled skill that starts only from the router or when the user types its command.
