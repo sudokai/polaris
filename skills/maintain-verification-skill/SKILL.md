@@ -26,7 +26,7 @@ Only edit the verification skill's own directory (its SKILL.md, features/, and a
 
 1. **Index hygiene.** Read the feature map README and glob its sibling files. Fix missing, extra, duplicate, or dead entries. Lightweight; no generated inventory.
 
-2. **Source wave.** Group feature files by shared implementation so each subsystem is read once. Read a small map directly; otherwise assign the groups to a few read-only `standard` subagents, chosen with `../polaris/references/models.md`. Each feature belongs to one reader and gets its own concise result: feature summary / source entry points / likely drift or none / one live-verification recipe. Children never drive the app, edit files, or start more agents. Reuse source evidence from this run when it still describes the current code.
+2. **Source wave.** Group feature files by shared implementation so each subsystem is read once. Read a small map directly; otherwise assign the groups to a few read-only subagents for `ordinary` source exploration, chosen with `../polaris/references/models.md`. Each feature belongs to one reader and gets its own concise result: feature summary / source entry points / likely drift or none / one live-verification recipe. Children never drive the app, edit files, or start more agents. Reuse source evidence from this run when it still describes the current code.
 
 3. **Reconcile.** Every feature file has a returned summary. Merge overlapping recipes into as few app states as practical. Spot-check cited drift; don't re-prove clean claims. Sweep recent churn for user-facing surfaces missing from the map — require a concrete source path before calling one missing.
 

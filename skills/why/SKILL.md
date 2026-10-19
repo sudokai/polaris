@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Investigate the motivation and intent behind code. The companion `how` skill (`../how/SKILL.md`) answers what the code does and how it works. `why` answers what forces led to its shape.
 
-Work directly when the investigation is small. Delegate independent searches or bulk reading on the `standard` role, chosen with `../polaris/references/models.md`. Give investigators access to the MCP servers they need. All investigation is read-only.
+Work directly when the investigation is small. Delegate independent searches or bulk reading as `ordinary` assignments, chosen with `../polaris/references/models.md`. Give investigators access to the MCP servers they need. All investigation is read-only.
 
 ## Operating Posture
 
@@ -34,7 +34,7 @@ Expand until the question is supported by evidence or the relevant leads are exh
 
 Identify available sources from the session's tools and server instructions. Map them to the evidence categories below, using git and `gh` where available for source control. Classify MCPs by their primary evidence and note ambiguous cases in the coverage map.
 
-Search inline when the trail is short. For parallel searches or bulk reading, assign bounded questions to `standard` investigators, with non-overlapping source ownership. One investigator may follow a short trail across several categories; do not create an agent merely because another MCP is available. Keep already-read items and cross-source leads with the coordinator so agents do not repeat searches.
+Search inline when the trail is short. For parallel searches or bulk reading, assign bounded questions to investigators for `ordinary` source exploration, with non-overlapping source ownership. One investigator may follow a short trail across several categories; do not create an agent merely because another MCP is available. Keep already-read items and cross-source leads with the coordinator so agents do not repeat searches.
 
 For each delegated search, use `references/investigator-prompt.md`, plus:
 - the category guidance for the selected MCP server, adapted from `references/source-playbook.md`. For source control, also `references/sources/code-archaeology.md`
@@ -67,7 +67,7 @@ In a comprehensive investigation, only unavailability or demonstrated irrelevanc
 
 Synthesize the findings yourself using `references/synthesizer-prompt.md` and the epistemics framework. Reconcile overlaps and spot-check citations; keep facts, inference, and gaps separate.
 
-For consequential conclusions (security, data loss, compatibility, difficult migrations, or costly architectural commitments), or when material accounts conflict, start one fresh `deep` reviewer. Give it the question, code anchor, cited evidence, and coverage gaps without your preferred explanation. Ask it to challenge unsupported conclusions and alternative readings, not repeat the full search or start more agents. Then reconcile its findings against the sources; leave unresolved contradictions visible. If independent review is unavailable, report that limitation.
+For consequential conclusions (security, data loss, compatibility, difficult migrations, or costly architectural commitments), or when material accounts conflict, start one fresh reviewer, classified as `substantial_reasoning` or `hardest_reasoning` according to the uncertainty and consequences. Give it the question, code anchor, cited evidence, and coverage gaps without your preferred explanation. Ask it to challenge unsupported conclusions and alternative readings, not repeat the full search or start more agents. Then reconcile its findings against the sources; leave unresolved contradictions visible. If independent review is unavailable, report that limitation.
 
 ## Step 5. Present
 

@@ -29,14 +29,14 @@ Skip Phase A only when the work is genuinely greenfield with no surrounding syst
 Choose the smallest review that addresses the decision. State which path you chose and why. Choose subagent models with `../polaris/references/models.md`.
 
 - **Settled shape:** follow the established design directly. Record the relevant constraints; no competing sketches or design reviewer are needed.
-- **Moderate uncertainty:** write one proposal yourself, using `references/runner-prompt.md` and `references/rationale-template.md`. Start one fresh `deep` reviewer with the task, grounding, proposal's usage sketch, types, signatures, and module map, `references/design-red-flags.md`, and the comparison criteria below. Ask it to challenge the shape, identify a stronger alternative if warranted, and cite concrete risks. Do not pass your rationale until its first pass is complete. Reconcile against the source and record the review and your decision.
+- **Moderate uncertainty:** write one proposal yourself, using `references/runner-prompt.md` and `references/rationale-template.md`. Start one fresh reviewer for `substantial_reasoning` with the task, grounding, proposal's usage sketch, types, signatures, and module map, `references/design-red-flags.md`, and the comparison criteria below. Ask it to challenge the shape, identify a stronger alternative if warranted, and cite concrete risks. Do not pass your rationale until its first pass is complete. Reconcile against the source and record the review and your decision.
 - **Consequential commitment:** use two independent designers and a judge as described below. Choose this path for security boundaries, data-loss risks, public compatibility, difficult migrations, or ownership decisions that would be costly to reverse. Also use it when the user requests competing designs.
 
-For the consequential path, start two subagents on the `deep` role at the same time, each in its own worktree or scratch directory. Give each the design task, the same Phase A grounding, and `references/runner-prompt.md`. Neither sees the other's work. Each produces a design package shaped per `references/rationale-template.md`.
+For the consequential path, start two subagents for `hardest_reasoning` at the same time, each in its own worktree or scratch directory. Give each the design task, the same Phase A grounding, and `references/runner-prompt.md`. Neither sees the other's work. Each produces a design package shaped per `references/rationale-template.md`.
 
 On this path, require two independently produced candidates before synthesis, even when the first looks sufficient. Seek whole-shape alternatives, per [Exhaust the Design Space](../polaris/principles/exhaust-the-design-space.md). If the two candidates converge on the same shape, record the convergence and skip the graft.
 
-On the consequential path, then start one judge subagent on the `ultra` role. It wrote neither sketch. Give it both packages by neutral labels, `references/design-red-flags.md`, and the comparison criteria below. It scores each candidate against each criterion and recommends a base. Reviewers and the judge do not start further agents.
+On the consequential path, then start one judge subagent for `hardest_reasoning`. It wrote neither sketch. Give it both packages by neutral labels, `references/design-red-flags.md`, and the comparison criteria below. It scores each candidate against each criterion and recommends a base. Reviewers and the judge do not start further agents.
 
 Comparison criteria:
 
@@ -46,7 +46,7 @@ Comparison criteria:
 
 When comparing two candidates, read both yourself before accepting the judge's pick. Resolve disagreements against the criteria and rationales. Graft useful ideas from the losing candidate only when they fit one coherent design, per [Redesign from First Principles](../polaris/principles/redesign-from-first-principles.md). Record the base, verdict, grafts, and rejections in the rationale's "Synthesis decision" section.
 
-If the harness has no subagents, do the selected review as separate passes yourself. For the consequential path, write two sketches, the second deliberately different in shape, and compare them against the criteria. Say that the review was not independent.
+If independent review is required but unavailable, report the limitation and ask before substituting self-review. Continue grounding and preparing candidates where useful; separate passes do not satisfy the independence requirement.
 
 ## Phase C: Agree (opt-in)
 

@@ -24,19 +24,19 @@ Infer the need from the message and the conversation. A named situation, such as
 
 Check the state that changes the answer, and mention it only when it does:
 
-- No model override file (`../polaris/references/locations.md`) means every role uses its default model. Mention `/setup-polaris` when the question is about setup, cost, or which models run.
+- No model configuration file (`../polaris/references/locations.md`) means assignments use the harness's default profile at medium budget, where the harness supports model selection. Mention `/setup-polaris` when the question is about setup, cost, or which models run.
 - No `verify-<app>` skill or other app harness in the project means agents have no scripted way to drive the app. Mention the Set up verification playbook when the question is about proving a change works.
 - No formal verification skill in the project means no property is checked past what tests reach. Mention `/create-formal-verification-skill` when the question is about a race, an invariant, or another case tests rarely hit.
 
 ## Get set up
 
 1. Install polaris in each harness as the repository `README.md` says.
-2. Run `/setup-polaris`. It shows the role table, lets the user change the model and effort for each role, and writes an override. Then it offers once each to set up app verification and formal verification for the project.
+2. Run `/setup-polaris`. It shows the profile and budget table, offers fixed category overrides and fallbacks, and saves configuration for the chosen scope. Harness limitations are reported rather than silently ignored. Then it offers once each to set up app verification and formal verification for the project.
 3. Start a real task with `/polaris`, a goal, and a check that can pass or fail.
 
 Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
 
-If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` again can also move a role to a cheaper model or effort, or to `inherit`, which runs it on the session's model. Save `/polaris` for work that needs rigor.
+If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` can select a different budget or profile. A task-only budget request leaves saved settings and fixed overrides unchanged; `../polaris/references/models.md` defines the selection and fallback rules. Save `/polaris` for work that needs rigor.
 
 ## Start a task with `/polaris`
 
@@ -79,7 +79,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Bring a formal verification back in line after the code it covers changed | [`maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log while implementing, and review it afterward | [`decision-log`](../decision-log/SKILL.md) |
-| Pick a model and effort for each role | [`setup-polaris`](../setup-polaris/SKILL.md) |
+| Choose a model profile, budget, and category overrides | [`setup-polaris`](../setup-polaris/SKILL.md) |
 | Turn what a session taught into durable lessons | [`reflect`](../reflect/SKILL.md) |
 | Stop agents from repeating the same mistakes in this repo | [`correct`](../correct/SKILL.md) |
 | Find their way around polaris | `polaris-help` |

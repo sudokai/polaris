@@ -4,7 +4,7 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 
 ## What's inside
 
-- **Router:** `skills/polaris/`, with 24 principles in `principles/`, playbooks in `playbooks/`, the model role table in `references/models.md`, and per-harness facts in `references/harnesses.md`.
+- **Router:** `skills/polaris/`, with 24 principles in `principles/`, playbooks in `playbooks/`, model budgets in `references/models.md`, and per-harness facts in `references/harnesses.md`.
 - **Mapping:** `how`, `why`, `walkthrough`, and `blast-radius`.
 - **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, and `prove-it`.
 - **Debugging and tests:** `diagnose`, `tdd`, and `fix-change-detector-tests`.
@@ -19,9 +19,9 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 
 The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plugin.json` and `skills/`), plus a small manifest for each harness that needs one.
 
-- **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`, which also lists the role agents in `com.anthropic.claude-code/agents/`.
+- **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`, which also lists the model-pair agents in `com.anthropic.claude-code/agents/`.
 - **Codex:** the repository is its own marketplace (`.agents/plugins/marketplace.json`). Run `codex plugin marketplace add <path-to-polaris>`, then `codex plugin add polaris@polaris`. The manifest is `.codex-plugin/plugin.json`.
-- **Grok Build:** run `grok plugin install <path-to-polaris> --trust`. Role agents are in `agents/`. Grok copies the plugin at install time. To pick up later edits, run `grok plugin uninstall polaris --confirm`, install it again, and start a new session.
+- **Grok Build:** run `grok plugin install <path-to-polaris> --trust`. Model-pair agents are in `agents/`. Grok copies the plugin at install time. To pick up later edits, run `grok plugin uninstall polaris --confirm`, install it again, and start a new session.
 - **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.
 - **pi:** run `pi install <path-to-polaris>`. pi reads `package.json`.
 - **Hermes:** run `hermes plugins install <git URL or file://path>`, then `hermes plugins enable polaris`. Hermes reads `plugin.json`.
@@ -33,7 +33,7 @@ To install or refresh it in every harness on your machine, run the repository's 
 
 Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you want.
 
-To change which models the roles use, run `/setup-polaris`. For help with polaris itself, run `/polaris-help` with a question.
+Run `/setup-polaris` to select a provider profile, a budget (medium by default), and optional fixed category overrides. Profiles select model–effort pairs for delegated assignments; they do not change the main conversation's model. Configuration is saved in `.agents/polaris/models.yaml` or `~/.agents/polaris/models.yaml`. Hermes retains its existing delegation settings. For help with polaris itself, run `/polaris-help` with a question.
 
 Fourteen skills also start on their own when they fit, without `/polaris`: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`.
 
@@ -51,9 +51,10 @@ Run the structural check before you commit:
 
 ```bash
 python3 scripts/check_plugin.py
+python3 -m unittest discover -s scripts -p '*_test.py'
 ```
 
-It checks skill frontmatter, link targets, the router's indexes, and that no harness-specific terms appear outside the files meant to hold them. In Claude Code, `claude plugin validate .` also checks the manifest.
+The structural check covers skill frontmatter, links, router indexes, complete profile tables, agent registrations, and harness-specific terms. The tests exercise invalid allocations and undiscoverable agents without tying validation to prose wording. In Claude Code, `claude plugin validate .` also checks the manifest.
 
 ## License
 

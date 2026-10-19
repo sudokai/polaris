@@ -1,94 +1,76 @@
 ---
 name: setup-polaris
-description: "Choose which model and effort each polaris role (ultra, deep, standard, fast) uses in this harness, and write an override for this project or for every project. Use for /setup-polaris, \"configure polaris models\", or changing polaris's model choices."
+description: "Choose a polaris model profile and budget, with optional category overrides and fallbacks, for this project or every project. Use for /setup-polaris, configure polaris models, or changing polaris's model choices."
 disable-model-invocation: true
 ---
 
 # Setup polaris
 
-Write an override for polaris's role table. The default table, the override format, and the precedence order are in `../polaris/references/models.md`. Read that file first.
+Configure delegated assignments using `../polaris/references/models.md`. Read it first; it owns category meanings, defaults, YAML syntax, precedence, fallback authorization, and harness application. Load only the selected profile table. Do not change the main conversation's model.
 
-## 1. Identify the harness
+## 1. Identify the harness and its controls
 
-Identify the harness from your system prompt and tools: `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, or `hermes`. If it is none of these, say so and stop. polaris has no column for it.
+Identify `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, or `hermes` from the available tools. If unknown, report that setup cannot apply model choices here.
 
-If the harness is `pi` and the session has no subagent tool, tell the user that roles apply only when an installed pi extension adds one, and stop. If the harness is `dsh` and the subagent tool has no `model` field, tell the user to turn on subagent model selection for the profile and allow the role models, then start a new session, and stop. Each profile has its own setting:
+- **Hermes:** explain that its existing delegation settings apply, otherwise children inherit the main conversation's settings. GPT is a suggestion only. Leave Hermes configuration untouched, do not save a misleading category-routing table, and stop.
+- **pi:** an installed extension must provide subagents. Inspect its actual model/thinking-level fields. If no suitable extension exists, explain the limitation and stop.
+- **dsh:** the subagent tool must expose model selection. If it does not, explain the relevant setting and stop rather than save an ineffective table:
+  - Desktop: **Plugins → Official → Subagent**, enable model selection and allow the intended models.
+  - Command-line profile: inspect `dsh --profile <profile> --dump-config` for the entry named `@deepseek-ai/dsh-tool-subagent/model-selection-settings`. Add a patch to that profile's `~/.dsh/profiles/<profile>/cordis.patch.yml`, using its actual entry ID:
 
-- **Desktop app:** open **Plugins** in the sidebar, then select **Subagent** in the Official group.
-- **A command-line profile:** add an entry to `~/.dsh/profiles/<profile>/cordis.patch.yml`. Find the entry's `id` with `dsh --profile <profile> --dump-config`. It is the entry whose `name` is `@deepseek-ai/dsh-tool-subagent/model-selection-settings`. For example, in `dsh-tui`:
+    ```yaml
+    - id: <model-selection-settings-id>
+      config:
+        enabled: true
+        allowedModels:
+          - provider: <provider>
+            model: <model>
+    ```
 
-  ```yaml
-  - id: dsh-tui-subagent-model-selection-settings
-    config:
-      enabled: true
-      allowedModels:
-        - provider: <provider>
-          model: <model>
-  ```
+  The session preset must also request model-selection fields. Start a new session after changing these settings; do not edit the profile merely because setup was invoked.
 
-If the setting is on and the tool still has no `model` field, the session's agent preset does not ask for model selection. Tell the user that roles do not apply with that preset, and stop.
+## 2. Read configuration and detect capabilities
 
-If the harness is `hermes`, tell the user that a spawn cannot choose its model or effort, so roles do not apply. Every subagent uses `delegation.model` and `delegation.reasoning_effort` from `~/.hermes/config.yaml`, or the session's model and effort when they are unset. Stop.
+Read the current harness section from `.agents/polaris/models.yaml` and `~/.agents/polaris/models.yaml`. Merge settings as `models.md` specifies; do not read or migrate legacy role files. Suggest the existing profile/budget, otherwise the harness default and medium.
 
-## 2. Detect the available models
+Detect model IDs, connection routes, supported efforts, tool support, and required image support from the harness:
 
-List the models and effort levels that this harness can give a subagent. Use the dependable source for the harness:
+| Harness | Capability source |
+| --- | --- |
+| Claude Code | Current spawn schema and model controls; inspect whether per-invocation effort is exposed. Otherwise use loaded agent definitions. |
+| Codex | Spawn schema and `~/.codex/models_cache.json` supported reasoning efforts. |
+| Cursor | Accepted spawn slugs/parameters and model settings, including the Composer tier. |
+| Grok Build | `grok models`, loaded agents, and provider documentation. Missing entries alone do not rule out Composer; confirm callable IDs on the selected connection. |
+| pi | `pi --list-models`, model thinking maps, and the installed subagent extension's schema. |
+| dsh | `list_subagent_models` allowed providers/models and reasoning efforts. |
 
-- **`claude-code`**: the model values that the subagent spawn tool accepts, and the effort levels `low`, `medium`, `high`, `xhigh`, and `max`.
-- **`codex`**: `~/.codex/models_cache.json`, which lists each model and its supported reasoning efforts.
-- **`cursor`**: the model slugs that the subagent spawn tool accepts.
-- **`grok-build`**: `grok models`, and the effort levels `low`, `medium`, `high`, and `xhigh`.
-- **`pi`**: `pi --list-models`, which lists each available `provider/id`, and the thinking levels `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. pi lowers a level that the model does not support. Check that the subagent tool accepts a model and a thinking level. If it accepts neither, say so and stop.
-- **`dsh`**: the `list_subagent_models` tool, which lists each allowed provider and model with its reasoning efforts.
+Do not assume an account can run a model because another harness or catalogue lists it. Mark uncertain access as unverified. Use a minimal harmless model check when the session permits one; do not launch the full task to discover access. Resolve multiple account routes with the user. Keep credentials in the harness's existing configuration.
 
-If you cannot detect them, ask the user to paste the models they can use. Never write a model you have not confirmed is available. `inherit` is always valid. It means the role runs on the session's model.
+## 3. Resolve the desired table
 
-## 3. Show the current table
+Offer accessible profiles (`claude`, `gpt`, `xai`, `deepseek`, `glm`), a budget (`small`, `medium`, `large`, `unlimited`), and optional category overrides. Fixed overrides survive budget changes; show inherited overrides when changing profile or budget. Offer configured fallback connections only when needed, not as a mandatory interview about every category.
 
-Build the current table for this harness: the default column, overridden by `~/.agents/polaris/models.md`, then by `.agents/polaris/models.md`. For Claude Code and Grok Build, the overrides are the agent files described in step 5. Show each role with its model and effort, and mark any model that is not in the detected set as needing a choice.
+Use the selected profile's exact pairs. Do not infer a new table from effort offsets or add agents to obtain cheaper models. If Composer is unavailable, show the xAI Grok-only column and save its resolved allocations as explicit category overrides after the user chooses it; do not silently mix its table with the Composer runtime fallback.
 
-## 4. Ask what to change
+Resolve each unsupported allocation through an explicit profile fallback or an ordered user-configured fallback list. Ask for a supported effort when no documented mapping exists. A cross-provider fallback requires an explicitly named configured connection. Validate required capabilities on fallback pairs too. Do not save unresolved model IDs, unsupported efforts, credentials, or an unverified table described as usable.
 
-Ask which roles to change. Offer the detected models, their effort levels, and `inherit`. Then ask where to save:
+Show all seven categories with the selected and effective pairs, source (bundled/user/project override), connection, fixed overrides, fallback order, availability evidence, and reload requirements. Ask whether to save for **this project** or **every project**. The user's prior instruction selecting scope or settings is sufficient; do not ask twice.
 
-- **This project**: `.agents/polaris/models.md`, `.claude/agents/` in Claude Code, or `.grok/agents/` in Grok Build.
-- **Every project**: `~/.agents/polaris/models.md`, `~/.claude/agents/` in Claude Code, or `~/.grok/agents/` in Grok Build.
+## 4. Save configuration and required definitions
 
-Use the harness's question tool when it has one. Otherwise, ask in plain text.
+Write only the selected scope's settings to `.agents/polaris/models.yaml` or `~/.agents/polaris/models.yaml`. Preserve other harness sections and unrelated settings. Omit unchanged defaults; remove a setting when the user resets it so the next scope applies. Do not erase an intentional empty fallback list. Show a diff before writing a user-scope file outside git, as `../polaris/references/locations.md` requires.
 
-## 5. Write the override
+For harnesses needing agent definitions, follow **Agent definitions** in `models.md`. Generate one per distinct resolved primary/fallback pair rather than per category. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions.
 
-Write only the roles the user changed. Every other role keeps falling through to the next level.
+Read back the saved YAML and definitions. Check that the effective configuration still resolves to the displayed table. If the save or validation fails, report the exact file and remedy; do not claim the change took effect. New definitions may need a new session or reload; state that before suggesting they can be used.
 
-- **`codex`**, **`cursor`**, **`pi`**, or **`dsh`**: rewrite the whole override file in the format from `../polaris/references/models.md`. Keep the other harnesses' sections in the file unchanged. Remove a role line when the user sets it back to the default.
-- **`claude-code`**: a spawn cannot set effort, so write one agent file per changed role, named `polaris-<role>.md`, in the chosen agents directory:
+## 5. Report and offer verification skills
 
-  ```markdown
-  ---
-  name: polaris-<role>
-  description: "polaris's `<role>` role override. Use only when an polaris skill or playbook assigns work to the `<role>` role."
-  model: <model>
-  effort: <effort>
-  ---
+Report the profile, budget, resolved pairs and sources, paths written, substitutions, and unverified access or loading. Distinguish saved configuration from a confirmed running child. Report a harness-imposed limitation rather than silently inheriting a different pair.
 
-  You are a subagent started by polaris for the `<role>` role. Follow the brief you were given. If the brief tells you to read the `polaris` skill first, do that before any other work.
-  ```
+Make each offer once, skipping offers the project already has:
 
-- **`grok-build`**: a spawn cannot set its model or effort, so write the same agent file as for Claude Code, in the chosen agents directory.
+- **App verification:** if no `verify-<app>` skill or other scripted way to drive the app exists, offer the Set up verification playbook (`../polaris/playbooks/set-up-verification.md`).
+- **Formal verification:** if no formal verification skill exists, offer `../create-formal-verification-skill/SKILL.md` for a key property worth checking across all states in scope.
 
-For a Claude Code or Grok Build agent file, `inherit` means `model: inherit` and no `effort`. Delete the file when the user sets the role back to the default.
-
-Overwrite each file in full, so that running this skill again with the same answers produces identical files.
-
-## 6. Confirm
-
-Read back what you wrote. Tell the user that the change applies to subagents started from now on, and that Claude Code and Grok Build load new agent files in a new session.
-
-## 7. Offer verification skills
-
-Make each offer once, and skip it when the project already has what it offers. On no, move on without pushing.
-
-- **App verification.** If the project has no `verify-<app>` skill or other scripted way to drive the app, offer one, so that agents can drive the app the way a user does and prove changes work. On yes, run the Set up verification playbook (`../polaris/playbooks/set-up-verification.md`).
-- **Formal verification.** If the project has no skill that runs a model checker, a proof, or another verifier against the code, offer one, so that agents can prove a key property holds in every case in scope, not only the cases tests reach. On yes, run the `create-formal-verification-skill` skill (`../create-formal-verification-skill/SKILL.md`).
-
-**Reply:** the harness, the final table with the source of each role (default, user, or project), the paths you wrote or deleted, and the verification skills you offered and the user's answers.
+Proceed with an offer only when accepted; on no, move on.

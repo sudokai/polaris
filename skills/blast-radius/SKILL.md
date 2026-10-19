@@ -30,7 +30,7 @@ Step 4 is usually one small script that imports the same library the app ships a
 
 ## Steps
 
-Choose independent coverage before investigating. For a narrow, low-risk change, work directly. For a broad change, start one fresh `deep` reviewer alongside your investigation. Use two for high-consequence changes, including data loss, security, compatibility, or difficult migrations, even when the diff is small. Add a second if the first pass leaves a material uncertainty another perspective could resolve. File count alone does not make a change high-consequence. Choose models with `../polaris/references/models.md`.
+Choose independent coverage before investigating. For a narrow, low-risk change, work directly. For a broad change, start one fresh reviewer for `bounded_judgment` alongside your investigation. Use two for high-consequence changes, including data loss, security, compatibility, or difficult migrations, even when the diff is small. Add a second if the first pass leaves a material uncertainty another perspective could resolve. Classify each reviewer as `substantial_reasoning` or `hardest_reasoning` when unfamiliar constraints or subtle, consequential risks warrant it. File count alone does not make a change high-consequence. Choose models with `../polaris/references/models.md`.
 
 Give reviewers the task, diff, constraints, and source pointers, without your conclusions or each other's findings. Ask them to inspect missed consumers, assumptions, and failure paths and return concise cited findings. They do not start further agents. After their first passes, share verified facts and reproduction results to avoid repeating expensive work. Resolve disagreements against the source and real behavior.
 

@@ -1,5 +1,7 @@
 # Role agents for Claude Code and Grok Build
 
+Status: historical role policy superseded by [ADR 0017](0017-model-effort-budget-profiles.md). Harness-specific packaging constraints still apply where the current tool requires agent definitions.
+
 polaris ships one agent definition per role for the harnesses that cannot set effort when they start a subagent: `com.anthropic.claude-code/agents/` for Claude Code and `agents/` for Grok Build. Claude Code can set a subagent's model per spawn but its effort only in an agent definition, so without these files the three Opus roles would run the same. Grok Build can set neither, only the agent type. Agent definitions are outside the Agent Plugins portable core, so these files are a deliberate exception.
 
 ## Consequences

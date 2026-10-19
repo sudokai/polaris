@@ -51,17 +51,22 @@ An agent client that loads the plugin, such as Claude Code, Codex, or Grok Build
 _Avoid_: client, host, tool
 
 **Harness fact file**:
-One of the two files that hold harness-specific facts: `references/models.md` and `references/harnesses.md`. All other skill text is harness-neutral.
+A file holding harness-specific facts: `references/models.md`, `references/harnesses.md`, or a selected profile under `references/model-profiles/`. Setup also contains harness-specific configuration steps. Other skill text is harness-neutral.
 
-**Role**:
-A named pairing of a model and a reasoning effort level: `ultra`, `deep`, `standard`, or `fast`. Skills name roles, never models.
-_Avoid_: tier, model level
+**Work category**:
+The kind of assignment used to select a model–effort pair: ordinary, bounded judgment, substantial reasoning, hardest reasoning, hard implementation, verification execution, or unclassified. Skills classify assignments, never name models.
 
-**Role agent**:
-An agent definition that fixes the model and effort for one role, for harnesses that cannot set effort when they start a subagent.
+**Budget**:
+A small, medium, large, or unlimited allocation policy. Medium is the default. A budget is not a monetary cap.
+
+**Model profile**:
+A family's table of model–effort pairs by work category and budget, independent of the harness.
+
+**Model-pair agent**:
+An agent definition that fixes a model and effort for a harness that cannot apply the pair directly.
 
 **Fallback**:
-What a skill does when the harness cannot apply a role as written, such as running the step in the main agent.
+An explicitly authorized replacement pair or a reported harness limitation when the selected pair cannot run. Required independent judgment cannot silently become self-review.
 
 ### Local files
 
@@ -78,8 +83,8 @@ _Avoid_: learned playbook, custom playbook
 **Upstream proposal**:
 A drafted change to the plugin's source repository for a defect every polaris user would hit. It is shown, never applied.
 
-**Model override file**:
-A `models.md` at project or user scope that sets the model and effort for the roles it lists.
+**Model configuration file**:
+A `models.yaml` at project or user scope, with profile, budget, fixed category overrides, and optional ordered fallbacks for each configured harness.
 
 **Resume note**:
 A personal, uncommitted note that records where a paused task stopped, so another session can resume it.

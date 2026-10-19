@@ -1,5 +1,7 @@
 # Skills name roles, not models
 
+Status: historical role policy superseded by [ADR 0017](0017-model-effort-budget-profiles.md). Harness-specific packaging constraints still apply where the current tool requires agent definitions.
+
 Skills name one of four roles (`ultra`, `deep`, `standard`, `fast`), and `skills/polaris/references/models.md` maps each role to a model and an effort level per harness. A role includes effort because effort changes cost and quality as much as the model does. Keeping models in one table lets one skill text run in every harness, and lets the user change models without editing skills.
 
 Roles apply only where a skill already starts a subagent: for parallel work, an independent opinion, or bulk reading. A skill never starts a subagent only to switch models, because the subagent loses the main agent's context. A user who wants `ultra` judgment throughout starts the session on that model.

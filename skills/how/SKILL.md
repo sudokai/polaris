@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
-Explorers run on a role. Choose their model with `../polaris/references/models.md`. Explorers only read and search the code. They never edit files. You write the explanation yourself.
+Classify each exploration assignment by its uncertainty. Choose its model with `../polaris/references/models.md`. Explorers only read and search the code. They never edit files. You write the explanation yourself.
 
 ## Step 1. Assess Complexity
 
@@ -21,7 +21,7 @@ When in doubt, take the simple path.
 
 ## Step 2a. Explore (complex questions only)
 
-Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Start all explorers at once, each on the `standard` role.
+Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Start all explorers at once, normally classified as `ordinary`. Use `substantial_reasoning` for a slice requiring unfamiliar reasoning rather than straightforward source exploration.
 
 Each explorer gets the prompt in `references/explorer-prompt.md` with its angle filled in. Then go to Step 3.
 

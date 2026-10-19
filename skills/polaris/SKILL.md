@@ -109,7 +109,7 @@ Run a matched playbook as `playbooks/README.md` describes: copy its steps into t
 
 ## Delegation
 
-- Start a subagent only for parallel work, an independent opinion, or bulk reading that would flood your context. Choose its model with [the role table](references/models.md).
+- Start a subagent only for parallel work, an independent opinion, or bulk reading that would flood your context. Classify the assignment and choose its model–effort pair with [model budgets](references/models.md); the default budget is medium.
 - Reuse evidence already gathered for this task. Give each worker a bounded question and source pointers; ask for concise findings, citations, contradictions, and gaps rather than a second full explanation. Focused workers do not start further agents unless their brief assigns orchestration.
 - Brief a general delegate, such as a code-writing subagent, with this first line: "Read the `polaris` skill's `SKILL.md` before any work." Give the file's absolute path. Then give the scope: file paths, the named data shape, the success criteria, and pointers to files instead of pasted content.
 - A subagent that a skill starts with its own prompt does not read this file. Use the skill's prompt as written.

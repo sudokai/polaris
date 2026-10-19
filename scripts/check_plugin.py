@@ -8,6 +8,7 @@ Prints one line per problem as `path:line: message` and exits 1 if any are found
 
 from __future__ import annotations
 
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -83,12 +84,19 @@ HARNESS_SPECIFIC_TERMS = re.compile(
 # Files that hold harness-specific facts on purpose, relative to `skills/`.
 HARNESS_FACT_FILES = (
     "polaris/references/models.md",
+    "polaris/references/model-profiles/",
     "polaris/references/harnesses.md",
     "setup-polaris/",
 )
 
 MARKDOWN_LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
 BACKTICKED_PATH = re.compile(r"`((?:\.\./)+[^`\s<>*]+\.md|(?:references|principles|playbooks)/[^`\s<>*]+)`")
+
+WORK_CATEGORIES = {
+    "ordinary", "bounded_judgment", "substantial_reasoning", "hardest_reasoning",
+    "hard_implementation", "verification", "unclassified",
+}
+MODEL_PROFILES = {"claude", "gpt", "xai", "deepseek", "glm"}
 
 
 @dataclass(frozen=True)
@@ -209,6 +217,81 @@ def check_router_indexes(skills_dir: Path) -> list[Problem]:
     return problems
 
 
+def check_model_profiles(skills_dir: Path) -> list[Problem]:
+    """Reject incomplete allocation tables and efforts excluded by a profile's policy."""
+    profiles_dir = skills_dir / "polaris" / "references" / "model-profiles"
+    problems = []
+    found = {path.stem for path in profiles_dir.glob("*.md")}
+    for name in sorted(MODEL_PROFILES - found):
+        problems.append(Problem(profiles_dir, 0, f"missing model profile `{name}`"))
+    for profile_file in sorted(profiles_dir.glob("*.md")):
+        categories: list[str] = []
+        tables = 0
+        for number, line in enumerate(profile_file.read_text().splitlines() + [""], start=1):
+            if not line.startswith("| `"):
+                if categories:
+                    tables += 1
+                    if len(categories) != len(WORK_CATEGORIES) or set(categories) != WORK_CATEGORIES:
+                        problems.append(Problem(profile_file, number, "allocation table must cover each work category once"))
+                    categories = []
+                continue
+            cells = [cell.strip() for cell in line.strip("|").split("|")]
+            categories.append(cells[0].strip("`"))
+            if len(cells) != 5 or any(not cell for cell in cells):
+                problems.append(Problem(profile_file, number, "allocation row needs a category and four budget pairs"))
+                continue
+            for cell in cells[1:]:
+                effort = cell.split()[-1].lower()
+                if cell == "Composer" and profile_file.stem == "xai":
+                    continue
+                if effort not in {"low", "medium", "high", "xhigh", "max"}:
+                    problems.append(Problem(profile_file, number, f"unknown allocation effort `{effort}`"))
+                elif profile_file.stem in {"claude", "gpt", "xai"} and effort == "max":
+                    problems.append(Problem(profile_file, number, "use xhigh instead of max in this profile"))
+                elif profile_file.stem == "glm" and effort not in {"high", "max"}:
+                    problems.append(Problem(profile_file, number, "GLM allocations use high or max only"))
+                elif profile_file.stem == "deepseek" and effort not in {"low", "high", "max"}:
+                    problems.append(Problem(profile_file, number, "DeepSeek allocations require native low/high/max effort"))
+        if not tables:
+            problems.append(Problem(profile_file, 0, "model profile has no allocation table"))
+    return problems
+
+
+def check_model_agents(root: Path) -> list[Problem]:
+    """Check that shipped pair agents have valid fields and Claude can discover them."""
+    problems = []
+    claude_dir = root / "com.anthropic.claude-code" / "agents"
+    for directory in (root / "agents", claude_dir):
+        for agent_file in sorted(directory.glob("*.md")):
+            fields = frontmatter_fields(agent_file.read_text()) or {}
+            for key in ("name", "description", "model", "effort"):
+                if not fields.get(key):
+                    problems.append(Problem(agent_file, 1, f"model-pair agent missing `{key}`"))
+            if fields.get("name") != agent_file.stem:
+                problems.append(Problem(agent_file, 1, "agent name must match its filename"))
+            if fields.get("effort") not in {None, "low", "medium", "high", "xhigh"}:
+                problems.append(Problem(agent_file, 1, "unsupported effort in bundled model-pair agent"))
+            if agent_file.stem in {"ultra", "deep", "standard", "fast"}:
+                problems.append(Problem(agent_file, 1, "replace legacy role agent with a model-pair agent"))
+    manifest = root / ".claude-plugin" / "plugin.json"
+    try:
+        registered = json.loads(manifest.read_text()).get("agents", [])
+        expected = {"./" + str(path.relative_to(root)) for path in claude_dir.glob("*.md")}
+        if not isinstance(registered, list) or any(not isinstance(path, str) for path in registered):
+            problems.append(Problem(manifest, 0, "agents must be a list of model-pair definition paths"))
+        elif set(registered) != expected or len(registered) != len(expected):
+            problems.append(Problem(manifest, 0, "register each shipped Claude model-pair agent exactly once"))
+    except (OSError, ValueError) as error:
+        problems.append(Problem(manifest, 0, f"cannot read agent registrations: {error}"))
+    portable_manifest = root / "plugin.json"
+    try:
+        if "agents" in json.loads(portable_manifest.read_text()):
+            problems.append(Problem(portable_manifest, 0, "portable manifest must not register harness-specific agents"))
+    except (OSError, ValueError) as error:
+        problems.append(Problem(portable_manifest, 0, f"cannot read portable manifest: {error}"))
+    return problems
+
+
 def main() -> int:
     root = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
     skills_dir = root / "skills"
@@ -221,6 +304,8 @@ def main() -> int:
         + check_links(skills_dir)
         + check_harness_terms(skills_dir)
         + check_router_indexes(skills_dir)
+        + check_model_profiles(skills_dir)
+        + check_model_agents(root)
     )
     for problem in problems:
         print(f"{problem.path.relative_to(root)}:{problem.line}: {problem.message}")

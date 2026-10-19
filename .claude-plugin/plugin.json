@@ -14,9 +14,10 @@
     "architecture"
   ],
   "agents": [
-    "./com.anthropic.claude-code/agents/ultra.md",
-    "./com.anthropic.claude-code/agents/deep.md",
-    "./com.anthropic.claude-code/agents/standard.md",
-    "./com.anthropic.claude-code/agents/fast.md"
+    "./com.anthropic.claude-code/agents/opus-high.md",
+    "./com.anthropic.claude-code/agents/opus-low.md",
+    "./com.anthropic.claude-code/agents/opus-medium.md",
+    "./com.anthropic.claude-code/agents/opus-xhigh.md",
+    "./com.anthropic.claude-code/agents/sonnet-medium.md"
   ]
 }
