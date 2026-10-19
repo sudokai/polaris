@@ -28,10 +28,13 @@ Two finding shapes are valid:
 
 Drop any skill that was neither used nor a missed-trigger candidate.
 
+If the mistake class of a finding from a used skill reaches beyond that skill, route it up instead of into the skill: `user line: <rule>` for a lesson that holds across tasks and projects, or `upstream principle: <rule>` when every polaris user would hit it. Never route sideways to a skill the session did not use.
+
 List each durable learning. For each:
 - Principle: one sentence describing what generalizes. State the rule, not the label, no name-dropping.
+- Class: the kind of mistake this incident is one case of, in one clause.
 - Evidence: the exact moment in the transcript that surfaced it (turn number or short quote).
-- Routing: the most relevant existing skill (its `SKILL.md` path as the transcript shows it), OR `trigger: <skill name>` for a missed polaris skill, OR `tune description: <skill path>` when another skill should have triggered but didn't, OR "new skill: <kebab-name>" if no existing skill is a real home, OR `repo: <mistake or gap>` for a repo-side finding.
+- Routing: the most relevant existing skill (its `SKILL.md` path as the transcript shows it), OR `trigger: <skill name>` for a missed polaris skill, OR `tune description: <skill path>` when another skill should have triggered but didn't, OR "new skill: <kebab-name>" if no existing skill is a real home, OR `repo: <mistake or gap>` for a repo-side finding, OR `user line: <rule>` / `upstream principle: <rule>` for a class that reaches beyond a used skill.
 
 Skip trivial things (typos, tool retries, mechanical setup) and anything already obvious from the skill the parent followed. Skip implementation details that drift: specific SHAs, current file paths, version numbers, exact byte counts. Surface only principles and patterns that survive code drift.
 

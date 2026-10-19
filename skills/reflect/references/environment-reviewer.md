@@ -38,6 +38,7 @@ Flag gaps in the repo itself. These findings route to the `correct` skill, which
 - **Guardrails.** An automated check could have caught a mistake the agent made, a check exists but is not wired into a hook or CI, or the repo has no guardrail at all. Read the repo's own check command (`package.json` or build-tool `lint` and `check` scripts) and its CI workflow before proposing a new check. Example: the agent shipped a type error because `tsc` runs in no hook and no CI job.
 - **Tool cost.** A tool call was expensive or token-inefficient and could be streamlined. Example: the agent dumped a 5,000-line log into its context when a filtered command existed.
 - **Instruction-file bloat.** Only when the instruction file is large: instructions that change no behavior, or that a check could enforce instead. Example: a style rule that the formatter already applies.
+- **Information access.** The agent needed information it had no way to get, and the user did not paste it in either. Route a fix inside the repository as `repo:`, and setup outside it, such as connecting a read-only MCP, as `suggest: <access>`. Example: the dev server log goes to a terminal the agent cannot read.
 
 ## Limit skill findings to skills the session used
 
@@ -52,12 +53,15 @@ Two finding shapes are valid:
 
 Drop any skill that was neither used nor a missed-trigger candidate.
 
+If the mistake class of a finding from a used skill reaches beyond that skill, route it up instead of into the skill: `user line: <rule>` for a lesson that holds across tasks and projects, or `upstream principle: <rule>` when every polaris user would hit it. Never route sideways to a skill the session did not use.
+
 ## Output
 
 List each durable learning. For each:
 - Principle: one sentence naming the convention, technical fact, or repo gap. Concrete enough that a future agent recognizes when it applies.
+- Class: the kind of mistake this incident is one case of, in one clause.
 - Evidence: the exact moment in the transcript (turn number or short quote, including the command or flag).
-- Routing: the most relevant existing skill (its `SKILL.md` path as the transcript shows it), OR `trigger: <skill name>` for a missed polaris skill, OR `tune description: <skill path>` when another skill should have triggered but didn't, OR "new skill: <kebab-name>", OR `repo: <mistake or gap>` for a repo setup finding.
+- Routing: the most relevant existing skill (its `SKILL.md` path as the transcript shows it), OR `trigger: <skill name>` for a missed polaris skill, OR `tune description: <skill path>` when another skill should have triggered but didn't, OR "new skill: <kebab-name>", OR `repo: <mistake or gap>` for a repo setup finding, OR `suggest: <access>` for information access outside the repository, OR `user line: <rule>` / `upstream principle: <rule>` for a class that reaches beyond a used skill.
 
 Skip trivial things (typos, retries) and anything already obvious from the skill the parent followed. Skip implementation details that drift: specific SHAs, current file paths, version numbers, exact byte counts. Convention generalizes. Pinned details don't.
 

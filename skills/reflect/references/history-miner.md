@@ -23,6 +23,7 @@ Skip subagent, eval, and test sessions. Read large transcripts in regions: grep 
 Return a numbered list, one entry per pattern. For each:
 - Kind: workflow, narrow workflow, preference, correction, or environment friction.
 - Pattern: one sentence that a future agent can act on.
+- Class: the kind of mistake or habit the pattern is one case of, in one clause.
 - Evidence: each occurrence, as transcript file and a turn number or short quote.
 
 Report a pattern even if it occurs only once in this slice, because the parent counts occurrences across all slices. Put patterns with more occurrences first. Skip implementation details that drift: specific SHAs, current file paths, version numbers. No exposition.
