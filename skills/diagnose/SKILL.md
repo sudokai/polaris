@@ -98,7 +98,7 @@ A correct seam is one where the test exercises the **real bug pattern** as it oc
 
 **If no correct seam exists, that itself is the finding.** Note it. The codebase architecture is preventing the bug from being locked down. Flag this for the next phase.
 
-If a correct seam exists:
+If a correct seam exists, run one red-green cycle of the `tdd` skill (`../tdd/SKILL.md`):
 
 1. Turn the minimised repro into a failing test at that seam.
 2. Watch it fail.

@@ -46,7 +46,7 @@ If the harness has no subagents, write the two sketches yourself as separate pas
 
 Default: proceed directly to implementation with the synthesized design. No human checkpoint.
 
-Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint," "stop and show me before implementing," or similar. Then surface the synthesized design and pause for sign-off. If the sketch is a state model or an API, offer a prototype that the user can drive, per the `prototype` skill (`../prototype/SKILL.md`), and build it only on yes.
+Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint," "stop and show me before implementing," or similar. Then surface the synthesized design, drawn with the views of the `show-me` skill (`../show-me/SKILL.md`), and pause for sign-off. If the sketch is a state model or an API, offer a prototype that the user can drive, per the `prototype` skill (`../prototype/SKILL.md`), and build it only on yes.
 
 The synthesis can ship as its own commit either way, as the "scaffold first" mode of [Foundational Thinking](../polaris/principles/foundational-thinking.md). Planned and scoped breakage during fill-in is fine, per [Outcome-Oriented Execution](../polaris/principles/outcome-oriented-execution.md).
 

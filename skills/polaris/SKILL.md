@@ -20,20 +20,26 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 
 - **About to change code you have not traced**, or asked how something works → the `how` skill (`../how/SKILL.md`).
 - **Asked why code is shaped the way it is**, or looking for regression history → the `why` skill (`../why/SKILL.md`).
-- **Any code** → name the data shape first, and choose its organizing structure per [Model the Domain](principles/model-the-domain.md).
+- **Any code** → name the data shape first, and choose its organizing structure per [Model the Domain](principles/model-the-domain.md). Name, type, and document it per the `write-discoverable-code` skill (`../write-discoverable-code/SKILL.md`).
+- **Asked to discuss a plan, flesh out an idea, or settle a design before building** → the `discuss` skill (`../discuss/SKILL.md`).
+- **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` or a decision record → the `domain-modeling` skill (`../domain-modeling/SKILL.md`).
+- **Explaining a design, a flow, or a change that is easier to see than to read** → the views of the `show-me` skill (`../show-me/SKILL.md`).
 - **Code that crosses a function boundary**, a new module, or a nontrivial design → the `architect` skill (`../architect/SKILL.md`) before implementing.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → the `blast-radius` skill (`../blast-radius/SKILL.md`).
 - **About to claim that a change works** → the `prove-it` skill (`../prove-it/SKILL.md`). "It compiles" and "the tests pass" are not proof of behavior.
-- **A reported bug, a failure, or a regression** → the `diagnose` skill (`../diagnose/SKILL.md`).
+- **A reported bug, a failure, or a regression** → the `diagnose` skill (`../diagnose/SKILL.md`), which writes its regression test with the `tdd` skill.
+- **Building new behavior that tests can pin down** → the `tdd` skill (`../tdd/SKILL.md`).
 - **Writing, changing, or keeping a test** → the `fix-change-detector-tests` skill (`../fix-change-detector-tests/SKILL.md`).
 - **Starting an implementation that follows a plan or a spec** → the `decision-log` skill (`../decision-log/SKILL.md`), at the light level.
+- **Finished a workpackage** → the `deslop` skill (`../deslop/SKILL.md`), then the `sweep-residue` skill (`../sweep-residue/SKILL.md`).
+- **About to open or update a pull request** → the `visual-pr` skill (`../visual-pr/SKILL.md`).
 - **The project has no scripted way to drive its app** → the Set up verification playbook.
 - **The app changed and its verification skill may be out of date** → the `maintain-verification-skill` skill (`../maintain-verification-skill/SKILL.md`).
 - **A race, a retry, a state machine, or another property that tests rarely reach** → the `create-formal-verification-skill` skill (`../create-formal-verification-skill/SKILL.md`).
 - **Code that a formal check covers changed after the check's sync commit** → the `maintain-formal-verification-skill` skill (`../maintain-formal-verification-skill/SKILL.md`).
 - **The user corrects a mistake that agents have made before** → the `correct` skill (`../correct/SKILL.md`). Make the mistake impossible instead of writing another rule.
 - **Large or cross-cutting work**, or work the user will review after stepping away → the `figure-it-out` skill (`../figure-it-out/SKILL.md`), with a full-level log from the `decision-log` skill (`../decision-log/SKILL.md`).
-- **About to ask "which approach?" or "what should this do?"** → decide who can make the call. If you can, because running something answers it (behavior, timing, output, performance, whether an edge case breaks), write the smallest throwaway script, read the result, and decide. If a person must judge how a state model, an API, or a screen feels, build a prototype with the `prototype` skill (`../prototype/SKILL.md`). Ask the user directly only for a product or preference call that neither can settle.
+- **About to ask "which approach?", "what should this do?", or "should I do X?"** → decide who makes the call, per [Never Block on the Human](principles/never-block-on-the-human.md). Most calls are yours: read the code, run the smallest throwaway script, or decide and say why. A person judges how a state model, a public API, or a screen feels, through the `prototype` skill (`../prototype/SKILL.md`). Ask the user only for a product or preference call, or before an action you cannot undo.
 - **Asked to catch up on recent work** → the `recall` skill (`../recall/SKILL.md`). To resume one specific session → the Session pickup playbook.
 - **The user comes back after stepping away, or asks "where are we?"** → the `ketchup` skill (`../ketchup/SKILL.md`).
 - **A run that the user stepped away from ends** → write the final reply per the `ketchup` skill.
@@ -79,7 +85,7 @@ Read a principle's file in full before you apply it. Each entry says when it app
 **Delegation**
 
 - [Guard the Context Window](principles/guard-the-context-window.md). Large outputs, long files, repeated reads, or fan-out planning.
-- [Never Block on the Human](principles/never-block-on-the-human.md). Tempted to ask "should I do X?" about reversible work.
+- [Never Block on the Human](principles/never-block-on-the-human.md). About to ask the user a question: who makes the call.
 
 **Meta**
 

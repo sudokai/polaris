@@ -7,7 +7,7 @@ description: "Build a throwaway prototype that a person drives to judge a design
 
 A prototype is **throwaway code that answers a question**. The question decides the shape.
 
-Build one only when a person must make the call: how a state model, an API, or a screen feels. If the agent can make the call itself (behavior, timing, output, whether an edge case breaks), write the smallest script, read the result, and decide. Keep the logic under test in a small pure module either way, so a design that holds up can move into the real code.
+Build one only when a person must make the call: how a state model, an API, or a screen feels. If the agent can make the call itself, it does, per [Never Block on the Human](../polaris/principles/never-block-on-the-human.md). Keep the logic under test in a small pure module either way, so a design that holds up can move into the real code.
 
 ## Pick a branch
 
