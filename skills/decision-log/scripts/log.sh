@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
-# Append a well-formed row to a show-me-your-work decision log (TSV).
-# Usage: log.sh <logfile> <phase> <decision> <why> <evidence> <result>
+# Append a well-formed row to a decision log (TSV).
+# Usage: log.sh <logfile> <phase> <kind> <decision> <why> <evidence> <result>
+# <kind> is `decision` or `deviation`.
 set -euo pipefail
 
-if [ "$#" -ne 6 ]; then
-	printf 'usage: log.sh <logfile> <phase> <decision> <why> <evidence> <result>\n' >&2
+if [ "$#" -ne 7 ]; then
+	printf 'usage: log.sh <logfile> <phase> <kind> <decision> <why> <evidence> <result>\n' >&2
 	exit 1
 fi
+
+case "$3" in
+	decision | deviation) ;;
+	*)
+		printf 'log.sh: kind must be decision or deviation, got: %s\n' "$3" >&2
+		exit 1
+		;;
+esac
 
 logfile="$1"
 shift
@@ -19,7 +28,7 @@ fi
 # Use `>>` here, never `>`. A network mount can fail this test for a log
 # that exists. Then the cost is one stray header line, not the rows.
 if [ ! -s "$logfile" ]; then
-	printf 'ts\tphase\tdecision\twhy\tevidence\tresult\n' >> "$logfile"
+	printf 'ts\tphase\tkind\tdecision\twhy\tevidence\tresult\n' >> "$logfile"
 fi
 
 ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -37,6 +46,6 @@ clean() {
 		*) printf '%s' "$v" ;;
 	esac
 }
-printf '%s\t%s\t%s\t%s\t%s\t%s\n' \
-	"$ts" "$(clean "$1")" "$(clean "$2")" "$(clean "$3")" "$(clean "$4")" "$(clean "$5")" \
+printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+	"$ts" "$(clean "$1")" "$(clean "$2")" "$(clean "$3")" "$(clean "$4")" "$(clean "$5")" "$(clean "$6")" \
 	>> "$logfile"

@@ -4,7 +4,7 @@ Facts about each harness that polaris skills need, apart from models (see `model
 
 ## Transcripts
 
-`reflect`, `recall`, `show-me-your-work`, and the Session pickup playbook read chat transcripts.
+`reflect`, `recall`, `decision-log`, and the Session pickup playbook read chat transcripts.
 
 Read only the current project's transcripts. Read another project's transcripts only when the user asks, because transcripts hold private conversations.
 
@@ -28,6 +28,19 @@ If your harness is not listed, or the path does not exist, ask the user where tr
 - To find the current session, read the first user message of each recent candidate, and match it against the opening request of this conversation.
 - Skip the current session when you mine history, unless the skill says otherwise.
 - Read large transcripts in a subagent, and keep only the findings in your context.
+
+## Typing a skill command
+
+When you tell the user which command to type, use the form their harness shows:
+
+- **`claude-code`**: `/polaris:<skill>`, such as `/polaris:how`.
+- **`pi`**: `/skill:<skill>`, such as `/skill:how`.
+- Any other harness: `/<skill>`. If the harness's skill menu shows another form, use that.
+
+## Rendering pictures
+
+- In a terminal harness, a reply cannot show an image inline. Link each screenshot or video by its file path, and draw a diagram as plain text in a code block.
+- In an editor or a web app that renders Markdown, a Mermaid code block and an inline image usually render. If you cannot tell, use a plain-text diagram.
 
 ## Project skill directories
 

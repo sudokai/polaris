@@ -17,6 +17,6 @@ Pause only on an explicit request to pause, or when the session is about to run 
    status: in-progress
    ```
 
-   Then write the intent, progress and what is verified, the current state, the next steps, the key files, and gotchas. If a `show-me-your-work` decision log exists, point at it instead of repeating it.
+   Then write the intent, progress and what is verified, the current state, the next steps, the key files, and gotchas. If a decision log from the `decision-log` skill exists, point at it instead of repeating it.
 
 **Reply:** where you are in the work, what is on disk and what was only in your context (paths, no diff dumps), the commits you made and whether the tree is clean, the resume note's path, and the first action on resume. This is a pause, not a final report.

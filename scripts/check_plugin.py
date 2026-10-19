@@ -20,17 +20,37 @@ EXPECTED_SKILLS = {
     "correct",
     "create-formal-verification-skill",
     "create-verification-skill",
+    "decision-log",
+    "diagnose",
     "figure-it-out",
+    "fix-change-detector-tests",
     "how",
+    "ketchup",
     "maintain-formal-verification-skill",
     "maintain-verification-skill",
+    "polaris-help",
     "prove-it",
+    "prototype",
     "recall",
     "reflect",
+    "restate-my-intent",
     "setup-polaris",
     "sharpen",
-    "show-me-your-work",
+    "speak-human",
     "why",
+}
+
+# Skills that an agent may start on its own. Every other skill except the router
+# is hidden: `disable-model-invocation: true`, and in Codex
+# `allow_implicit_invocation: false` in `agents/openai.yaml`.
+AGENT_INVOCABLE_SKILLS = {
+    "decision-log",
+    "diagnose",
+    "fix-change-detector-tests",
+    "ketchup",
+    "prototype",
+    "prove-it",
+    "restate-my-intent",
 }
 
 HARNESS_SPECIFIC_TERMS = re.compile(
@@ -87,6 +107,29 @@ def check_skill_frontmatter(skills_dir: Path) -> list[Problem]:
             problems.append(
                 Problem(skill_file, 1, f"name `{fields['name']}` does not match directory `{skill_file.parent.name}`")
             )
+    return problems
+
+
+def check_invocation(skills_dir: Path) -> list[Problem]:
+    problems = []
+    for skill_file in sorted(skills_dir.glob("*/SKILL.md")):
+        name = skill_file.parent.name
+        if name == "polaris":
+            continue
+        fields = frontmatter_fields(skill_file.read_text()) or {}
+        hidden_from_model = fields.get("disable-model-invocation") == "true"
+        sidecar = skill_file.parent / "agents" / "openai.yaml"
+        hidden_from_codex = sidecar.exists() and "allow_implicit_invocation: false" in sidecar.read_text()
+        if name in AGENT_INVOCABLE_SKILLS:
+            if hidden_from_model:
+                problems.append(Problem(skill_file, 1, "agent-invocable skill sets `disable-model-invocation: true`"))
+            if hidden_from_codex:
+                problems.append(Problem(sidecar, 1, "agent-invocable skill sets `allow_implicit_invocation: false`"))
+        else:
+            if not hidden_from_model:
+                problems.append(Problem(skill_file, 1, "hidden skill lacks `disable-model-invocation: true`"))
+            if not hidden_from_codex:
+                problems.append(Problem(sidecar, 0, "hidden skill lacks `allow_implicit_invocation: false`"))
     return problems
 
 
@@ -153,6 +196,7 @@ def main() -> int:
         return 1
     problems = (
         check_skill_frontmatter(skills_dir)
+        + check_invocation(skills_dir)
         + check_links(skills_dir)
         + check_harness_terms(skills_dir)
         + check_router_indexes(skills_dir)

@@ -1,7 +1,6 @@
 ---
 name: prove-it
 description: "Prove or disprove one claim with fresh evidence: restate it falsifiably, test it on the project's real surface, compare baseline and treatment, and return VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Use for \"prove it\", \"verify this\", \"did this fix it\", \"show me the evidence\", or before claiming that a change works."
-disable-model-invocation: true
 ---
 
 # Prove it
