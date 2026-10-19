@@ -1,5 +1,7 @@
 # Only the router is selected automatically
 
+Superseded by [ADR 0013](0013-cheap-standalone-skills-start-on-their-own.md), which lets seven cheap standalone skills start on their own.
+
 The router is the only skill an agent can pick on its own. Every other bundled skill sets `disable-model-invocation: true`, and in Codex also `policy.allow_implicit_invocation: false` in `agents/openai.yaml`. The router and the skills open each other by file path, such as `../how/SKILL.md`, which works because every harness tells the agent where a loaded skill's file is. This keeps 13 task skill descriptions out of every session and stops them from triggering without polaris. The user can still type a skill's slash command directly.
 
 The router itself does not set `disable-model-invocation`, so the model can still select it. Its description limits it to `/polaris`, which is how the user starts it.

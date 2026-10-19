@@ -10,7 +10,7 @@ The working contracts live with the skills: `skills/polaris/references/locations
 
 1. [polaris is a harness-neutral port of part of pstack](adr/0001-harness-neutral-port-of-pstack.md)
 2. [Principles are plain files, not skills](adr/0002-principles-are-plain-files.md)
-3. [Only the router is selected automatically](adr/0003-only-the-router-is-selected-automatically.md)
+3. [Only the router is selected automatically](adr/0003-only-the-router-is-selected-automatically.md) (superseded by 13)
 4. [Skills name roles, not models](adr/0004-skills-name-roles-not-models.md)
 5. [Role agents for Claude Code and Grok Build](adr/0005-role-agents-for-claude-code-and-grok-build.md)
 6. [Local files live under `.agents/polaris/`](adr/0006-local-files.md)
@@ -19,3 +19,5 @@ The working contracts live with the skills: `skills/polaris/references/locations
 9. [Resume notes are selected explicitly, never by recency](adr/0009-resume-notes-are-selected-explicitly.md)
 10. [Installing in each harness](adr/0010-installing-in-each-harness.md)
 11. [Bundled skills and playbooks cannot be overridden locally](adr/0011-no-local-overrides-of-bundled-skills.md)
+12. [Some of the user's global skills are folded into polaris](adr/0012-user-skills-folded-into-polaris.md)
+13. [Cheap standalone skills start on their own](adr/0013-cheap-standalone-skills-start-on-their-own.md), replacing 3

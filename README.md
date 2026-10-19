@@ -6,11 +6,13 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 
 - **Router:** `skills/polaris/`, with 24 principles in `principles/`, playbooks in `playbooks/`, the model role table in `references/models.md`, and per-harness facts in `references/harnesses.md`.
 - **Mapping:** `how`, `why`, and `blast-radius`.
-- **Verification:** `create-verification-skill`, `maintain-verification-skill`, and `prove-it`.
-- **Design and correction:** `architect` and `correct`.
-- **Large work:** `figure-it-out` and `show-me-your-work`.
+- **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, and `prove-it`.
+- **Debugging and tests:** `diagnose` and `fix-change-detector-tests`.
+- **Design and correction:** `architect`, `prototype`, and `correct`.
+- **Large work:** `figure-it-out` and `decision-log`.
 - **Learning from history:** `reflect` and `recall`.
-- **Setup:** `setup-polaris`.
+- **Conversation:** `ketchup`, `restate-my-intent`, `sharpen`, and `speak-human`.
+- **Setup and help:** `setup-polaris` and `polaris-help`.
 
 ## Install
 
@@ -30,7 +32,9 @@ To install or refresh it in every harness on your machine, run the repository's 
 
 Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you want.
 
-To change which models the roles use, run `/setup-polaris`.
+To change which models the roles use, run `/setup-polaris`. For help with polaris itself, run `/polaris-help` with a question.
+
+Seven skills also start on their own when they fit, without `/polaris`: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, and `ketchup`.
 
 ## Local files
 

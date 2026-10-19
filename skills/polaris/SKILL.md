@@ -16,7 +16,7 @@ Read this file in full before any work. It routes the task to a playbook or a sk
 
 ## Triggers
 
-The skills below sit next to this one, and they are hidden from automatic selection. Run a skill by reading its `SKILL.md` at the path given, relative to this file, and following it. Skills refer to each other the same way. When you brief a subagent to run a skill, give it the file's absolute path. `references/locations.md` defines local playbooks and where polaris writes its files.
+The skills below sit next to this one. Most are hidden from automatic selection. Run a skill by reading its `SKILL.md` at the path given, relative to this file, and following it. Skills refer to each other the same way. When you brief a subagent to run a skill, give it the file's absolute path. `references/locations.md` defines local playbooks and where polaris writes its files.
 
 - **About to change code you have not traced**, or asked how something works → the `how` skill (`../how/SKILL.md`).
 - **Asked why code is shaped the way it is**, or looking for regression history → the `why` skill (`../why/SKILL.md`).
@@ -24,14 +24,19 @@ The skills below sit next to this one, and they are hidden from automatic select
 - **Code that crosses a function boundary**, a new module, or a nontrivial design → the `architect` skill (`../architect/SKILL.md`) before implementing.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → the `blast-radius` skill (`../blast-radius/SKILL.md`).
 - **About to claim that a change works** → the `prove-it` skill (`../prove-it/SKILL.md`). "It compiles" and "the tests pass" are not proof of behavior.
+- **A reported bug, a failure, or a regression** → the `diagnose` skill (`../diagnose/SKILL.md`).
+- **Writing, changing, or keeping a test** → the `fix-change-detector-tests` skill (`../fix-change-detector-tests/SKILL.md`).
+- **Starting an implementation that follows a plan or a spec** → the `decision-log` skill (`../decision-log/SKILL.md`), at the light level.
 - **The project has no scripted way to drive its app** → the Set up verification playbook.
 - **The app changed and its verification skill may be out of date** → the `maintain-verification-skill` skill (`../maintain-verification-skill/SKILL.md`).
 - **A race, a retry, a state machine, or another property that tests rarely reach** → the `create-formal-verification-skill` skill (`../create-formal-verification-skill/SKILL.md`).
 - **Code that a formal check covers changed after the check's sync commit** → the `maintain-formal-verification-skill` skill (`../maintain-formal-verification-skill/SKILL.md`).
 - **The user corrects a mistake that agents have made before** → the `correct` skill (`../correct/SKILL.md`). Make the mistake impossible instead of writing another rule.
 - **Large or cross-cutting work**, or work the user will review after stepping away → the `figure-it-out` skill (`../figure-it-out/SKILL.md`), with a full-level log from the `decision-log` skill (`../decision-log/SKILL.md`).
-- **About to ask "which approach?" or "what should this do?"** → classify the question first. If running something can answer it (behavior, timing, layout, output, performance), build the smallest throwaway experiment and let the result decide. Ask the user only for a product or preference call that no experiment can settle.
+- **About to ask "which approach?" or "what should this do?"** → decide who can make the call. If you can, because running something answers it (behavior, timing, output, performance, whether an edge case breaks), write the smallest throwaway script, read the result, and decide. If a person must judge how a state model, an API, or a screen feels, build a prototype with the `prototype` skill (`../prototype/SKILL.md`). Ask the user directly only for a product or preference call that neither can settle.
 - **Asked to catch up on recent work** → the `recall` skill (`../recall/SKILL.md`). To resume one specific session → the Session pickup playbook.
+- **The user comes back after stepping away, or asks "where are we?"** → the `ketchup` skill (`../ketchup/SKILL.md`).
+- **A run that the user stepped away from ends** → write the final reply per the `ketchup` skill.
 - **Asked to pause, or about to run out of context** → the Pause safely playbook.
 - **A session taught something worth keeping**, the user says "reflect", or asked to turn the user's habits into playbooks or skills → the `reflect` skill (`../reflect/SKILL.md`).
 - **Asked to change which models polaris uses** → the `setup-polaris` skill (`../setup-polaris/SKILL.md`).
