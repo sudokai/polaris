@@ -1,5 +1,7 @@
 # `reflect` routes lessons, and `correct` fixes the repo
 
+The reviewer counts and synthesis placement below describe the original decision. The [current skill](../../skills/reflect/SKILL.md) scales them to the session; its routing and approval rules retain this split.
+
 The learning skills split by what they change. `reflect` finds lessons and routes each one to a destination. `correct` builds repo-side fixes: architecture, types, lints, tests, and docs. Whether the evidence comes from one session or many is a mode setting inside `reflect`, not a reason for a separate skill, so the former history skill `automate-me` became `reflect`'s history mode.
 
 ## Decisions within this split

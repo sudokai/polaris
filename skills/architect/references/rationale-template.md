@@ -16,7 +16,7 @@ The prose that ships alongside the type sketch. One page. Sentence-case headings
 
 ## Synthesis decision
 
-*Filled in by the orchestrator after Phase B. Records which candidate became the base and why, the judge's verdict, what was grafted from the other candidate, and what was rejected and why.*
+*Filled in by the orchestrator after Phase B. Name the review path and the decision. For one proposal, record the review, revisions, and rejected suggestions. For competing candidates, record the base, judge's verdict, grafts, and rejections. For a settled shape, name the established design being followed.*
 
 ## Tradeoffs accepted
 
@@ -32,4 +32,4 @@ The prose that ships alongside the type sketch. One page. Sentence-case headings
 
 ## Next implementation step
 
-*The first thing to build against the sketch. One sentence. What you'd start writing immediately after synthesis (or after Phase D sign-off, if a checkpoint was opted into).*
+*The first thing to build against the sketch. One sentence. What you'd start writing immediately after synthesis (or after the Phase C checkpoint, if opted into).*

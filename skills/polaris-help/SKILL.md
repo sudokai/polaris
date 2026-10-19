@@ -36,7 +36,7 @@ Check the state that changes the answer, and mention it only when it does:
 
 Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
 
-If cost is the worry, say where the tokens go: subagents in `how`, `why`, `architect`, `recall`, and `reflect`. Running `/setup-polaris` again can move a role to a cheaper model or effort, or to `inherit`, which runs it on the session's model. Save `/polaris` for work that needs rigor.
+If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` again can also move a role to a cheaper model or effort, or to `inherit`, which runs it on the session's model. Save `/polaris` for work that needs rigor.
 
 ## Start a task with `/polaris`
 

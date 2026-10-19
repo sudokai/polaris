@@ -2,6 +2,20 @@
 
 Facts about each harness that polaris skills need, apart from models (see `models.md`). Identify the harness from your system prompt and tools.
 
+## Continuing subagents
+
+Continue related work only when the available tool preserves the child's conversation. A reusable agent definition alone does not preserve a prior run. Check the session's tool schema; do not assume installed versions expose every documented capability. If continuation is unavailable, start fresh with a concise handoff. Independent review always starts fresh.
+
+| Harness | Continuation support |
+| --- | --- |
+| `codex` | In a session exposing `followup_task`, target the existing child to start another turn when idle; `send_message` steers a running child. Use equivalent continuation tools only when their schema exposes them. |
+| `claude-code` | Resume general-purpose or custom agents by ID. Current docs describe `SendMessage`; built-in Explore and Plan are one-shot. See [resume subagents](https://code.claude.com/docs/en/sub-agents#resume-subagents). |
+| `cursor` | Resume the returned agent ID with context preserved. See [resuming subagents](https://cursor.com/docs/subagents#resuming-subagents). |
+| `grok-build` | `spawn_subagent` accepts `resume_from` for a completed child's conversation. Live `send_subagent_message` is separately configurable. See [subagents](https://github.com/xai-org/grok-build/blob/main/crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md). |
+| `dsh` | Local spawn/fork children support later messages and cold resume; external backends are one-shot. Check the selected provider and control tools. See [subagent service](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/subagent/subagent/README.md). |
+| `hermes` | `delegate_task` with spawn/list/steer/stop can steer running children. After completion, delegate a new task unless the current tool explicitly supports continuation. |
+| `pi` | Depends on the installed extension. pi's example subagent extension launches with `--no-session` and cannot resume a completed child's conversation. Inspect the actual extension's tool schema. |
+
 ## Transcripts
 
 `reflect`, `recall`, `decision-log`, and the Session pickup playbook read chat transcripts.

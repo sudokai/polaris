@@ -1,6 +1,6 @@
 ---
 name: maintain-verification-skill
-description: "Periodic pass that keeps a project's verification skill and feature map honest: parallel source readers per feature, one live session driving every feature, at most one PR of proven corrections. Use for /maintain-verification-skill or \"audit the verify skill\"."
+description: "Keep a project's verification skill and feature map honest: grouped source reading, live coverage of every feature, and at most one PR of proven corrections. Use for /maintain-verification-skill or \"audit the verify skill\"."
 disable-model-invocation: true
 ---
 
@@ -26,7 +26,7 @@ Only edit the verification skill's own directory (its SKILL.md, features/, and a
 
 1. **Index hygiene.** Read the feature map README and glob its sibling files. Fix missing, extra, duplicate, or dead entries. Lightweight; no generated inventory.
 
-2. **Source wave.** One read-only subagent per feature file, launched concurrently. Each explains "how does this user-facing feature work?" from source, flags likely doc drift with citations, and returns one concise live-verification recipe. Children never drive the app and never edit files. Return shape: feature summary / source entry points / likely drift or none / one recipe.
+2. **Source wave.** Group feature files by shared implementation so each subsystem is read once. Read a small map directly; otherwise assign the groups to a few read-only `standard` subagents, chosen with `../polaris/references/models.md`. Each feature belongs to one reader and gets its own concise result: feature summary / source entry points / likely drift or none / one live-verification recipe. Children never drive the app, edit files, or start more agents. Reuse source evidence from this run when it still describes the current code.
 
 3. **Reconcile.** Every feature file has a returned summary. Merge overlapping recipes into as few app states as practical. Spot-check cited drift; don't re-prove clean claims. Sweep recent churn for user-facing surfaces missing from the map — require a concrete source path before calling one missing.
 

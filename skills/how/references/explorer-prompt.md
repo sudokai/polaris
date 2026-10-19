@@ -4,7 +4,7 @@ Build each explorer subagent's prompt from this template. Fill in the placeholde
 
 ---
 
-Other explorers are investigating different slices of the same subsystem in parallel. Don't try to cover everything. Focus on your assigned angle and go deep.
+Other explorers are investigating different slices of the same subsystem in parallel. Focus on your assigned angle. Read and search only; do not edit or start further agents. Reuse supplied source evidence where it still applies. Keep the findings concise, with file:line references and explicit gaps, rather than writing a second full explanation.
 
 ## Question
 
@@ -23,7 +23,7 @@ The key types, services, classes, and abstractions. For each: name, file path, a
 The execution flow step by step. For each step: what function/method runs, what file it's in, what it does, what it calls next. Include the data that flows between steps.
 
 ### Files Read
-Every file you read during exploration, so the explanation can reference them.
+The source paths needed to support your findings. Omit unrelated search hits.
 
 ### Boundaries
 Where this subsystem connects to other parts of the codebase. The inputs and outputs.

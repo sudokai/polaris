@@ -25,7 +25,7 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 - **Asked to discuss a plan, flesh out an idea, or settle a design before building** → the `discuss` skill (`../discuss/SKILL.md`).
 - **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` or an ADR → the `domain-modeling` skill (`../domain-modeling/SKILL.md`).
 - **Explaining a design, a flow, or a change that is easier to see than to read** → the views of the `show-me` skill (`../show-me/SKILL.md`).
-- **Code that crosses a function boundary**, a new module, or a nontrivial design → the `architect` skill (`../architect/SKILL.md`) before implementing.
+- **Uncertainty about ownership, module boundaries, core types, or a costly architectural commitment** → the `architect` skill (`../architect/SKILL.md`) before implementing. Follow a settled design directly; crossing a function boundary alone does not call for competing designs.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → the `blast-radius` skill (`../blast-radius/SKILL.md`).
 - **About to claim that a change works** → the `prove-it` skill (`../prove-it/SKILL.md`). "It compiles" and "the tests pass" are not proof of behavior.
 - **A reported bug, a failure, or a regression** → the `diagnose` skill (`../diagnose/SKILL.md`), which writes its regression test with the `tdd` skill.
@@ -110,10 +110,11 @@ Run a matched playbook as `playbooks/README.md` describes: copy its steps into t
 ## Delegation
 
 - Start a subagent only for parallel work, an independent opinion, or bulk reading that would flood your context. Choose its model with [the role table](references/models.md).
+- Reuse evidence already gathered for this task. Give each worker a bounded question and source pointers; ask for concise findings, citations, contradictions, and gaps rather than a second full explanation. Focused workers do not start further agents unless their brief assigns orchestration.
 - Brief a general delegate, such as a code-writing subagent, with this first line: "Read the `polaris` skill's `SKILL.md` before any work." Give the file's absolute path. Then give the scope: file paths, the named data shape, the success criteria, and pointers to files instead of pasted content.
 - A subagent that a skill starts with its own prompt does not read this file. Use the skill's prompt as written.
 - You own every subagent's work. Review its diff yourself, and write your own summary instead of repeating its report.
-- Give new work to a fresh subagent with the full scope: the original brief, every later instruction, and the previous agent's report. Reuse a running subagent only when the work needs state that lives in it, such as its uncommitted changes or a process it runs.
+- Continue an existing subagent for related work when the harness supports retained context and that context still helps. Refresh changed files and constraints in the follow-up. Start fresh for unrelated work, overloaded context, or independent judgment. Give reviewers the evidence and proposals they must assess, without seeding a preferred verdict. If continuation is unavailable, pass a concise handoff with the current scope, constraints, evidence, and open questions. See `references/harnesses.md` for support.
 
 ## Replies
 

@@ -29,7 +29,11 @@ Find transcripts with `../polaris/references/harnesses.md`. Choose each subagent
 
 ### Session mode
 
-Locate this session's transcript. If no path resolves, write a tight digest of the session and pass that instead. Start the three reviewers at the same time:
+Locate this session's transcript. If no path resolves, write a tight digest of the session and pass that instead.
+
+For a routine session, start one fresh `deep` reviewer with `references/session-reviewer.md`, covering judgment, environment, and divergent angles in one read. Do not supply your preferred lessons before its first pass.
+
+For a long session with several substantial decisions or failures, a disputed or consequential lesson, or an explicit request for broader independent coverage, start the three reviewers below at the same time. Use this path when a mistaken lesson could affect security, data loss, compatibility, or costly architectural decisions. State which review path you chose and why.
 
 | Lens | Role | Prompt |
 | --- | --- | --- |
@@ -37,11 +41,11 @@ Locate this session's transcript. If no path resolves, write a tight digest of t
 | Environment | `standard` | `references/environment-reviewer.md` |
 | Divergent | `deep` | `references/divergent-reviewer.md` |
 
-Pass each prompt verbatim, substituting the transcript path or digest where marked.
+Pass the selected prompt or prompts, substituting the transcript path or digest where marked. Reviewers return concise, cited findings, not a retelling of the session, and do not start further agents.
 
 ### History mode
 
-Split the period into three slices, so that each slice has enough material. Start one miner per slice at the same time, on the `standard` role, with `references/history-miner.md` verbatim and the slice's transcript paths substituted where marked.
+Filter in-scope transcripts by project and date first. Split a large corpus into up to three non-overlapping slices; use one miner for a small corpus. Start one miner per slice on the `standard` role, with `references/history-miner.md` and the slice's transcript paths substituted where marked. Miners do not start further agents and return concise evidence of patterns, not session summaries.
 
 Cross-check the miners' lists. Keep a pattern only if it appears at least twice, preferably in two or more slices.
 
@@ -49,7 +53,11 @@ Then ask the user to confirm patterns, because mining misses intent that has not
 
 ## 4. Synthesize
 
-Start one synthesizer on the `ultra` role, with MCP access, because its quality check spot-verifies citations. Use `references/synthesizer.md` verbatim. Fill in `<MODE>` with `session` or `history`, inline each reviewer's or miner's full output where marked, and inline the cross-project matches from step 2 at `<CROSS_PROJECT_MATCHES>` (or "none"). The synthesizer returns an Accepted and a Rejected list.
+For a routine session, synthesize the independent review yourself using `references/synthesizer.md`, including its citation and routing checks. For the three-reviewer session path or history mode, retain one independent `ultra` synthesizer with MCP access for citation checks.
+
+Fill in `<MODE>` with `session` or `history`, provide the findings at `<FINDINGS>`, and put the cross-project matches from step 2 at `<CROSS_PROJECT_MATCHES>` (or "none"). Pass concise findings or artifact paths rather than another copy of the transcript. Synthesis produces the same Accepted and Rejected lists and approval flow on every path.
+
+If subagents are unavailable, perform the selected lenses and synthesis as separate passes yourself, and report that independent coverage was unavailable.
 
 ## 5. Route
 

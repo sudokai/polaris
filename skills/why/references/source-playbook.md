@@ -1,6 +1,6 @@
 # Source playbook
 
-The `why` skill starts one investigator per available evidence category. Give each investigator the section for its category, adapted to the MCP server it uses. Source control has its own full playbook in [`code-archaeology.md`](./sources/code-archaeology.md).
+Use the sections for the sources the investigation needs, adapted to the available tools. For delegated searches, give each investigator only its assigned sections. Source control has its own playbook in [`code-archaeology.md`](./sources/code-archaeology.md).
 
 Add the cross-cutting [`incident-postmortem.md`](./sources/incident-postmortem.md) when the target code looks defensive: null checks, retries, timeouts, rate limits, feature flags, egress guards, or out-of-memory handlers.
 

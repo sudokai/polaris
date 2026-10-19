@@ -30,12 +30,16 @@ Step 4 is usually one small script that imports the same library the app ships a
 
 ## Steps
 
+Choose independent coverage before investigating. For a narrow, low-risk change, work directly. For a broad change, start one fresh `deep` reviewer alongside your investigation. Use two for high-consequence changes, including data loss, security, compatibility, or difficult migrations, even when the diff is small. Add a second if the first pass leaves a material uncertainty another perspective could resolve. File count alone does not make a change high-consequence. Choose models with `../polaris/references/models.md`.
+
+Give reviewers the task, diff, constraints, and source pointers, without your conclusions or each other's findings. Ask them to inspect missed consumers, assumptions, and failure paths and return concise cited findings. They do not start further agents. After their first passes, share verified facts and reproduction results to avoid repeating expensive work. Resolve disagreements against the source and real behavior.
+
 1. Read the change. The diff, the symbols it adds, changes, and deletes, and what it now does differently, including the part the diff doesn't spell out. Use the `why` skill (`../why/SKILL.md`)'s step 2 to pull the PR and commits.
 2. Find the one fact it's safe because of. Most changes that look risky are safe because of a single fact, like "this call only drops already-dead cache entries and does nothing else". Find that fact. If it holds, most risky cases are cleared at once. Spend your time here, not on a long list of maybes.
 3. Look where grep stops. Read the source of the library you call, and check its pinned version and any local patch. Work out when things run: microtasks, unmount and teardown, Solid versus React. Follow what a symbol search misses: the JSON an API returns, a DB column, a wire format, another language reading the same bytes, a feature flag, code three hops downstream.
 4. Be honest about each risk. Give it a real chance of happening and a real cost if it does. Keep the risks you confirmed. List the ones you checked and cleared separately. Same rules as `why`. Cite a real `file:line`, a search that finds nothing is still an answer, and never make up a caller or an API.
 5. Prove the one fact. Write a script or test that runs the real code, run it, and paste what happened.
-6. For a big or wide change, start two subagents on the `deep` role with the same question, each without the other's answer, and merge what they find. Choose their models with `../polaris/references/models.md`. Independent analyses catch different real bugs.
+6. Reconcile any independent findings. Verify material risks and disagreements; do not count a reviewer's report as proof or rerun a valid reproduction without a reason. If independent review was needed but unavailable, report that limitation.
 
 ## What to hand back
 

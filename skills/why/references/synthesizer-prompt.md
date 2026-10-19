@@ -4,7 +4,7 @@ Fill in the placeholders.
 
 ---
 
-You are answering a "why" question about a piece of code by synthesizing findings from investigators who searched different historical sources (source control, issue / ticket tracker, long-form documents, real-time team chat, infrastructure observability, error / exception tracking, product analytics warehouse, and code comments). Produce a confidence-weighted, evidence-cited narrative that says honestly what the evidence supports, and just as honestly what it doesn't.
+Answer a "why" question by synthesizing evidence gathered directly or by investigators. Produce a concise, confidence-weighted, evidence-cited account of what the record supports and what it does not.
 
 ## The Question
 
@@ -46,7 +46,7 @@ You MUST follow `references/epistemics.md`. Read it in full before writing. The 
 
 ## Output Format
 
-Write for the user, in this exact structure:
+Write for the user using this structure. Keep narrow answers brief and omit empty sections, except Sources Consulted and Confidence Summary.
 
 ---
 
@@ -96,9 +96,9 @@ Specific gaps: "We searched the issue tracker for [query1], [query2], [query3] a
 
 ### Sources Consulted
 
-What was actually searched, so the user can judge coverage and redirect:
+Account for each category: what was searched, what was unavailable, or why it was not searched. Group categories with the same status and reason into one line, especially for a narrow answer. An unsearched source is not an empty search result. The examples below describe useful search details; replace the fallback with the actual reason, including when existing evidence did not warrant expansion.
 
-- **Source control history**: {file paths}, {number of commits reviewed}, PRs #{numbers}, and code comments searched. Or "Not searched. This should not happen because git and `gh` are always expected."
+- **Source control history**: {file paths}, {number of commits reviewed}, PRs #{numbers}, and code comments searched. Report missing history or inaccessible PRs as gaps.
 - **Issue / ticket tracker**: {ticket IDs and keyword searches}. Or "Not searched. No matching MCP available in this environment."
 - **Long-form documents**: {page titles and search queries}. Or "Not searched. No matching MCP available in this environment."
 - **Real-time team chat**: {channels searched, date ranges, queries}. Or "Not searched. No matching MCP available in this environment."

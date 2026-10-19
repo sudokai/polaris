@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Architect
 
-Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Synthesize across multiple model perspectives, then fill in code against the chosen sketch.
+Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Scale independent review to the uncertainty and consequences, then fill in code against the chosen sketch.
 
 ## Start
 
@@ -20,17 +20,23 @@ Open a todolist with one entry per phase before starting.
 
 ## Phase A: Ground the problem
 
-Build a real mental model of every system the new code touches. Run the `how` skill (`../how/SKILL.md`) over the relevant subsystems. Naming a file isn't grounding. Produce the architectural explanation `how` prescribes. If the design redefines ownership or layering, also run the `why` skill (`../why/SKILL.md`) on the existing shape so the rationale becomes a constraint, not a guess.
+Build a real mental model of every system the new code touches. Reuse source-backed grounding from this task; run the `how` skill (`../how/SKILL.md`) only for gaps. Naming a file isn't grounding. If the design redefines ownership or layering, use existing rationale or run the `why` skill (`../why/SKILL.md`) to recover the constraints. Keep the grounding focused on the design decision.
 
 Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.
 
 ## Phase B: Sketch
 
-Design it twice. Start two subagents on the `deep` role at the same time, each in its own worktree or scratch directory, and give each the design task, the Phase A grounding, and `references/runner-prompt.md` as its prompt. Neither sees the other's work. Each produces a design package shaped per `references/rationale-template.md`. Choose their models with `../polaris/references/models.md`.
+Choose the smallest review that addresses the decision. State which path you chose and why. Choose subagent models with `../polaris/references/models.md`.
 
-Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. This is [Exhaust the Design Space](../polaris/principles/exhaust-the-design-space.md) made concrete. Whole-shape alternatives, not point fixes inside one shape. If the two candidates converge on the same shape, record the convergence as a strong signal and skip the graft.
+- **Settled shape:** follow the established design directly. Record the relevant constraints; no competing sketches or design reviewer are needed.
+- **Moderate uncertainty:** write one proposal yourself, using `references/runner-prompt.md` and `references/rationale-template.md`. Start one fresh `deep` reviewer with the task, grounding, proposal's usage sketch, types, signatures, and module map, `references/design-red-flags.md`, and the comparison criteria below. Ask it to challenge the shape, identify a stronger alternative if warranted, and cite concrete risks. Do not pass your rationale until its first pass is complete. Reconcile against the source and record the review and your decision.
+- **Consequential commitment:** use two independent designers and a judge as described below. Choose this path for security boundaries, data-loss risks, public compatibility, difficult migrations, or ownership decisions that would be costly to reverse. Also use it when the user requests competing designs.
 
-Then start one judge subagent on the `ultra` role. It wrote neither sketch. Give it both packages by neutral labels, `references/design-red-flags.md`, and the comparison criteria below. It scores each candidate against each criterion and recommends a base.
+For the consequential path, start two subagents on the `deep` role at the same time, each in its own worktree or scratch directory. Give each the design task, the same Phase A grounding, and `references/runner-prompt.md`. Neither sees the other's work. Each produces a design package shaped per `references/rationale-template.md`.
+
+On this path, require two independently produced candidates before synthesis, even when the first looks sufficient. Seek whole-shape alternatives, per [Exhaust the Design Space](../polaris/principles/exhaust-the-design-space.md). If the two candidates converge on the same shape, record the convergence and skip the graft.
+
+On the consequential path, then start one judge subagent on the `ultra` role. It wrote neither sketch. Give it both packages by neutral labels, `references/design-red-flags.md`, and the comparison criteria below. It scores each candidate against each criterion and recommends a base. Reviewers and the judge do not start further agents.
 
 Comparison criteria:
 
@@ -38,9 +44,9 @@ Comparison criteria:
 - **Interface depth.** Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
 - **Extensibility.** Prefer the design a future maintainer can extend without breaking invariants. When two feel tied, prefer the cleaner boundary or the smaller API, per the [Laziness Protocol](../polaris/principles/laziness-protocol.md).
 
-Read both candidates yourself before you accept the judge's pick. If you disagree with the judge, one of you is biased or the criteria were ambiguous, so read both rationales again before deciding. Graft the one or two strongest ideas from the losing candidate into the base by hand, keeping one coherent mental model, per [Redesign from First Principles](../polaris/principles/redesign-from-first-principles.md). Record the base, the judge's verdict, the grafts, and the rejections in the rationale's "Synthesis decision" section.
+When comparing two candidates, read both yourself before accepting the judge's pick. Resolve disagreements against the criteria and rationales. Graft useful ideas from the losing candidate only when they fit one coherent design, per [Redesign from First Principles](../polaris/principles/redesign-from-first-principles.md). Record the base, verdict, grafts, and rejections in the rationale's "Synthesis decision" section.
 
-If the harness has no subagents, write the two sketches yourself as separate passes, the second deliberately different in shape, and judge them against the criteria. Say that the sketches were not independent.
+If the harness has no subagents, do the selected review as separate passes yourself. For the consequential path, write two sketches, the second deliberately different in shape, and compare them against the criteria. Say that the review was not independent.
 
 ## Phase C: Agree (opt-in)
 

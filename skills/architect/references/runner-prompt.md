@@ -1,8 +1,8 @@
 # Architect runner prompt
 
-The orchestrator passes this file to each of the two candidate runners in Phase B and fills in the variable inputs around it: the task, the Phase A grounding artifacts, the isolated working directory, and the path to write outputs. The working directory is a git worktree when available, otherwise a per-runner subdirectory under the sketch dir. What matters is independence between candidates.
+Use this brief to produce one design proposal. The orchestrator supplies the task, grounding artifacts, working directory, and output path. Independent candidates use separate worktrees or scratch directories.
 
-You are producing one candidate design in architect's parallel exploration. Read the `architect` skill (`../SKILL.md`) in full first. That's the workflow you're inside. Output a candidate design package: type sketch, function signatures, module map, and prose rationale shaped per [`rationale-template.md`](rationale-template.md).
+Produce only the assigned proposal: type sketch, function signatures, module map, and a concise rationale shaped per [`rationale-template.md`](rationale-template.md). Use the supplied grounding and check source where needed. Do not run the architect orchestration, start subagents, or implement the proposal. Leave the synthesis decision to the orchestrator.
 
 Apply the following discipline. The orchestrator compares candidates on these axes to pick a base.
 
@@ -17,4 +17,4 @@ Apply the following discipline. The orchestrator compares candidates on these ax
 - Idempotent state transitions where applicable, per [Make Operations Idempotent](../../polaris/principles/make-operations-idempotent.md). Ask what happens if the operation runs twice or crashes halfway.
 - Short call chains. If tracing the flow needs more than three files, flatten the hierarchy, per [Laziness Protocol](../../polaris/principles/laziness-protocol.md) and [Minimize Reader Load](../../polaris/principles/minimize-reader-load.md).
 
-You are one of two runners, working independently. Produce the best design you can make. Don't hedge against the others. Differences between candidates are the signal used to pick a base and graft. Converging on a safe-looking middle defeats the exploration.
+When assigned an independent candidate, produce the best design you can make without looking at another candidate. Differences between candidates help the orchestrator compare shapes; do not hedge against an imagined alternative.
