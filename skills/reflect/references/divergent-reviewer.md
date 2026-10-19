@@ -16,7 +16,7 @@ Scan for:
 - Skills that should have been invoked but weren't, or were invoked too late
 - Implicit assumptions about scope, side effects, or what the user actually wanted
 
-## Scope skill findings to skills the session used
+## Limit skill findings to skills the session used
 
 This section applies only to findings that point at a skill. A repo-side finding (a mistake that architecture, a type, a lint, or a test could prevent, or a gap in the repo's setup) is exempt and routes to `repo:`.
 

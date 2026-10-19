@@ -15,7 +15,7 @@ Scan for:
 - Friction in skill execution, orchestration, or delegation
 - Repeated manual steps that could be automated or encoded
 
-## Scope skill findings to skills the session used
+## Limit skill findings to skills the session used
 
 This section applies only to findings that point at a skill. A repo-side finding (a mistake that architecture, a type, a lint, or a test could prevent, or a gap in the repo's setup) is exempt and routes to `repo:`.
 

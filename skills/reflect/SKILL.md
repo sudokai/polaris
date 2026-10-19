@@ -12,9 +12,9 @@ Mine evidence for durable lessons, route each lesson to the place where it chang
 
 ## When to run
 
-Skip when the conversation is trivial, off-topic, or already covered by an existing skill that the session followed correctly. One-offs are not learnings. In history scope, skip when the period has too little activity to show repetition.
+Skip when the conversation is trivial, off-topic, or already covered by an existing skill that the session followed correctly. One-offs are not learnings. In history mode, skip when the period has too little activity to show repetition.
 
-## 1. Pick the scope
+## 1. Pick the mode
 
 - **`session`** (default): this conversation.
 - **`history`**: the last two to four weeks of this project's transcripts. Use it when the user says "automate me", "across weeks", or "capture my workflows", or gives a date range.
@@ -27,7 +27,7 @@ Read the playbook index in `../polaris/SKILL.md`, the local playbooks and skill 
 
 Find transcripts with `../polaris/references/harnesses.md`. Choose each subagent's model with `../polaris/references/models.md`. Give every subagent access to the MCP servers, because they look up the tickets, chat threads, and traces that transcripts reference. A read-only mode that removes MCP access defeats this.
 
-### Session scope
+### Session mode
 
 Locate this session's transcript. If no path resolves, write a tight digest of the session and pass that instead. Start the three reviewers at the same time:
 
@@ -39,7 +39,7 @@ Locate this session's transcript. If no path resolves, write a tight digest of t
 
 Pass each prompt verbatim, substituting the transcript path or digest where marked.
 
-### History scope
+### History mode
 
 Split the period into three slices, so that each slice has enough material. Start one miner per slice at the same time, on the `standard` role, with `references/history-miner.md` verbatim and the slice's transcript paths substituted where marked.
 
@@ -49,7 +49,7 @@ Then ask the user to confirm patterns, because mining misses intent that has not
 
 ## 4. Synthesize
 
-Start one synthesizer on the `ultra` role, with MCP access, because its quality check spot-verifies citations. Use `references/synthesizer.md` verbatim. Fill in `<SCOPE>` with `session` or `history`, and inline each reviewer's or miner's full output where marked. The synthesizer returns an Accepted and a Rejected list.
+Start one synthesizer on the `ultra` role, with MCP access, because its quality check spot-verifies citations. Use `references/synthesizer.md` verbatim. Fill in `<MODE>` with `session` or `history`, and inline each reviewer's or miner's full output where marked. The synthesizer returns an Accepted and a Rejected list.
 
 ## 5. Route
 

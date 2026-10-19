@@ -39,7 +39,7 @@ Flag gaps in the repo itself. These findings route to the `correct` skill, which
 - **Tool cost.** A tool call was expensive or token-inefficient and could be streamlined. Example: the agent dumped a 5,000-line log into its context when a filtered command existed.
 - **Instruction-file bloat.** Only when the instruction file is large: instructions that change no behavior, or that a check could enforce instead. Example: a style rule that the formatter already applies.
 
-## Scope skill findings to skills the session used
+## Limit skill findings to skills the session used
 
 This section applies only to findings that point at a skill. Repo setup findings are exempt.
 
