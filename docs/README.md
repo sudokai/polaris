@@ -25,4 +25,5 @@ The working contracts live with the skills: `skills/polaris/references/locations
 14. [Eight more of the user's global skills are folded into polaris](adr/0014-eight-more-user-skills-folded-into-polaris.md)
 15. [walkthrough is folded into polaris, and shares architect's red flags](adr/0015-walkthrough-folded-into-polaris.md)
 16. [`reflect` generalizes each lesson as far as its scope, and no further](adr/0016-reflect-generalizes-lessons-by-scope.md)
-17. [Budgets select model–effort pairs by work category](adr/0017-model-effort-budget-profiles.md)
+17. [Budgets select model–effort pairs by work category](adr/0017-model-effort-budget-profiles.md) (classification refined by 18)
+18. [Select models by assignment kind and level](adr/0018-assignment-kind-and-level.md)

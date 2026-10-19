@@ -1,6 +1,6 @@
 # Model budget verification
 
-Source implementation checked on October 19, 2026. This record separates instruction behavior, structural validity, accepted model requests, and actual child execution. It does not establish production cost savings.
+Historical verification of the ADR 0017 implementation on October 19, 2026, before the kind/level classification and allocation changes in [ADR 0018](adr/0018-assignment-kind-and-level.md). The results below apply to that earlier policy. This record separates instruction behavior, structural validity, accepted model requests, and actual child execution. It does not establish production cost savings.
 
 ## Structural and instruction checks
 

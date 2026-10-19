@@ -33,7 +33,7 @@ To install or refresh it in every harness on your machine, run the repository's 
 
 Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you want.
 
-Run `/setup-polaris` to select a provider profile, a budget (medium by default), and optional fixed category overrides. Profiles select model–effort pairs for delegated assignments; they do not change the main conversation's model. Configuration is saved in `.agents/polaris/models.yaml` or `~/.agents/polaris/models.yaml`. Hermes retains its existing delegation settings. For help with polaris itself, run `/polaris-help` with a question.
+Run `/setup-polaris` to select a provider profile, a budget (medium by default), and optional fixed kind/level overrides. Assignments have a kind (`reasoning` or `execution`) and a level within that kind. Profiles select model–effort pairs for those assignments; they do not change the main conversation's model. Configuration is saved in `.agents/polaris/models.yaml` or `~/.agents/polaris/models.yaml`. Hermes retains its existing delegation settings. For help with polaris itself, run `/polaris-help` with a question.
 
 Fourteen skills also start on their own when they fit, without `/polaris`: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`.
 

@@ -21,7 +21,7 @@ When in doubt, take the simple path.
 
 ## Step 2a. Explore (complex questions only)
 
-Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Start all explorers at once, normally classified as `ordinary`. Use `substantial_reasoning` for a slice requiring unfamiliar reasoning rather than straightforward source exploration.
+Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Start all explorers at once, normally classified as `kind: execution`, `level: regular`. Use `kind: reasoning`, `level: hard` for a slice requiring unfamiliar reasoning rather than straightforward source exploration.
 
 Each explorer gets the prompt in `references/explorer-prompt.md` with its angle filled in. Then go to Step 3.
 

@@ -31,7 +31,7 @@ Check the state that changes the answer, and mention it only when it does:
 ## Get set up
 
 1. Install polaris in each harness as the repository `README.md` says.
-2. Run `/setup-polaris`. It shows the profile and budget table, offers fixed category overrides and fallbacks, and saves configuration for the chosen scope. Harness limitations are reported rather than silently ignored. Then it offers once each to set up app verification and formal verification for the project.
+2. Run `/setup-polaris`. It shows the profile and budget table, offers fixed kind/level overrides and fallbacks, and saves configuration for the chosen scope. Harness limitations are reported rather than silently ignored. Then it offers once each to set up app verification and formal verification for the project.
 3. Start a real task with `/polaris`, a goal, and a check that can pass or fail.
 
 Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
@@ -79,7 +79,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Bring a formal verification back in line after the code it covers changed | [`maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log while implementing, and review it afterward | [`decision-log`](../decision-log/SKILL.md) |
-| Choose a model profile, budget, and category overrides | [`setup-polaris`](../setup-polaris/SKILL.md) |
+| Choose a model profile, budget, and kind/level overrides | [`setup-polaris`](../setup-polaris/SKILL.md) |
 | Turn what a session taught into durable lessons | [`reflect`](../reflect/SKILL.md) |
 | Stop agents from repeating the same mistakes in this repo | [`correct`](../correct/SKILL.md) |
 | Find their way around polaris | `polaris-help` |

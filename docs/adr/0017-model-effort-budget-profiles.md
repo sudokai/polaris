@@ -1,6 +1,6 @@
 # Budgets select model–effort pairs by work category
 
-Status: implemented in the source plugin. Live capability and cost comparisons are reported separately.
+Status: budget policy implemented in the source plugin. The work categories, configuration keys, and execution allocations below are superseded by [ADR 0018](0018-assignment-kind-and-level.md). Live capability and cost comparisons are reported separately.
 
 polaris replaces its four fixed model–effort roles with budget profiles that select pairs by the work assigned. The default budget is **medium**. Routine work can use smaller models with more effort; reasoning and difficult implementation retain strong models. This revisits the fixed-role policy in [ADR 0004](0004-skills-name-roles-not-models.md).
 

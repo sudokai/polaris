@@ -92,9 +92,10 @@ HARNESS_FACT_FILES = (
 MARKDOWN_LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
 BACKTICKED_PATH = re.compile(r"`((?:\.\./)+[^`\s<>*]+\.md|(?:references|principles|playbooks)/[^`\s<>*]+)`")
 
-WORK_CATEGORIES = {
-    "ordinary", "bounded_judgment", "substantial_reasoning", "hardest_reasoning",
-    "hard_implementation", "verification", "unclassified",
+# Supported work kind/level combinations; unclassified is validated separately.
+WORK_ASSIGNMENTS = {
+    ("execution", "regular"), ("execution", "complex"),
+    ("reasoning", "scoped"), ("reasoning", "hard"), ("reasoning", "very_hard"),
 }
 MODEL_PROFILES = {"claude", "gpt", "xai", "deepseek", "glm"}
 
@@ -218,29 +219,41 @@ def check_router_indexes(skills_dir: Path) -> list[Problem]:
 
 
 def check_model_profiles(skills_dir: Path) -> list[Problem]:
-    """Reject incomplete allocation tables and efforts excluded by a profile's policy."""
+    """Reject incomplete kind/level or unclassified tables and excluded efforts."""
     profiles_dir = skills_dir / "polaris" / "references" / "model-profiles"
     problems = []
     found = {path.stem for path in profiles_dir.glob("*.md")}
     for name in sorted(MODEL_PROFILES - found):
         problems.append(Problem(profiles_dir, 0, f"missing model profile `{name}`"))
     for profile_file in sorted(profiles_dir.glob("*.md")):
-        categories: list[str] = []
-        tables = 0
+        assignments: list[tuple[str, ...]] = []
+        table_type = None
+        table_types = []
         for number, line in enumerate(profile_file.read_text().splitlines() + [""], start=1):
+            if line.startswith("| Kind |") or line.startswith("| Fallback |"):
+                table_type = "assignments" if line.startswith("| Kind |") else "fallback"
+                table_types.append(table_type)
+                continue
+            if line.startswith("| ---"):
+                continue
             if not line.startswith("| `"):
-                if categories:
-                    tables += 1
-                    if len(categories) != len(WORK_CATEGORIES) or set(categories) != WORK_CATEGORIES:
-                        problems.append(Problem(profile_file, number, "allocation table must cover each work category once"))
-                    categories = []
+                if table_type is not None:
+                    expected = WORK_ASSIGNMENTS if table_type == "assignments" else {("unclassified",)}
+                    if len(assignments) != len(expected) or set(assignments) != expected:
+                        problems.append(Problem(profile_file, number, "allocation table must cover each kind/level or unclassified fallback once"))
+                    assignments = []
+                    table_type = None
                 continue
             cells = [cell.strip() for cell in line.strip("|").split("|")]
-            categories.append(cells[0].strip("`"))
-            if len(cells) != 5 or any(not cell for cell in cells):
-                problems.append(Problem(profile_file, number, "allocation row needs a category and four budget pairs"))
+            if table_type is None:
+                problems.append(Problem(profile_file, number, "allocation row needs a Kind/Level or Fallback table header"))
                 continue
-            for cell in cells[1:]:
+            key_width = 2 if table_type == "assignments" else 1
+            assignments.append(tuple(cell.strip("`") for cell in cells[:key_width]))
+            if len(cells) != key_width + 4 or any(not cell for cell in cells):
+                problems.append(Problem(profile_file, number, "allocation row needs a complete assignment and four budget pairs"))
+                continue
+            for cell in cells[key_width:]:
                 effort = cell.split()[-1].lower()
                 if cell == "Composer" and profile_file.stem == "xai":
                     continue
@@ -252,8 +265,9 @@ def check_model_profiles(skills_dir: Path) -> list[Problem]:
                     problems.append(Problem(profile_file, number, "GLM allocations use high or max only"))
                 elif profile_file.stem == "deepseek" and effort not in {"low", "high", "max"}:
                     problems.append(Problem(profile_file, number, "DeepSeek allocations require native low/high/max effort"))
-        if not tables:
-            problems.append(Problem(profile_file, 0, "model profile has no allocation table"))
+        expected_tables = ["assignments", "fallback"] * (2 if profile_file.stem == "xai" else 1)
+        if table_types != expected_tables:
+            problems.append(Problem(profile_file, 0, "each profile allocation table needs a separate unclassified fallback table; xAI also needs its Grok-only tables"))
     return problems
 
 

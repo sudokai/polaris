@@ -1,18 +1,18 @@
 ---
 name: setup-polaris
-description: "Choose a polaris model profile and budget, with optional category overrides and fallbacks, for this project or every project. Use for /setup-polaris, configure polaris models, or changing polaris's model choices."
+description: "Choose a polaris model profile and budget, with optional kind/level overrides and fallbacks, for this project or every project. Use for /setup-polaris, configure polaris models, or changing polaris's model choices."
 disable-model-invocation: true
 ---
 
 # Setup polaris
 
-Configure delegated assignments using `../polaris/references/models.md`. Read it first; it owns category meanings, defaults, YAML syntax, precedence, fallback authorization, and harness application. Load only the selected profile table. Do not change the main conversation's model.
+Configure delegated assignments using `../polaris/references/models.md`. Read it first; it owns kind/level meanings, defaults, YAML syntax, precedence, fallback authorization, and harness application. Load only the selected profile table. Do not change the main conversation's model.
 
 ## 1. Identify the harness and its controls
 
 Identify `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, or `hermes` from the available tools. If unknown, report that setup cannot apply model choices here.
 
-- **Hermes:** explain that its existing delegation settings apply, otherwise children inherit the main conversation's settings. GPT is a suggestion only. Leave Hermes configuration untouched, do not save a misleading category-routing table, and stop.
+- **Hermes:** explain that its existing delegation settings apply, otherwise children inherit the main conversation's settings. GPT is a suggestion only. Leave Hermes configuration untouched, do not save a misleading kind/level allocation table, and stop.
 - **pi:** an installed extension must provide subagents. Inspect its actual model/thinking-level fields. If no suitable extension exists, explain the limitation and stop.
 - **dsh:** the subagent tool must expose model selection. If it does not, explain the relevant setting and stop rather than save an ineffective table:
   - Desktop: **Plugins → Official → Subagent**, enable model selection and allow the intended models.
@@ -48,19 +48,21 @@ Do not assume an account can run a model because another harness or catalogue li
 
 ## 3. Resolve the desired table
 
-Offer accessible profiles (`claude`, `gpt`, `xai`, `deepseek`, `glm`), a budget (`small`, `medium`, `large`, `unlimited`), and optional category overrides. Fixed overrides survive budget changes; show inherited overrides when changing profile or budget. Offer configured fallback connections only when needed, not as a mandatory interview about every category.
+Offer accessible profiles (`claude`, `gpt`, `xai`, `deepseek`, `glm`), a budget (`small`, `medium`, `large`, `unlimited`), and optional kind/level overrides. Fixed overrides survive budget changes; show inherited overrides when changing profile or budget. Offer configured fallback connections only when needed, not as a mandatory interview about every assignment.
 
-Use the selected profile's exact pairs. Do not infer a new table from effort offsets or add agents to obtain cheaper models. If Composer is unavailable, show the xAI Grok-only column and save its resolved allocations as explicit category overrides after the user chooses it; do not silently mix its table with the Composer runtime fallback.
+Use the selected profile's exact pairs. Do not infer a new table from effort offsets or add agents to obtain cheaper models. If Composer is unavailable, show the xAI Grok-only column and save its resolved allocations as explicit kind/level overrides after the user chooses it; do not silently mix its table with the Composer runtime fallback.
 
 Resolve each unsupported allocation through an explicit profile fallback or an ordered user-configured fallback list. Ask for a supported effort when no documented mapping exists. A cross-provider fallback requires an explicitly named configured connection. Validate required capabilities on fallback pairs too. Do not save unresolved model IDs, unsupported efforts, credentials, or an unverified table described as usable.
 
-Show all seven categories with the selected and effective pairs, source (bundled/user/project override), connection, fixed overrides, fallback order, availability evidence, and reload requirements. Ask whether to save for **this project** or **every project**. The user's prior instruction selecting scope or settings is sufficient; do not ask twice.
+Show all five kind/level combinations and the separate unclassified allocation with the selected and effective pairs, source (bundled/user/project override), connection, fixed overrides, fallback order, availability evidence, and reload requirements. Ask whether to save for **this project** or **every project**. The user's prior instruction selecting scope or settings is sufficient; do not ask twice.
 
 ## 4. Save configuration and required definitions
 
 Write only the selected scope's settings to `.agents/polaris/models.yaml` or `~/.agents/polaris/models.yaml`. Preserve other harness sections and unrelated settings. Omit unchanged defaults; remove a setting when the user resets it so the next scope applies. Do not erase an intentional empty fallback list. Show a diff before writing a user-scope file outside git, as `../polaris/references/locations.md` requires.
 
-For harnesses needing agent definitions, follow **Agent definitions** in `models.md`. Generate one per distinct resolved primary/fallback pair rather than per category. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions.
+For harnesses needing agent definitions, follow **Agent definitions** in `models.md`. Generate one per distinct resolved primary/fallback pair rather than per kind/level. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions.
+
+Save overrides and fallback lists nested by kind and level, with `unclassified` as a separate entry, as `models.md` specifies. Merge each kind/level independently; preserve inherited siblings and intentional empty fallback lists. Treat legacy flat category keys as configuration errors rather than silently migrating them.
 
 Read back the saved YAML and definitions. Check that the effective configuration still resolves to the displayed table. If the save or validation fails, report the exact file and remedy; do not claim the change took effect. New definitions may need a new session or reload; state that before suggesting they can be used.
 

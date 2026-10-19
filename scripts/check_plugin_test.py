@@ -34,7 +34,38 @@ class ModelBudgetValidationTest(unittest.TestCase):
     def test_assignment_without_all_budget_allocations_is_rejected(self):
         profile = self.profiles / "gpt.md"
         lines = profile.read_text().splitlines()
-        profile.write_text("\n".join(line for line in lines if not line.startswith("| `verification`")))
+        profile.write_text("\n".join(line for line in lines if not line.startswith("| `execution` | `complex`")))
+        self.assertTrue(check_model_profiles(self.skills))
+
+    def test_unsupported_kind_level_combination_is_rejected(self):
+        profile = self.profiles / "gpt.md"
+        profile.write_text(profile.read_text().replace("`execution` | `complex`", "`execution` | `very_hard`"))
+        self.assertTrue(check_model_profiles(self.skills))
+
+    def test_duplicate_assignment_is_rejected(self):
+        profile = self.profiles / "gpt.md"
+        profile.write_text(profile.read_text().replace("`execution` | `complex`", "`execution` | `regular`"))
+        self.assertTrue(check_model_profiles(self.skills))
+
+    def test_missing_budget_pair_is_rejected(self):
+        profile = self.profiles / "gpt.md"
+        lines = profile.read_text().splitlines()
+        row = next(line for line in lines if line.startswith("| `execution` | `complex`"))
+        profile.write_text(profile.read_text().replace(row, row.rsplit("|", 2)[0] + " |"))
+        self.assertTrue(check_model_profiles(self.skills))
+
+    def test_missing_unclassified_allocation_is_rejected(self):
+        profile = self.profiles / "gpt.md"
+        lines = profile.read_text().splitlines()
+        profile.write_text("\n".join(line for line in lines if not line.startswith("| `unclassified`")))
+        self.assertTrue(check_model_profiles(self.skills))
+
+    def test_incomplete_grok_only_allocations_are_rejected(self):
+        profile = self.profiles / "xai.md"
+        text = profile.read_text()
+        row_start = text.rindex("| `execution` | `complex`")
+        row_end = text.index("\n", row_start)
+        profile.write_text(text[:row_start] + text[row_end + 1:])
         self.assertTrue(check_model_profiles(self.skills))
 
     def test_missing_profile_is_rejected(self):

@@ -53,14 +53,21 @@ _Avoid_: client, host, tool
 **Harness fact file**:
 A file holding harness-specific facts: `references/models.md`, `references/harnesses.md`, or a selected profile under `references/model-profiles/`. Setup also contains harness-specific configuration steps. Other skill text is harness-neutral.
 
-**Work category**:
-The kind of assignment used to select a model–effort pair: ordinary, bounded judgment, substantial reasoning, hardest reasoning, hard implementation, verification execution, or unclassified. Skills classify assignments, never name models.
+**Work kind**:
+The main challenge in an assignment: reasoning finds or evaluates an approach or explanation; execution carries out a familiar or settled approach.
+_Avoid_: role, work category
+
+**Work level**:
+The difficulty within a work kind: scoped, hard, or very hard for reasoning; regular or complex for execution. Levels do not form a shared scale across kinds.
+
+**Unclassified allocation**:
+The temporary model–effort fallback for an assignment whose kind and level are not yet clear. Reassess after initial exploration.
 
 **Budget**:
 A small, medium, large, or unlimited allocation policy. Medium is the default. A budget is not a monetary cap.
 
 **Model profile**:
-A family's table of model–effort pairs by work category and budget, independent of the harness.
+A family's table of model–effort pairs by work kind, level, and budget, independent of the harness.
 
 **Model-pair agent**:
 An agent definition that fixes a model and effort for a harness that cannot apply the pair directly.
@@ -84,7 +91,7 @@ _Avoid_: learned playbook, custom playbook
 A drafted change to the plugin's source repository for a defect every polaris user would hit. It is shown, never applied.
 
 **Model configuration file**:
-A `models.yaml` at project or user scope, with profile, budget, fixed category overrides, and optional ordered fallbacks for each configured harness.
+A `models.yaml` at project or user scope, with profile, budget, fixed kind/level overrides, and optional ordered fallbacks for each configured harness.
 
 **Resume note**:
 A personal, uncommitted note that records where a paused task stopped, so another session can resume it.

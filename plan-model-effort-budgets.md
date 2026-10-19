@@ -1,5 +1,7 @@
 # Implementation Plan: Model–Effort Budgets
 
+Status: historical implementation plan for ADR 0017. Assignment classification, configuration keys, and execution allocations are superseded by [ADR 0018](docs/adr/0018-assignment-kind-and-level.md); use [model selection](skills/polaris/references/models.md) for current instructions.
+
 ## Goal
 
 Replace polaris's four fixed delegation roles with model–effort allocations selected by work category and budget. Reduce total task cost without weakening reasoning quality, adding unnecessary agents, or changing the main conversation's model. The accepted tables and their rationale are in `docs/adr/0017-model-effort-budget-profiles.md`; read that file in full before implementation. This plan covers the source plugin, configuration, harness integration, and verification.
