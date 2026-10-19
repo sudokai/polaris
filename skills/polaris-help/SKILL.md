@@ -34,7 +34,7 @@ Check the state that changes the answer, and mention it only when it does:
 2. Run `/setup-polaris`. It shows the role table, lets the user change the model and effort for each role, and writes an override. Then it offers once each to set up app verification and formal verification for the project.
 3. Start a real task with `/polaris`, a goal, and a check that can pass or fail.
 
-Installing changes little until the user starts a task. The router runs only on `/polaris`. Thirteen skills start on their own when they fit: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, and `sweep-residue`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
+Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, say where the tokens go: subagents in `how`, `why`, `architect`, `recall`, and `reflect`. Running `/setup-polaris` again can move a role to a cheaper model or effort, or to `inherit`, which runs it on the session's model. Save `/polaris` for work that needs rigor.
 
@@ -59,6 +59,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | See the current topic as a diagram, a code-shape sketch, or an HTML page | [`show-me`](../show-me/SKILL.md) |
 | Know how code works now, or where new code should live | [`how`](../how/SKILL.md) |
 | Know why code is shaped this way, or where a number came from | [`why`](../why/SKILL.md) |
+| Understand a PR, a branch, a commit, or a diff, stage by stage, ending with a quiz | [`walkthrough`](../walkthrough/SKILL.md) |
 | Catch up on their own recent work on a topic | [`recall`](../recall/SKILL.md) |
 | Catch up on what changed in this session, with every call that waits on them | [`ketchup`](../ketchup/SKILL.md) |
 | Know what a change could break outside itself | [`blast-radius`](../blast-radius/SKILL.md) |
@@ -87,7 +88,7 @@ If a skill directory next to this one is missing from the table, read its frontm
 
 Close calls:
 
-- `how` explains what the code does. `why` explains the reasons.
+- `how` explains what the code does. `why` explains the reasons. `walkthrough` explains a change: what it is for and how its parts fit.
 - `blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe. `prove-it` proves one claim about the change itself.
 - `recall` rebuilds context across recent sessions. `ketchup` covers only this session since the user's last message. Resuming one specific session or branch is the Session pickup playbook.
 - `prototype` is for a call a person must make. When the agent can make the call by running something, it runs the smallest script instead.
@@ -108,7 +109,7 @@ Principles are short rules in `../polaris/principles/` that `/polaris` reads and
 | A question got treated as the next step of the last task | Say "new task", or say the turn does not need polaris. |
 | A new model choice had no effect | Role agents load in a new session in some harnesses. Start one. |
 | Runs cost more than expected | See the cost paragraph under **Get set up**. |
-| A skill did not start on its own | Only the router and the thirteen skills under **Get set up** can start on their own. The others start from `/polaris` or when the user types them. |
+| A skill did not start on its own | Only the router and the fourteen skills under **Get set up** can start on their own. The others start from `/polaris` or when the user types them. |
 | Parallel agents overwrote each other | Give each agent its own worktree. |
 | An unattended run moved but finished nothing | Give it a check that can pass or fail, not a duration. |
 | The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That is the Prove It Works principle. |

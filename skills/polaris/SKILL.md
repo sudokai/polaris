@@ -19,6 +19,7 @@ Read this file in full before any work. It routes the task to a playbook or a sk
 The skills below sit next to this one. Most are hidden from automatic selection. Run a skill by reading its `SKILL.md` at the path given, relative to this file, and following it. Skills refer to each other the same way. When you brief a subagent to run a skill, give it the file's absolute path. `references/locations.md` defines local playbooks and where polaris writes its files.
 
 - **About to change code you have not traced**, or asked how something works → the `how` skill (`../how/SKILL.md`).
+- **Asked to explain or walk through a PR, a branch, a commit, or a diff** → the `walkthrough` skill (`../walkthrough/SKILL.md`).
 - **Asked why code is shaped the way it is**, or looking for regression history → the `why` skill (`../why/SKILL.md`).
 - **Any code** → name the data shape first, and choose its organizing structure per [Model the Domain](principles/model-the-domain.md). Name, type, and document it per the `write-discoverable-code` skill (`../write-discoverable-code/SKILL.md`).
 - **Asked to discuss a plan, flesh out an idea, or settle a design before building** → the `discuss` skill (`../discuss/SKILL.md`).
