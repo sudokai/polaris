@@ -46,7 +46,7 @@ src/
 └── transport/      # sends API requests
 ```
 
-- Show component interaction, control flow, or data flow with Mermaid. In a reply, follow it with the same diagram in plain text, as the "Rendering pictures" section of `../polaris/references/harnesses.md` describes:
+- Show component interaction, control flow, or data flow with Mermaid where the harness renders it, and as plain text elsewhere. The "Rendering pictures" section of `../polaris/references/harnesses.md` lists which harnesses render Mermaid:
 
 ```mermaid
 sequenceDiagram
@@ -117,7 +117,18 @@ function expandSkill(command: string): string {
 }
 ```
 
-- For a visual UI, layout, state comparison, or concept too dense for Mermaid, write one focused HTML file — a diagram, an infographic, or a short slide deck, whichever fits the point. Match the product's colors, type, spacing, and components; use real labels and data; support desktop and mobile. Write it to a scratch directory, not the project, and show it as the "Rendering pictures" section of `../polaris/references/harnesses.md` describes.
+- For a visual UI, layout, state comparison, or concept too dense for Mermaid, or a diagram too dense for plain text in a harness that does not render Mermaid, write one focused HTML file — a diagram, an infographic, or a short slide deck, whichever fits the point. Match the product's colors, type, spacing, and components; use real labels and data; support desktop and mobile. Draw any Mermaid in the page with pele, pinned to an exact version:
+
+```html
+<pre class="mermaid">flowchart LR
+  A[Mermaid text] --> B[SVG]</pre>
+<script src="https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js"></script>
+<script>
+  for (const el of document.querySelectorAll('pre.mermaid')) pele.mount(el, el.textContent);
+</script>
+```
+
+  Write it to a scratch directory, not the project, and show it as the "Rendering pictures" section of `../polaris/references/harnesses.md` describes.
 
 ## Guidance
 
