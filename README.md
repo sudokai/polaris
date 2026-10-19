@@ -12,7 +12,7 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 - **Writing and finishing code:** `write-discoverable-code`, `deslop`, `sweep-residue`, and `visual-pr`.
 - **Large work:** `figure-it-out` and `decision-log`.
 - **Learning from history:** `reflect` and `recall`.
-- **Conversation:** `ketchup`, `restate-my-intent`, `sharpen`, and `speak-human`.
+- **Conversation:** `ketchup`, `restate-my-intent`, `sharpen`, and `say-it-plainly`.
 - **Setup and help:** `setup-polaris` and `polaris-help`.
 
 ## Install

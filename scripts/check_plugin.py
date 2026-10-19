@@ -41,7 +41,7 @@ EXPECTED_SKILLS = {
     "setup-polaris",
     "sharpen",
     "show-me",
-    "speak-human",
+    "say-it-plainly",
     "sweep-residue",
     "tdd",
     "visual-pr",

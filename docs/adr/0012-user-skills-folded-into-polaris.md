@@ -1,6 +1,6 @@
 # Some of the user's global skills are folded into polaris
 
-polaris now ships seven skills that came from the user's global skill directory or that replace one there: `speak-human`, `restate-my-intent`, `fix-change-detector-tests`, `diagnose`, `prototype`, `decision-log`, and `prove-it`. Each one duplicated or extended something polaris already had, so keeping both copies meant two versions of one rule that drift apart. After the fold, the global copies are deleted.
+polaris now ships seven skills that came from the user's global skill directory or that replace one there: `say-it-plainly`, `restate-my-intent`, `fix-change-detector-tests`, `diagnose`, `prototype`, `decision-log`, and `prove-it`. Each one duplicated or extended something polaris already had, so keeping both copies meant two versions of one rule that drift apart. After the fold, the global copies are deleted.
 
 - `decision-log` is `show-me-your-work` renamed, with the user's `implement-with-notes` merged in. It has a light level for every planned implementation and a full level, with the transcript audit and a cross-model review, for unattended and `figure-it-out` runs. A `kind` column separates a decision from a deviation from the plan.
 - `prototype` runs only when a person must make the call. When the agent can make the call by running something, it writes the smallest script instead.

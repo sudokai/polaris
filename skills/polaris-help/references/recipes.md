@@ -38,4 +38,4 @@ Swap in the real paths, skills, and done checks. Informal wording works. Write e
 - `/polaris im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a full decision log. don't ask me before committing. if you're truly stuck after a few hours, stop and write up why.`
 - `/ketchup` catches you up on this session since your last message and lists every call that waits on you.
 - `/reflect capture what we learned so the next run doesn't repeat it.` Approve only changes that alter a future decision.
-- `/speak-human` restates the last reply in plain words.
+- `/say-it-plainly <text>` rewrites AI prose in plain words, with enough context to understand it. Without a target, it rewrites the last reply.

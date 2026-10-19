@@ -53,7 +53,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Do any nontrivial task with rigor | [`polaris`](../polaris/SKILL.md) |
 | Check that the agent understood their goal and the problem before it starts | [`restate-my-intent`](../restate-my-intent/SKILL.md) |
 | Aim a task higher before starting: more expert, more outcome-focused, not overspecified | [`sharpen`](../sharpen/SKILL.md) |
-| Hear the last reply again in plain words | [`speak-human`](../speak-human/SKILL.md) |
+| Translate AI prose into plain human language | [`say-it-plainly`](../say-it-plainly/SKILL.md) |
 | Settle a plan or a design through a few rounds of questions, before any code | [`discuss`](../discuss/SKILL.md) |
 | Sharpen the project's terms and record them in `GLOSSARY.md`, or record a decision | [`domain-modeling`](../domain-modeling/SKILL.md) |
 | See the current topic as a diagram, a code-shape sketch, or an HTML page | [`show-me`](../show-me/SKILL.md) |
