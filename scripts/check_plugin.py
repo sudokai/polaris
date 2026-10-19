@@ -71,8 +71,10 @@ AGENT_INVOCABLE_SKILLS = {
     "write-discoverable-code",
 }
 
+# Lowercase "cursor" is a common programming word, such as a pagination cursor, so only
+# the capitalized name and the `.cursor` directory count as the Cursor harness.
 HARNESS_SPECIFIC_TERMS = re.compile(
-    r"\bcursor|\bgrok|\bcomposer|\bbugbot|\.mdc\b|\bpoteto|\bpstack|\bAskQuestion|\bsubagent_type",
+    r"(?-i:\bCursor\b)|\.cursor\b|\bgrok|\bcomposer|\bbugbot|\.mdc\b|\bpoteto|\bpstack|\bAskQuestion|\bsubagent_type",
     re.IGNORECASE,
 )
 
