@@ -97,7 +97,7 @@ A change to the project itself (architecture, types, lints, tests, or docs) that
 The table in the repo's agent instruction file that pairs each rule with what enforces it.
 
 **User's instruction file**:
-The user's personal agent instructions, such as `~/.agents/AGENTS.md`. Distinct from the repo's agent instruction file.
+The user's personal agent instructions: each harness's global instruction file, such as `~/.claude/AGENTS.md`. Distinct from the repo's agent instruction file.
 _Avoid_: global rules, steering file
 
 ### Verification

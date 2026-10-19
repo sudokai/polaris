@@ -36,6 +36,10 @@ To change which models the roles use, run `/setup-polaris`.
 
 polaris keeps its local files in `.agents/polaris/` in a project and in `~/.agents/polaris/` for every project: model overrides, local playbooks, the deferred-fix backlog, and resume notes. A project file wins over a user file. Local playbooks add to the bundled ones and never replace them. `reflect` records lessons there and in instruction files instead of editing the plugin. `skills/polaris/references/locations.md` is the full contract.
 
+## Documentation
+
+`CONTEXT.md` defines the terms polaris uses. `docs/README.md` indexes the decision records and the open work.
+
 ## Develop
 
 Run the structural check before you commit:

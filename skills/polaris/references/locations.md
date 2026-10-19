@@ -17,7 +17,7 @@ Where polaris reads and writes its local files, and how it finds local playbooks
 | Local playbooks | `.agents/polaris/playbooks/<name>.md` | `~/.agents/polaris/playbooks/<name>.md` |
 | New standalone skills | The project skill directory in `harnesses.md` | The user skill directory in `harnesses.md` |
 | Edits to an existing standalone skill | The directory that holds it | The directory that holds it |
-| Preferences | The project's agent instruction file | `~/.agents/AGENTS.md`, or the harness's own file for a harness-specific rule (`harnesses.md`) |
+| Preferences | The project's agent instruction file | Every harness's global instruction file, written once per real file, or one harness's file for a harness-specific rule (`harnesses.md`) |
 | Correction rule table | The project's agent instruction file | None |
 | Deferred repo fixes | `.agents/polaris/backlog.md` | None |
 | Resume notes | `.agents/polaris/resume/<slug>.md`, kept out of git | None |
