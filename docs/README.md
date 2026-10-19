@@ -1,6 +1,6 @@
 # polaris documentation
 
-- [`CONTEXT.md`](../CONTEXT.md) defines the terms polaris uses.
+- [`GLOSSARY.md`](../GLOSSARY.md) defines the terms polaris uses.
 - [`adr/`](adr/) records the decisions that shape the plugin and why they were made.
 - [`open-work.md`](open-work.md) lists deferred work and harness behavior that is not yet verified.
 

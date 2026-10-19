@@ -42,7 +42,7 @@ polaris keeps its local files in `.agents/polaris/` in a project and in `~/.agen
 
 ## Documentation
 
-`CONTEXT.md` defines the terms polaris uses. `docs/README.md` indexes the decision records and the open work.
+`GLOSSARY.md` defines the terms polaris uses. `docs/README.md` indexes the decision records and the open work.
 
 ## Develop
 

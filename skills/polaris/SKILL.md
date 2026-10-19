@@ -22,7 +22,7 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 - **Asked why code is shaped the way it is**, or looking for regression history → the `why` skill (`../why/SKILL.md`).
 - **Any code** → name the data shape first, and choose its organizing structure per [Model the Domain](principles/model-the-domain.md). Name, type, and document it per the `write-discoverable-code` skill (`../write-discoverable-code/SKILL.md`).
 - **Asked to discuss a plan, flesh out an idea, or settle a design before building** → the `discuss` skill (`../discuss/SKILL.md`).
-- **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` or a decision record → the `domain-modeling` skill (`../domain-modeling/SKILL.md`).
+- **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` or an ADR → the `domain-modeling` skill (`../domain-modeling/SKILL.md`).
 - **Explaining a design, a flow, or a change that is easier to see than to read** → the views of the `show-me` skill (`../show-me/SKILL.md`).
 - **Code that crosses a function boundary**, a new module, or a nontrivial design → the `architect` skill (`../architect/SKILL.md`) before implementing.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → the `blast-radius` skill (`../blast-radius/SKILL.md`).
