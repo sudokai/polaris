@@ -1,6 +1,6 @@
 # Role agents for Claude Code and Grok Build
 
-polaris ships one agent definition per role for the harnesses that cannot set effort when they start a subagent: `com.anthropic.claude-code/agents/` for Claude Code and `agents/` for Grok Build. Claude Code can set a subagent's model per spawn but its effort only in an agent definition, so without these files the three Opus roles would run the same. Grok Build can set neither, only the agent type. The original plan shipped no agent definitions, because they are outside the Agent Plugins portable core; the user approved this exception.
+polaris ships one agent definition per role for the harnesses that cannot set effort when they start a subagent: `com.anthropic.claude-code/agents/` for Claude Code and `agents/` for Grok Build. Claude Code can set a subagent's model per spawn but its effort only in an agent definition, so without these files the three Opus roles would run the same. Grok Build can set neither, only the agent type. Agent definitions are outside the Agent Plugins portable core, so these files are a deliberate exception.
 
 ## Consequences
 

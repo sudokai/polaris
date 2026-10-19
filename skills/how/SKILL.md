@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # How
 
-This is the bundled `how` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/how/SKILL.md` or `~/.agents/polaris/skills/how/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
 Explorers run on a role. Choose their model with `../polaris/references/models.md`. Explorers only read and search the code. They never edit files. You write the explanation yourself.

@@ -22,7 +22,7 @@ Apply each criterion to every finding:
 - Convergence: findings echoed by 2+ reviewers or miners carry higher confidence. Singletons must clear a higher bar on the other criteria.
 - Decision-changing: a future agent does something different because of the edit, not just reads more text.
 - Structural-mechanism check: when architecture, a type, a lint rule, a script, or a test could enforce a rule, route it to the repo (`correct`) instead of skill prose. Skill prose is for things mechanisms cannot enforce.
-- Already-covered: read the target skill (its effective version: an existing override if there is one) before accepting any body-edit row. If the proposal duplicates clear, well-placed existing guidance, reject as `already-covered`, because the issue is execution, not the skill. If the existing guidance is buried, weak, or easy to skip past, accept the row but reframe the proposal as a wording / placement improvement that makes it fire (not a duplicate addition).
+- Already-covered: read the target skill before accepting any body-edit row. If the proposal duplicates clear, well-placed existing guidance, reject as `already-covered`, because the issue is execution, not the skill. If the existing guidance is buried, weak, or easy to skip past, accept the row but reframe the proposal as a wording / placement improvement that makes it fire (not a duplicate addition).
 
 ## Mode rules
 
@@ -49,14 +49,13 @@ Output exactly the format below. No preamble, no narration. One sentence per cel
 
 | Problem | Proposal | Destination | Scope |
 |---|---|---|---|
-| <gap in an polaris skill the parent used> | <change to that skill's body> | `override: <skill name + section>` | <project or user> |
+| <gap in an polaris skill or playbook the parent used> | <one instruction-file line naming the skill or playbook and what to do differently> | `instruction file: <skill or playbook name>` | <project or user> |
 | <gap in a standalone skill the parent used> | <change to that skill's body> | `edit: <skill path + section>` | <the skill's own location> |
 | <polaris skill existed but didn't run> | <one instruction-file line naming the situation and the skill> | `trigger: <skill name>` | <project or user; plugin source if every polaris user would miss it> |
 | <standalone skill existed but didn't trigger> | <tune the skill's description so it fires next time> | `tune description: <skill path>` | <the skill's own location> |
 | <narrow procedure that keeps repeating> | <draft a new skill> | `new skill: <kebab-name>` | <project or user> |
 | <workflow across several skills> | <draft a new playbook> | `new playbook: <kebab-name>` | <project or user> |
-| <gap in an polaris playbook> | <change to it> | `override playbook: <playbook name>` | <project or user> |
-| <defect every polaris user would hit, such as a gap in a principle> | <change to the bundled file> | `upstream: <bundled path>` | plugin source |
+| <defect every polaris user would hit, in a skill, playbook, or principle> | <change to the bundled file> | `upstream: <bundled path>` | plugin source |
 | <personal preference> | <one operational line> | `instruction file` | <project if it is about this repository; user if the evidence spans two or more projects; the harness name if it applies to one harness> |
 | <repo-side mistake or environment gap> | <the fix> | `correct: <level: architecture, type, lint, test, or docs>` | project |
 

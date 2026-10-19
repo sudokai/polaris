@@ -1,11 +1,9 @@
 ---
 name: polaris
-description: "Route engineering work through polaris's principles, playbooks, and skills: map the code first, design for agents, and prove behavior on the real artifact. Use only for /polaris, or when the user's instructions say to apply polaris."
+description: "Route engineering work through polaris's principles, playbooks, and skills: map the code first, design for agents, and prove behavior on the real artifact. Use only for /polaris."
 ---
 
 # polaris
-
-This is the bundled `polaris` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/polaris/SKILL.md` or `~/.agents/polaris/skills/polaris/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `references/locations.md` describes.
 
 Read this file in full before any work. It routes the task to a playbook or a skill, and it names the principles that govern every decision.
 
@@ -18,7 +16,7 @@ Read this file in full before any work. It routes the task to a playbook or a sk
 
 ## Triggers
 
-The skills below sit next to this one, and they are hidden from automatic selection. Run a skill by reading its effective `SKILL.md` and following it: a local override if one exists, otherwise the bundled file at the path given, relative to this file. Skills refer to each other the same way. When you brief a subagent to run a skill, give it the effective file's absolute path. `references/locations.md` defines overrides, local playbooks, and where polaris writes its files.
+The skills below sit next to this one, and they are hidden from automatic selection. Run a skill by reading its `SKILL.md` at the path given, relative to this file, and following it. Skills refer to each other the same way. When you brief a subagent to run a skill, give it the file's absolute path. `references/locations.md` defines local playbooks and where polaris writes its files.
 
 - **About to change code you have not traced**, or asked how something works → the `how` skill (`../how/SKILL.md`).
 - **Asked why code is shaped the way it is**, or looking for regression history → the `why` skill (`../why/SKILL.md`).

@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Create a verification skill
 
-This is the bundled `create-verification-skill` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/create-verification-skill/SKILL.md` or `~/.agents/polaris/skills/create-verification-skill/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 Every serious project needs a scripted way to drive the real app and prove behavior: launch it, exercise a feature the way a user would, and capture evidence. This skill generates that as a project-local skill (`verify-<app>/`, in the project skill directory) tailored to the repo. You write the generator's output for the next agent, not for a human: it will be read cold, mid-task, by an agent that has never seen the app.
 
 ## 1. Interview the repo, not the user

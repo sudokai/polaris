@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Why
 
-This is the bundled `why` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/why/SKILL.md` or `~/.agents/polaris/skills/why/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 Investigate the motivation and intent behind code. The companion `how` skill (`../how/SKILL.md`) answers what the code does and how it works. `why` answers what forces led to its shape.
 
 Each subagent below names a role. Choose its model with `../polaris/references/models.md`. Give investigators and the synthesizer access to the MCP servers. A read-only mode that removes MCP access disables the MCP-backed investigators and the synthesizer's citation checks. They still never write or edit anything.

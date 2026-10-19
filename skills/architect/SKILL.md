@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Architect
 
-This is the bundled `architect` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/architect/SKILL.md` or `~/.agents/polaris/skills/architect/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Synthesize across multiple model perspectives, then fill in code against the chosen sketch.
 
 ## Start

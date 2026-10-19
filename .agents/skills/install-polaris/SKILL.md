@@ -38,12 +38,6 @@ After copying, ask the user to restart Cursor and check that the polaris skills 
 
 The repository is a dsh bundle: `cordis.patch.yml` adds its `skills/` directory to the profile. dsh installs bundles per profile, including the desktop app's profile. Ask the user to start a new session in each profile and check that the `polaris` skill is listed. Report dsh loading as unverified until they confirm.
 
-## 2. Check global instructions
+## 2. Report
 
-Each harness's global instruction file and its one-shot check are under **Global instruction files** in `<repo>/skills/polaris/references/harnesses.md`.
-
-For each installed harness, report whether its global instruction file exists. Run the harness's check only when the user asks.
-
-## 3. Report
-
-Give one line per harness: installed, refreshed, already current, skipped (not present), or unverified. Say whether its global instruction file exists, and give the check result if you ran one. Name each harness that needs a restart.
+Give one line per harness: installed, refreshed, already current, skipped (not present), or unverified. Name each harness that needs a restart.

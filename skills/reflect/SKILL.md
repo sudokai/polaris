@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Reflect
 
-This is the bundled `reflect` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/reflect/SKILL.md` or `~/.agents/polaris/skills/reflect/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 Mine evidence for durable lessons, route each lesson to the place where it changes what future agents do, and apply only what the user approves.
 
 ## When to run
@@ -21,7 +19,7 @@ Skip when the conversation is trivial, off-topic, or already covered by an exist
 
 ## 2. Check what already exists
 
-Read the playbook index in `../polaris/SKILL.md`, the local playbooks and skill overrides at both scopes (`../polaris/references/locations.md`), the skills the user has installed, the user's instruction files (`~/.agents/AGENTS.md` and the harness's own file in `../polaris/references/harnesses.md`), the project's agent instruction file, and `.agents/polaris/backlog.md`, if it exists. A lesson that one of these already captures is not new. A finding that matches a backlog entry is reported as that entry, not as a new finding. If the user asked to update earlier output, mine only the history since that output last changed (`git log -1 --format=%cI <path>`).
+Read the playbook index in `../polaris/SKILL.md`, the local playbooks at both scopes (`../polaris/references/locations.md`), the skills the user has installed, the user's instruction files (`~/.agents/AGENTS.md` and the harness's own file in `../polaris/references/harnesses.md`), the project's agent instruction file, and `.agents/polaris/backlog.md`, if it exists. A lesson that one of these already captures is not new. A finding that matches a backlog entry is reported as that entry, not as a new finding. If the user asked to update earlier output, mine only the history since that output last changed (`git log -1 --format=%cI <path>`).
 
 ## 3. Gather evidence
 
@@ -57,14 +55,13 @@ Each Accepted row has one destination and one scope: `project` for a lesson abou
 
 | Finding | Destination | How |
 | --- | --- | --- |
-| A gap in an polaris skill that the session used | Override that skill | If the effective skill is already an override, edit it. Otherwise copy the bundled skill's directory to `.agents/polaris/skills/<name>/` at the chosen scope, add `overrides: polaris <plugin version> skills/<name>` to its frontmatter, delete its "This is the bundled" line, and edit the copy. Make a trivial edit (a one-line bullet, a tightened sentence, a stale fact corrected) directly. Make a substantive edit (a new section, a new pattern table, more than ~10 lines) with the skill-creation skill that `../polaris/references/harnesses.md` names. |
-| A gap in a standalone skill that the session used | Edit that skill where it lives | Same edit rules as the previous row. If the skill is an installed copy of a plugin, treat the row as an upstream proposal instead. |
+| A gap in an polaris skill or playbook that the session used | One line in an instruction file | Add one line that names the skill or playbook and what to do differently, such as "When you run the polaris `how` skill in this repository, also read `docs/architecture.md`." Put it in the project's agent instruction file for a lesson about this repository, or in `~/.agents/AGENTS.md` for one that holds across projects. |
+| A gap in a standalone skill that the session used | Edit that skill where it lives | Make a trivial edit (a one-line bullet, a tightened sentence, a stale fact corrected) directly. Make a substantive edit (a new section, a new pattern table, more than ~10 lines) with the skill-creation skill that `../polaris/references/harnesses.md` names. If the skill is an installed copy of a plugin, treat the row as an upstream proposal instead. |
 | An polaris skill that should have run but did not | Add a trigger | The router's Triggers list, not the skill's description, chooses when an polaris skill runs. Add one line that names the situation and the skill, such as "When you change a migration file, run the polaris `blast-radius` skill." Put it in the project's agent instruction file for a lesson about this repository, or in `~/.agents/AGENTS.md` for one that holds across projects. If every polaris user would miss the same trigger, make it an upstream proposal for the router's Triggers list instead. |
 | A standalone skill that should have triggered but did not | Tune its description | Edit the description where the skill lives. |
 | A narrow procedure that keeps repeating | New skill | The skill-creation skill, in the project or user skill directory that `../polaris/references/harnesses.md` names. |
 | A workflow that spans several skills | New local playbook | Write `.agents/polaris/playbooks/<name>.md` at the chosen scope, following `../polaris/playbooks/README.md` and the local playbook rules in `../polaris/references/locations.md`. Do not edit the bundled playbook index. |
-| A gap in an polaris playbook | Override that playbook | Copy it to `.agents/polaris/playbooks/<same name>.md` at the chosen scope, rewrite its paths as the local playbook rules require, and edit the copy. |
-| A defect that every polaris user would hit, such as a gap in a principle | Upstream proposal | Draft the change against the plugin's source repository. Show it, and do not apply it. |
+| A defect that every polaris user would hit, in a skill, playbook, or principle | Upstream proposal | Draft the change against the plugin's source repository. Show it, and do not apply it. |
 | A personal preference | One line in an instruction file | If it is about this project, the project's agent instruction file. If the evidence spans two or more projects, `~/.agents/AGENTS.md`. If it applies to one harness only, that harness's global instruction file in `../polaris/references/harnesses.md`. Never put a preference into polaris. polaris holds shared method. |
 | A repo-side mistake or environment gap | The `correct` skill (`../correct/SKILL.md`) | The synthesizer proposes the level, the user can raise it, and `correct` builds it. |
 
@@ -72,7 +69,7 @@ Write every draft for an agent reader, following the rules in `../polaris/playbo
 
 ## 6. Get approval
 
-Present the synthesizer's full output, with evidence. For each Accepted row, add the effective source the session followed (the bundled path or the override path), the target path, whether the target is in a git repo or outside git, and the concrete draft. Then wait for explicit approval. The user picks which rows to apply, may redirect any destination or scope, and may raise the level of a repo-side fix. Skill changes affect every future agent, so do not apply anything without approval.
+Present the synthesizer's full output, with evidence. For each Accepted row, add the target path, whether the target is in a git repo or outside git, and the concrete draft. Then wait for explicit approval. The user picks which rows to apply, may redirect any destination or scope, and may raise the level of a repo-side fix. Skill changes affect every future agent, so do not apply anything without approval.
 
 ## 7. Apply
 

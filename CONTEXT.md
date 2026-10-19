@@ -30,9 +30,6 @@ _Avoid_: workflow, recipe
 **Trigger**:
 One line in the router that names a situation and the skill to run in it.
 
-**Activation line**:
-A line in the user's instruction file that tells the agent to apply polaris.
-
 ### Harnesses and models
 
 **Harness**:
@@ -60,13 +57,6 @@ Applies to one repository. Its files live in `<project>/.agents/polaris/`.
 **User scope**:
 Applies to every project for one user. Its files live in `~/.agents/polaris/`.
 
-**Override**:
-A complete local copy of a bundled skill or playbook that replaces it at project or user scope.
-_Avoid_: patch, customization, fork
-
-**Effective skill**:
-The `SKILL.md` an agent follows after override lookup: the project override, else the user override, else the bundled skill.
-
 **Local playbook**:
 A playbook in a project or user `playbooks/` directory, outside the bundled index.
 _Avoid_: learned playbook, custom playbook
@@ -90,7 +80,7 @@ The committed list of repo-side fixes that the user approved but chose to defer:
 One lesson that `reflect`'s reviewers or miners propose, with its evidence.
 
 **Destination**:
-Where an accepted finding lands: an override, a trigger line, a new skill, a local playbook, an instruction-file line, an upstream proposal, or a repo-side fix.
+Where an accepted finding lands: a trigger line, a new skill, a local playbook, an instruction-file line, an upstream proposal, or a repo-side fix.
 
 **Session mode**:
 The `reflect` mode that reviews the current conversation for the lesson one incident teaches.

@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Prove it
 
-This is the bundled `prove-it` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/prove-it/SKILL.md` or `~/.agents/polaris/skills/prove-it/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 Proof is not a recap. It proves or disproves one specific claim with evidence that someone else can repeat. [Prove It Works](../polaris/principles/prove-it-works.md) says why. This skill says how.
 
 Do not use it for vague claims like "the code is cleaner". Ask for a measurable claim first.

@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Correct
 
-This is the bundled `correct` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/correct/SKILL.md` or `~/.agents/polaris/skills/correct/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 The user keeps correcting agents in this repo for the same mistakes. Change the repo so the next agent can't make them.
 
 Assume every contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Design the repo so a change that looks right from one file is right for the whole repo.

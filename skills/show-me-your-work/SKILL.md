@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Show me your work
 
-This is the bundled `show-me-your-work` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/show-me-your-work/SKILL.md` or `~/.agents/polaris/skills/show-me-your-work/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 Keep one canonical log.
 
 ## The format

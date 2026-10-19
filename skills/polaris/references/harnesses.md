@@ -50,8 +50,6 @@ Write a user-level skill to the user skill directory for the harness. If the use
 
 To share one skill across harnesses, keep it in `~/.agents/skills/` and link it into the other harnesses' directories.
 
-Bundled skill overrides do not go here. See `locations.md`.
-
 ## Skill-creation skills
 
 When a skill says to create or substantially edit a skill, use the harness's skill-creation skill if it has one. Otherwise, write the `SKILL.md` directly.

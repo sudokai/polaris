@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Setup polaris
 
-This is the bundled `setup-polaris` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/setup-polaris/SKILL.md` or `~/.agents/polaris/skills/setup-polaris/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 Write an override for polaris's role table. The default table, the override format, and the precedence order are in `../polaris/references/models.md`. Read that file first.
 
 ## 1. Identify the harness

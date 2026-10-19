@@ -6,8 +6,6 @@ disable-model-invocation: true
 
 # Recall
 
-This is the bundled `recall` skill. Before you follow it, check whether `<project>/.agents/polaris/skills/recall/SKILL.md` or `~/.agents/polaris/skills/recall/SKILL.md` exists. If one does, follow the first that exists instead of this file, and resolve its references and scripts as `../polaris/references/locations.md` describes.
-
 **Before you start or resume work, you rebuild the user's recent working context and hand back a tight capsule of where things stand now and what to do next.**
 
 Keep it tight and on-topic. Read only what the in-scope threads need, then stop.

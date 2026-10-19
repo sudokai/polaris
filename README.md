@@ -34,7 +34,7 @@ To change which models the roles use, run `/setup-polaris`.
 
 ## Local files
 
-polaris keeps its local files in `.agents/polaris/` in a project and in `~/.agents/polaris/` for every project: model overrides, local playbooks, overrides of bundled skills, the deferred-fix backlog, and resume notes. A project override wins over a user override, and both win over the bundled skill or playbook. `reflect` records lessons there instead of editing the plugin. `skills/polaris/references/locations.md` is the full contract.
+polaris keeps its local files in `.agents/polaris/` in a project and in `~/.agents/polaris/` for every project: model overrides, local playbooks, the deferred-fix backlog, and resume notes. A project file wins over a user file. Local playbooks add to the bundled ones and never replace them. `reflect` records lessons there and in instruction files instead of editing the plugin. `skills/polaris/references/locations.md` is the full contract.
 
 ## Develop
 
