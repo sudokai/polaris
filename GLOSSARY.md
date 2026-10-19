@@ -107,6 +107,10 @@ _Avoid_: history scope
 **Repo-side fix**:
 A change to the project itself (architecture, types, lints, tests, or docs) that makes a repeated agent mistake impossible. `correct` builds it.
 
+**Mistake class**:
+The kind of mistake one incident is a case of. `reflect` words a lesson for the class, and `correct` fixes the class, not the single incident.
+_Avoid_: mistake type, error category
+
 **Rule table**:
 The table in the repo's agent instruction file that pairs each rule with what enforces it.
 
