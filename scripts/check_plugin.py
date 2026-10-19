@@ -44,6 +44,7 @@ EXPECTED_SKILLS = {
     "sweep-residue",
     "tdd",
     "visual-pr",
+    "walkthrough",
     "why",
     "write-discoverable-code",
 }
@@ -68,6 +69,7 @@ AGENT_INVOCABLE_SKILLS = {
     "restate-my-intent",
     "sweep-residue",
     "tdd",
+    "walkthrough",
     "write-discoverable-code",
 }
 
