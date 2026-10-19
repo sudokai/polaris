@@ -84,4 +84,11 @@ Overwrite each file in full, so that running this skill again with the same answ
 
 Read back what you wrote. Tell the user that the change applies to subagents started from now on, and that Claude Code and Grok Build load new agent files in a new session.
 
-**Reply:** the harness, the final table with the source of each role (default, user, or project), and the paths you wrote or deleted.
+## 7. Offer verification skills
+
+Make each offer once, and skip it when the project already has what it offers. On no, move on without pushing.
+
+- **App verification.** If the project has no `verify-<app>` skill or other scripted way to drive the app, offer one, so that agents can drive the app the way a user does and prove changes work. On yes, run the Set up verification playbook (`../polaris/playbooks/set-up-verification.md`).
+- **Formal verification.** If the project has no skill that runs a model checker, a proof, or another verifier against the code, offer one, so that agents can prove a key property holds in every case in scope, not only the cases tests reach. On yes, run the `create-formal-verification-skill` skill (`../create-formal-verification-skill/SKILL.md`).
+
+**Reply:** the harness, the final table with the source of each role (default, user, or project), the paths you wrote or deleted, and the verification skills you offered and the user's answers.

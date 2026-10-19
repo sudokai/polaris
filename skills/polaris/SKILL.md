@@ -26,6 +26,8 @@ The skills below sit next to this one, and they are hidden from automatic select
 - **About to claim that a change works** → the `prove-it` skill (`../prove-it/SKILL.md`). "It compiles" and "the tests pass" are not proof of behavior.
 - **The project has no scripted way to drive its app** → the Set up verification playbook.
 - **The app changed and its verification skill may be out of date** → the `maintain-verification-skill` skill (`../maintain-verification-skill/SKILL.md`).
+- **A race, a retry, a state machine, or another property that tests rarely reach** → the `create-formal-verification-skill` skill (`../create-formal-verification-skill/SKILL.md`).
+- **Code that a formal check covers changed after the check's sync commit** → the `maintain-formal-verification-skill` skill (`../maintain-formal-verification-skill/SKILL.md`).
 - **The user corrects a mistake that agents have made before** → the `correct` skill (`../correct/SKILL.md`). Make the mistake impossible instead of writing another rule.
 - **Large or cross-cutting work**, or work the user will review after stepping away → the `figure-it-out` skill (`../figure-it-out/SKILL.md`), with a decision log from the `show-me-your-work` skill (`../show-me-your-work/SKILL.md`).
 - **About to ask "which approach?" or "what should this do?"** → classify the question first. If running something can answer it (behavior, timing, layout, output, performance), build the smallest throwaway experiment and let the result decide. Ask the user only for a product or preference call that no experiment can settle.
