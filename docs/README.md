@@ -21,3 +21,4 @@ The working contracts live with the skills: `skills/polaris/references/locations
 11. [Bundled skills and playbooks cannot be overridden locally](adr/0011-no-local-overrides-of-bundled-skills.md)
 12. [Some of the user's global skills are folded into polaris](adr/0012-user-skills-folded-into-polaris.md)
 13. [Cheap standalone skills start on their own](adr/0013-cheap-standalone-skills-start-on-their-own.md), replacing 3
+14. [Eight more of the user's global skills are folded into polaris](adr/0014-eight-more-user-skills-folded-into-polaris.md)

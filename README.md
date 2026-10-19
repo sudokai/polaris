@@ -7,8 +7,9 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 - **Router:** `skills/polaris/`, with 24 principles in `principles/`, playbooks in `playbooks/`, the model role table in `references/models.md`, and per-harness facts in `references/harnesses.md`.
 - **Mapping:** `how`, `why`, and `blast-radius`.
 - **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, and `prove-it`.
-- **Debugging and tests:** `diagnose` and `fix-change-detector-tests`.
-- **Design and correction:** `architect`, `prototype`, and `correct`.
+- **Debugging and tests:** `diagnose`, `tdd`, and `fix-change-detector-tests`.
+- **Design and correction:** `discuss`, `domain-modeling`, `architect`, `prototype`, `show-me`, and `correct`.
+- **Writing and finishing code:** `write-discoverable-code`, `deslop`, `sweep-residue`, and `visual-pr`.
 - **Large work:** `figure-it-out` and `decision-log`.
 - **Learning from history:** `reflect` and `recall`.
 - **Conversation:** `ketchup`, `restate-my-intent`, `sharpen`, and `speak-human`.
@@ -34,7 +35,7 @@ Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you wan
 
 To change which models the roles use, run `/setup-polaris`. For help with polaris itself, run `/polaris-help` with a question.
 
-Seven skills also start on their own when they fit, without `/polaris`: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, and `ketchup`.
+Thirteen skills also start on their own when they fit, without `/polaris`: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, and `sweep-residue`.
 
 ## Local files
 

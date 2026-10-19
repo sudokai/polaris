@@ -108,7 +108,7 @@ Principles are short rules in `../polaris/principles/` that `/polaris` reads and
 | A question got treated as the next step of the last task | Say "new task", or say the turn does not need polaris. |
 | A new model choice had no effect | Role agents load in a new session in some harnesses. Start one. |
 | Runs cost more than expected | See the cost paragraph under **Get set up**. |
-| A skill did not start on its own | Only the router and the seven skills under **Get set up** can start on their own. The others start from `/polaris` or when the user types them. |
+| A skill did not start on its own | Only the router and the thirteen skills under **Get set up** can start on their own. The others start from `/polaris` or when the user types them. |
 | Parallel agents overwrote each other | Give each agent its own worktree. |
 | An unattended run moved but finished nothing | Give it a check that can pass or fail, not a duration. |
 | The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That is the Prove It Works principle. |
