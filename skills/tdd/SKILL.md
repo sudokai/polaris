@@ -13,7 +13,7 @@ Tests verify behavior through public interfaces, not implementation details. Cod
 
 **DO NOT write all tests first, then all implementation.** This is "horizontal slicing" - treating RED as "write all tests" and GREEN as "write all code."
 
-This produces **crap tests**:
+This produces **weak tests**:
 
 - Tests written in bulk test _imagined_ behavior, not _actual_ behavior
 - You end up testing the _shape_ of things (data structures, function signatures) rather than user-facing behavior
