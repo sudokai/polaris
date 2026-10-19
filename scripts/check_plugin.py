@@ -116,20 +116,16 @@ def check_invocation(skills_dir: Path) -> list[Problem]:
         name = skill_file.parent.name
         if name == "polaris":
             continue
+        should_hide = name not in AGENT_INVOCABLE_SKILLS
         fields = frontmatter_fields(skill_file.read_text()) or {}
-        hidden_from_model = fields.get("disable-model-invocation") == "true"
         sidecar = skill_file.parent / "agents" / "openai.yaml"
+        hidden_from_model = fields.get("disable-model-invocation") == "true"
         hidden_from_codex = sidecar.exists() and "allow_implicit_invocation: false" in sidecar.read_text()
-        if name in AGENT_INVOCABLE_SKILLS:
-            if hidden_from_model:
-                problems.append(Problem(skill_file, 1, "agent-invocable skill sets `disable-model-invocation: true`"))
-            if hidden_from_codex:
-                problems.append(Problem(sidecar, 1, "agent-invocable skill sets `allow_implicit_invocation: false`"))
-        else:
-            if not hidden_from_model:
-                problems.append(Problem(skill_file, 1, "hidden skill lacks `disable-model-invocation: true`"))
-            if not hidden_from_codex:
-                problems.append(Problem(sidecar, 0, "hidden skill lacks `allow_implicit_invocation: false`"))
+        expected = "hidden" if should_hide else "agent-invocable"
+        if hidden_from_model != should_hide:
+            problems.append(Problem(skill_file, 1, f"{expected} skill has the wrong `disable-model-invocation`"))
+        if hidden_from_codex != should_hide:
+            problems.append(Problem(sidecar, 0, f"{expected} skill has the wrong `allow_implicit_invocation`"))
     return problems
 
 
