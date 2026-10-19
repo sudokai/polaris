@@ -46,7 +46,7 @@ src/
 └── transport/      # sends API requests
 ```
 
-- Show component interaction, control flow, or data flow with Mermaid. Where Mermaid does not render, draw the same thing as plain text. The "Rendering pictures" section of `../polaris/references/harnesses.md` says how to tell:
+- Show component interaction, control flow, or data flow with Mermaid. In a reply, follow it with the same diagram in plain text, as the "Rendering pictures" section of `../polaris/references/harnesses.md` describes:
 
 ```mermaid
 sequenceDiagram

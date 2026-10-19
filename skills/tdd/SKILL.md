@@ -53,6 +53,8 @@ Decide who makes each of these calls per [Never Block on the Human](../polaris/p
 
 ### 2. Tracer Bullet
 
+Before writing this test and every later one, decide whether it should exist and what it asserts, per the `fix-change-detector-tests` skill (`../fix-change-detector-tests/SKILL.md`).
+
 Write ONE test that confirms ONE thing about the system:
 
 ```
@@ -90,11 +92,12 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 
 **Never refactor while RED.** Get to GREEN first.
 
-When the cycle ends, check the new tests with the `fix-change-detector-tests` skill (`../fix-change-detector-tests/SKILL.md`).
+When the cycle ends, check the new tests again with the `fix-change-detector-tests` skill.
 
 ## Checklist Per Cycle
 
 ```
+[ ] Test catches a plausible bug that no other test catches
 [ ] Test describes behavior, not implementation
 [ ] Test uses public interface only
 [ ] Test would survive internal refactor

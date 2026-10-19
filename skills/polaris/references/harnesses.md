@@ -39,8 +39,10 @@ When you tell the user which command to type, use the form their harness shows:
 
 ## Rendering pictures
 
-- If the harness cannot show an image inline, link each screenshot or video by its file path.
-- Some terminals, editors, and web apps render a Mermaid code block, and some do not. Use Mermaid when you know the harness renders it. If you cannot tell, use a plain-text diagram in a code block.
+Whether a harness renders images and Mermaid varies, so a reply always gives both forms:
+
+- **Screenshots and videos:** embed each one inline and also link its file path.
+- **Diagrams:** draw each one as a Mermaid code block, then as the same diagram in plain text in a code block.
 - To show an HTML file, use the harness's own way to publish or preview a page when it has one. Otherwise give the file's path and open it in the browser with the system opener: `open` on macOS, `xdg-open` on Linux, or `start` on Windows.
 
 ## Project skill directories

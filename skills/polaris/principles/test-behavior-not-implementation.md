@@ -15,4 +15,4 @@ The contract decides, not the shape of the assertion. When "an empty cart never 
 
 A test can pin an invariant instead of a call, such as a key that must exist in two tables or a compile-time type check. The invariant is the behavior.
 
-To write new tests this way, use the `tdd` skill (`../../tdd/SKILL.md`). To apply this to existing tests, use the `fix-change-detector-tests` skill (`../../fix-change-detector-tests/SKILL.md`).
+The `fix-change-detector-tests` skill (`../../fix-change-detector-tests/SKILL.md`) applies this to a test before you write it, including whether it should exist, and to existing tests. The `tdd` skill (`../../tdd/SKILL.md`) writes new tests one at a time.

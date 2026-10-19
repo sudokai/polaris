@@ -1,13 +1,17 @@
 ---
 name: fix-change-detector-tests
-description: Find and replace tests that copy implementation details instead of checking behavior. Use after writing or changing tests, when refactors require mechanical test updates, mock expectations break too easily, or the user asks to find change-detector tests or improve test value.
+description: Decide whether a new test should exist and what it asserts, and find and replace tests that copy implementation details instead of checking behavior. Use before writing a new test, after writing or changing tests, when refactors require mechanical test updates, mock expectations break too easily, or the user asks to find change-detector tests or improve test value.
 ---
 
 # Change-detector tests
 
 Tests should catch bugs, not just changes to the code. A change-detector test copies how the code works without a requirement that explains why those details matter. [Test Behavior, Not Implementation](../polaris/principles/test-behavior-not-implementation.md) is the rule. This skill is the procedure for applying it to existing tests.
 
-## Workflow
+## Before writing a new test
+
+Answer the four questions in step 2 for the test you are about to write. Write it only if it checks a stated requirement and would catch a plausible bug that no existing test catches. Then write it as step 3 describes, and check it as step 4 describes.
+
+## Workflow for existing tests
 
 ### 1. Find the expected behavior
 
