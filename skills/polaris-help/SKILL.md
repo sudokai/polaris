@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Answer the user's question about polaris, give them a prompt they can send, and name the file the answer came from. For a help question, do not start the work. The user asked how, and a polaris run costs real tokens, so let them send the prompt.
 
-A message that asks for work, such as "use polaris to fix this bug", is not a help question. Read the `polaris` skill (`../polaris/SKILL.md`) and do the work under it.
+A message that asks for work, such as "use polaris to fix this bug", is not a help question. Read the `polaris` skill and do the work under it.
 
 This file maps questions to the files that hold the answers. Those files own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map. Give each command in the form the user's harness shows (`../polaris/references/harnesses.md`, **Typing a skill command**).
 
@@ -50,41 +50,41 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 
 | The user wants to | Skill |
 |---|---|
-| Do any nontrivial task with rigor | [`polaris`](../polaris/SKILL.md) |
-| Check that the agent understood their goal and the problem before it starts | [`restate-my-intent`](../restate-my-intent/SKILL.md) |
-| Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | [`sharpen`](../sharpen/SKILL.md) |
-| Translate AI prose into plain human language | [`say-it-plainly`](../say-it-plainly/SKILL.md) |
-| Save a settled design as a standalone implementation plan | [`finalize-plan`](../finalize-plan/SKILL.md) |
-| Settle a plan or a design through a few rounds of questions, before any code | [`discuss`](../discuss/SKILL.md) |
-| Sharpen the project's terms and record them in `GLOSSARY.md`, or record a decision | [`define-domain-language`](../define-domain-language/SKILL.md) |
-| See the current topic as a diagram, a code-shape sketch, or an HTML page | [`show-me`](../show-me/SKILL.md) |
-| Know how code works now, or where new code should live | [`how`](../how/SKILL.md) |
-| Know why code is shaped this way, or where a number came from | [`why`](../why/SKILL.md) |
-| Understand a PR, a branch, a commit, or a diff, stage by stage, ending with a quiz | [`walkthrough`](../walkthrough/SKILL.md) |
-| Catch up on their own recent work on a topic | [`recall`](../recall/SKILL.md) |
-| Catch up on what changed in this session, with every call that waits on them | [`ketchup`](../ketchup/SKILL.md) |
-| Know what a change could break outside itself | [`blast-radius`](../blast-radius/SKILL.md) |
-| Design a substantial program, system, product, or codebase foundation before implementation, including types and interfaces | [`architect`](../architect/SKILL.md) |
-| Try a design by hand before building it | [`prototype`](../prototype/SKILL.md) |
-| Build a feature or fix a bug test-first, one test at a time | [`tdd`](../tdd/SKILL.md) |
-| Write or review docs, RFCs, READMEs, plans, playbooks, PR descriptions, or commit messages | [`technical-writing`](../technical-writing/SKILL.md) |
-| Remove AI writing patterns from prose | [`deslop-language`](../deslop-language/SKILL.md) |
-| Write code that a plain-text search finds in one try | [`write-discoverable-code`](../write-discoverable-code/SKILL.md) |
-| Simplify just-finished work without changing what it does | [`deslop`](../deslop/SKILL.md) |
-| Strip leftovers of the conversation from finished code and docs | [`sweep-residue`](../sweep-residue/SKILL.md) |
-| Open or update a PR with a short, visual description | [`visual-pr`](../visual-pr/SKILL.md) |
-| Find the cause of a hard bug or a regression | [`diagnose`](../diagnose/SKILL.md) |
-| Replace tests that break on refactors but catch no bugs | [`no-change-detector-tests`](../no-change-detector-tests/SKILL.md) |
-| Prove or disprove that a change works | [`prove-it`](../prove-it/SKILL.md) |
-| Give agents a scripted way to drive the app and prove behavior | [`create-verification-skill`](../create-verification-skill/SKILL.md) |
-| Bring a verification skill and its feature map back in line with the app | [`maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
-| Formally verify a race, an invariant, or another property that tests rarely reach | [`create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
-| Bring a formal verification back in line after the code it covers changed | [`maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
-| Design a task-specific playbook when no existing one fits | [`figure-it-out`](../figure-it-out/SKILL.md) |
-| Keep a decision log while implementing, and review it afterward | [`decision-log`](../decision-log/SKILL.md) |
-| Choose a model profile, budget, and kind/level overrides | [`setup-polaris`](../setup-polaris/SKILL.md) |
-| Turn what a session taught into durable lessons | [`reflect`](../reflect/SKILL.md) |
-| Stop agents from repeating the same mistakes in this repo | [`correct`](../correct/SKILL.md) |
+| Do any nontrivial task with rigor | `polaris` |
+| Check that the agent understood their goal and the problem before it starts | `restate-my-intent` |
+| Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | `sharpen` |
+| Translate AI prose into plain human language | `say-it-plainly` |
+| Save a settled design as a standalone implementation plan | `finalize-plan` |
+| Settle a plan or a design through a few rounds of questions, before any code | `discuss` |
+| Sharpen the project's terms and record them in `GLOSSARY.md`, or record a decision | `define-domain-language` |
+| See the current topic as a diagram, a code-shape sketch, or an HTML page | `show-me` |
+| Know how code works now, or where new code should live | `how` |
+| Know why code is shaped this way, or where a number came from | `why` |
+| Understand a PR, a branch, a commit, or a diff, stage by stage, ending with a quiz | `walkthrough` |
+| Catch up on their own recent work on a topic | `recall` |
+| Catch up on what changed in this session, with every call that waits on them | `ketchup` |
+| Know what a change could break outside itself | `blast-radius` |
+| Design a substantial program, system, product, or codebase foundation before implementation, including types and interfaces | `architect` |
+| Try a design by hand before building it | `prototype` |
+| Build a feature or fix a bug test-first, one test at a time | `tdd` |
+| Write or review docs, RFCs, READMEs, plans, playbooks, PR descriptions, or commit messages | `technical-writing` |
+| Remove AI writing patterns from prose | `deslop-language` |
+| Write code that a plain-text search finds in one try | `write-discoverable-code` |
+| Simplify just-finished work without changing what it does | `deslop` |
+| Strip leftovers of the conversation from finished code and docs | `sweep-residue` |
+| Open or update a PR with a short, visual description | `visual-pr` |
+| Find the cause of a hard bug or a regression | `diagnose` |
+| Replace tests that break on refactors but catch no bugs | `no-change-detector-tests` |
+| Prove or disprove that a change works | `prove-it` |
+| Give agents a scripted way to drive the app and prove behavior | `create-verification-skill` |
+| Bring a verification skill and its feature map back in line with the app | `maintain-verification-skill` |
+| Formally verify a race, an invariant, or another property that tests rarely reach | `create-formal-verification-skill` |
+| Bring a formal verification back in line after the code it covers changed | `maintain-formal-verification-skill` |
+| Design a task-specific playbook when no existing one fits | `figure-it-out` |
+| Keep a decision log while implementing, and review it afterward | `decision-log` |
+| Choose a model profile, budget, and kind/level overrides | `setup-polaris` |
+| Turn what a session taught into durable lessons | `reflect` |
+| Stop agents from repeating the same mistakes in this repo | `correct` |
 | Find their way around polaris | `polaris-help` |
 
 If a skill directory next to this one is missing from the table, read its frontmatter and route by its description.

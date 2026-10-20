@@ -7,7 +7,7 @@ description: "Test-driven development with a red-green-refactor loop. Use when t
 
 ## Philosophy
 
-Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. [Test Behavior, Not Implementation](../principle-test-behavior-not-implementation/SKILL.md) is the rule, with the two imagined edits that judge each test. See [mocking.md](mocking.md) for where to mock.
+Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. `principle-test-behavior-not-implementation` is the rule, with the two imagined edits that judge each test. See [mocking.md](mocking.md) for where to mock.
 
 ## Anti-Pattern: Horizontal Slices
 
@@ -42,18 +42,18 @@ Use the project's terms from `GLOSSARY.md` in test names and interfaces, and res
 
 Before writing code, list the behaviors to test, most important first. For a small bug fix, identify the intended behavior and the smallest reproduction. Use the design checklist only when introducing or changing interfaces, types, or module boundaries:
 
-- [ ] Decide what interface changes are needed; design types and signatures per [Type System Discipline](../principle-type-system-discipline/SKILL.md)
+- [ ] Decide what interface changes are needed; design types and signatures per `principle-type-system-discipline`
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
-- [ ] Name the core types and data structures first, per [Foundational Thinking](../principle-foundational-thinking/SKILL.md)
+- [ ] Name the core types and data structures first, per `principle-foundational-thinking`
 
-Decide who makes each of these calls per [Never Block on the Human](../principle-never-block-on-the-human/SKILL.md). Internal interfaces and which behaviors to test are yours: decide, state the plan in a few lines, and start. A public API is the user's to judge, so show its sketch first. A change of scope is a product call, so ask.
+Decide who makes each of these calls per `principle-never-block-on-the-human`. Internal interfaces and which behaviors to test are yours: decide, state the plan in a few lines, and start. A public API is the user's to judge, so show its sketch first. A change of scope is a product call, so ask.
 
 **You can't test everything.** Focus testing effort on critical paths and complex logic, not every possible edge case.
 
 ### 2. Tracer Bullet
 
-Before writing this test and every later one, decide whether it should exist and what it asserts, per the `no-change-detector-tests` skill (`../no-change-detector-tests/SKILL.md`).
+Before writing this test and every later one, decide whether it should exist and what it asserts, per the `no-change-detector-tests` skill.
 
 Write ONE test that confirms ONE thing about the system:
 
@@ -84,12 +84,12 @@ Rules:
 - Only enough code to pass current test
 - Don't anticipate future tests
 - Keep tests focused on observable behavior
-- Make each cycle a unit you can verify and commit on its own, per [Sequence Work into Verifiable Units](../principle-sequence-verifiable-units/SKILL.md)
-- When the next steps repeat the same edit, write the script or codemod that makes it, per [Build the Lever](../principle-build-the-lever/SKILL.md)
+- Make each cycle a unit you can verify and commit on its own, per `principle-sequence-verifiable-units`
+- When the next steps repeat the same edit, write the script or codemod that makes it, per `principle-build-the-lever`
 
 ### 4. Refactor
 
-After all tests pass, look for [refactor candidates](refactoring.md). Remove before you add, per [Subtract Before You Add](../principle-subtract-before-you-add/SKILL.md), and add an abstraction only when it pays for itself, per [Laziness Protocol](../principle-laziness-protocol/SKILL.md):
+After all tests pass, look for [refactor candidates](refactoring.md). Remove before you add, per `principle-subtract-before-you-add`, and add an abstraction only when it pays for itself, per `principle-laziness-protocol`:
 
 - [ ] Extract duplication
 - [ ] Deepen modules (move complexity behind simple interfaces)

@@ -25,7 +25,7 @@ What to collect depends on the argument:
 - **`A...B` or `A..B`:** `git diff` with the argument as given, and `git log A..B --oneline`.
 - **`pr <n|url>`:** `gh pr view <n|url> --json title,body,baseRefName,headRefName,files,comments,reviews` and `gh pr diff <n|url>`.
 
-Start with `git diff --stat` (or `git show --stat`) to see the shape of the change. Open a file's diff only when you are about to explain it, per [Guard the Context Window](../principle-guard-the-context-window/SKILL.md). Skip generated code, lockfiles, and formatting-only changes, unless they change behavior, such as a lockfile that upgrades a dependency.
+Start with `git diff --stat` (or `git show --stat`) to see the shape of the change. Open a file's diff only when you are about to explain it, per `principle-guard-the-context-window`. Skip generated code, lockfiles, and formatting-only changes, unless they change behavior, such as a lockfile that upgrades a dependency.
 
 Read the PR description, commit messages, and review comments. If they don't explain the change, infer the purpose from the code, tests, and names. Follow a ticket or issue only if the PR or a commit links to it. Outside stage 2, read code beyond the diff only to answer a specific question, such as how a function the diff calls works, or how one caller uses the changed code.
 
@@ -33,7 +33,7 @@ Read the PR description, commit messages, and review comments. If they don't exp
 
 - **Talk like a colleague.** Use short sentences with one idea each. Explain each term the first time you use it, and use it consistently after that. Use the codebase's terms. Don't praise or sell the code ("elegant", "robust", "simply"). Be exact about names, numbers, and conditions.
 - **Match the user's level of expertise.** Judge it from their questions. Basic questions, requests to explain a term, or going back to an earlier stage suggest a beginner: go slower, and add background and examples. Questions about edge cases or specific code suggest an expert: give less background, and go into detail only where they ask.
-- **Show, don't tell.** Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation. Use the views of the `show-me` skill (`../show-me/SKILL.md`) to choose the simplest view that is still clear.
+- **Show, don't tell.** Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation. Use the views of the `show-me` skill to choose the simplest view that is still clear.
 - **Separate facts from inferences.** The user will trust what you say, so when you infer, say so: "The tests suggest this handles X, but the commits don't say." If you can't tell what something is for, ask.
 - **In every stage, flag what deserves a closer look.** Write **Look closer:** in text or `!` in a diagram, followed by the list of things that deserve a closer look. Together, these notes form a short code review. Check the code you explain for the problems in this list, but don't read code outside the change to find more. Flag two categories:
   - **Possible problems:**
@@ -75,7 +75,7 @@ Tell the user what they're looking at.
 
 ### 2. Background
 
-Explain the existing system relevant to this change. Explore it with the `how` skill (`../how/SKILL.md`), on its simple path unless the change spans a whole subsystem. We don't know how much the reader already knows, so include a deep background for beginners, and then a more narrow background directly relevant to the change.
+Explain the existing system relevant to this change. Explore it with the `how` skill, on its simple path unless the change spans a whole subsystem. We don't know how much the reader already knows, so include a deep background for beginners, and then a more narrow background directly relevant to the change.
 
 ### 3. Core intuition
 

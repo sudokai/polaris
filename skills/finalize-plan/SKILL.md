@@ -10,7 +10,7 @@ Turn a settled design from the conversation or supplied design files into a conc
 
 Reuse the design and its rationale. Do not redesign the solution or start implementation. If a missing decision prevents a usable plan, return that gap to the caller.
 
-Write with [technical-writing](../technical-writing/SKILL.md). Preserve the plan structure below. Keep implementation steps separate from rationale and reference sections.
+Write with `technical-writing`. Preserve the plan structure below. Keep implementation steps separate from rationale and reference sections.
 
 Write for a fresh agent with no access to the conversation.
 

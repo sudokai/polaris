@@ -252,12 +252,13 @@ def check_router_indexes(skills_dir: Path) -> list[Problem]:
     if legacy.exists():
         problems.append(Problem(legacy, 0, "principles are skills named `principle-<slug>`; delete this directory"))
     for slug in PRINCIPLE_SLUGS:
-        if f"../principle-{slug}/SKILL.md" not in router_text:
+        if f"`principle-{slug}`" not in router_text:
             problems.append(Problem(router, 0, f"principle `{slug}` is missing from the principle index"))
     for playbook in sorted((skills_dir / "polaris" / "playbooks").glob("*.md")):
         if playbook.name == "README.md":
             continue
-        if f"playbooks/{playbook.name}" not in router_text:
+        playbook_title = playbook.stem.replace("-", " ").capitalize()
+        if f"**{playbook_title}.**" not in router_text and f"playbooks/{playbook.name}" not in router_text:
             problems.append(Problem(router, 0, f"playbook `{playbook.name}` is missing from the playbook index"))
     return problems
 

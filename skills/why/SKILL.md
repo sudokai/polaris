@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Why
 
-Investigate the motivation and intent behind code. The companion `how` skill (`../how/SKILL.md`) answers what the code does and how it works. `why` answers what forces led to its shape.
+Investigate the motivation and intent behind code. The companion `how` skill answers what the code does and how it works. `why` answers what forces led to its shape.
 
 Work directly when the investigation is small. Delegate independent searches or bulk reading as `kind: execution`, `level: regular` assignments, chosen with `../polaris/references/models.md`. Give investigators access to the MCP servers they need. All investigation is read-only.
 

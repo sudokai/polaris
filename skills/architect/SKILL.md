@@ -22,21 +22,21 @@ Open a todolist with one entry per phase before starting.
 
 ## Phase A: Ground the problem
 
-Build a real mental model of every system the new code touches. Reuse source-backed grounding from this task; run the `how` skill (`../how/SKILL.md`) only for gaps. Naming a file isn't grounding. If the design redefines ownership or layering, use existing rationale or run the `why` skill (`../why/SKILL.md`) to recover the constraints. Keep the grounding focused on the design decision.
+Build a real mental model of every system the new code touches. Reuse source-backed grounding from this task; run the `how` skill only for gaps. Naming a file isn't grounding. If the design redefines ownership or layering, use existing rationale or run the `why` skill to recover the constraints. Keep the grounding focused on the design decision.
 
 Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.
 
-For product, UX, or feature-scope tradeoffs, define the intended experience per [Experience First](../principle-experience-first/SKILL.md).
+For product, UX, or feature-scope tradeoffs, define the intended experience per `principle-experience-first`.
 
 ## Phase B: Sketch
 
-Choose core data structures before logic per [Foundational Thinking](../principle-foundational-thinking/SKILL.md).
+Choose core data structures before logic per `principle-foundational-thinking`.
 
-When designing state or ownership, choose structures that encode domain rules per [Model the Domain](../principle-model-the-domain/SKILL.md).
+When designing state or ownership, choose structures that encode domain rules per `principle-model-the-domain`.
 
-When designing types and signatures, make invalid states unrepresentable per [Type System Discipline](../principle-type-system-discipline/SKILL.md).
+When designing types and signatures, make invalid states unrepresentable per `principle-type-system-discipline`.
 
-When designing validation, error handling, or framework adapters, place them per [Boundary Discipline](../principle-boundary-discipline/SKILL.md).
+When designing validation, error handling, or framework adapters, place them per `principle-boundary-discipline`.
 
 Choose the smallest review that addresses the decision. State which path you chose and why. Choose subagent models with `../polaris/references/models.md`.
 
@@ -46,7 +46,7 @@ Choose the smallest review that addresses the decision. State which path you cho
 
 For the consequential path, start two subagents for `kind: reasoning`. Select `level: hard` or `level: very_hard` according to the unresolved reasoning difficulty. Give each its own worktree or scratch directory and start them at the same time. Give each the design task, the same Phase A grounding, and `references/runner-prompt.md`. Neither sees the other's work. Each produces a design package shaped per `references/rationale-template.md`.
 
-On this path, require two independently produced candidates before synthesis, even when the first looks sufficient. Seek whole-shape alternatives, per [Exhaust the Design Space](../principle-exhaust-the-design-space/SKILL.md). If the two candidates converge on the same shape, record the convergence and skip the graft.
+On this path, require two independently produced candidates before synthesis, even when the first looks sufficient. Seek whole-shape alternatives, per `principle-exhaust-the-design-space`. If the two candidates converge on the same shape, record the convergence and skip the graft.
 
 On the consequential path, then start one judge subagent for `kind: reasoning`, selecting `level: hard` or `level: very_hard` according to the reasoning difficulty. It wrote neither sketch. Give it both packages by neutral labels, `references/design-red-flags.md`, and the comparison criteria below. It scores each candidate against each criterion and recommends a base. Reviewers and the judge do not start further agents.
 
@@ -54,7 +54,7 @@ Comparison criteria:
 
 - **Red flags.** Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md). Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.
 - **Interface depth.** Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
-- **Extensibility.** Prefer the design a future maintainer can extend without breaking invariants. When two feel tied, prefer the cleaner boundary or the smaller API, per the [Laziness Protocol](../principle-laziness-protocol/SKILL.md).
+- **Extensibility.** Prefer the design a future maintainer can extend without breaking invariants. When two feel tied, prefer the cleaner boundary or the smaller API, per the `principle-laziness-protocol`.
 
 When comparing two candidates, read both yourself before accepting the judge's pick. Resolve disagreements against the criteria and rationales. Graft useful ideas from the losing candidate only when they fit one coherent design. Record the base, verdict, grafts, and rejections in the rationale's "Synthesis decision" section.
 
@@ -64,9 +64,9 @@ If independent review is required but unavailable, report the limitation and ask
 
 Return the design without a checkpoint unless requested. If the user also requested implementation, the invoking agent continues directly or through a playbook. Otherwise, stop at the design.
 
-Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint," "stop and show me before implementing," or similar. Then surface the synthesized design, drawn with the views of the `show-me` skill (`../show-me/SKILL.md`), and pause for sign-off. If the sketch is a state model or an API, offer a prototype that the user can drive, per the `prototype` skill (`../prototype/SKILL.md`), and build it only on yes.
+Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint," "stop and show me before implementing," or similar. Then surface the synthesized design, drawn with the views of the `show-me` skill, and pause for sign-off. If the sketch is a state model or an API, offer a prototype that the user can drive, per the `prototype` skill, and build it only on yes.
 
-The sketch may be a separate scaffold commit per [Foundational Thinking](../principle-foundational-thinking/SKILL.md). Whoever implements it declares planned breakage and runs the implementation checks.
+The sketch may be a separate scaffold commit per `principle-foundational-thinking`. Whoever implements it declares planned breakage and runs the implementation checks.
 
 If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before handing back another design.
 
@@ -78,7 +78,7 @@ If implementation needs an unexpected parameter or other deviation, inspect the 
 
 ## Phase E: Revisit when the architecture is wrong
 
-If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md) and [Fix Root Causes](../principle-fix-root-causes/SKILL.md).
+If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per `principle-redesign-from-first-principles` and `principle-fix-root-causes`.
 
 The signal is a *pattern*, not single instances. Tells:
 
@@ -93,9 +93,9 @@ Use judgment. A few edge cases don't condemn an architecture. Some problems are 
 
 When you scrap:
 
-1. Re-run the `how` skill (`../how/SKILL.md`) over what's been built.
-2. Redesign as if the new constraints had been day-one assumptions, per [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md).
-3. Subtract before adding, per [Subtract Before You Add](../principle-subtract-before-you-add/SKILL.md). The new sketch should be smaller than the old one before it grows.
+1. Re-run the `how` skill over what's been built.
+2. Redesign as if the new constraints had been day-one assumptions, per `principle-redesign-from-first-principles`.
+3. Subtract before adding, per `principle-subtract-before-you-add`. The new sketch should be smaller than the old one before it grows.
 4. Return to Phase B and sketch again.
 
 ## Outputs

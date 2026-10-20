@@ -7,7 +7,7 @@ description: Clarify a project's domain concepts, choose consistent terms, and r
 
 Clarify domain concepts and relationships as you design. Challenge ambiguous terms, test their meanings with concrete scenarios, and record agreed definitions and decisions as they are resolved. Reading an existing glossary for vocabulary does not require this skill.
 
-When the model drives code structure, such as stateful logic or a shape assumption repeated across files, choose the structure per [Model the Domain](../principle-model-the-domain/SKILL.md).
+When the model drives code structure, such as stateful logic or a shape assumption repeated across files, choose the structure per `principle-model-the-domain`.
 
 ## File structure
 

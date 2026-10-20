@@ -19,7 +19,7 @@ Take the first step that applies:
 1. **Reading the code or the docs answers it.** Read, then decide.
 2. **Running something answers it**: behavior, timing, output, performance, or whether an edge case breaks. Write the smallest throwaway script, read the result, then decide.
 3. **It is a judgment call you can undo**, such as an internal interface, a name, or which behaviors to test first. Decide, say what you chose and why, and keep going.
-4. **A person must judge how something feels**: a state model, a public API, or a screen. Build a prototype with the `prototype` skill (`../prototype/SKILL.md`), or show a sketch per the `show-me` skill (`../show-me/SKILL.md`) when it is small.
+4. **A person must judge how something feels**: a state model, a public API, or a screen. Build a prototype with the `prototype` skill, or show a sketch per the `show-me` skill when it is small.
 5. **It is a product or preference call, or it cannot be undone**, such as a force-push, deleting production data, or sending messages to other people. Ask, and give your recommended answer with its reason.
 
 ## Proceed, then present

@@ -14,7 +14,7 @@ Assume every contributor is an agent that sees only the files it opened, copies 
 
 Start from one of two inputs:
 
-- **Findings handed over by the `reflect` skill** (`../reflect/SKILL.md`). Each one comes with evidence and a level that the user approved: usually a rule row for a first occurrence, and a structural fix for a repeat. Before you add a rule row, check the rule table and `.agents/polaris/backlog.md` for an earlier occurrence of the same mistake. If you find one, the finding is a repeat, so fix it structurally. Otherwise, build it at the approved level. If that level can't prevent the mistake, go higher and say why.
+- **Findings handed over by the `reflect` skill**. Each one comes with evidence and a level that the user approved: usually a rule row for a first occurrence, and a structural fix for a repeat. Before you add a rule row, check the rule table and `.agents/polaris/backlog.md` for an earlier occurrence of the same mistake. If you find one, the finding is a repeat, so fix it structurally. Otherwise, build it at the approved level. If that level can't prevent the mistake, go higher and say why.
 - **Your own scan.** Read `.agents/polaris/backlog.md` first, if it exists. Then read recent commits, reverts, review comments, agent instruction files, and comments that explain workarounds. Group the mistakes into classes. A class counts once it has happened twice.
 
 Before adding any check, read the repo's own check command (the `lint` and `check` scripts in `package.json` or the build tool) and its CI workflow. A check that exists but is not wired into a hook or CI is the finding: wire it in instead of writing a new one. A repo with no pre-commit hook and no CI job running its checks is a finding too.
@@ -23,7 +23,7 @@ Before adding any check, read the repo's own check command (the `lint` and `chec
 
 1. **Eliminate it with architecture.** Give each piece of state one owner and each task one supported way. Hide internals so the wrong import fails. Replace hand-synced lists with one source of truth. Delete old ways and dead code an agent would copy.
 2. **Enforce it with types so the bad state can't be written.** If bad code still compiles, add a lint or CI check whose error names the file, type, or function to use instead. If the pattern is already common, fail only when a change adds more.
-3. **Test the behavior.** Fix or delete any test that still passes when the behavior it checks breaks, or that fails when only the internals change. The `no-change-detector-tests` skill (`../no-change-detector-tests/SKILL.md`) is the procedure.
+3. **Test the behavior.** Fix or delete any test that still passes when the behavior it checks breaks, or that fails when only the internals change. The `no-change-detector-tests` skill is the procedure.
 4. **Write docs, agent rules, or navigation pointers last, only for judgment calls and hard-to-find files.** Nothing fails when an agent skips them.
 
 ## Fix and prove

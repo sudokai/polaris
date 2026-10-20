@@ -19,7 +19,7 @@ Skip when the conversation is trivial, off-topic, or already covered by an exist
 
 ## 2. Check what already exists
 
-Read the playbook index in `../polaris/SKILL.md`, the local playbooks at both scopes (`../polaris/references/locations.md`), the skills the user has installed, the user's global instruction files (`../polaris/references/harnesses.md`), the project's agent instruction file, and `.agents/polaris/backlog.md`, if it exists. A lesson that one of these already captures is not new. A finding that matches a backlog entry is reported as that entry, not as a new finding. If the user asked to update earlier output, mine only the history since that output last changed (`git log -1 --format=%cI <path>`).
+Read the playbook index in the `polaris` skill, the local playbooks at both scopes (`../polaris/references/locations.md`), the skills the user has installed, the user's global instruction files (`../polaris/references/harnesses.md`), the project's agent instruction file, and `.agents/polaris/backlog.md`, if it exists. A lesson that one of these already captures is not new. A finding that matches a backlog entry is reported as that entry, not as a new finding. If the user asked to update earlier output, mine only the history since that output last changed (`git log -1 --format=%cI <path>`).
 
 Also collect the user's other projects, so the synthesizer can promote a lesson that several projects hold. List the project folders under each harness's transcript location in `../polaris/references/harnesses.md`, and recover each project's path from the folder name or from the working directory recorded at the start of a session. Read only each project's agent instruction file, never its transcripts. Note each line that covers the same mistake class as a line in this project, with its project path.
 
@@ -73,13 +73,13 @@ Each Accepted row has one destination and one scope: `project` for a lesson abou
 | A workflow that spans several skills | New local playbook | Write `.agents/polaris/playbooks/<name>.md` at the chosen scope, following `../polaris/playbooks/README.md` and the local playbook rules in `../polaris/references/locations.md`. Do not edit the bundled playbook index. |
 | A defect that every polaris user would hit, in a skill, playbook, or principle | Upstream proposal | Draft the change against the plugin's source repository. Show it, and do not apply it. |
 | A personal preference | One line in an instruction file | If it is about this project, the project's agent instruction file. If the evidence spans two or more projects, every harness's global instruction file, as **Writing a line for every harness** in `../polaris/references/harnesses.md` describes. If it applies to one harness only, that harness's global instruction file alone. Never put a preference into polaris. polaris holds shared method. |
-| A repo-side mistake or environment gap | The `correct` skill (`../correct/SKILL.md`) | The synthesizer proposes the level, the user can raise it, and `correct` builds it. |
+| A repo-side mistake or environment gap | The `correct` skill | The synthesizer proposes the level, the user can raise it, and `correct` builds it. |
 | A finding whose mistake class reaches beyond the skill that was used | One line in every harness's global instruction file | As **Writing a line for every harness** in `../polaris/references/harnesses.md` describes. If every polaris user would hit it, make it an upstream proposal for a polaris principle instead. |
 | A finding that an existing entry already covers, or an instruction-file line to trim | Refine that entry | Reword, widen, merge, or remove the entry where it lives, instead of adding a new one. |
 | The same lesson in two or more projects' instruction files | Promote it to user scope | Write one line in every harness's global instruction file, and remove this project's copy. List the copies in other projects for the user to remove. Do not edit other repositories. |
 | Information the agent could not get, outside the repository | Suggest it | Say what to connect or grant, and why. Never apply it: it is the user's setup, and it often needs credentials. |
 
-Write every draft for an agent reader, following the rules in `../polaris/playbooks/README.md`: keep only text that changes a decision, point at other skills by path instead of restating them, and use "the user" instead of the user's name.
+Write every draft for an agent reader, following the rules in `../polaris/playbooks/README.md`: keep only text that changes a decision, refer to other skills by name instead of restating them, and use "the user" instead of the user's name.
 
 ## 6. Get approval
 
@@ -90,7 +90,7 @@ Present the synthesizer's full output, with evidence, in its order: the most cos
 If a destination is a git repo, work on a branch there, and commit each playbook or skill separately so the user can review it. If a destination is not a git repo (for example, `~/.agents/polaris/`), show each change as a diff before writing it, and say in the reply that it is uncommitted.
 
 1. Apply the approved agent-side rows, as the **How** column says. Do not apply `suggest` rows, or the removals that a `promote` row lists for other repositories.
-2. Run the `correct` skill (`../correct/SKILL.md`) with the approved repo-side rows as its input. Rows that the user approves but defers go to `.agents/polaris/backlog.md`, as `correct` describes.
+2. Run the `correct` skill with the approved repo-side rows as its input. Rows that the user approves but defers go to `.agents/polaris/backlog.md`, as `correct` describes.
 3. If the environment has a skill validator (for example, `python3 scripts/check_plugin.py` in the polaris repository), run it on every touched skill.
 
 **Reply:** each finding with its evidence and the output it became, what the user approved and where it landed (the path written, and its repo or "outside git"), the upstream proposals left unapplied, the `suggest` rows and the copies in other repositories left for the user, the repo-side fixes that `correct` built, the entries deferred to `.agents/polaris/backlog.md`, and what was dropped and why.

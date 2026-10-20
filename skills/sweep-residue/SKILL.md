@@ -23,7 +23,7 @@ If something only makes sense because of that conversation, rewrite it.
 
 ## Report, don't sweep
 
-- over-defensive code that grew from an overengineered implementation or from review-guided sequential fixes — compatibility shims, stacked if/else, temporary paths, etc. Simplifying it is the `deslop` skill's job (`../deslop/SKILL.md`).
+- over-defensive code that grew from an overengineered implementation or from review-guided sequential fixes — compatibility shims, stacked if/else, temporary paths, etc. Simplifying it is the `deslop` skill's job.
 
 ## Don't sweep these by accident
 

@@ -5,7 +5,7 @@ description: "Prove or disprove one claim with fresh evidence: compare changed b
 
 # Prove it
 
-Proof is not a recap. It proves or disproves one specific claim with evidence that someone else can repeat. [Prove It Works](../principle-prove-it-works/SKILL.md) says why. This skill says how.
+Proof is not a recap. It proves or disproves one specific claim with evidence that someone else can repeat. `principle-prove-it-works` says why. This skill says how.
 
 Do not use it for vague claims like "the code is cleaner". Ask for a measurable claim first.
 
@@ -13,12 +13,12 @@ Do not use it for vague claims like "the code is cleaner". Ask for a measurable 
 
 1. **Restate the claim so it can be shown false.** Name the condition, the metric, and the threshold. For example: "After the fix, saving a note with an emoji title persists the title across a restart."
 2. **Pick the surface.** Use the smallest surface that can disprove the claim, in this order:
-   1. The project's `verify-<app>` skill, made by the `create-verification-skill` skill (`../create-verification-skill/SKILL.md`), when the claim is about user-visible behavior. Follow its launch, doctor, drive, evidence, and cleanup steps.
+   1. The project's `verify-<app>` skill, made by the `create-verification-skill` skill, when the claim is about user-visible behavior. Follow its launch, doctor, drive, evidence, and cleanup steps.
    2. If the project has no verification skill and the claim is about user-visible behavior, offer to create one with the Set up verification playbook. Until it exists, drive the app with the smallest local harness you can build.
    3. For code behavior, a focused test or a minimal repro script that calls the real code.
 3. **Choose the comparison.** For a change claim, capture a baseline from the old state: the merge base, parent commit, failing branch, or broken repro. For acceptance of a new artifact, state observable pass/fail criteria and initial conditions; do not invent a broken predecessor.
 4. **Run the check.** For a change claim, capture the treatment with the same command, data, warmup, and environment. For acceptance, follow the artifact's instructions from the stated initial conditions and record the resulting behavior, including cleanup when it is part of the claim.
-5. **Inspect the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. Compare them against the claimed relationship or acceptance criteria. If the claim is a measured number, explain it per [Explain the Number](../principle-explain-the-number/SKILL.md), and follow [`references/measured-numbers.md`](references/measured-numbers.md) before you trust it.
+5. **Inspect the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. Compare them against the claimed relationship or acceptance criteria. If the claim is a measured number, explain it per `principle-explain-the-number`, and follow [`references/measured-numbers.md`](references/measured-numbers.md) before you trust it.
 6. **Say how far the proof got.** Place the evidence on this ladder, and name the highest step you reached:
    1. Claimed. You said so. Worthless on its own.
    2. Line cited. A real `file:line`, or the library's own source.

@@ -12,17 +12,17 @@ A playbook defines the task's sequence, handoffs, checks, and delivery. Skills p
 
 ## Executing implementation steps
 
-Start `decision-log` (`../../decision-log/SKILL.md`) at the light level. Use the full level for unattended runs and playbooks designed by `figure-it-out`. Log decisions as you work.
+Start `decision-log` at the light level. Use the full level for unattended runs and playbooks designed by `figure-it-out`. Log decisions as you work.
 
-Implement one unit at a time per [Sequence Work into Verifiable Units](../../principle-sequence-verifiable-units/SKILL.md): state the expected result, make the change, and check the actual result before proceeding. Preserve unrelated work when undoing a failed attempt. Investigate failed checks rather than weakening them. For migrations, declare temporary breakage and checks at phase boundaries per [Outcome-Oriented Execution](../../principle-outcome-oriented-execution/SKILL.md).
+Implement one unit at a time per `principle-sequence-verifiable-units`: state the expected result, make the change, and check the actual result before proceeding. Preserve unrelated work when undoing a failed attempt. Investigate failed checks rather than weakening them. For migrations, declare temporary breakage and checks at phase boundaries per `principle-outcome-oriented-execution`.
 
 Review delegated output yourself. A worker's self-report does not replace required independent review.
 
 ## Finish implementation
 
-When a playbook calls this section, run `deslop` (`../../deslop/SKILL.md`), then `sweep-residue` (`../../sweep-residue/SKILL.md`). If cleanup changes the result, rerun affected checks and update the evidence. Review the decision log and supersede outdated rows as `decision-log` requires.
+When a playbook calls this section, run `deslop`, then `sweep-residue`. If cleanup changes the result, rerun affected checks and update the evidence. Review the decision log and supersede outdated rows as `decision-log` requires.
 
-Deliver the requested result with verification evidence and limits. Use `visual-pr` (`../../visual-pr/SKILL.md`) when the task includes creating or updating a PR. A playbook grants no additional permission to publish, deploy, or expand scope.
+Deliver the requested result with verification evidence and limits. Use `visual-pr` when the task includes creating or updating a PR. A playbook grants no additional permission to publish, deploy, or expand scope.
 
 ## Format
 
@@ -31,7 +31,7 @@ Each playbook is one Markdown file in this directory, named after the task in ke
 1. **Title.** An H1 that names the task.
 2. **Ownership line.** One bold sentence that says what the agent owns and what it does not. For example: **You own the resume point. Read the prior trail, don't redo it.**
 3. **Scope.** State when the playbook applies and which playbook or skill to use instead in nearby cases.
-4. **Steps.** A numbered list. Each step has one main action and names the skill or principle it uses by path, for example `../../principle-prove-it-works/SKILL.md` or the `how` skill (`../../how/SKILL.md`).
+4. **Steps.** A numbered list. Each step has one main action and names the skill or principle it uses, for example `principle-prove-it-works` or `how`. Resolve names using the conventions in the `polaris` skill.
 5. **Reply line.** A paragraph that starts with `**Reply:**` and lists what the final reply must contain.
 
 Add the playbook to the playbook index in `../SKILL.md`, with one line that says when it applies. A playbook missing from the index never runs.
@@ -44,8 +44,8 @@ Playbooks, skills, and principles are read by agents, cold and mid-task. Every s
 
 - **Keep only text that changes a decision.** If removing a sentence would not change what the agent does, remove it.
 - **Say what to do.** Skip the reason unless the rule is confusing without one.
-- **Point, don't restate.** Refer to another skill, principle, or file by path instead of copying its content. Copies drift apart.
-- **Prefer structure to prose.** When a rule can be a script, a type, a lint, or a check, write that instead and point at it (`../../principle-encode-lessons-in-structure/SKILL.md`).
+- **Point, don't restate.** Refer to skills and principles by name, and supporting files by path, instead of copying their content. Copies drift apart.
+- **Prefer structure to prose.** When a rule can be a script, a type, a lint, or a check, write that instead and point at it.
 - **Name things exactly.** Use the real command, path, and file name, not a description of it.
 - **Match the scope.** A narrow task gets a short playbook. Do not add sections for symmetry.
 - **When in doubt, delete.**

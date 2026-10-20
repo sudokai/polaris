@@ -7,11 +7,11 @@ description: "Catch the user up on what changed in this session since their last
 
 Catch the user up on what changed in this session since the last message they wrote before this catch-up, and help them understand each change, not only where it stands. Then lay out every call waiting on them so they can make it from your reply alone. Notifications and subagent results are not their messages. Assume the user remembers their last message and nothing after it.
 
-Use the voice of the `say-it-plainly` skill (`../say-it-plainly/SKILL.md`), not its task: plain words, short sentences, no jargon, like one person catching up another. Say what changed for the user, not how you did it. Say "the tests pass", not "CI is green". Leave out hashes, file paths, commands, build numbers, and test counts unless the user needs one to act. Call each PR, branch, or agent by a name the user would know, not by a label you invented. If a fact needs context to make sense, give the context or leave the fact out.
+Use the voice of the `say-it-plainly` skill, not its task: plain words, short sentences, no jargon, like one person catching up another. Say what changed for the user, not how you did it. Say "the tests pass", not "CI is green". Leave out hashes, file paths, commands, build numbers, and test counts unless the user needs one to act. Call each PR, branch, or agent by a name the user would know, not by a label you invented. If a fact needs context to make sense, give the context or leave the fact out.
 
 ## Gather what changed
 
-Cover this session only. Earlier sessions are the `recall` skill's job (`../recall/SKILL.md`).
+Cover this session only. Earlier sessions are the `recall` skill's job.
 
 Keep this turn read-only. Make visuals only from what you already have: do not change code, start an app or a job, or post anything. Collect your own work since that message, reports from subagents, and messages from anyone else in this session. Check the current state of each PR, CI run, or agent this session touched. Check each number you will show against the facts it comes from, and say so when you correct one.
 
@@ -41,4 +41,4 @@ When something is easier to grasp as a picture than as sentences, draw it: how a
 
 Keep each visual small enough to read at a glance: at most six boxes, with at most eight words in each. Write labels as plain words a person would say, not tags like "Tests: pass". A fact that needs a sentence belongs in the text, or nowhere.
 
-Show screenshots and videos when the change is visible, both inline and as a file path, as `../polaris/references/harnesses.md` describes. If a visible change has none, mark its summary line "No screenshot yet," and say there what changed on screen. Draw diagrams and charts from facts you have, choosing among the views of the `show-me` skill (`../show-me/SKILL.md`): a diagram for how things connect, in Mermaid or plain text as `../polaris/references/harnesses.md` says. Draw a chart for numbers only when the harness can render one. Never invent a number, and never draw or generate a picture of a screen you did not capture. Link only artifacts that exist.
+Show screenshots and videos when the change is visible, both inline and as a file path, as `../polaris/references/harnesses.md` describes. If a visible change has none, mark its summary line "No screenshot yet," and say there what changed on screen. Draw diagrams and charts from facts you have, choosing among the views of the `show-me` skill: a diagram for how things connect, in Mermaid or plain text as `../polaris/references/harnesses.md` says. Draw a chart for numbers only when the harness can render one. Never invent a number, and never draw or generate a picture of a screen you did not capture. Link only artifacts that exist.

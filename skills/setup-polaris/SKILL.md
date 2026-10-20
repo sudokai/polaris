@@ -60,7 +60,7 @@ Show all five kind/level combinations and the separate unclassified allocation w
 
 For **this project**, write `.agents/polaris/models.yaml`. For **every project**, write the current harness's user model settings file from `../polaris/references/locations.md#user-model-settings`; this scope applies only to that harness. Preserve the `harnesses` mapping, other harness sections, and unrelated settings. Omit unchanged defaults; remove a setting when the user resets it so the next scope applies. Do not erase an intentional empty fallback list. Show a diff before writing a user-scope file outside git, as `../polaris/references/locations.md` requires.
 
-For harnesses needing agent definitions, follow **Agent definitions** in `models.md`. Generate one per distinct resolved primary/fallback pair rather than per kind/level. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions, including after a partial prior run, per [Make Operations Idempotent](../principle-make-operations-idempotent/SKILL.md).
+For harnesses needing agent definitions, follow **Agent definitions** in `models.md`. Generate one per distinct resolved primary/fallback pair rather than per kind/level. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions, including after a partial prior run, per `principle-make-operations-idempotent`.
 
 Save overrides and fallback lists nested by kind and level, with `unclassified` as a separate entry, as `models.md` specifies. Merge each kind/level independently; preserve inherited siblings and intentional empty fallback lists. Treat legacy flat category keys as configuration errors rather than silently migrating them.
 
@@ -73,6 +73,6 @@ Report the profile, budget, resolved pairs and sources, paths written, substitut
 Make each offer once, skipping offers the project already has:
 
 - **App verification:** if no `verify-<app>` skill or other scripted way to drive the app exists, offer the Set up verification playbook (`../polaris/playbooks/set-up-verification.md`).
-- **Formal verification:** if no formal verification skill exists, offer `../create-formal-verification-skill/SKILL.md` for a key property worth checking across all states in scope.
+- **Formal verification:** if no formal verification skill exists, offer `create-formal-verification-skill` for a key property worth checking across all states in scope.
 
 Proceed with an offer only when accepted; on no, move on.

@@ -41,4 +41,4 @@ Follow `references/acceptance.md` before calling the skill ready. Return its pat
 
 If the caller schedules acceptance separately, return the files, startup evidence, and prerequisites as a draft. Reuse valid acceptance results for the current files.
 
-For direct invocation, run `deslop` (`../deslop/SKILL.md`), then `sweep-residue` (`../sweep-residue/SKILL.md`) on authored files. Refresh evidence affected by cleanup. Finish the decision log if the task has one.
+For direct invocation, run `deslop`, then `sweep-residue` on authored files. Refresh evidence affected by cleanup. Finish the decision log if the task has one.

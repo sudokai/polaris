@@ -10,12 +10,12 @@ clear plan that can be implemented.
 
 Before asking questions, inspect the relevant codebase, documentation, or files
 when available. Ask only the questions that are the user's to answer: settle the
-rest yourself per [Never Block on the Human](../principle-never-block-on-the-human/SKILL.md)
+rest yourself per `principle-never-block-on-the-human`
 by reading the code, running a small script, or deciding and saying why.
 
 When the discussion uses a term that is vague, overloaded, or at odds with the
 project's `GLOSSARY.md`, challenge it and record the result per the
-`define-domain-language` skill (`../define-domain-language/SKILL.md`).
+`define-domain-language` skill.
 
 Proceed in short rounds:
 
@@ -28,8 +28,8 @@ Resolve prerequisite decisions before dependent ones. Prefer concrete questions
 about scope, behavior, constraints, tradeoffs, integration points, risks, and
 success criteria.
 
-- **A product, UX, or feature-scope tradeoff** → recommend per [Experience First](../principle-experience-first/SKILL.md).
-- **A new requirement that the current design does not fit** → recommend per [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md).
+- **A product, UX, or feature-scope tradeoff** → recommend per `principle-experience-first`.
+- **A new requirement that the current design does not fit** → recommend per `principle-redesign-from-first-principles`.
 
 Continue until the plan is clear enough to implement. Then summarize:
 

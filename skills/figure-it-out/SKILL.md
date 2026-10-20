@@ -10,26 +10,26 @@ Design a playbook when no bundled or local one fits, using `../polaris/playbooks
 
 ## 1. Define the task
 
-Check the Playbooks index in `../polaris/SKILL.md` and local playbooks in `../polaris/references/locations.md`. Consult relevant principles without restarting routing. Reuse source evidence; use `how` (`../how/SKILL.md`) for gaps. State:
+Check the Playbooks index in the `polaris` skill and local playbooks in `../polaris/references/locations.md`. Consult relevant principles without restarting routing. Reuse source evidence; use `how` for gaps. State:
 
-- The outcome and a falsifiable completion condition, per [Prove It Works](../principle-prove-it-works/SKILL.md).
+- The outcome and a falsifiable completion condition, per `principle-prove-it-works`.
 - Scope, constraints, rough units of work, and blockers.
 - The risks, uncertainties, required independent review, and evidence needed for each phase.
 
-Before a multi-hour run, present the scope and approach at one checkpoint. Reuse existing approval. Make reversible engineering decisions per [Never Block on the Human](../principle-never-block-on-the-human/SKILL.md).
+Before a multi-hour run, present the scope and approach at one checkpoint. Reuse existing approval. Make reversible engineering decisions per `principle-never-block-on-the-human`.
 
 ## 2. Design the playbook
 
 Give each numbered step an outcome, method or skill, inputs, and required evidence. State what passes between steps and what the final reply must show.
 
-- Investigate the most serious unknown first. Establish checks and capture baselines before changing behavior. Put foundations before features per [Foundational Thinking](../principle-foundational-thinking/SKILL.md).
-- Include `architect` (`../architect/SKILL.md`) for substantial program, system, product, or foundational design. Reuse a design that covers the work; do not schedule competing designs for routine implementation per [Laziness Protocol](../principle-laziness-protocol/SKILL.md).
-- Prefer a rerunnable tool to manual or delegated execution when it can do or prove the work, per [Build the Lever](../principle-build-the-lever/SKILL.md).
-- Delegate parallel work only when assignments can proceed independently. Give each worker its own worktree or scratch directory per [Separate Before Serializing Shared State](../principle-separate-before-serializing-shared-state/SKILL.md). For delegated implementation, assign an independent reviewer using `../polaris/references/models.md` and state what evidence to inspect. Do not add a reviewer solely for read-only extraction.
-- Define verifiable units and any planned migration boundaries. Require `decision-log` (`../decision-log/SKILL.md`) at the full level and use the shared implementation and completion rules instead of copying them.
-- Define final checks on the actual result with `prove-it` (`../prove-it/SKILL.md`). Include prevention for recurring mistakes only within scope, per [Encode Lessons in Structure](../principle-encode-lessons-in-structure/SKILL.md).
+- Investigate the most serious unknown first. Establish checks and capture baselines before changing behavior. Put foundations before features per `principle-foundational-thinking`.
+- Include `architect` for substantial program, system, product, or foundational design. Reuse a design that covers the work; do not schedule competing designs for routine implementation per `principle-laziness-protocol`.
+- Prefer a rerunnable tool to manual or delegated execution when it can do or prove the work, per `principle-build-the-lever`.
+- Delegate parallel work only when assignments can proceed independently. Give each worker its own worktree or scratch directory per `principle-separate-before-serializing-shared-state`. For delegated implementation, assign an independent reviewer using `../polaris/references/models.md` and state what evidence to inspect. Do not add a reviewer solely for read-only extraction.
+- Define verifiable units and any planned migration boundaries. Require `decision-log` at the full level and use the shared implementation and completion rules instead of copying them.
+- Define final checks on the actual result with `prove-it`. Include prevention for recurring mistakes only within scope, per `principle-encode-lessons-in-structure`.
 
-Write with [technical-writing](../technical-writing/SKILL.md). Preserve the playbook format.
+Write with `technical-writing`. Preserve the playbook format.
 
 Save the playbook with the task's working files under an unused descriptive name. Preserve existing plans and make links resolve from the saved file. Do not install it as a permanent playbook or add it to the bundled index.
 

@@ -14,23 +14,23 @@ Review the completed workpackage and simplify its implementation without changin
 
 ## What to remove or simplify
 
-- Decide what to cut first per [Subtract Before You Add](../principle-subtract-before-you-add/SKILL.md), and resist new abstractions or layers per [Laziness Protocol](../principle-laziness-protocol/SKILL.md).
-- Shape code that is hard to trace per [Minimize Reader Load](../principle-minimize-reader-load/SKILL.md).
-- When an old internal API remains next to its replacement, move its callers and delete it, per [Migrate Callers Then Delete Legacy APIs](../principle-migrate-callers-then-delete-legacy-apis/SKILL.md).
+- Decide what to cut first per `principle-subtract-before-you-add`, and resist new abstractions or layers per `principle-laziness-protocol`.
+- Shape code that is hard to trace per `principle-minimize-reader-load`.
+- When an old internal API remains next to its replacement, move its callers and delete it, per `principle-migrate-callers-then-delete-legacy-apis`.
 - Remove abstractions that have no clear responsibility or do not reduce real complexity.
 - Inline trivial helpers, wrappers, adapters, and pass-through layers when they obscure rather than clarify behavior.
 - Remove duplicated logic and put shared behavior at the appropriate existing layer.
 - Remove speculative flexibility, configuration, extension points, and generic machinery that have no current requirement.
 - Remove speculative defensive programming inside trusted code. Validate at real trust boundaries; rely on types and established invariants internally.
 - Do not keep fallback behavior for states that should be impossible. Prefer fixing the invariant or type model.
-- Simplify excessive state, boolean flags, branching, indirection, and special cases. Choose a representation that encodes the domain rules per [Model the Domain](../principle-model-the-domain/SKILL.md).
-- Tighten types so invalid states are unrepresentable, per [Type System Discipline](../principle-type-system-discipline/SKILL.md). Avoid escape hatches such as `any`, unnecessary casts, broad types, and optional fields for impossible states.
+- Simplify excessive state, boolean flags, branching, indirection, and special cases. Choose a representation that encodes the domain rules per `principle-model-the-domain`.
+- Tighten types so invalid states are unrepresentable, per `principle-type-system-discipline`. Avoid escape hatches such as `any`, unnecessary casts, broad types, and optional fields for impossible states.
 - Prefer direct, readable code over cleverness, premature abstraction, and framework-like infrastructure.
 - Delete comments that merely restate the code, but preserve comments that explain constraints, intent, or non-obvious decisions.
 
 ## Simplify tests without weakening coverage
 
-Check the tests added or affected by the workpackage with the `no-change-detector-tests` skill (`../no-change-detector-tests/SKILL.md`). Do not delete a failing test just to make the suite pass.
+Check the tests added or affected by the workpackage with the `no-change-detector-tests` skill. Do not delete a failing test just to make the suite pass.
 
 ## Approval gate for significant removals
 
@@ -74,4 +74,4 @@ After editing, review the final diff for avoidable complexity, duplication, indi
 
 Passing tests and type checks is necessary but not sufficient. Leave the affected code easier to understand and change.
 
-Then run the `sweep-residue` skill (`../sweep-residue/SKILL.md`) on the same work.
+Then run the `sweep-residue` skill on the same work.

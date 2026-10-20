@@ -5,7 +5,7 @@ description: "Disciplined diagnosis loop for hard bugs and performance regressio
 
 # Diagnose
 
-A discipline for hard bugs. Skip phases only when explicitly justified. [Fix Root Causes](../principle-fix-root-causes/SKILL.md) says what counts as the cause. This skill is the loop that finds it.
+A discipline for hard bugs. Skip phases only when explicitly justified. `principle-fix-root-causes` says what counts as the cause. This skill is the loop that finds it.
 
 For investigation-only requests, report the cause and proposed fix without changing product code. For fix requests, complete the fix, checks, and cleanup, whether called directly or from another skill or playbook.
 
@@ -88,11 +88,11 @@ Tool preference:
 
 **Tag every debug log** with a unique prefix, e.g. `[DEBUG-a4f2]`. Cleanup at the end becomes a single grep. Untagged logs survive; tagged logs die.
 
-**Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measurement (timing harness, `performance.now()`, profiler, query plan), then bisect. Measure first, fix second. Before you trust a timing, explain it per [Explain the Number](../principle-explain-the-number/SKILL.md).
+**Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measurement (timing harness, `performance.now()`, profiler, query plan), then bisect. Measure first, fix second. Before you trust a timing, explain it per `principle-explain-the-number`.
 
-**Retry branch.** When the bug appears only after a crash, retry, or rerun, check whether the operation is safe to repeat, per [Make Operations Idempotent](../principle-make-operations-idempotent/SKILL.md).
+**Retry branch.** When the bug appears only after a crash, retry, or rerun, check whether the operation is safe to repeat, per `principle-make-operations-idempotent`.
 
-**Race branch.** When the bug is intermittent and two actors might write the same file, branch, key, or state object, remove the shared write target before adding a lock, per [Separate Before Serializing Shared State](../principle-separate-before-serializing-shared-state/SKILL.md).
+**Race branch.** When the bug is intermittent and two actors might write the same file, branch, key, or state object, remove the shared write target before adding a lock, per `principle-separate-before-serializing-shared-state`.
 
 **Process-env mystery branch.** When a value that should be stable turns out wrong in a long-lived process (cwd, PATH, HOME, a config env var), suspect an *import-time side effect*: find out which module the process imports that writes `os.environ`. `os.environ.__setitem__` is C-level and fires no audit hook, so a sampling thread that polls the value and dumps `sys._current_frames()` stacks on the first change is the cheap way to catch the writer red-handed; a probe around the RPC/handler boundary alone will miss writers on other threads.
 
@@ -104,7 +104,7 @@ A correct seam is one where the test exercises the **real bug pattern** as it oc
 
 **If no correct seam exists, that itself is the finding.** Note it. The codebase architecture is preventing the bug from being locked down. Flag this for the next phase.
 
-If a correct seam exists, run one red-green cycle of the `tdd` skill (`../tdd/SKILL.md`):
+If a correct seam exists, run one red-green cycle of the `tdd` skill:
 
 1. Turn the minimised repro into a failing test at that seam.
 2. Watch it fail.
@@ -112,7 +112,7 @@ If a correct seam exists, run one red-green cycle of the `tdd` skill (`../tdd/SK
 4. Watch it pass.
 5. Re-run the Phase 1 feedback loop against the original (un-minimised) scenario.
 
-**A second fix fails the same check** → stop fixing and test the premise the fixes share, per [Attack the Premise](../principle-attack-the-premise/SKILL.md).
+**A second fix fails the same check** → stop fixing and test the premise the fixes share, per `principle-attack-the-premise`.
 
 ## Phase 6 — Remove probes and hand back findings
 
@@ -126,6 +126,6 @@ After a fix, confirm before handing it back:
 
 For investigation only, remove temporary probes and report the reproduction, cause, evidence, and proposed fix. Post-fix checks do not apply.
 
-After fixing the bug, consider how to prevent a repeat. For investigation only, do this once the cause is established. Propose architectural changes separately, with specifics. For repeated agent mistakes, recommend `correct` (`../correct/SKILL.md`); run it only if already authorized.
+After fixing the bug, consider how to prevent a repeat. For investigation only, do this once the cause is established. Propose architectural changes separately, with specifics. For repeated agent mistakes, recommend `correct`; run it only if already authorized.
 
-For a direct fix request, run `deslop` (`../deslop/SKILL.md`), then `sweep-residue` (`../sweep-residue/SKILL.md`). Rerun checks affected by cleanup. If the task has a decision log, finish it with `decision-log` (`../decision-log/SKILL.md`). Report the cause, fix, reproduction evidence, regression result, prevention recommendation, and limits. When called from another workflow, return these results for reuse.
+For a direct fix request, run `deslop`, then `sweep-residue`. Rerun checks affected by cleanup. If the task has a decision log, finish it with `decision-log`. Report the cause, fix, reproduction evidence, regression result, prevention recommendation, and limits. When called from another workflow, return these results for reuse.

@@ -1,6 +1,6 @@
 # Measured numbers
 
-Use this when the claim is a performance number: a PR's before and after, a regression claim, a measurement harness, or a library or config choice. [Explain the Number](../../principle-explain-the-number/SKILL.md) says why. Answer each question with evidence from a run, not a guess about the code.
+Use this when the claim is a performance number: a PR's before and after, a regression claim, a measurement harness, or a library or config choice. `principle-explain-the-number` says why. Answer each question with evidence from a run, not a guess about the code.
 
 For a quick ballpark the user asked for, one run is enough. Still check questions 4 and 7, and say that it is one run. Skip the rest unless that run looks wrong. A choice between options is never a ballpark.
 

@@ -10,7 +10,7 @@ Keep one canonical log while you implement.
 ## Levels
 
 - **Light**, the default: keep the log, follow **When to log**, and do **Wrap up**.
-- **Full**: also do **Audit the log against the transcript** and **Cross-model review of the trail** before you hand back. Use it for unattended runs, for work that the `figure-it-out` skill (`../figure-it-out/SKILL.md`) designs, and when the user asks for an audit trail.
+- **Full**: also do **Audit the log against the transcript** and **Cross-model review of the trail** before you hand back. Use it for unattended runs, for work that the `figure-it-out` skill designs, and when the user asks for an audit trail.
 
 ## When to log
 
@@ -20,7 +20,7 @@ When an edge case forces you off the plan, or the plan is silent or ambiguous an
 2. Log it. Use kind `deviation` when the plan said one thing and you did another, and say both in `why`. Use kind `decision` when the plan was silent.
 3. Keep going. Stop to ask only when the choice is irreversible or has a large blast radius, such as data loss, a public API, or security.
 
-Also log checkpoints: a unit completed with its verification result, a pivot or revert with its trigger, a blocker surfaced, a gate fixed. For loop runs, log one row per iteration. Draw unit boundaries per [Sequence Work into Verifiable Units](../principle-sequence-verifiable-units/SKILL.md), and phase boundaries in a planned rewrite or migration per [Outcome-Oriented Execution](../principle-outcome-oriented-execution/SKILL.md). Skip trivial choices, such as variable names or obvious error messages.
+Also log checkpoints: a unit completed with its verification result, a pivot or revert with its trigger, a blocker surfaced, a gate fixed. For loop runs, log one row per iteration. Draw unit boundaries per `principle-sequence-verifiable-units`, and phase boundaries in a planned rewrite or migration per `principle-outcome-oriented-execution`. Skip trivial choices, such as variable names or obvious error messages.
 
 ## The format
 
@@ -63,7 +63,7 @@ Commit it only when the work is ambitious enough that a reviewer needs the trail
 ## Rules
 
 - Append-only. A wrong call gets a new row that supersedes it. Never edit or delete history.
-- Prefer evidence produced by committed scripts over hand-made one-offs ([Build the Lever](../principle-build-the-lever/SKILL.md)).
+- Prefer evidence produced by committed scripts over hand-made one-offs (`principle-build-the-lever`).
 
 ## Wrap up
 
