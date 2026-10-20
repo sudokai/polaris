@@ -86,7 +86,8 @@ Capability tokens are ordinary types and work the same way in each language.
 In Python and JavaScript, the rules in this section hold only if a type checker runs in CI: mypy or
 pyright for Python; TypeScript with `checkJs` or `// @ts-check` for JavaScript. Without
 one, nothing enforces them. Validate at runtime boundaries instead (wrapper classes,
-pydantic, Zod), and rely more on the doc comments in section 3.
+pydantic, Zod), and rely more on the doc comments in section 3. Place that validation and
+its error handling per [Boundary Discipline](../polaris/principles/boundary-discipline.md).
 
 ## 3. Say it where the search lands
 

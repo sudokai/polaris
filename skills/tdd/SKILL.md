@@ -46,6 +46,7 @@ Before writing any code:
 - [ ] List the behaviors to test (not implementation steps), most important first
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
+- [ ] Name the core types and data structures first, per [Foundational Thinking](../polaris/principles/foundational-thinking.md)
 
 Decide who makes each of these calls per [Never Block on the Human](../polaris/principles/never-block-on-the-human.md). Internal interfaces and which behaviors to test are yours: decide, state the plan in a few lines, and start. A public API is the user's to judge, so show its sketch first. A change of scope is a product call, so ask.
 
@@ -79,10 +80,12 @@ Rules:
 - Only enough code to pass current test
 - Don't anticipate future tests
 - Keep tests focused on observable behavior
+- Make each cycle a unit you can verify and commit on its own, per [Sequence Work into Verifiable Units](../polaris/principles/sequence-verifiable-units.md)
+- When the next steps repeat the same edit, write the script or codemod that makes it, per [Build the Lever](../polaris/principles/build-the-lever.md)
 
 ### 4. Refactor
 
-After all tests pass, look for [refactor candidates](refactoring.md):
+After all tests pass, look for [refactor candidates](refactoring.md). Remove before you add, per [Subtract Before You Add](../polaris/principles/subtract-before-you-add.md), and add an abstraction only when it pays for itself, per [Laziness Protocol](../polaris/principles/laziness-protocol.md):
 
 - [ ] Extract duplication
 - [ ] Deepen modules (move complexity behind simple interfaces)

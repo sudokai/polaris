@@ -28,6 +28,9 @@ Resolve prerequisite decisions before dependent ones. Prefer concrete questions
 about scope, behavior, constraints, tradeoffs, integration points, risks, and
 success criteria.
 
+- **A product, UX, or feature-scope tradeoff** → recommend per [Experience First](../polaris/principles/experience-first.md).
+- **A new requirement that the current design does not fit** → recommend per [Redesign from First Principles](../polaris/principles/redesign-from-first-principles.md).
+
 Continue until the plan is clear enough to implement. Then summarize:
 
 - agreed decisions

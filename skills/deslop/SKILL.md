@@ -14,6 +14,9 @@ Review the completed workpackage and simplify its implementation without changin
 
 ## What to remove or simplify
 
+- Decide what to cut first per [Subtract Before You Add](../polaris/principles/subtract-before-you-add.md), and resist new abstractions or layers per [Laziness Protocol](../polaris/principles/laziness-protocol.md).
+- Shape code that is hard to trace per [Minimize Reader Load](../polaris/principles/minimize-reader-load.md).
+- When an old internal API remains next to its replacement, move its callers and delete it, per [Migrate Callers Then Delete Legacy APIs](../polaris/principles/migrate-callers-then-delete-legacy-apis.md).
 - Remove abstractions that have no clear responsibility or do not reduce real complexity.
 - Inline trivial helpers, wrappers, adapters, and pass-through layers when they obscure rather than clarify behavior.
 - Remove duplicated logic and put shared behavior at the appropriate existing layer.
