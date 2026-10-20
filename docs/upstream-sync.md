@@ -1,6 +1,6 @@
 # Syncing from pstack
 
-polaris ports changes from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by hand. To find what is new, list the pstack commits after the last synced commit:
+polaris ports changes from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by hand. Run `/sync-pstack` (`.agents/skills/sync-pstack/SKILL.md`) to review new commits, port the approved ones, and update this file. To find what is new by hand, list the pstack commits after the last synced commit:
 
 ```sh
 git log --oneline <last synced commit>..origin/main -- pstack
