@@ -10,8 +10,8 @@ Read this file in full before any work. It routes the task to a playbook or a sk
 ## For each new task
 
 1. If the user says "new task", or the subject changes, match again. Do not continue the previous playbook.
-2. Match the task to a playbook in **Playbooks**, or to a local playbook. If one matches, run it as `playbooks/README.md` describes.
-3. If no playbook matches, work directly from the principles and the triggers below. Route large or cross-cutting work to the `figure-it-out` skill (`../figure-it-out/SKILL.md`).
+2. Match the requested outcome to a playbook in **Playbooks**, or to a local playbook. Requests only for explanation, investigation, discussion, design, or a prototype stay with the relevant skill. If a playbook matches, run it as `playbooks/README.md` describes; its steps own the task's sequence and completion.
+3. If no playbook fits, work directly from the principles and triggers below for a narrow task. Use `figure-it-out` (`../figure-it-out/SKILL.md`) to design a task-specific playbook for work needing additional coordination. Size alone does not disqualify an existing playbook.
 4. Before you apply a principle, read the linked `principle-<slug>` skill in full. The user can run that same skill by name.
 
 ## Triggers
@@ -39,7 +39,7 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 - **A race, a retry, a state machine, or another property that tests rarely reach** → the `create-formal-verification-skill` skill (`../create-formal-verification-skill/SKILL.md`).
 - **Code that a formal check covers changed after the check's sync commit** → the `maintain-formal-verification-skill` skill (`../maintain-formal-verification-skill/SKILL.md`).
 - **The user corrects a mistake that agents have made before** → the `correct` skill (`../correct/SKILL.md`). Make the mistake impossible instead of writing another rule.
-- **Large or cross-cutting work**, or work the user will review after stepping away → the `figure-it-out` skill (`../figure-it-out/SKILL.md`), with a full-level log from the `decision-log` skill (`../decision-log/SKILL.md`).
+- **No existing playbook fits work that needs coordination across several capabilities** → `figure-it-out` (`../figure-it-out/SKILL.md`). It designs a task-specific playbook for execution under `playbooks/README.md`. For unattended work, use a full-level `decision-log` (`../decision-log/SKILL.md`) even when an existing playbook fits.
 - **About to ask "which approach?", "what should this do?", or "should I do X?"** → decide who makes the call, per [Never Block on the Human](../principle-never-block-on-the-human/SKILL.md). Most calls are yours: read the code, run the smallest throwaway script, or decide and say why. A person judges how a state model, a public API, or a screen feels, through the `prototype` skill (`../prototype/SKILL.md`). Ask the user only for a product or preference call, or before an action you cannot undo.
 - **Asked to catch up on recent work** → the `recall` skill (`../recall/SKILL.md`). To resume one specific session → the Session pickup playbook.
 - **The user comes back after stepping away, or asks "where are we?"** → the `ketchup` skill (`../ketchup/SKILL.md`).
@@ -96,9 +96,14 @@ Read a principle skill in full before you apply it. Each entry says when it appl
 
 Run a matched playbook as `playbooks/README.md` describes: copy its steps into the todo list verbatim, and keep skipped steps with `skip: <reason>`. Also match the local playbooks in `.agents/polaris/playbooks/` in the project root and in `~`, as `references/locations.md` describes.
 
+- **Feature development.** Add or change intended behavior, from understanding through design, implementation, proof, and delivery. `playbooks/feature-development.md`.
+- **Bug fix.** Fix a reported failure or performance regression, using diagnose's reproduction and fix as input to final verification. `playbooks/bug-fix.md`.
+- **Refactor.** Change code structure while proving that agreed behavior and external contracts remain unchanged. `playbooks/refactor.md`.
 - **Set up verification.** The project has no scripted way to launch its app, drive a feature, and capture evidence. `playbooks/set-up-verification.md`.
 - **Session pickup.** Resume or take over another agent's unfinished work from a transcript, a branch, or a resume note. `playbooks/session-pickup.md`.
 - **Pause safely.** Stop in-flight work cleanly so that another session can resume it. `playbooks/pause-safely.md`.
+
+Explicit pause, pickup, and verification-setup requests use their specific playbooks. A missing harness discovered during feature or refactor work is a nested verification step, not a replacement for the original task. Planning-only requests do not authorize implementation.
 
 ## Autonomy
 

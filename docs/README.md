@@ -30,3 +30,4 @@ The working contracts live with the skills: `skills/polaris/references/locations
 18. [Select models by assignment kind and level](adr/0018-assignment-kind-and-level.md)
 19. [`sharpen` returns a rewritten prompt and does not do the task](adr/0019-sharpen-returns-a-rewritten-prompt.md)
 20. [Principles are hidden skills](adr/0020-principles-are-hidden-skills.md), replacing 2
+21. [Playbooks own task delivery; skills own capability methods](adr/0021-playbooks-own-task-delivery.md)

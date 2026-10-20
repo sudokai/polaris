@@ -5,13 +5,14 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 ## What's inside
 
 - **Router:** `skills/polaris/`, with playbooks in `playbooks/`, model budgets in `references/models.md`, and per-harness facts in `references/harnesses.md`.
+- **Playbooks:** feature development, bug fixes, refactoring, verification setup, session pickup, and safe pauses. Playbooks own the sequence and delivery; skills own each capability's method and output; principles guide decisions.
 - **Principles:** 24 hidden skills named `principle-<slug>`, such as `principle-prove-it-works`. Run the skill to apply that rule. The router indexes the same skills.
 - **Mapping:** `how`, `why`, `walkthrough`, and `blast-radius`.
 - **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, and `prove-it`.
 - **Debugging and tests:** `diagnose`, `tdd`, and `fix-change-detector-tests`.
 - **Design and correction:** `discuss`, `domain-modeling`, `architect`, `prototype`, `show-me`, and `correct`.
 - **Writing and finishing code:** `write-discoverable-code`, `deslop`, `sweep-residue`, and `visual-pr`.
-- **Large work:** `figure-it-out` and `decision-log`.
+- **Task-specific playbooks and decisions:** `figure-it-out` designs a playbook when none fits; `decision-log` records decisions during execution.
 - **Learning from history:** `reflect` and `recall`.
 - **Conversation:** `ketchup`, `restate-my-intent`, `sharpen`, and `say-it-plainly`.
 - **Setup and help:** `setup-polaris` and `polaris-help`.
@@ -33,6 +34,8 @@ To install or refresh it in every harness on your machine, run the repository's 
 ## Use
 
 Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you want.
+
+For implementation, the router selects the feature-development, bug-fix, or refactor playbook. Steps reuse prior findings and valid evidence, and call only the skills the task needs. A design-only request returns a design; it does not start implementation. `figure-it-out` creates a task-specific playbook when existing ones do not fit. The shared execution and completion rules live in [`skills/polaris/playbooks/README.md`](skills/polaris/playbooks/README.md).
 
 Run `/setup-polaris` to select a provider profile, a budget (medium by default), and optional fixed kind/level overrides. Assignments have a kind (`reasoning` or `execution`) and a level within that kind. Profiles select model–effort pairs for those assignments; they do not change the main conversation's model. Project configuration is saved in `.agents/polaris/models.yaml`. User configuration goes in the current harness's config directory, such as `~/.codex/polaris/models.yaml`. Hermes retains its existing delegation settings. For help with polaris itself, run `/polaris-help` with a question.
 

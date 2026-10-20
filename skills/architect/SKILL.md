@@ -1,12 +1,12 @@
 ---
 name: architect
-description: "Design before implementation for any substantial work shaping a program, system, product, or codebase foundations: types, interfaces, ownership, and module structure. Use for /architect, 'architect this', or 'design this', even when the approach seems clear."
+description: "Design and review substantial program, system, product, or codebase foundations: types, interfaces, ownership, and modules. Return the design and revise it when evidence shows it no longer fits. Use for /architect, 'architect this', or 'design this', even when the approach seems clear."
 disable-model-invocation: true
 ---
 
 # Architect
 
-Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Scale independent review to the uncertainty and consequences, then fill in code against the chosen sketch.
+Sketch types, function signatures, classes, and module boundaries with `not implemented` bodies and pseudocode. Choose independent review based on uncertainty and consequences. Return the design to the user or coordinating agent, which continues any further work requested.
 
 Use this skill for any substantial body of work involving program, system, or product design, including foundational types, interfaces, ownership, and module structure. Scope and design significance determine when to use it; uncertainty and consequences determine the independent review needed. A clear approach still needs deliberate design. Reuse an existing design when it covers the work; routine implementation within that design does not need another design round.
 
@@ -17,8 +17,8 @@ Open a todolist with one entry per phase before starting.
 1. Ground
 2. Sketch
 3. Agree
-4. Implement
-5. Scrap
+4. Hand off
+5. Revisit when needed
 
 ## Phase A: Ground the problem
 
@@ -62,19 +62,21 @@ If independent review is required but unavailable, report the limitation and ask
 
 ## Phase C: Agree (opt-in)
 
-Default: proceed directly to implementation with the synthesized design. No human checkpoint.
+Return the design without a checkpoint unless requested. If the user also requested implementation, the invoking agent continues directly or through a playbook. Otherwise, stop at the design.
 
 Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint," "stop and show me before implementing," or similar. Then surface the synthesized design, drawn with the views of the `show-me` skill (`../show-me/SKILL.md`), and pause for sign-off. If the sketch is a state model or an API, offer a prototype that the user can drive, per the `prototype` skill (`../prototype/SKILL.md`), and build it only on yes.
 
-The synthesis can ship as its own commit either way, as the "scaffold first" mode of [Foundational Thinking](../principle-foundational-thinking/SKILL.md). Planned and scoped breakage during fill-in is fine, per [Outcome-Oriented Execution](../principle-outcome-oriented-execution/SKILL.md).
+The sketch may be a separate scaffold commit per [Foundational Thinking](../principle-foundational-thinking/SKILL.md). Whoever implements it declares planned breakage and runs the implementation checks.
 
-If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before writing more code.
+If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before handing back another design.
 
-## Phase D: Implement against the sketch
+## Phase D: Hand off the design
 
-Replace `not implemented` bodies with code, pseudocode with logic. The synthesized sketch is the contract. Deviations from it are signal to surface, not friction to absorb silently. If a function needs a parameter the sketch didn't anticipate, ask whether the sketch was wrong, the requirement was missed, or the implementation is overreaching.
+Return the sketch, rationale, constraints, invariants, open questions, and first implementation step. State which review ran and its limits. Treat the design as the implementation contract.
 
-## Phase E: Scrap when the architecture is wrong
+If implementation needs an unexpected parameter or other deviation, inspect the mismatch. Decide whether the design missed a requirement, constraints changed, or implementation exceeds scope. Revise the design when needed and explain why.
+
+## Phase E: Revisit when the architecture is wrong
 
 If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md) and [Fix Root Causes](../principle-fix-root-causes/SKILL.md).
 
@@ -85,7 +87,7 @@ The signal is a *pattern*, not single instances. Tells:
 - Types that need escape hatches (`any`, casts, optional fields always set in practice) to compile.
 - The "we need a lock" reflex when the sketch said the state wasn't shared.
 - Callers having to know the abstraction's internal rules to use it.
-- Two or more independent Phase D deviations of the same shape across the implementation.
+- Two or more independent deviations of the same shape across the implementation.
 
 Use judgment. A few edge cases don't condemn an architecture. Some problems are legitimately complex. Complexity in the data is not complexity in the design.
 

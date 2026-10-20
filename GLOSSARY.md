@@ -11,7 +11,7 @@ The `polaris` skill. It matches each task to a playbook or a skill and indexes t
 _Avoid_: mode, router mode, main skill
 
 **Skill**:
-A directory with a `SKILL.md` that tells an agent how to do one kind of task.
+A directory with a `SKILL.md` that defines the method, decisions, and output for one capability. A skill may use other skills; its caller owns the surrounding task.
 
 **Agent-invocable skill**:
 A bundled skill that an agent can start on its own, without `/polaris`. It meets three conditions: it is useful without the router, it is cheap (no fan-out of subagents, no writes beyond the task), and the user wants it in sessions that did not start with `/polaris`. `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py` lists them.
@@ -31,7 +31,7 @@ A short rule for one kind of decision, shipped as a hidden skill named `principl
 _Avoid_: principle file, task skill
 
 **Playbook**:
-A fixed sequence of steps for one kind of task, naming the skills and principles each step uses.
+A sequence of steps that owns a task's handoffs, completion checks, and delivery, naming the skills and principles each step uses. A playbook may be reusable or designed for one task.
 _Avoid_: workflow, recipe
 
 **Trigger**:

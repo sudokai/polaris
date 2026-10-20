@@ -10,7 +10,7 @@ Every serious project needs a scripted way to drive the real app and prove behav
 
 ## 1. Interview the repo, not the user
 
-Answer these from the codebase and only ask the user what you cannot observe:
+Reuse source-backed findings from the caller. Answer only the gaps below from the codebase, and ask the user only what you cannot observe:
 
 - **Surface:** what does a user actually touch? A web UI, a CLI/TUI, a desktop app, an API, a mobile app, a library? A repo can have several; pick the primary one and note the rest.
 - **Run:** how does the app start locally? Prefer the repo's own documented dev command (package scripts, Makefile, README quickstart). Note ports, env vars, seed data, auth.
@@ -18,7 +18,7 @@ Answer these from the codebase and only ask the user what you cannot observe:
 - **Observe:** what evidence can be captured? Screenshots, terminal transcripts, response bodies, logs, exit codes, DB state.
 - **Isolate:** can two instances run side by side (ports, data dirs, profiles)? If not, say so in the generated skill: refusing to double-drive a shared instance beats corrupting the user's session.
 
-If the checkout doesn't build or start as-is, fix that first (or report it precisely) before generating; a skill written against a broken base teaches wrong steps. When an irrelevant missing asset blocks startup (a static dir the API never serves, a sample config), the generated skill may create it, clearly marked as verification scaffolding, and remove it in cleanup.
+Use the caller's build and startup evidence when it still describes this checkout. If none exists, establish that baseline before generating; fix startup within scope or report what blocks it. When an irrelevant missing asset blocks startup (a static dir the API never serves, a sample config), the generated skill may create it, clearly marked as verification scaffolding, and remove it in cleanup.
 
 ## 2. Generate the skill
 
@@ -35,10 +35,10 @@ Write `verify-<app>/SKILL.md` in the project skill directory that `../polaris/re
 
 Create `verify-<app>/features/README.md` plus one file per user-facing feature you can identify (aim for the top 3-5 to start, from routes, commands, menus, or docs). Follow the shape in [`references/feature-map-example/`](references/feature-map-example/), with a README index and one file per feature. Each file answers, from the user's point of view: what the feature is, how to reach it, how to drive it with the harness, and what observable end state proves it works. The four H2s are `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>`, and `Gotchas`. If the seed data lacks a precondition that a journey needs, the journey reports a failure and the reason goes in that feature's `Gotchas`. Never weaken the journey to make it pass. The map is the repo's maintained verification source; a proof that drives one convenient entry point is incomplete when the map lists others.
 
-## 4. Prove the generated skill before handing it over
+## 4. Accept the generated skill
 
-Run its own instructions end to end once: launch, doctor, drive ONE mapped feature (one is enough; the map exists so later runs can cover the rest), capture evidence, clean up. After cleanup, confirm the evidence still exists at the named location — a cleanup that eats the proof fails this step. Fix what fails, and run the generated cleanup after every failed iteration too, so broken attempts don't strand processes and ports. A generated skill that was never executed is a draft, not a deliverable. If you proved it in a stand-in for the real target (a container in place of a fresh VM, a local stack in place of a remote one), list every setup step the stand-in did that the target will not. Those steps stay unverified until a run on the real target covers them.
+Follow `references/acceptance.md` before calling the skill ready. Return its path, feature map, commands, verdict, evidence, missing prerequisites, and unverified behavior.
 
-## 5. Offer the maintenance loop
+If the caller schedules acceptance separately, return the files, startup evidence, and prerequisites as a draft. Reuse valid acceptance results for the current files.
 
-Point the user at `/maintain-verification-skill` for keeping the map honest as the app changes. Suggest a cadence only if they ask.
+For direct invocation, run `deslop` (`../deslop/SKILL.md`), then `sweep-residue` (`../sweep-residue/SKILL.md`) on authored files. Refresh evidence affected by cleanup. Finish the decision log if the task has one.

@@ -1,53 +1,38 @@
 ---
 name: figure-it-out
-description: "Design an auditable playbook when no narrower one fits: a large migration, an ambitious multi-part change, or work a human reviews after stepping away. Scales rigor to the task, runs a hypothesis loop, and logs decisions. Use for /figure-it-out or 'figure it out'."
+description: "Design a playbook when none fits a migration, multi-part change, or other task needing coordination. Define steps and checks, then execute under the shared playbook rules when authorized. Use for /figure-it-out or 'figure it out'."
 disable-model-invocation: true
 ---
 
 # Figure it out
 
-When the task matches no playbook, design one. The deliverable before any code is the workflow itself: a sequence of phases that scales rigor to the task, runs the scientific method, and leaves a decision trail a human can audit after stepping away.
+Design a playbook when no bundled or local one fits, using `../polaris/playbooks/README.md` for its format and execution rules. Reuse an existing playbook when it fits, regardless of task size.
 
-## Start
+## 1. Define the task
 
-Open a todolist whose first item is to read the Principles section of the `polaris` skill. Then add the phases below as todos.
+Check the Playbooks index in `../polaris/SKILL.md` and local playbooks in `../polaris/references/locations.md`. Consult relevant principles without restarting routing. Reuse source evidence; use `how` (`../how/SKILL.md`) for gaps. State:
 
-## Phase A: Frame
+- The outcome and a falsifiable completion condition, per [Prove It Works](../principle-prove-it-works/SKILL.md).
+- Scope, constraints, rough units of work, and blockers.
+- The risks, uncertainties, required independent review, and evidence needed for each phase.
 
-Ground first, then commit. Don't start the run until you can state:
+Before a multi-hour run, present the scope and approach at one checkpoint. Reuse existing approval. Make reversible engineering decisions per [Never Block on the Human](../principle-never-block-on-the-human/SKILL.md).
 
-- The definition of done as a falsifiable predicate ([Prove It Works](../principle-prove-it-works/SKILL.md)).
-- Scope, quantified: rough units and effort, plus the blockers grounding surfaced.
-- The rigor level, biased high. One-way doors and high blast radius get more. Reversible low-stakes steps get less. Rigor is gates and artifacts, not "try harder".
+## 2. Design the playbook
 
-Present the framing and tradeoffs before committing to a long run. Reversible work proceeds ([Never Block on the Human](../principle-never-block-on-the-human/SKILL.md)), but a multi-hour run earns one checkpoint.
+Give each numbered step an outcome, method or skill, inputs, and required evidence. State what passes between steps and what the final reply must show.
 
-## Phase B: Design the workflow
+- Investigate the most serious unknown first. Establish checks and capture baselines before changing behavior. Put foundations before features per [Foundational Thinking](../principle-foundational-thinking/SKILL.md).
+- Include `architect` (`../architect/SKILL.md`) for substantial program, system, product, or foundational design. Reuse a design that covers the work; do not schedule competing designs for routine implementation per [Laziness Protocol](../principle-laziness-protocol/SKILL.md).
+- Prefer a rerunnable tool to manual or delegated execution when it can do or prove the work, per [Build the Lever](../principle-build-the-lever/SKILL.md).
+- Delegate parallel work only when assignments can proceed independently. Give each worker its own worktree or scratch directory per [Separate Before Serializing Shared State](../principle-separate-before-serializing-shared-state/SKILL.md). For delegated implementation, assign an independent reviewer using `../polaris/references/models.md` and state what evidence to inspect. Do not add a reviewer solely for read-only extraction.
+- Define verifiable units and any planned migration boundaries. Require `decision-log` (`../decision-log/SKILL.md`) at the full level and use the shared implementation and completion rules instead of copying them.
+- Define final checks on the actual result with `prove-it` (`../prove-it/SKILL.md`). Include prevention for recurring mistakes only within scope, per [Encode Lessons in Structure](../principle-encode-lessons-in-structure/SKILL.md).
 
-Decompose into atomic, independently-landable units. Sequence riskiest-unknown-first. Scaffold and verification come before features ([Foundational Thinking](../principle-foundational-thinking/SKILL.md)).
+Save the playbook with the task's working files under an unused descriptive name. Preserve existing plans and make links resolve from the saved file. Do not install it as a permanent playbook or add it to the bundled index.
 
-- Build the verification harness before the work, with the baseline captured from the pre-change state, so the check reads as "old value vs new value".
-- For substantial program, system, product, or foundational codebase design, run the `architect` skill (`../architect/SKILL.md`), even when the approach seems clear. Let it scale independent review to uncertainty and consequences. Reuse a design that covers the work; skip a new design round for routine implementation within it ([Laziness Protocol](../principle-laziness-protocol/SKILL.md)).
-- Before delegating non-trivial execution or verification, prefer a rerunnable tool when it can do or prove the work, per [Build the Lever](../principle-build-the-lever/SKILL.md).
-- Decide what fans out. Parallelize only across seams, and give each worker its own worktree or branch ([Separate Before Serializing Shared State](../principle-separate-before-serializing-shared-state/SKILL.md)). Don't over-fan.
-- Write the designed phase list down. That list is what the human reviews.
+## 3. Hand off for execution
 
-Then execute the design. Add its steps to the todolist as concrete items between the Phase C and Phase D entries. Run each under the Phase C loop discipline, and weave the Phase D log through them, a row as each step lands, rather than saving the whole trail for the end.
+For planning-only requests, return the playbook and open decisions, then stop. When execution is authorized, follow the playbook under `../polaris/playbooks/README.md` with a full-level decision log. If evidence requires a different sequence, revise the remaining steps and log why.
 
-## Phase C: Run the loop
-
-Each unit is an experiment. State the hypothesis, make the smallest change, measure against the predicate on the real artifact, keep it if it advanced, revert it if it didn't. Apply [Sequence work into verifiable units](../principle-sequence-verifiable-units/SKILL.md), verifying each unit before starting the next instead of batching checks at the end.
-
-- Verify by inspecting the artifact, never a self-report. When something passes too easily, suspect the observation method before the system.
-- Pair delegated work with a judge. If a worker games the gate, reset and harden the contract. If the gate itself is wrong, fix the gate in its own change rather than routing around it.
-- A verdict is VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Inconclusive is not a pass. Don't hide a negative.
-
-## Phase D: Keep the audit trail
-
-Log the run with the `decision-log` skill (`../decision-log/SKILL.md`) at the full level. figure-it-out's work is usually ambitious enough to commit the trail so the reviewer can read it in the PR. The trail plus the diff is what lets the human come back and trust the work.
-
-## Phase E: Verify and hand back
-
-Check the whole against the Phase A predicate on the real product, not just the harness. Encode any recurring correction as a gate, a lint rule, a check, or a script ([Encode Lessons in Structure](../principle-encode-lessons-in-structure/SKILL.md)).
-
-**Reply:** the playbook you designed, the rigor level and why, the decision-trail path, what's verified against the predicate, and what's still open.
+**Output:** the playbook path, scope, review requirements, inputs and outputs between phases, completion checks, and open product choices. For execution, follow its reply requirements, including the full-level decision-log review.

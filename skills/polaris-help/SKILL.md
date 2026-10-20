@@ -77,7 +77,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Bring a verification skill and its feature map back in line with the app | [`maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
 | Formally verify a race, an invariant, or another property that tests rarely reach | [`create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
 | Bring a formal verification back in line after the code it covers changed | [`maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
-| Run a large or cross-cutting change, or one to review after stepping away | [`figure-it-out`](../figure-it-out/SKILL.md) |
+| Design a task-specific playbook when no existing one fits | [`figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log while implementing, and review it afterward | [`decision-log`](../decision-log/SKILL.md) |
 | Choose a model profile, budget, and kind/level overrides | [`setup-polaris`](../setup-polaris/SKILL.md) |
 | Turn what a session taught into durable lessons | [`reflect`](../reflect/SKILL.md) |
@@ -94,11 +94,14 @@ Close calls:
 - `prototype` is for a call a person must make. When the agent can make the call by running something, it runs the smallest script instead.
 - `sharpen` rewrites the user's prompt in one turn, without asking, and doesn't do the task. `discuss` asks the user over several rounds and stops before any code.
 - `deslop` simplifies the design of finished work. `sweep-residue` then removes what only makes sense to someone who saw the conversation.
-- `tdd` writes new tests one at a time. `fix-change-detector-tests` checks tests that already exist.
+- `tdd` writes tests in red-green cycles. `fix-change-detector-tests` evaluates whether a proposed test should exist and audits existing tests for useful behavior coverage.
+- `architect` returns a design and revisits it when evidence invalidates it. A design-only request ends there. If the user also requested implementation, the invoking agent continues that work directly or through a playbook.
 
 ## Playbooks and principles
 
 Playbooks are step lists inside `/polaris`, not skills, so they have no command. Inside `/polaris`, describing the task picks one. The Playbooks section of the `polaris` skill lists every bundled playbook and when it applies. A local playbook in `.agents/polaris/playbooks/` adds to them (`../polaris/references/locations.md`).
+
+For implementation, feature development, bug fixes, and refactoring each have a playbook. They own sequencing, handoffs, checks, and delivery; the skills they call own their methods. The other bundled playbooks cover verification setup, session pickup, and safe pauses. `figure-it-out` designs a task-specific playbook when none fits. Requests only for planning, investigation, explanation, or design stay within that scope.
 
 Each principle is a hidden skill named `principle-<slug>`, such as `principle-prove-it-works`. Run that command to apply the rule to the current task. `/polaris` reads the same skill when a task triggers it, and cites the decision it changed. You can also steer by name, as in "apply prove it works. show me the real output."
 

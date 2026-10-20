@@ -32,4 +32,4 @@ The prose that ships alongside the type sketch. One page. Sentence-case headings
 
 ## Next implementation step
 
-*The first thing to build against the sketch. One sentence. What you'd start writing immediately after synthesis (or after the Phase C checkpoint, if opted into).*
+*The first thing to build against the sketch. One sentence. Include any prerequisite or check needed before implementation starts. The agent responsible for implementation owns execution, whether invoked directly or through a playbook.*

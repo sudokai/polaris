@@ -7,6 +7,8 @@ description: "Disciplined diagnosis loop for hard bugs and performance regressio
 
 A discipline for hard bugs. Skip phases only when explicitly justified. [Fix Root Causes](../principle-fix-root-causes/SKILL.md) says what counts as the cause. This skill is the loop that finds it.
 
+For investigation-only requests, report the cause and proposed fix without changing product code. For fix requests, complete the fix, checks, and cleanup, whether called directly or from another skill or playbook.
+
 When exploring the codebase, use the project's domain glossary to get a clear mental model of the relevant modules, and check ADRs in the area you're touching.
 
 ## Phase 1 — Build a feedback loop
@@ -112,14 +114,18 @@ If a correct seam exists, run one red-green cycle of the `tdd` skill (`../tdd/SK
 
 **A second fix fails the same check** → stop fixing and test the premise the fixes share, per [Attack the Premise](../principle-attack-the-premise/SKILL.md).
 
-## Phase 6 — Cleanup + post-mortem
+## Phase 6 — Remove probes and hand back findings
 
-Required before declaring done:
+After a fix, confirm before handing it back:
 
-- [ ] Original repro no longer reproduces (re-run the Phase 1 loop)
+- [ ] Original repro no longer reproduces after a fix (use the Phase 5 run if it still describes the final code)
 - [ ] Regression test passes (or absence of seam is documented)
 - [ ] All `[DEBUG-...]` instrumentation removed (`grep` the prefix)
 - [ ] Throwaway prototypes deleted (or moved to a clearly-marked debug location)
-- [ ] The hypothesis that turned out correct is stated in the commit / PR message — so the next debugger learns
+- [ ] Report the confirmed cause with the reproduction evidence and fix
 
-**Then ask: what would have prevented this bug?** If the answer involves architectural change (no good test seam, tangled callers, hidden coupling) propose that change separately with the specifics. If agents have made this mistake before, run the `correct` skill (`../correct/SKILL.md`). Make the recommendation **after** the fix is in, not before — you have more information now than when you started.
+For investigation only, remove temporary probes and report the reproduction, cause, evidence, and proposed fix. Post-fix checks do not apply.
+
+After fixing the bug, consider how to prevent a repeat. For investigation only, do this once the cause is established. Propose architectural changes separately, with specifics. For repeated agent mistakes, recommend `correct` (`../correct/SKILL.md`); run it only if already authorized.
+
+For a direct fix request, run `deslop` (`../deslop/SKILL.md`), then `sweep-residue` (`../sweep-residue/SKILL.md`). Rerun checks affected by cleanup. If the task has a decision log, finish it with `decision-log` (`../decision-log/SKILL.md`). Report the cause, fix, reproduction evidence, regression result, prevention recommendation, and limits. When called from another workflow, return these results for reuse.

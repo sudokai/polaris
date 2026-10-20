@@ -23,7 +23,7 @@ Swap in the real paths, skills, and done checks. Informal wording works. Write e
 ## Design and plan
 
 - `/polaris prototype a few options for <feature>. take screenshots or videos for me to compare.`
-- `/polaris we need <feature>. /architect it first, and answer open questions with prototypes. let me review before proceeding.`
+- `/polaris build <feature>. use architect for the design, and prototypes for choices I need to try. stop for my review before implementing.`
 - `/polaris write a tutorial for how i would use <new package> first, then build it.`
 - `/polaris turn this design into a plan. small verifiable PRs, each with its own verification steps.`
 

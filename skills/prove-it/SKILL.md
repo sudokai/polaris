@@ -1,6 +1,6 @@
 ---
 name: prove-it
-description: "Prove or disprove one claim with fresh evidence: restate it falsifiably, test it on the project's real surface, compare baseline and treatment, and return VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Use for \"prove it\", \"verify this\", \"did this fix it\", \"show me the evidence\", or before claiming that a change works."
+description: "Prove or disprove one claim with fresh evidence: compare changed behavior or accept a new artifact against observable criteria, then return VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Use for \"prove it\", \"verify this\", \"did this fix it\", \"show me the evidence\", or before claiming that a change works."
 ---
 
 # Prove it
@@ -16,9 +16,9 @@ Do not use it for vague claims like "the code is cleaner". Ask for a measurable 
    1. The project's `verify-<app>` skill, made by the `create-verification-skill` skill (`../create-verification-skill/SKILL.md`), when the claim is about user-visible behavior. Follow its launch, doctor, drive, evidence, and cleanup steps.
    2. If the project has no verification skill and the claim is about user-visible behavior, offer to create one with the Set up verification playbook. Until it exists, drive the app with the smallest local harness you can build.
    3. For code behavior, a focused test or a minimal repro script that calls the real code.
-3. **Capture a baseline** from the old state: the merge base, the parent commit, the failing branch, or the current broken repro.
-4. **Capture the treatment** from the changed state, with the same command, data, warmup, and environment.
-5. **Compare the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. If the claim is a measured number, explain it per [Explain the Number](../principle-explain-the-number/SKILL.md), and follow [`references/measured-numbers.md`](references/measured-numbers.md) before you trust it.
+3. **Choose the comparison.** For a change claim, capture a baseline from the old state: the merge base, parent commit, failing branch, or broken repro. For acceptance of a new artifact, state observable pass/fail criteria and initial conditions; do not invent a broken predecessor.
+4. **Run the check.** For a change claim, capture the treatment with the same command, data, warmup, and environment. For acceptance, follow the artifact's instructions from the stated initial conditions and record the resulting behavior, including cleanup when it is part of the claim.
+5. **Inspect the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. Compare them against the claimed relationship or acceptance criteria. If the claim is a measured number, explain it per [Explain the Number](../principle-explain-the-number/SKILL.md), and follow [`references/measured-numbers.md`](references/measured-numbers.md) before you trust it.
 6. **Say how far the proof got.** Place the evidence on this ladder, and name the highest step you reached:
    1. Claimed. You said so. Worthless on its own.
    2. Line cited. A real `file:line`, or the library's own source.
@@ -29,9 +29,9 @@ Do not use it for vague claims like "the code is cleaner". Ask for a measurable 
 
 ## Verdict rules
 
-- `VERIFIED`: baseline and treatment differ in the predicted direction, by the claimed threshold, with no obvious confound.
-- `NOT VERIFIED`: the behavior is unchanged, moves the wrong way, or misses the threshold.
-- `INCONCLUSIVE`: there is no valid baseline, the signal is noisy, the measurement failed, the surface was wrong, or an environment difference invalidates the comparison.
+- `VERIFIED`: baseline and treatment satisfy the claimed relationship, including equivalence for a behavior-preserving refactor, with no obvious confound; or an acceptance run meets all stated criteria on the real artifact.
+- `NOT VERIFIED`: the comparison fails the claimed relationship or threshold, or the artifact fails an acceptance criterion.
+- `INCONCLUSIVE`: a required baseline is missing, the signal is noisy, the measurement failed, the surface was wrong, or the conditions prevent a valid comparison or acceptance run.
 
 "Inconclusive" is never a pass. Do not soften a negative result. A clear `NOT VERIFIED` is useful.
 
@@ -49,6 +49,8 @@ When it is safe to write artifacts, keep them where a reviewer can rerun the che
 ```
 
 Keep a script that reruns the comparison next to the artifacts. If the artifacts may contain sensitive code, prompts, screenshots, HTTP bodies, or heap data, keep only the minimal evidence inline unless the user agrees to storing it on disk.
+
+For acceptance, keep the criteria, initial conditions, run output, and verdict; baseline and treatment directories are unnecessary. In the reply below, replace the baseline/treatment line with each criterion, observed result, and evidence path.
 
 ## Output
 
