@@ -6,11 +6,11 @@ Select a model–effort pair for each delegated assignment. Do not change the ma
 
 1. Identify the harness from the session's tools. Read the current harness section from the project and user configuration files, if present. Do not read other sections or all profile tables.
 2. Resolve settings with project > user > bundled precedence. Use a task-only budget if requested; it does not change saved settings or fixed overrides.
-3. Classify the assignment by `kind` and `level` below. Read only the selected profile: [Claude](model-profiles/claude.md), [GPT](model-profiles/gpt.md), [xAI](model-profiles/xai.md), [DeepSeek](model-profiles/deepseek.md), or [GLM](model-profiles/glm.md).
+3. Classify the assignment by [kind and level](#assignment-kinds-and-levels). Read only the selected profile: [Claude](model-profiles/claude.md), [GPT](model-profiles/gpt.md), [xAI](model-profiles/xai.md), [DeepSeek](model-profiles/deepseek.md), or [GLM](model-profiles/glm.md).
 4. Use the fixed override for that kind/level if present; otherwise select its budget column. If classification is uncertain, use the profile's separate `unclassified` allocation and reassess after initial exploration. Resolve the model ID through the configured connection and confirm the required tool/image support and effort. Never accept silent effort clamping.
-5. Apply the pair using the harness instructions below. On a rejected allocation, follow **Fallbacks**. Report the actual pair when it differs from the selected one.
+5. Apply the pair using the [harness instructions](#apply-a-pair-in-each-harness). On a rejected allocation, follow [fallback rules](#fallbacks). Report the actual pair when it differs from the selected one.
 
-Keep the resolved settings for this task; reread only when the user changes them or a capability failure requires a new resolution. Reuse a child's conversation only when its context and actual pair still fit the next assignment. Independent review starts fresh; continuation support is in `harnesses.md`.
+Keep the resolved settings for this task; reread only when the user changes them or a capability failure requires a new resolution. Reuse a child's conversation only when its context and actual pair still fit the next assignment. Independent review starts fresh; continuation support is in [harness reference](harnesses.md).
 
 ## Assignment kinds and levels
 
@@ -47,7 +47,7 @@ Budgets are `small`, `medium` (default), `large`, and `unlimited`. They are allo
 | `dsh` | `deepseek` |
 | `hermes` | Suggest `gpt` during setup; existing delegation behavior remains unchanged. |
 
-If the harness is unknown, do not guess that it can apply a pair. Report the limitation and use **Unavailable controls** below.
+If the harness is unknown, do not guess that it can apply a pair. Report the limitation and follow [unavailable controls](#unavailable-controls).
 
 ## Configuration
 
@@ -101,10 +101,10 @@ Report substitutions once per task, grouping repeated uses of the same substitut
 ## Apply a pair in each harness
 
 - **`codex`**: when the tool exposes `model` and `reasoning_effort`, set `fork_turns: "none"` and pass both. Full-context forks inherit the session pair; do not pretend overrides apply. Give fresh children a concise self-contained brief.
-- **`claude-code`**: inspect the current spawn schema. Newer non-fork Agent invocations support both `model` and `effort`; prefer them. Otherwise select an agent definition fixing both fields, as described below. Environment-enforced model/effort settings and allowlists may override the request: check task metadata and report or resolve mismatches. See [Claude subagents](https://code.claude.com/docs/en/sub-agents#choose-an-effort-level).
+- **`claude-code`**: inspect the current spawn schema. Newer non-fork Agent invocations support both `model` and `effort`; prefer them. Otherwise select an agent definition fixing both fields, under [agent definitions](#agent-definitions). Environment-enforced model/effort settings and allowlists may override the request: check task metadata and report or resolve mismatches. See [Claude subagents](https://code.claude.com/docs/en/sub-agents#choose-an-effort-level).
 - **`cursor`**: use the exact model slug/parameters accepted by the spawn tool. Pin standard Composer with `composer-2.5[fast=false]` or `composer-2.5[]`; do not use its default Fast tier as an economy allocation. Grok accepts low/medium/high/xhigh effort where available. Confirm the actual tier and pair on the task card/usage metadata. See [model parameters](https://cursor.com/docs/subagents#model-parameters).
 - **`pi`**: inspect the installed extension's subagent schema; pi has no built-in subagents. Pass its accepted provider/model and thinking-level fields. Native thinking maps may silently lower unsupported effort, so validate the model's supported controls first.
-- **`dsh`**: use `list_subagent_models` for allowed providers, IDs, and efforts. Pass `provider`, `model`, and `reasoning_effort` when exposed. Model selection must be enabled and requested by the preset. Setup describes how to enable it; do not assume a missing field is present.
+- **`dsh`**: use `list_subagent_models` for allowed providers, IDs, and efforts. Pass `provider`, `model`, and `reasoning_effort` when exposed. Model selection must be enabled and requested by the preset. [Setup](../../setup-polaris/SKILL.md#1-identify-the-harness-and-its-controls) describes how to enable it; do not assume a missing field is present.
 - **`grok-build`**: use a loaded agent definition fixing model and effort. Some sessions expose a model argument, but effort may still require a definition; use direct pair fields only when the actual schema supports both. Confirm that the connection accepts the definition's model; Composer may be callable even when `grok models` omits it. Do not infer that the CLI accepts an ID solely from Hermes's catalogue.
 - **`hermes`**: leave its delegation settings unchanged. `delegate_task` uses its configured delegation model/effort, otherwise the parent's settings. Explain that kind/level selection does not apply; do not force Sol medium or launch separate processes to emulate them.
 
@@ -112,7 +112,7 @@ Report substitutions once per task, grouping repeated uses of the same substitut
 
 For Claude sessions without per-spawn effort and for Grok Build, select the loaded definition whose model, effort, and connection match the resolved pair. Never select by kind/level alone when an override or temporary budget changed the pair.
 
-Bundled medium defaults and supported fallback pairs are in `com.anthropic.claude-code/agents/` (Claude) and `agents/` (Grok). Their names identify pairs, such as `opus-high` or `grok-high`. Composer definitions are generated only after setup confirms the route-specific ID; the bundled Grok pairs cover its supported primary and fallback allocations. The Claude manifest lists each agent file explicitly; do not put an `agents` field in the portable root manifest.
+Bundled medium defaults and supported fallback pairs are in `../../../com.anthropic.claude-code/agents/` (Claude) and `../../../agents/` (Grok), relative to this file. Their names identify pairs, such as `opus-high` or `grok-high`. Composer definitions are generated only after setup confirms the route-specific ID; the bundled Grok pairs cover its supported primary and fallback allocations. The Claude manifest lists each agent file explicitly; do not put an `agents` field in the portable root manifest.
 
 Setup writes one definition per distinct resolved pair, including configured fallbacks, to the selected project/user `.claude/agents/` or `.grok/agents/` directory. Use `polaris-<model>-<effort>` with punctuation replaced by hyphens, omitting effort for Composer. Include the connection's name in the filename when needed to distinguish routes. Frontmatter fields are `name`, `description`, `model`, and `effort` when prescribed. The body follows the assigned brief; it does not select another model, start agents, or load every profile. Definitions cannot create access to a provider the harness does not support.
 

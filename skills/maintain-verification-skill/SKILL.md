@@ -22,11 +22,11 @@ Only edit the verification skill's own directory (its SKILL.md, features/, and a
 
 ## Pass
 
-0. **Locate the target.** Find the verification skill to maintain: the project-local skill whose body has launch/drive sections and a feature map (usually `verify-*/` in one of the project skill directories that `../polaris/references/harnesses.md` lists). Several candidates → ask which one; none → stop and point at `/create-verification-skill` instead of inventing a target.
+0. **Locate the target.** Find the verification skill to maintain: the project-local skill whose body has launch/drive sections and a feature map (usually `verify-*/` in one of the project skill directories that [harness reference](../polaris/references/harnesses.md) lists). Several candidates → ask which one; none → stop and point at `/create-verification-skill` instead of inventing a target.
 
 1. **Index hygiene.** Read the feature map README and glob its sibling files. Fix missing, extra, duplicate, or dead entries. Lightweight; no generated inventory.
 
-2. **Source wave.** Group feature files by shared implementation so each subsystem is read once. Read a small map directly; otherwise assign the groups to a few read-only subagents for `kind: execution`, `level: regular` source exploration, chosen with `../polaris/references/models.md`. Each feature belongs to one reader and gets its own concise result: feature summary / source entry points / likely drift or none / one live-verification recipe. Children never drive the app, edit files, or start more agents. Reuse source evidence from this run when it still describes the current code.
+2. **Source wave.** Group feature files by shared implementation so each subsystem is read once. Read a small map directly; otherwise assign the groups to a few read-only subagents for `kind: execution`, `level: regular` source exploration, chosen with [model budgets](../polaris/references/models.md). Each feature belongs to one reader and gets its own concise result: feature summary / source entry points / likely drift or none / one live-verification recipe. Children never drive the app, edit files, or start more agents. Reuse source evidence from this run when it still describes the current code.
 
 3. **Reconcile.** Every feature file has a returned summary. Merge overlapping recipes into as few app states as practical. Spot-check cited drift; don't re-prove clean claims. Sweep recent churn for user-facing surfaces missing from the map — require a concrete source path before calling one missing.
 

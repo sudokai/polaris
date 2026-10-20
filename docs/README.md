@@ -6,7 +6,7 @@
 - [Model budget verification](model-budget-verification.md) records source checks, model comparisons, and live harness limitations.
 - [Syncing from pstack](upstream-sync.md) records the last pstack commit ported into polaris, so the next sync starts after it.
 
-The working contracts live with the skills: `skills/polaris/references/locations.md` for local files and local playbooks, `skills/polaris/references/models.md` for model budgets, and `skills/polaris/references/harnesses.md` for per-harness facts.
+The working contracts live with the skills: [Locations](../skills/polaris/references/locations.md) for local files and local playbooks, [Model budgets](../skills/polaris/references/models.md) for model budgets, and [Harnesses](../skills/polaris/references/harnesses.md) for per-harness facts.
 
 ## Decisions
 

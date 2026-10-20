@@ -18,7 +18,7 @@ Do not use it for vague claims like "the code is cleaner". Ask for a measurable 
    3. For code behavior, a focused test or a minimal repro script that calls the real code.
 3. **Choose the comparison.** For a change claim, capture a baseline from the old state: the merge base, parent commit, failing branch, or broken repro. For acceptance of a new artifact, state observable pass/fail criteria and initial conditions; do not invent a broken predecessor.
 4. **Run the check.** For a change claim, capture the treatment with the same command, data, warmup, and environment. For acceptance, follow the artifact's instructions from the stated initial conditions and record the resulting behavior, including cleanup when it is part of the claim.
-5. **Inspect the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. Compare them against the claimed relationship or acceptance criteria. If the claim is a measured number, explain it per `principle-explain-the-number`, and follow [`references/measured-numbers.md`](references/measured-numbers.md) before you trust it.
+5. **Inspect the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. Compare them against the claimed relationship or acceptance criteria. If the claim is a measured number, explain it per `principle-explain-the-number`, and follow `references/measured-numbers.md` before you trust it.
 6. **Say how far the proof got.** Place the evidence on this ladder, and name the highest step you reached:
    1. Claimed. You said so. Worthless on its own.
    2. Line cited. A real `file:line`, or the library's own source.

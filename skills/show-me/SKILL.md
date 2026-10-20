@@ -46,7 +46,7 @@ src/
 └── transport/      # sends API requests
 ```
 
-- Show component interaction, control flow, or data flow with Mermaid where the harness renders it, and as plain text elsewhere. The "Rendering pictures" section of `../polaris/references/harnesses.md` lists which harnesses render Mermaid:
+- Show component interaction, control flow, or data flow with Mermaid where the harness renders it, and as plain text elsewhere. [rendering guidance](../polaris/references/rendering-pictures.md) lists which harnesses render Mermaid:
 
 ```mermaid
 sequenceDiagram
@@ -128,7 +128,7 @@ function expandSkill(command: string): string {
 </script>
 ```
 
-  Write it to a scratch directory, not the project, and show it as the "Rendering pictures" section of `../polaris/references/harnesses.md` describes.
+  Write it to a scratch directory, not the project, and show it as [rendering guidance](../polaris/references/rendering-pictures.md) describes.
 
 ## Guidance
 

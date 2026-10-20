@@ -2,7 +2,7 @@
 
 Use this brief to produce one design proposal. The orchestrator supplies the task, grounding artifacts, working directory, and output path. Independent candidates use separate worktrees or scratch directories.
 
-Produce only the assigned proposal: type sketch, function signatures, module map, and a concise rationale shaped per [`rationale-template.md`](rationale-template.md). Use the supplied grounding and check source where needed. Do not run the architect orchestration, start subagents, or implement the proposal. Leave the synthesis decision to the orchestrator.
+Produce only the assigned proposal: type sketch, function signatures, module map, and a concise rationale shaped per `rationale-template.md`. Use the supplied grounding and check source where needed. Do not run the architect orchestration, start subagents, or implement the proposal. Leave the synthesis decision to the orchestrator.
 
 Apply the following discipline. The orchestrator compares candidates on these axes to pick a base.
 

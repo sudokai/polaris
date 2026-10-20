@@ -7,7 +7,7 @@ Pause only on an explicit request to pause, or when the session is about to run 
 1. Stop at a safe boundary. Finish the current atomic step or back out of it. Start nothing new, and stop any subagents you started.
 2. Take no irreversible action to pause. Do not open a pull request or push unless one was already out.
 3. Make the work durable. Commit uncommitted edits as one clear `wip:` commit on the current branch so that nothing is lost. If the tree is broken, say so in one line of the commit body.
-4. Write the resume note to `.agents/polaris/resume/<slug>.md` in the project root (`../references/locations.md`). The slug is a short kebab-case task name, such as `fix-photo-loading`. If a note with that slug exists for a different task, choose another slug. Keep the note out of git: if `git check-ignore` does not already match the path, add `.agents/polaris/resume/` to the file that `git rev-parse --git-path info/exclude` prints, creating its directory if it is missing. Start the note with these fields, one per line, so that the Session pickup playbook can select it:
+4. Write the resume note to `.agents/polaris/resume/<slug>.md` in the project root ([location rules](../references/locations.md)). The slug is a short kebab-case task name, such as `fix-photo-loading`. If a note with that slug exists for a different task, choose another slug. Keep the note out of git: if `git check-ignore` does not already match the path, add `.agents/polaris/resume/` to the file that `git rev-parse --git-path info/exclude` prints, creating its directory if it is missing. Start the note with these fields, one per line, so that the Session pickup playbook can select it:
 
    ```markdown
    task: <one line that names the task>

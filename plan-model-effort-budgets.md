@@ -52,9 +52,9 @@ Actual model/effort report when substitution occurs
 
 Use these responsibilities:
 
-- `skills/polaris/references/models.md`: category definitions, configuration precedence, selection procedure, fallback policy, and harness application instructions.
+- [Model budgets](skills/polaris/references/models.md): category definitions, configuration precedence, selection procedure, fallback policy, and harness application instructions.
 - `skills/polaris/references/model-profiles/{claude,gpt,xai,deepseek,glm}.md`: one authoritative allocation table and native capability constraints per profile. Load only the selected profile, plus an explicitly authorized fallback profile if needed. Do not repeat every table in each skill.
-- `skills/setup-polaris/SKILL.md`: detect capabilities, select profile/budget, resolve every category, show the result, and save configuration and any required agent definitions.
+- [Setup polaris](skills/setup-polaris/SKILL.md): detect capabilities, select profile/budget, resolve every category, show the result, and save configuration and any required agent definitions.
 - Harness agent definitions: thin briefs for harnesses that cannot set the pair directly. Setup generates the current effective definitions; source definitions provide the bundled medium default where supported.
 - `scripts/check_plugin.py`: retain existing validation and recognize the deliberately harness-specific profile references. Extend structural checks only where they catch broken links, registrations, or invalid shipped allocations.
 

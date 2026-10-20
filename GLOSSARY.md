@@ -52,7 +52,7 @@ An agent client that loads the plugin, such as Claude Code, Codex, or Grok Build
 _Avoid_: client, host, tool
 
 **Harness fact file**:
-A file holding harness-specific facts: `references/models.md`, `references/harnesses.md`, or a selected profile under `references/model-profiles/`. Setup also contains harness-specific configuration steps. Other skill text is harness-neutral.
+A file holding harness-specific facts, such as [model budgets](skills/polaris/references/models.md), [harness behavior](skills/polaris/references/harnesses.md), [rendering guidance](skills/polaris/references/rendering-pictures.md), [global instruction rules](skills/polaris/references/writing-global-instructions.md), or a selected profile under `skills/polaris/references/model-profiles/`. Setup also contains harness-specific configuration steps. Other skill text is harness-neutral.
 
 **Work kind**:
 The main challenge in an assignment: reasoning finds or evaluates an approach or explanation; execution carries out a familiar or settled approach.

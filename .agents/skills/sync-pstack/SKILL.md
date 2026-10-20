@@ -6,11 +6,11 @@ disable-model-invocation: true
 
 # Sync pstack
 
-polaris ports changes from pstack by hand. `docs/upstream-sync.md` records the last pstack commit that was reviewed, and the changes skipped on purpose. This skill reviews every pstack commit after that one, ports the changes the user approves, and moves the record forward. When it finishes, rerunning it finds nothing new.
+polaris ports changes from pstack by hand. [Upstream sync](../../../docs/upstream-sync.md) records the last pstack commit that was reviewed, and the changes skipped on purpose. This skill reviews every pstack commit after that one, ports the changes the user approves, and moves the record forward. When it finishes, rerunning it finds nothing new.
 
 ## 1. List new commits
 
-Get a current checkout of `cursor/plugins` with the `librarian` skill, and search `origin/main`, not the working tree. Read the last synced commit from `docs/upstream-sync.md`, then run:
+Get a current checkout of `cursor/plugins` with the `librarian` skill, and search `origin/main`, not the working tree. Read the last synced commit from [Upstream sync](../../../docs/upstream-sync.md), then run from that upstream checkout:
 
 ```sh
 git log --oneline <last synced>..origin/main -- pstack
@@ -36,6 +36,8 @@ Show the user a table: the pstack commit, the change, its polaris counterpart, t
 Ask which ports to apply. Apply nothing before the user answers. For each port the user rejects, ask whether to record it under Skipped, with the reason.
 
 ## 4. Apply
+
+Run these steps from the Polaris repository root. Paths in this section are relative to that root.
 
 1. Port each approved change in polaris's terms: polaris's skill names, its harness-neutral wording (no Cursor-only features), and the `write-clearly` skill. Adapt the change to polaris's text; do not paste pstack's text over polaris's own edits.
 2. Update every place that describes a ported skill, such as the tables and recipes in `polaris-help`.

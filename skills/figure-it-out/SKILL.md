@@ -6,11 +6,11 @@ disable-model-invocation: true
 
 # Figure it out
 
-Design a playbook when no bundled or local one fits, using `../polaris/playbooks/README.md` for its format and execution rules. Reuse an existing playbook when it fits, regardless of task size.
+Design a playbook when no bundled or local one fits, using [playbook authoring](../polaris/playbooks/references/writing-playbooks.md) for its format and [Playbooks](../polaris/playbooks/README.md) for execution rules. Reuse an existing playbook when it fits, regardless of task size.
 
 ## 1. Define the task
 
-Check the Playbooks index in the `polaris` skill and local playbooks in `../polaris/references/locations.md`. Consult relevant principles without restarting routing. Reuse source evidence; use `how` for gaps. State:
+Check the Playbooks index in the `polaris` skill and local playbooks in [location rules](../polaris/references/locations.md). Consult relevant principles without restarting routing. Reuse source evidence; use `how` for gaps. State:
 
 - The outcome and a falsifiable completion condition, per `principle-prove-it-works`.
 - Scope, constraints, rough units of work, and blockers.
@@ -25,7 +25,7 @@ Give each numbered step an outcome, method or skill, inputs, and required eviden
 - Investigate the most serious unknown first. Establish checks and capture baselines before changing behavior. Put foundations before features per `principle-foundational-thinking`.
 - Include `architect` for substantial program, system, product, or foundational design. Reuse a design that covers the work; do not schedule competing designs for routine implementation per `principle-laziness-protocol`.
 - Prefer a rerunnable tool to manual or delegated execution when it can do or prove the work, per `principle-build-the-lever`.
-- Delegate parallel work only when assignments can proceed independently. Give each worker its own worktree or scratch directory per `principle-separate-before-serializing-shared-state`. For delegated implementation, assign an independent reviewer using `../polaris/references/models.md` and state what evidence to inspect. Do not add a reviewer solely for read-only extraction.
+- Delegate parallel work only when assignments can proceed independently. Give each worker its own worktree or scratch directory per `principle-separate-before-serializing-shared-state`. For delegated implementation, assign an independent reviewer using [model budgets](../polaris/references/models.md) and state what evidence to inspect. Do not add a reviewer solely for read-only extraction.
 - Define verifiable units and any planned migration boundaries. Require `decision-log` at the full level and use the shared implementation and completion rules instead of copying them.
 - Define final checks on the actual result with `prove-it`. Include prevention for recurring mistakes only within scope, per `principle-encode-lessons-in-structure`.
 
@@ -35,6 +35,6 @@ Save the playbook with the task's working files under an unused descriptive name
 
 ## 3. Hand off for execution
 
-For planning-only requests, return the playbook and open decisions, then stop. When execution is authorized, follow the playbook under `../polaris/playbooks/README.md` with a full-level decision log. If evidence requires a different sequence, revise the remaining steps and log why.
+For planning-only requests, return the playbook and open decisions, then stop. When execution is authorized, follow the playbook under [Playbooks](../polaris/playbooks/README.md) with a full-level decision log. If evidence requires a different sequence, revise the remaining steps and log why.
 
 **Output:** the playbook path, scope, review requirements, inputs and outputs between phases, completion checks, and open product choices. For execution, follow its reply requirements, including the full-level decision-log review.

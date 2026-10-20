@@ -10,7 +10,7 @@ Answer the user's question about polaris, give them a prompt they can send, and 
 
 A message that asks for work, such as "use polaris to fix this bug", is not a help question. Read the `polaris` skill and do the work under it.
 
-This file maps questions to the files that hold the answers. Those files own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map. Give each command in the form the user's harness shows (`../polaris/references/harnesses.md`, **Typing a skill command**).
+This file maps questions to the files that hold the answers. Those files own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map. Give each command in the form the user's harness shows ([skill command syntax](../polaris/references/harnesses.md#typing-a-skill-command)).
 
 ## Find out what they need
 
@@ -24,23 +24,23 @@ Infer the need from the message and the conversation. A named situation, such as
 
 Check the state that changes the answer, and mention it only when it does:
 
-- No model configuration file (`../polaris/references/locations.md`) means assignments use the harness's default profile at medium budget, where the harness supports model selection. Mention `/setup-polaris` when the question is about setup, cost, or which models run.
+- No model configuration file ([location rules](../polaris/references/locations.md)) means assignments use the harness's default profile at medium budget, where the harness supports model selection. Mention `/setup-polaris` when the question is about setup, cost, or which models run.
 - No `verify-<app>` skill or other app harness in the project means agents have no scripted way to drive the app. Mention the Set up verification playbook when the question is about proving a change works.
 - No formal verification skill in the project means no property is checked past what tests reach. Mention `/create-formal-verification-skill` when the question is about a race, an invariant, or another case tests rarely hit. When one exists and the code it covers changed after the commit it records as last in sync, mention `/maintain-formal-verification-skill` if the question touches that code.
 
 ## Get set up
 
-1. Install polaris in each harness as the repository `README.md` says.
+1. Install polaris in each harness using the [installation instructions](../../README.md#install).
 2. Run `/setup-polaris`. It shows the profile and budget table, offers fixed kind/level overrides and fallbacks, and saves configuration for the chosen scope. Harness limitations are reported rather than silently ignored. Then it offers once each to set up app verification and formal verification for the project.
 3. Start a real task with `/polaris`, a goal, and a check that can pass or fail.
 
-Installing changes little until the user starts a task. The router runs only on `/polaris`. Sixteen skills start on their own when they fit: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, `walkthrough`, `technical-writing`, and `deslop-language`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
+Installing changes little until the user starts a task. The router runs only on `/polaris`. Sixteen skills start on their own when they fit: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, `walkthrough`, `technical-writing`, and `deslop-language`. Offer to word the first prompt with the user, per `references/prompting.md`.
 
-If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` can select a different budget or profile. A task-only budget request leaves saved settings and fixed overrides unchanged; `../polaris/references/models.md` defines the selection and fallback rules. Save `/polaris` for work that needs rigor.
+If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` can select a different budget or profile. A task-only budget request leaves saved settings and fixed overrides unchanged; [model selection](../polaris/references/models.md) defines the selection and fallback rules. Save `/polaris` for work that needs rigor.
 
 ## Start a task with `/polaris`
 
-`/polaris` matches the task to a playbook, copies the playbook's steps into the todo list, and runs other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it is done. It does not list skills, because a hand-written order tends to drop or reorder steps that the playbook keeps. Read [`references/prompting.md`](references/prompting.md) before you help word one.
+`/polaris` matches the task to a playbook, copies the playbook's steps into the todo list, and runs other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it is done. It does not list skills, because a hand-written order tends to drop or reorder steps that the playbook keeps. Read `references/prompting.md` before you help word one.
 
 Mid-session, "new task" makes the router match a fresh playbook.
 
@@ -104,7 +104,7 @@ Close calls:
 
 ## Playbooks and principles
 
-Playbooks are step lists inside `/polaris`, not skills, so they have no command. Inside `/polaris`, describing the task picks one. The Playbooks section of the `polaris` skill lists every bundled playbook and when it applies. A local playbook in `.agents/polaris/playbooks/` adds to them (`../polaris/references/locations.md`).
+Playbooks are step lists inside `/polaris`, not skills, so they have no command. Inside `/polaris`, describing the task picks one. The Playbooks section of the `polaris` skill lists every bundled playbook and when it applies. A local playbook in `.agents/polaris/playbooks/` adds to them ([location rules](../polaris/references/locations.md)).
 
 For implementation, feature development, bug fixes, and refactoring each have a playbook. They own sequencing, handoffs, checks, and delivery; the skills they call own their methods. The other bundled playbooks cover verification setup, session pickup, and safe pauses. `figure-it-out` designs a task-specific playbook when none fits. Requests only for planning, investigation, explanation, or design stay within that scope.
 
@@ -122,7 +122,7 @@ Each principle is a hidden skill named `principle-<slug>`, such as `principle-pr
 | An unattended run moved but finished nothing | Give it a check that can pass or fail, not a duration. |
 | The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That is the Prove It Works principle. |
 
-For a run that drifts, [`references/prompting.md`](references/prompting.md) has one-line steers.
+For a run that drifts, `references/prompting.md` has one-line steers.
 
 ## Make polaris my own
 
@@ -132,4 +132,4 @@ For a run that drifts, [`references/prompting.md`](references/prompting.md) has 
 
 ## Reply
 
-Lead with the answer. Give at most one example prompt in a code block, adapted from [`references/recipes.md`](references/recipes.md) when one fits. Keep it short unless the user asked for the whole map.
+Lead with the answer. Give at most one example prompt in a code block, adapted from `references/recipes.md` when one fits. Keep it short unless the user asked for the whole map.

@@ -10,13 +10,13 @@ Read this file in full before any work. It routes the task to a playbook or a sk
 ## For each new task
 
 1. If the user says "new task", or the subject changes, match again. Do not continue the previous playbook.
-2. Match the requested outcome to a playbook in **Playbooks**, or to a local playbook. Requests only for explanation, investigation, discussion, design, or a prototype stay with the relevant skill. If a playbook matches, run it as `playbooks/README.md` describes; its steps own the task's sequence and completion.
+2. Match the requested outcome to a playbook in **Playbooks**, or to a local playbook. Requests only for explanation, investigation, discussion, design, or a prototype stay with the relevant skill. If a playbook matches, run it as [Playbooks](playbooks/README.md) describes; its steps own the task's sequence and completion.
 3. If no playbook fits, work directly from the principles and triggers below for a narrow task. Use `figure-it-out` to design a task-specific playbook for work needing additional coordination. Size alone does not disqualify an existing playbook.
 4. Before you apply a principle, read the named `principle-<slug>` skill in full. The user can run that same skill by name.
 
 ## Triggers
 
-Bundled skills are sibling directories under `skills/`. Resolve a skill name as `skills/<name>/SKILL.md` from the plugin root. Principle names include the `principle-` prefix. These conventions apply to references throughout the bundled skills. Most skills are hidden from automatic selection. Run a named skill by reading its file in full and following it. When delegating, pass the plugin root so the agent can resolve these names. `references/locations.md` defines local playbooks and where polaris writes its files.
+Bundled skills are sibling directories under `skills/`. Resolve a skill name as `skills/<name>/SKILL.md` from the plugin root. Principle names include the `principle-` prefix. These conventions apply to skill names throughout the bundled skills. Use the shortest clear reference with an explicit, validated path. Add a Markdown link label when it helps the reader decide whether to open the file. Otherwise use a backticked path. Keep configuration paths, output paths, and filename examples in backticks. Resolve supporting paths relative to the document containing the reference, not the working directory or the skill root. Paths explicitly described as project paths resolve from the project root. Most skills are hidden from automatic selection. Run a named skill by reading its file in full and following it. When delegating, pass the plugin root and the absolute path of each skill or prompt file. Copied prompt text keeps its source file as the base for relative references. [The locations reference](references/locations.md) defines local playbooks and where polaris writes its files.
 
 - **About to change code you have not traced**, or asked how something works → `how`.
 - **Asked to explain or walk through a PR, a branch, a commit, or a diff** → `walkthrough`.
@@ -95,7 +95,7 @@ Bundled skills are sibling directories under `skills/`. Resolve a skill name as 
 
 ## Playbooks
 
-Run matched playbooks under `playbooks/README.md`. Resolve each bundled playbook title as `playbooks/<title>.md` relative to this skill, with the title in lowercase and spaces replaced by hyphens. Explicit paths override this convention. Also match the local playbooks in `.agents/polaris/playbooks/` in the project root and in `~`, as `references/locations.md` describes.
+Run matched playbooks under [Playbooks](playbooks/README.md). Resolve each bundled playbook title as `playbooks/<title>.md` relative to this skill, with the title in lowercase and spaces replaced by hyphens. Explicit paths override this convention. Also match the local playbooks in `.agents/polaris/playbooks/` in the project root and in `~`, as [the locations reference](references/locations.md) describes.
 
 - **Feature development.** Add or change intended behavior.
 - **Bug fix.** Fix a reported failure or performance regression.

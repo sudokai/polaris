@@ -7,7 +7,7 @@ description: "Test-driven development with a red-green-refactor loop. Use when t
 
 ## Philosophy
 
-Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. `principle-test-behavior-not-implementation` is the rule, with the two imagined edits that judge each test. See [mocking.md](mocking.md) for where to mock.
+Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. `principle-test-behavior-not-implementation` is the rule, with the two imagined edits that judge each test. See `mocking.md` for where to mock.
 
 ## Anti-Pattern: Horizontal Slices
 

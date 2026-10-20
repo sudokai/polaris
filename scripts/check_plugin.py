@@ -123,11 +123,13 @@ HARNESS_FACT_FILES = (
     "polaris/references/models.md",
     "polaris/references/model-profiles/",
     "polaris/references/harnesses.md",
+    "polaris/references/rendering-pictures.md",
+    "polaris/references/writing-global-instructions.md",
     "setup-polaris/",
 )
 
-MARKDOWN_LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
-BACKTICKED_PATH = re.compile(r"`((?:\.\./)+[^`\s<>*]+\.md|(?:references|principles|playbooks)/[^`\s<>*]+)`")
+MARKDOWN_LINK = re.compile(r"\]\(([^)\s]+)\)")
+BACKTICKED_PATH = re.compile(r"`((?:(?:\.\./|\./)+|(?:references|principles|playbooks)/)[^`\s<>*]+|[\w-]+\.md(?:#[^`\s]+)?)`")
 
 # Supported work kind/level combinations; unclassified is validated separately.
 WORK_ASSIGNMENTS = {
@@ -204,14 +206,37 @@ def check_invocation(skills_dir: Path) -> list[Problem]:
     return problems
 
 
-def resolves(target: str, md_file: Path, skill_root: Path) -> bool:
-    return (md_file.parent / target).exists() or (skill_root / target).exists()
+def resolves(target: str, md_file: Path) -> bool:
+    """Resolve a document reference from its containing file, including heading anchors."""
+    file_name, separator, anchor = target.partition("#")
+    destination = md_file.parent / file_name if file_name else md_file
+    if not destination.exists():
+        return False
+    if not separator:
+        return True
+    if not destination.is_file():
+        return False
+    headings = set()
+    counts = {}
+    in_code_block = False
+    for line in destination.read_text().splitlines():
+        if line.lstrip().startswith(("```", "~~~")):
+            in_code_block = not in_code_block
+            continue
+        if in_code_block:
+            continue
+        match = re.match(r"^#{1,6} +(.+?)(?: +#+)?$", line)
+        if match:
+            slug = re.sub(r"[^\w\- ]", "", match.group(1).lower()).replace(" ", "-")
+            count = counts.get(slug, 0)
+            counts[slug] = count + 1
+            headings.add(f"{slug}-{count}" if count else slug)
+    return anchor in headings
 
 
 def check_links(skills_dir: Path) -> list[Problem]:
     problems = []
     for md_file in sorted(skills_dir.rglob("*.md")):
-        skill_root = skills_dir / md_file.relative_to(skills_dir).parts[0]
         in_code_block = False
         for number, line in enumerate(md_file.read_text().splitlines(), start=1):
             if line.lstrip().startswith("```"):
@@ -220,12 +245,18 @@ def check_links(skills_dir: Path) -> list[Problem]:
             if in_code_block:
                 continue
             targets = [m.group(1) for m in MARKDOWN_LINK.finditer(line)]
-            targets += [m.group(1) for m in BACKTICKED_PATH.finditer(line)]
+            targets += [m.group(1) for m in BACKTICKED_PATH.finditer(line)
+                        if not line[:m.start()].endswith("[")]
             for target in targets:
-                if re.match(r"^[a-z]+:", target) or not re.search(r"[./]", target):
+                if re.match(r"^[a-z]+:", target):
                     continue
-                if not resolves(target, md_file, skill_root):
-                    problems.append(Problem(md_file, number, f"link target `{target}` does not exist"))
+                if target == "SKILL.md":
+                    continue
+                if "/" not in target and "#" not in target and not (md_file.parent / target).exists():
+                    if not any(skills_dir.rglob(target)):
+                        continue
+                if not resolves(target, md_file):
+                    problems.append(Problem(md_file, number, f"document reference `{target}` does not resolve from its containing file or names a missing heading"))
     return problems
 
 

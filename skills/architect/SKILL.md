@@ -38,21 +38,21 @@ When designing types and signatures, make invalid states unrepresentable per `pr
 
 When designing validation, error handling, or framework adapters, place them per `principle-boundary-discipline`.
 
-Choose the smallest review that addresses the decision. State which path you chose and why. Choose subagent models with `../polaris/references/models.md`.
+Choose the smallest review that addresses the decision. State which path you chose and why. Choose subagent models with [model budgets](../polaris/references/models.md).
 
 - **Settled shape:** ground and document the design, including the caller's usage, types, interfaces, and module boundaries relevant to the work. Reuse an existing sketch where it covers these decisions. No competing sketches or design reviewer are needed.
-- **Moderate uncertainty:** write one proposal yourself, using `references/runner-prompt.md` and `references/rationale-template.md`. Start one fresh reviewer for `kind: reasoning`, `level: hard` with the task, grounding, proposal's usage sketch, types, signatures, and module map, `references/design-red-flags.md`, and the comparison criteria below. Ask it to challenge the shape, identify a stronger alternative if warranted, and cite concrete risks. Do not pass your rationale until its first pass is complete. Reconcile against the source and record the review and your decision.
+- **Moderate uncertainty:** write one proposal yourself, using [design prompt](references/runner-prompt.md) and [rationale template](references/rationale-template.md). Start one fresh reviewer for `kind: reasoning`, `level: hard` with the task, grounding, proposal's usage sketch, types, signatures, and module map, [design red flags](references/design-red-flags.md), and the comparison criteria below. Ask it to challenge the shape, identify a stronger alternative if warranted, and cite concrete risks. Do not pass your rationale until its first pass is complete. Reconcile against the source and record the review and your decision.
 - **Consequential commitment:** use two independent designers and a judge as described below. Choose this path for security boundaries, data-loss risks, public compatibility, difficult migrations, or ownership decisions that would be costly to reverse. Also use it when the user requests competing designs.
 
-For the consequential path, start two subagents for `kind: reasoning`. Select `level: hard` or `level: very_hard` according to the unresolved reasoning difficulty. Give each its own worktree or scratch directory and start them at the same time. Give each the design task, the same Phase A grounding, and `references/runner-prompt.md`. Neither sees the other's work. Each produces a design package shaped per `references/rationale-template.md`.
+For the consequential path, start two subagents for `kind: reasoning`. Select `level: hard` or `level: very_hard` according to the unresolved reasoning difficulty. Give each its own worktree or scratch directory and start them at the same time. Give each the design task, the same Phase A grounding, and [design prompt](references/runner-prompt.md). Neither sees the other's work. Each produces a design package shaped per [rationale template](references/rationale-template.md).
 
 On this path, require two independently produced candidates before synthesis, even when the first looks sufficient. Seek whole-shape alternatives, per `principle-exhaust-the-design-space`. If the two candidates converge on the same shape, record the convergence and skip the graft.
 
-On the consequential path, then start one judge subagent for `kind: reasoning`, selecting `level: hard` or `level: very_hard` according to the reasoning difficulty. It wrote neither sketch. Give it both packages by neutral labels, `references/design-red-flags.md`, and the comparison criteria below. It scores each candidate against each criterion and recommends a base. Reviewers and the judge do not start further agents.
+On the consequential path, then start one judge subagent for `kind: reasoning`, selecting `level: hard` or `level: very_hard` according to the reasoning difficulty. It wrote neither sketch. Give it both packages by neutral labels, [design red flags](references/design-red-flags.md), and the comparison criteria below. It scores each candidate against each criterion and recommends a base. Reviewers and the judge do not start further agents.
 
 Comparison criteria:
 
-- **Red flags.** Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md). Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.
+- **Red flags.** Screen every candidate against `references/design-red-flags.md`. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.
 - **Interface depth.** Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
 - **Extensibility.** Prefer the design a future maintainer can extend without breaking invariants. When two feel tied, prefer the cleaner boundary or the smaller API, per the `principle-laziness-protocol`.
 
@@ -100,4 +100,4 @@ When you scrap:
 
 ## Outputs
 
-The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes. Module map plus type definitions for larger work. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision.
+The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes. Module map plus type definitions for larger work. The rationale ships alongside, shaped per [rationale template](references/rationale-template.md), including the usage sketch and the synthesis decision.

@@ -1,6 +1,6 @@
 # Investigator Prompt Template
 
-Fill in the placeholders. Supply only the sections of `source-playbook.md` for the assigned sources, using `sources/code-archaeology.md` for source control. If the target code looks defensive, also supply `sources/incident-postmortem.md`. Include the bounded question, assigned sources or linked trail, and searches already completed.
+Fill in the placeholders. Supply only the sections of [Source playbook](source-playbook.md) for the assigned sources, using [code history](sources/code-archaeology.md) for source control. If the target code looks defensive, also supply [incident context](sources/incident-postmortem.md). Include the bounded question, assigned sources or linked trail, and searches already completed.
 
 ---
 

@@ -26,7 +26,7 @@ Answer a "why" question by synthesizing evidence gathered directly or by investi
 
 ## Epistemics Framework
 
-You MUST follow `references/epistemics.md`. Read it in full before writing. The key rules:
+You MUST follow [confidence rules](epistemics.md). Read it in full before writing. The key rules:
 
 1. Every claim must sit in one tier: **Direct**, **Supported**, **Inferred**, **Speculative**, **Unknown**. The tier sets its section and its phrasing.
 2. Every Direct/Supported claim must have a citation (PR #, ticket ID, doc URL, chat permalink, commit hash, or file:line).

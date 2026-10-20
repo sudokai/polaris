@@ -1,8 +1,8 @@
 # Source playbook
 
-Use the sections for the sources the investigation needs, adapted to the available tools. For delegated searches, give each investigator only its assigned sections. Source control has its own playbook in [`code-archaeology.md`](./sources/code-archaeology.md).
+Use the sections for the sources the investigation needs, adapted to the available tools. For delegated searches, give each investigator only its assigned sections. Source control has its own playbook in `./sources/code-archaeology.md`.
 
-Add the cross-cutting [`incident-postmortem.md`](./sources/incident-postmortem.md) when the target code looks defensive: null checks, retries, timeouts, rate limits, feature flags, egress guards, or out-of-memory handlers.
+Add the cross-cutting `./sources/incident-postmortem.md` when the target code looks defensive: null checks, retries, timeouts, rate limits, feature flags, egress guards, or out-of-memory handlers.
 
 ## Issue or ticket tracker
 

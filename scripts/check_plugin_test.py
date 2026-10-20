@@ -112,5 +112,41 @@ class ModelBudgetValidationTest(unittest.TestCase):
         self.assertTrue(check_model_agents(self.root))
 
 
+class DocumentReferenceValidationTest(unittest.TestCase):
+    def setUp(self):
+        self.workspace = tempfile.TemporaryDirectory()
+        self.addCleanup(self.workspace.cleanup)
+        self.skills = Path(self.workspace.name) / "skills"
+        self.skill = self.skills / "example"
+        self.references = self.skill / "references"
+        self.references.mkdir(parents=True)
+        (self.references / "models.md").write_text("# Models\n\n## Agent definitions\n")
+
+    def check_document(self, text):
+        from check_plugin import check_links
+        (self.references / "caller.md").write_text(text)
+        return check_links(self.skills)
+
+    def test_document_relative_links_and_existing_headings_are_accepted(self):
+        self.assertEqual([], self.check_document(
+            "[Definitions](models.md#agent-definitions)\n`models.md#agent-definitions`\n"))
+
+    def test_missing_heading_is_rejected_in_links_and_code_spans(self):
+        for reference in ("[Definitions](models.md#missing)", "`models.md#missing`"):
+            with self.subTest(reference=reference):
+                self.assertTrue(self.check_document(reference))
+
+    def test_skill_root_fallback_is_rejected(self):
+        self.assertTrue(self.check_document("`references/models.md`"))
+
+    def test_bare_filename_in_another_directory_is_rejected(self):
+        (self.skill / "other.md").write_text("# Other\n")
+        self.assertTrue(self.check_document("Read `other.md`."))
+
+    def test_link_labels_and_output_filenames_are_not_references(self):
+        self.assertEqual([], self.check_document(
+            "Read [`definitions.md`](models.md). Write `NOTES.md`. Use a `SKILL.md` file.\n"))
+
+
 if __name__ == "__main__":
     unittest.main()

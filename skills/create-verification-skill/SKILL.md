@@ -22,7 +22,7 @@ Use the caller's build and startup evidence when it still describes this checkou
 
 ## 2. Generate the skill
 
-Write `verify-<app>/SKILL.md` in the project skill directory that `../polaris/references/harnesses.md` names for this harness. Give it YAML frontmatter (`name: verify-<app>` and a `description` that names the app, the surface, and when to reach for it — without frontmatter the skill never registers) and these sections, each grounded in what the interview actually found (no placeholders left):
+Write `verify-<app>/SKILL.md` in the project skill directory that [harness reference](../polaris/references/harnesses.md) names for this harness. Give it YAML frontmatter (`name: verify-<app>` and a `description` that names the app, the surface, and when to reach for it — without frontmatter the skill never registers) and these sections, each grounded in what the interview actually found (no placeholders left):
 
 - **Launch:** the exact command that starts the app for verification, and how to tell it's ready (a log line, a prompt). Launch must reach a usable state from an empty data dir, including any migrations and seed data. Ready means usable, not just that a process answers: a database health check can pass while its init scripts are still running. Include teardown. For a short-lived CLI or TUI there is no server to keep alive: launch means build the binary (or install deps) once, then start each drive in its own isolated PTY or tmux session.
 - **Doctor:** one read-only check that answers "is this instance worth driving?" — process up, right version/build, port owned by us, auth valid. An agent runs this first whenever anything looks off.
@@ -33,11 +33,11 @@ Write `verify-<app>/SKILL.md` in the project skill directory that `../polaris/re
 
 ## 3. Seed the feature map
 
-Create `verify-<app>/features/README.md` plus one file per user-facing feature you can identify (aim for the top 3-5 to start, from routes, commands, menus, or docs). Follow the shape in [`references/feature-map-example/`](references/feature-map-example/), with a README index and one file per feature. Each file answers, from the user's point of view: what the feature is, how to reach it, how to drive it with the harness, and what observable end state proves it works. The four H2s are `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>`, and `Gotchas`. If the seed data lacks a precondition that a journey needs, the journey reports a failure and the reason goes in that feature's `Gotchas`. Never weaken the journey to make it pass. The map is the repo's maintained verification source; a proof that drives one convenient entry point is incomplete when the map lists others.
+Create `verify-<app>/features/README.md` plus one file per user-facing feature you can identify (aim for the top 3-5 to start, from routes, commands, menus, or docs). Follow the shape in `references/feature-map-example/`, with a README index and one file per feature. Each file answers, from the user's point of view: what the feature is, how to reach it, how to drive it with the harness, and what observable end state proves it works. The four H2s are `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>`, and `Gotchas`. If the seed data lacks a precondition that a journey needs, the journey reports a failure and the reason goes in that feature's `Gotchas`. Never weaken the journey to make it pass. The map is the repo's maintained verification source; a proof that drives one convenient entry point is incomplete when the map lists others.
 
 ## 4. Accept the generated skill
 
-Follow `references/acceptance.md` before calling the skill ready. Return its path, feature map, commands, verdict, evidence, missing prerequisites, and unverified behavior.
+Follow [acceptance checks](references/acceptance.md) before calling the skill ready. Return its path, feature map, commands, verdict, evidence, missing prerequisites, and unverified behavior.
 
 If the caller schedules acceptance separately, return the files, startup evidence, and prerequisites as a draft. Reuse valid acceptance results for the current files.
 

@@ -10,7 +10,7 @@ Create or update the pull request for the current task with a concise descriptio
 
 ## Workflow
 
-1. Read the description template, `references/pr-description-template.md`.
+1. Read `references/pr-description-template.md`.
 
 2. Identify or create the pull request:
    - Check the current branch for a PR with `gh pr view --json url,number,title,state,baseRefName,headRefName 2>/dev/null`.

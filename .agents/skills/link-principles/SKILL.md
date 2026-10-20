@@ -12,7 +12,7 @@ Link when a principle supplies decision guidance a step needs. Omit a link when 
 
 ## 1. Map
 
-Run `python3 .agents/skills/link-principles/scripts/principle_links.py .` from the repository root. It maps direct links from skills in `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py` and reports unlinked principles and skills. It leaves out names in `unlinked-on-purpose.md`.
+Run `python3 .agents/skills/link-principles/scripts/principle_links.py .` from the repository root. It maps direct links from skills in `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py` and reports unlinked principles and skills. It leaves out names in [Left unlinked on purpose](unlinked-on-purpose.md).
 
 Treat these lists as review candidates, not failures or quotas. The map does not inspect hidden skills, supporting references, or links reached through other skills. Empty lists do not prove that existing links are useful; a skill with no principle link may need none.
 
@@ -28,7 +28,7 @@ Read each candidate skill in full, its relevant supporting references, and the f
 - Account for what each reader receives. A separate agent prompt may need guidance already present in the coordinator's skill; that repetition can be necessary.
 - Weigh the reading cost. Prefer one relevant reference at the decision step over several overlapping references or a chain of files to open.
 
-Propose only useful additions, replacements, and removals. Give a table with the action, principle, skill, step, exact proposed wording, and the decision it improves. If nothing earns a change, say so and stop. Uncovered principles and skills without links may remain, with an explanation. Propose an exclusion in `unlinked-on-purpose.md` only when recording that reason would prevent repeated unnecessary proposals.
+Propose only useful additions, replacements, and removals. Give a table with the action, principle, skill, step, exact proposed wording, and the decision it improves. If nothing earns a change, say so and stop. Uncovered principles and skills without links may remain, with an explanation. Propose an exclusion in [Left unlinked on purpose](unlinked-on-purpose.md) only when recording that reason would prevent repeated unnecessary proposals.
 
 Write links as a short clause in the relevant step or a conditional trigger: "**Situation** → per [Principle](../principle-<name>/SKILL.md)". Never add a reading list at the top of a skill. Keep the skill's voice; use the `write-clearly` skill.
 

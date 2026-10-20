@@ -4,7 +4,7 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 
 ## What's inside
 
-- **Router:** `skills/polaris/`, with playbooks in `playbooks/`, model budgets in `references/models.md`, and per-harness facts in `references/harnesses.md`.
+- **Router:** `skills/polaris/`, with playbooks in `playbooks/`, [model budgets](skills/polaris/references/models.md), and [per-harness facts](skills/polaris/references/harnesses.md).
 - **Playbooks:** feature development, bug fixes, refactoring, verification setup, session pickup, and safe pauses. Playbooks own the sequence and delivery; skills own each capability's method and output; principles guide decisions.
 - **Principles:** 24 hidden skills named `principle-<slug>`, such as `principle-prove-it-works`. Run the skill to apply that rule. The router indexes the same skills.
 - **Mapping:** `how`, `why`, `walkthrough`, and `blast-radius`.
@@ -36,7 +36,7 @@ To install or refresh it in every harness on your machine, run the repository's 
 
 Start a task with `/polaris` (in pi, `/skill:polaris`), followed by what you want.
 
-For implementation, the router selects the feature-development, bug-fix, or refactor playbook. Steps reuse prior findings and valid evidence, and call only the skills the task needs. A design-only request returns a design; it does not start implementation. `figure-it-out` creates a task-specific playbook when existing ones do not fit. The shared execution and completion rules live in [`skills/polaris/playbooks/README.md`](skills/polaris/playbooks/README.md).
+For implementation, the router selects the feature-development, bug-fix, or refactor playbook. Steps reuse prior findings and valid evidence, and call only the skills the task needs. A design-only request returns a design; it does not start implementation. `figure-it-out` creates a task-specific playbook when existing ones do not fit. The shared execution and completion rules live in [playbook execution rules](skills/polaris/playbooks/README.md).
 
 Run `/setup-polaris` to select a provider profile, a budget (medium by default), and optional fixed kind/level overrides. Assignments have a kind (`reasoning` or `execution`) and a level within that kind. Profiles select model–effort pairs for those assignments; they do not change the main conversation's model. Project configuration is saved in `.agents/polaris/models.yaml`. User configuration goes in the current harness's config directory, such as `~/.codex/polaris/models.yaml`. Hermes retains its existing delegation settings. For help with polaris itself, run `/polaris-help` with a question.
 
@@ -44,11 +44,11 @@ Sixteen skills also start on their own when they fit, without `/polaris`: `prove
 
 ## Local files
 
-polaris keeps project model settings, local playbooks, the deferred-fix backlog, and resume notes in `.agents/polaris/`. User model settings live in each harness's config directory; user playbooks live in `~/.agents/polaris/playbooks/`. A project setting wins over a user setting. Local playbooks add to the bundled ones and never replace them. `reflect` records lessons there and in instruction files instead of editing the plugin. `skills/polaris/references/locations.md` is the full contract.
+polaris keeps project model settings, local playbooks, the deferred-fix backlog, and resume notes in `.agents/polaris/`. User model settings live in each harness's config directory; user playbooks live in `~/.agents/polaris/playbooks/`. A project setting wins over a user setting. Local playbooks add to the bundled ones and never replace them. `reflect` records lessons there and in instruction files instead of editing the plugin. [Locations](skills/polaris/references/locations.md) is the full contract.
 
 ## Documentation
 
-`GLOSSARY.md` defines the terms polaris uses. `docs/README.md` indexes the decision records and the open work.
+[Glossary](GLOSSARY.md) defines the terms polaris uses. [polaris documentation](docs/README.md) indexes the decision records and the open work.
 
 ## Develop
 

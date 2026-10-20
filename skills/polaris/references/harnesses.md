@@ -1,6 +1,6 @@
 # Harnesses
 
-Facts about each harness that polaris skills need, apart from models (see `models.md`). Identify the harness from your system prompt and tools.
+Facts about each harness that polaris skills need, apart from models (see [model budgets](models.md)). Identify the harness from your system prompt and tools.
 
 ## User model settings
 
@@ -67,11 +67,7 @@ When you tell the user which command to type, use the form their harness shows:
 
 ## Rendering pictures
 
-- **Screenshots and videos:** embed each one inline and also link its file path.
-- **Diagrams:** in a harness that renders Mermaid, draw a diagram as a Mermaid code block. In any other harness, draw it as plain text in a code block.
-  - Render Mermaid: `pi`, `grok-build`, `codex`, and `cursor`.
-  - Do not render Mermaid: `claude-code`, `hermes`, `dsh`, and any harness not listed here.
-- To show an HTML file, use the harness's own way to publish or preview a page when it has one. Otherwise give the file's path and open it in the browser with the system opener: `open` on macOS, `xdg-open` on Linux, or `start` on Windows.
+Follow [rendering guidance](rendering-pictures.md).
 
 ## Project skill directories
 
@@ -107,24 +103,4 @@ When a skill says to create or substantially edit a skill, use the harness's ski
 
 ## Global instruction files
 
-Each harness reads its own global instruction file:
-
-- **`claude-code`**: `~/.claude/AGENTS.md`
-- **`codex`**: `$CODEX_HOME/AGENTS.md`, by default `~/.codex/AGENTS.md`
-- **`grok-build`**: `~/.grok/AGENTS.md`
-- **`pi`**: `~/.pi/agent/AGENTS.md`
-- **`hermes`**: `~/.hermes/SOUL.md`
-- **`dsh`**: `$DSH_HOME/AGENTS.md`, by default `~/.dsh/AGENTS.md`
-- **`cursor`**: a rule file in `~/.cursor/rules/` with `alwaysApply: true` frontmatter, such as `agents.mdc`
-
-### Writing a line for every harness
-
-A user-level line that holds in every harness goes into each harness's global instruction file:
-
-1. List the harnesses on this machine: those whose command exists (`claude`, `codex`, `grok`, `pi`, `hermes`, `dsh`) or, for `cursor`, whose `~/.cursor/rules/` directory exists.
-2. Resolve each harness's file to its real path (`realpath`). Files linked to one shared file resolve to the same path, so write to each real path once.
-3. Skip a file that already contains the line. Otherwise append it. If a harness has no file yet, propose creating it.
-
-Report each file written and each one skipped because the line was already there.
-
-To check that a harness loads its file, run a one-shot session and ask whether its context contains a line from the file: `claude -p`, `codex exec --skip-git-repo-check`, `grok -p`, `pi -p`, or `hermes -z`. Check `cursor` in the editor, because its command-line agent does not load this file. Check `dsh` in an interactive session.
+Follow [global instruction rules](writing-global-instructions.md) for file paths and updates.

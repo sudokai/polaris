@@ -43,7 +43,7 @@ Read the PR description, commit messages, and review comments. If they don't exp
       - surprising behavior
       - suspicious defaults
       - unexplained hard-coded numbers
-    - **Design:** the red flags in `../architect/references/design-red-flags.md`.
+    - **Design:** the [design red flags](../architect/references/design-red-flags.md).
   - **Changes that need a person's attention even when the code looks right:**
     - database migrations
     - new or changed dependencies

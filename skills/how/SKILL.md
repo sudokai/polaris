@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
-Classify each exploration assignment by its uncertainty. Choose its model with `../polaris/references/models.md`. Explorers only read and search the code. They never edit files. You write the explanation yourself.
+Classify each exploration assignment by its uncertainty. Choose its model with [model budgets](../polaris/references/models.md). Explorers only read and search the code. They never edit files. You write the explanation yourself.
 
 ## Step 1. Assess Complexity
 
@@ -23,7 +23,7 @@ When in doubt, take the simple path.
 
 Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Start all explorers at once, normally classified as `kind: execution`, `level: regular`. Use `kind: reasoning`, `level: hard` for a slice requiring unfamiliar reasoning rather than straightforward source exploration.
 
-Each explorer gets the prompt in `references/explorer-prompt.md` with its angle filled in. Then go to Step 3.
+Each explorer gets the [exploration prompt](references/explorer-prompt.md) with its angle filled in. Then go to Step 3.
 
 ## Step 2b. Explore (simple questions only)
 
@@ -31,8 +31,8 @@ Read and search the code yourself. Then go to Step 3.
 
 ## Step 3. Explain
 
-Write the explanation following `references/explanation-format.md`. For a complex question, reconcile the explorers' findings first: merge overlaps, and resolve contradictions by checking the code.
+Write the explanation following [explanation format](references/explanation-format.md). For a complex question, reconcile the explorers' findings first: merge overlaps, and resolve contradictions by checking the code.
 
 ## Output Format
 
-The explanation uses the sections defined in `references/explanation-format.md`, dropping any that do not apply: Overview, Key Concepts, How It Works, Where Things Live, Gotchas.
+The explanation uses the sections defined in [explanation format](references/explanation-format.md), dropping any that do not apply: Overview, Key Concepts, How It Works, Where Things Live, Gotchas.

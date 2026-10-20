@@ -4,11 +4,11 @@
 
 Use this playbook to resume one specific piece of unfinished work. To catch up on a topic across many sessions, use the `recall` skill instead.
 
-1. Select the resume note (`../references/locations.md`):
+1. Select the resume note ([location rules](../references/locations.md)):
    - If the user names a note or a path, use it.
    - Otherwise, read the header fields of each note in `.agents/polaris/resume/` whose `status` is not `done`. If the user named the task, keep the notes whose `task` matches it. Otherwise, keep the notes whose `branch` and `worktree` match the current ones.
    - If one note matches, use it. If several match, list each one's `task`, `branch`, and `updated`, and ask which to resume. Never choose by recency alone.
-   - If none matches, use a pushed branch or a transcript instead. Find transcripts with `../references/harnesses.md`, and read only this project's transcripts unless the user points at another. Read the metadata and the last messages first, then scan back for the decision points. Parse a long transcript in a subagent for `kind: execution`, `level: regular` extraction, selected with `../references/models.md`, and keep only the reduced timeline in your context (`principle-guard-the-context-window`).
+   - If none matches, use a pushed branch or a transcript instead. Find transcripts with [transcript locations](../references/harnesses.md#transcripts), and read only this project's transcripts unless the user points at another. Read the metadata and the last messages first, then scan back for the decision points. Parse a long transcript in a subagent for `kind: execution`, `level: regular` extraction, selected with [model budgets](../references/models.md), and keep only the reduced timeline in your context (`principle-guard-the-context-window`).
 2. Reconstruct the operational state: the branch and worktree, what already landed (`git log`, and `git diff` against the base), the open todos, and the decisions made. The prior trail is authoritative input. Resist the urge to re-derive it.
 3. Compare what is done with what is pending and name the resume point. Reuse valid source and reproduction evidence; do not redo completed work merely because another agent produced it.
 4. Check material inherited claims against the original goal on the real artifact (`principle-prove-it-works`). Read existing evidence first. Rerun only when it is missing, stale, or contradicted; a passing self-report alone is not proof.

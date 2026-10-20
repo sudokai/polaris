@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Setup polaris
 
-Configure delegated assignments using `../polaris/references/models.md`. Read it first; it owns kind/level meanings, defaults, YAML syntax, precedence, fallback authorization, and harness application. Load only the selected profile table. Do not change the main conversation's model.
+Configure delegated assignments using [model budgets](../polaris/references/models.md). Read it first; it owns kind/level meanings, defaults, YAML syntax, precedence, fallback authorization, and harness application. Load only the selected profile table. Do not change the main conversation's model.
 
 ## 1. Identify the harness and its controls
 
@@ -31,7 +31,7 @@ Identify `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, or `hermes
 
 ## 2. Read configuration and detect capabilities
 
-Read the current harness section from `.agents/polaris/models.yaml` and its user model settings file in `../polaris/references/locations.md#user-model-settings`. Follow that reference's path and migration rules. Merge settings as `models.md` specifies; do not read or migrate legacy role files. Suggest the existing profile/budget, otherwise the harness default and medium.
+Read the current harness section from `.agents/polaris/models.yaml` and its user model settings file in [User model settings](../polaris/references/locations.md#user-model-settings). Follow that reference's path and migration rules. Merge settings as [model selection](../polaris/references/models.md) specifies; do not read or migrate legacy role files. Suggest the existing profile/budget, otherwise the harness default and medium.
 
 Detect model IDs, connection routes, supported efforts, tool support, and required image support from the harness:
 
@@ -58,11 +58,11 @@ Show all five kind/level combinations and the separate unclassified allocation w
 
 ## 4. Save configuration and required definitions
 
-For **this project**, write `.agents/polaris/models.yaml`. For **every project**, write the current harness's user model settings file from `../polaris/references/locations.md#user-model-settings`; this scope applies only to that harness. Preserve the `harnesses` mapping, other harness sections, and unrelated settings. Omit unchanged defaults; remove a setting when the user resets it so the next scope applies. Do not erase an intentional empty fallback list. Show a diff before writing a user-scope file outside git, as `../polaris/references/locations.md` requires.
+For **this project**, write `.agents/polaris/models.yaml`. For **every project**, write the current harness's user model settings file from [User model settings](../polaris/references/locations.md#user-model-settings); this scope applies only to that harness. Preserve the `harnesses` mapping, other harness sections, and unrelated settings. Omit unchanged defaults; remove a setting when the user resets it so the next scope applies. Do not erase an intentional empty fallback list. Show a diff before writing a user-scope file outside git, as [the locations reference](../polaris/references/locations.md) requires.
 
-For harnesses needing agent definitions, follow **Agent definitions** in `models.md`. Generate one per distinct resolved primary/fallback pair rather than per kind/level. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions, including after a partial prior run, per `principle-make-operations-idempotent`.
+For harnesses needing agent definitions, follow [agent definitions](../polaris/references/models.md#agent-definitions). Generate one per distinct resolved primary/fallback pair rather than per kind/level. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions, including after a partial prior run, per `principle-make-operations-idempotent`.
 
-Save overrides and fallback lists nested by kind and level, with `unclassified` as a separate entry, as `models.md` specifies. Merge each kind/level independently; preserve inherited siblings and intentional empty fallback lists. Treat legacy flat category keys as configuration errors rather than silently migrating them.
+Save overrides and fallback lists nested by kind and level, with `unclassified` as a separate entry, as [model selection](../polaris/references/models.md) specifies. Merge each kind/level independently; preserve inherited siblings and intentional empty fallback lists. Treat legacy flat category keys as configuration errors rather than silently migrating them.
 
 Read back the saved YAML and definitions. Check that the effective configuration still resolves to the displayed table. If the save or validation fails, report the exact file and remedy; do not claim the change took effect. New definitions may need a new session or reload; state that before suggesting they can be used.
 
@@ -72,7 +72,7 @@ Report the profile, budget, resolved pairs and sources, paths written, substitut
 
 Make each offer once, skipping offers the project already has:
 
-- **App verification:** if no `verify-<app>` skill or other scripted way to drive the app exists, offer the Set up verification playbook (`../polaris/playbooks/set-up-verification.md`).
+- **App verification:** if no `verify-<app>` skill or other scripted way to drive the app exists, offer the [Set up verification playbook](../polaris/playbooks/set-up-verification.md).
 - **Formal verification:** if no formal verification skill exists, offer `create-formal-verification-skill` for a key property worth checking across all states in scope.
 
 Proceed with an offer only when accepted; on no, move on.
