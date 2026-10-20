@@ -4,6 +4,7 @@
 - [`adr/`](adr/) records the decisions that shape the plugin and why they were made.
 - [`open-work.md`](open-work.md) lists deferred work and harness behavior that is not yet verified.
 - [Model budget verification](model-budget-verification.md) records source checks, model comparisons, and live harness limitations.
+- [Syncing from pstack](upstream-sync.md) records the last pstack commit ported into polaris, so the next sync starts after it.
 
 The working contracts live with the skills: `skills/polaris/references/locations.md` for local files and local playbooks, `skills/polaris/references/models.md` for model budgets, and `skills/polaris/references/harnesses.md` for per-harness facts.
 
@@ -27,3 +28,4 @@ The working contracts live with the skills: `skills/polaris/references/locations
 16. [`reflect` generalizes each lesson as far as its scope, and no further](adr/0016-reflect-generalizes-lessons-by-scope.md)
 17. [Budgets select model–effort pairs by work category](adr/0017-model-effort-budget-profiles.md) (classification refined by 18)
 18. [Select models by assignment kind and level](adr/0018-assignment-kind-and-level.md)
+19. [`sharpen` returns a rewritten prompt and does not do the task](adr/0019-sharpen-returns-a-rewritten-prompt.md)

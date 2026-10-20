@@ -26,7 +26,7 @@ Check the state that changes the answer, and mention it only when it does:
 
 - No model configuration file (`../polaris/references/locations.md`) means assignments use the harness's default profile at medium budget, where the harness supports model selection. Mention `/setup-polaris` when the question is about setup, cost, or which models run.
 - No `verify-<app>` skill or other app harness in the project means agents have no scripted way to drive the app. Mention the Set up verification playbook when the question is about proving a change works.
-- No formal verification skill in the project means no property is checked past what tests reach. Mention `/create-formal-verification-skill` when the question is about a race, an invariant, or another case tests rarely hit.
+- No formal verification skill in the project means no property is checked past what tests reach. Mention `/create-formal-verification-skill` when the question is about a race, an invariant, or another case tests rarely hit. When one exists and the code it covers changed after the commit it records as last in sync, mention `/maintain-formal-verification-skill` if the question touches that code.
 
 ## Get set up
 
@@ -52,7 +52,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 |---|---|
 | Do any nontrivial task with rigor | [`polaris`](../polaris/SKILL.md) |
 | Check that the agent understood their goal and the problem before it starts | [`restate-my-intent`](../restate-my-intent/SKILL.md) |
-| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | [`sharpen`](../sharpen/SKILL.md) |
+| Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | [`sharpen`](../sharpen/SKILL.md) |
 | Translate AI prose into plain human language | [`say-it-plainly`](../say-it-plainly/SKILL.md) |
 | Settle a plan or a design through a few rounds of questions, before any code | [`discuss`](../discuss/SKILL.md) |
 | Sharpen the project's terms and record them in `GLOSSARY.md`, or record a decision | [`domain-modeling`](../domain-modeling/SKILL.md) |
@@ -92,7 +92,7 @@ Close calls:
 - `blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe. `prove-it` proves one claim about the change itself.
 - `recall` rebuilds context across recent sessions. `ketchup` covers only this session since the user's last message. Resuming one specific session or branch is the Session pickup playbook.
 - `prototype` is for a call a person must make. When the agent can make the call by running something, it runs the smallest script instead.
-- `sharpen` frames the task and then does it, without asking. `discuss` asks the user over several rounds and stops before any code.
+- `sharpen` rewrites the user's prompt in one turn, without asking, and doesn't do the task. `discuss` asks the user over several rounds and stops before any code.
 - `deslop` simplifies the design of finished work. `sweep-residue` then removes what only makes sense to someone who saw the conversation.
 - `tdd` writes new tests one at a time. `fix-change-detector-tests` checks tests that already exist.
 
