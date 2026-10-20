@@ -29,6 +29,8 @@ Give each numbered step an outcome, method or skill, inputs, and required eviden
 - Define verifiable units and any planned migration boundaries. Require `decision-log` (`../decision-log/SKILL.md`) at the full level and use the shared implementation and completion rules instead of copying them.
 - Define final checks on the actual result with `prove-it` (`../prove-it/SKILL.md`). Include prevention for recurring mistakes only within scope, per [Encode Lessons in Structure](../principle-encode-lessons-in-structure/SKILL.md).
 
+Write with [technical-writing](../technical-writing/SKILL.md). Preserve the playbook format.
+
 Save the playbook with the task's working files under an unused descriptive name. Preserve existing plans and make links resolve from the saved file. Do not install it as a permanent playbook or add it to the bundled index.
 
 ## 3. Hand off for execution

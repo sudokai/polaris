@@ -34,7 +34,7 @@ Check the state that changes the answer, and mention it only when it does:
 2. Run `/setup-polaris`. It shows the profile and budget table, offers fixed kind/level overrides and fallbacks, and saves configuration for the chosen scope. Harness limitations are reported rather than silently ignored. Then it offers once each to set up app verification and formal verification for the project.
 3. Start a real task with `/polaris`, a goal, and a check that can pass or fail.
 
-Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
+Installing changes little until the user starts a task. The router runs only on `/polaris`. Sixteen skills start on their own when they fit: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, `walkthrough`, `technical-writing`, and `deslop-language`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` can select a different budget or profile. A task-only budget request leaves saved settings and fixed overrides unchanged; `../polaris/references/models.md` defines the selection and fallback rules. Save `/polaris` for work that needs rigor.
 
@@ -54,6 +54,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Check that the agent understood their goal and the problem before it starts | [`restate-my-intent`](../restate-my-intent/SKILL.md) |
 | Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | [`sharpen`](../sharpen/SKILL.md) |
 | Translate AI prose into plain human language | [`say-it-plainly`](../say-it-plainly/SKILL.md) |
+| Save a settled design as a standalone implementation plan | [`finalize-plan`](../finalize-plan/SKILL.md) |
 | Settle a plan or a design through a few rounds of questions, before any code | [`discuss`](../discuss/SKILL.md) |
 | Sharpen the project's terms and record them in `GLOSSARY.md`, or record a decision | [`define-domain-language`](../define-domain-language/SKILL.md) |
 | See the current topic as a diagram, a code-shape sketch, or an HTML page | [`show-me`](../show-me/SKILL.md) |
@@ -66,6 +67,8 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Design a substantial program, system, product, or codebase foundation before implementation, including types and interfaces | [`architect`](../architect/SKILL.md) |
 | Try a design by hand before building it | [`prototype`](../prototype/SKILL.md) |
 | Build a feature or fix a bug test-first, one test at a time | [`tdd`](../tdd/SKILL.md) |
+| Write or review docs, RFCs, READMEs, plans, playbooks, PR descriptions, or commit messages | [`technical-writing`](../technical-writing/SKILL.md) |
+| Remove AI writing patterns from prose | [`deslop-language`](../deslop-language/SKILL.md) |
 | Write code that a plain-text search finds in one try | [`write-discoverable-code`](../write-discoverable-code/SKILL.md) |
 | Simplify just-finished work without changing what it does | [`deslop`](../deslop/SKILL.md) |
 | Strip leftovers of the conversation from finished code and docs | [`sweep-residue`](../sweep-residue/SKILL.md) |
@@ -93,6 +96,8 @@ Close calls:
 - `recall` rebuilds context across recent sessions. `ketchup` covers only this session since the user's last message. Resuming one specific session or branch is the Session pickup playbook.
 - `prototype` is for a call a person must make. When the agent can make the call by running something, it runs the smallest script instead.
 - `sharpen` rewrites the user's prompt in one turn, without asking, and doesn't do the task. `discuss` asks the user over several rounds and stops before any code.
+- `finalize-plan` saves a settled design from any source as an implementation plan. `figure-it-out` designs an execution playbook. Their caller owns sequencing.
+- `technical-writing` covers document structure and style. `deslop-language` removes AI writing patterns. `say-it-plainly` translates selected prose using the surrounding context.
 - `deslop` simplifies the design of finished work. `sweep-residue` then removes what only makes sense to someone who saw the conversation.
 - `tdd` writes tests in red-green cycles. `no-change-detector-tests` evaluates whether a proposed test should exist and audits existing tests for useful behavior coverage.
 - `architect` returns a design and revisits it when evidence invalidates it. A design-only request ends there. If the user also requested implementation, the invoking agent continues that work directly or through a playbook.
@@ -112,7 +117,7 @@ Each principle is a hidden skill named `principle-<slug>`, such as `principle-pr
 | A question got treated as the next step of the last task | Say "new task", or say the turn does not need polaris. |
 | A new model choice had no effect | Role agents load in a new session in some harnesses. Start one. |
 | Runs cost more than expected | See the cost paragraph under **Get set up**. |
-| A skill did not start on its own | Only the router and the fourteen skills under **Get set up** can start on their own. The others start from `/polaris` or when the user types them. |
+| A skill did not start on its own | Only the router and the sixteen skills under **Get set up** can start on their own. The others start from `/polaris` or when the user types them. |
 | Parallel agents overwrote each other | Give each agent its own worktree. |
 | An unattended run moved but finished nothing | Give it a check that can pass or fail, not a duration. |
 | The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That is the Prove It Works principle. |

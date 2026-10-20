@@ -24,7 +24,7 @@ Create or update the pull request for the current task with a concise descriptio
    - Use `gh pr view` to collect PR metadata and changed files.
    - Read the `show-me` skill (`../show-me/SKILL.md`) for the views used in the change outline.
 
-4. Write the PR description using the template:
+4. Write the PR title and description with [technical-writing](../technical-writing/SKILL.md), excluding Diátaxis. Preserve the description template:
    - Keep **Why the change** to exactly one sentence.
    - Keep **Special things to note** to 1-3 bullets. Prioritize reviewer warnings, migrations, compatibility constraints, deliberate omissions, or surprising decisions. Write `- None.` when there are no special considerations.
    - Make **Change outline** a compact structural view built from the `show-me` views, not prose or a file-by-file changelog.

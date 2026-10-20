@@ -10,7 +10,8 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 - **Mapping:** `how`, `why`, `walkthrough`, and `blast-radius`.
 - **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, and `prove-it`.
 - **Debugging and tests:** `diagnose`, `tdd`, and `no-change-detector-tests`.
-- **Design and correction:** `discuss`, `define-domain-language`, `architect`, `prototype`, `show-me`, and `correct`.
+- **Design and correction:** `discuss`, `define-domain-language`, `architect`, `finalize-plan`, `prototype`, `show-me`, and `correct`.
+- **Technical prose:** `technical-writing` for document structure and style, and `deslop-language` for removing AI writing patterns.
 - **Writing and finishing code:** `write-discoverable-code`, `deslop`, `sweep-residue`, and `visual-pr`.
 - **Task-specific playbooks and decisions:** `figure-it-out` designs a playbook when none fits; `decision-log` records decisions during execution.
 - **Learning from history:** `reflect` and `recall`.
@@ -39,7 +40,7 @@ For implementation, the router selects the feature-development, bug-fix, or refa
 
 Run `/setup-polaris` to select a provider profile, a budget (medium by default), and optional fixed kind/level overrides. Assignments have a kind (`reasoning` or `execution`) and a level within that kind. Profiles select model–effort pairs for those assignments; they do not change the main conversation's model. Project configuration is saved in `.agents/polaris/models.yaml`. User configuration goes in the current harness's config directory, such as `~/.codex/polaris/models.yaml`. Hermes retains its existing delegation settings. For help with polaris itself, run `/polaris-help` with a question.
 
-Fourteen skills also start on their own when they fit, without `/polaris`: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`.
+Sixteen skills also start on their own when they fit, without `/polaris`: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, `walkthrough`, `technical-writing`, and `deslop-language`.
 
 ## Local files
 

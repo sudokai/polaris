@@ -21,8 +21,11 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 - **About to change code you have not traced**, or asked how something works → [how](../how/SKILL.md).
 - **Asked to explain or walk through a PR, a branch, a commit, or a diff** → [walkthrough](../walkthrough/SKILL.md).
 - **Asked why code is shaped the way it is**, or looking for regression history → [why](../why/SKILL.md).
+- **Writing or reviewing docs, RFCs, READMEs, plans, playbooks, PR descriptions, or commit messages** → [technical-writing](../technical-writing/SKILL.md).
+- **Editing prose to remove AI writing patterns** → [deslop-language](../deslop-language/SKILL.md).
 - **Any code** → name the data shape first, and choose its organizing structure per [Model the Domain](../principle-model-the-domain/SKILL.md). Name, type, and document it per [write-discoverable-code](../write-discoverable-code/SKILL.md).
 - **Asked to discuss a plan, flesh out an idea, or settle a design before building** → [discuss](../discuss/SKILL.md).
+- **Asked to save a standalone implementation plan from a settled design** → [finalize-plan](../finalize-plan/SKILL.md).
 - **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` or an ADR → [define-domain-language](../define-domain-language/SKILL.md).
 - **Explaining a design, a flow, or a change that is easier to see than to read** → [show-me](../show-me/SKILL.md).
 - **Substantial program, system, or product design, including foundational types, interfaces, ownership, or modules** → [architect](../architect/SKILL.md) before implementation, even when the approach seems clear.
