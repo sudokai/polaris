@@ -1,7 +1,7 @@
 {
   "name": "polaris",
   "displayName": "polaris",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A router skill, engineering principles, and playbooks that guide coding agents to map code, design agent-friendly architecture, and prove behavior. Derived from pstack.",
   "author": { "name": "Kaixi Luo" },
   "license": "MIT",
