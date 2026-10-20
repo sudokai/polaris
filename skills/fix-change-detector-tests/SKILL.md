@@ -5,7 +5,7 @@ description: Decide whether a new test should exist and what it asserts, and fin
 
 # Change-detector tests
 
-Tests should catch bugs, not just changes to the code. A change-detector test copies how the code works without a requirement that explains why those details matter. [Test Behavior, Not Implementation](../polaris/principles/test-behavior-not-implementation.md) is the rule. This skill is the procedure for applying it to a test before you write it and to tests that already exist.
+Tests should catch bugs, not just changes to the code. A change-detector test copies how the code works without a requirement that explains why those details matter. [Test Behavior, Not Implementation](../principle-test-behavior-not-implementation/SKILL.md) is the rule. This skill is the procedure for applying it to a test before you write it and to tests that already exist.
 
 ## Before writing a new test
 

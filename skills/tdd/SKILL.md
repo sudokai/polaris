@@ -7,7 +7,7 @@ description: "Test-driven development with a red-green-refactor loop. Use when t
 
 ## Philosophy
 
-Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. [Test Behavior, Not Implementation](../polaris/principles/test-behavior-not-implementation.md) is the rule, with the two imagined edits that judge each test. See [mocking.md](mocking.md) for where to mock.
+Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. [Test Behavior, Not Implementation](../principle-test-behavior-not-implementation/SKILL.md) is the rule, with the two imagined edits that judge each test. See [mocking.md](mocking.md) for where to mock.
 
 ## Anti-Pattern: Horizontal Slices
 
@@ -46,9 +46,9 @@ Before writing any code:
 - [ ] List the behaviors to test (not implementation steps), most important first
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
-- [ ] Name the core types and data structures first, per [Foundational Thinking](../polaris/principles/foundational-thinking.md)
+- [ ] Name the core types and data structures first, per [Foundational Thinking](../principle-foundational-thinking/SKILL.md)
 
-Decide who makes each of these calls per [Never Block on the Human](../polaris/principles/never-block-on-the-human.md). Internal interfaces and which behaviors to test are yours: decide, state the plan in a few lines, and start. A public API is the user's to judge, so show its sketch first. A change of scope is a product call, so ask.
+Decide who makes each of these calls per [Never Block on the Human](../principle-never-block-on-the-human/SKILL.md). Internal interfaces and which behaviors to test are yours: decide, state the plan in a few lines, and start. A public API is the user's to judge, so show its sketch first. A change of scope is a product call, so ask.
 
 **You can't test everything.** Focus testing effort on critical paths and complex logic, not every possible edge case.
 
@@ -80,12 +80,12 @@ Rules:
 - Only enough code to pass current test
 - Don't anticipate future tests
 - Keep tests focused on observable behavior
-- Make each cycle a unit you can verify and commit on its own, per [Sequence Work into Verifiable Units](../polaris/principles/sequence-verifiable-units.md)
-- When the next steps repeat the same edit, write the script or codemod that makes it, per [Build the Lever](../polaris/principles/build-the-lever.md)
+- Make each cycle a unit you can verify and commit on its own, per [Sequence Work into Verifiable Units](../principle-sequence-verifiable-units/SKILL.md)
+- When the next steps repeat the same edit, write the script or codemod that makes it, per [Build the Lever](../principle-build-the-lever/SKILL.md)
 
 ### 4. Refactor
 
-After all tests pass, look for [refactor candidates](refactoring.md). Remove before you add, per [Subtract Before You Add](../polaris/principles/subtract-before-you-add.md), and add an abstraction only when it pays for itself, per [Laziness Protocol](../polaris/principles/laziness-protocol.md):
+After all tests pass, look for [refactor candidates](refactoring.md). Remove before you add, per [Subtract Before You Add](../principle-subtract-before-you-add/SKILL.md), and add an abstraction only when it pays for itself, per [Laziness Protocol](../principle-laziness-protocol/SKILL.md):
 
 - [ ] Extract duplication
 - [ ] Deepen modules (move complexity behind simple interfaces)

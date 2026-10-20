@@ -100,7 +100,7 @@ Close calls:
 
 Playbooks are step lists inside `/polaris`, not skills, so they have no command. Inside `/polaris`, describing the task picks one. The Playbooks section of the `polaris` skill lists every bundled playbook and when it applies. A local playbook in `.agents/polaris/playbooks/` adds to them (`../polaris/references/locations.md`).
 
-Principles are short rules in `../polaris/principles/` that `/polaris` reads and cites in its replies. The user rarely opens one. They steer with the names instead, as in "apply prove it works. show me the real output."
+Each principle is a hidden skill named `principle-<slug>`, such as `principle-prove-it-works`. Run that command to apply the rule to the current task. `/polaris` reads the same skill when a task triggers it, and cites the decision it changed. You can also steer by name, as in "apply prove it works. show me the real output."
 
 ## Fix a run that went wrong
 

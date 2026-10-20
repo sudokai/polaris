@@ -11,7 +11,7 @@ The working contracts live with the skills: `skills/polaris/references/locations
 ## Decisions
 
 1. [polaris is a harness-neutral port of part of pstack](adr/0001-harness-neutral-port-of-pstack.md)
-2. [Principles are plain files, not skills](adr/0002-principles-are-plain-files.md)
+2. [Principles are plain files, not skills](adr/0002-principles-are-plain-files.md) (superseded by 20)
 3. [Only the router is selected automatically](adr/0003-only-the-router-is-selected-automatically.md) (superseded by 13)
 4. [Skills name roles, not models](adr/0004-skills-name-roles-not-models.md) (superseded by 17)
 5. [Role agents for Claude Code and Grok Build](adr/0005-role-agents-for-claude-code-and-grok-build.md) (role policy superseded by 17)
@@ -29,3 +29,4 @@ The working contracts live with the skills: `skills/polaris/references/locations
 17. [Budgets select model–effort pairs by work category](adr/0017-model-effort-budget-profiles.md) (classification refined by 18)
 18. [Select models by assignment kind and level](adr/0018-assignment-kind-and-level.md)
 19. [`sharpen` returns a rewritten prompt and does not do the task](adr/0019-sharpen-returns-a-rewritten-prompt.md)
+20. [Principles are hidden skills](adr/0020-principles-are-hidden-skills.md), replacing 2

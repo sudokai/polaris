@@ -7,7 +7,7 @@ description: Build and sharpen a project's domain model. Use when discussing cod
 
 Actively build and sharpen the project's domain model as you design. This is the *active* discipline: challenging terms, inventing edge-case scenarios, and writing the glossary and decisions down the moment they crystallise. (Merely *reading* `GLOSSARY.md` for vocabulary is not this skill: that's a one-line habit any skill can do. This skill is for when you're changing the model, not just consuming it.)
 
-When the model drives code structure, such as stateful logic or a shape assumption repeated across files, choose the structure per [Model the Domain](../polaris/principles/model-the-domain.md).
+When the model drives code structure, such as stateful logic or a shape assumption repeated across files, choose the structure per [Model the Domain](../principle-model-the-domain/SKILL.md).
 
 ## File structure
 

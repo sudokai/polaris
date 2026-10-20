@@ -4,7 +4,8 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 
 ## What's inside
 
-- **Router:** `skills/polaris/`, with 24 principles in `principles/`, playbooks in `playbooks/`, model budgets in `references/models.md`, and per-harness facts in `references/harnesses.md`.
+- **Router:** `skills/polaris/`, with playbooks in `playbooks/`, model budgets in `references/models.md`, and per-harness facts in `references/harnesses.md`.
+- **Principles:** 24 hidden skills named `principle-<slug>`, such as `principle-prove-it-works`. Run the skill to apply that rule. The router indexes the same skills.
 - **Mapping:** `how`, `why`, `walkthrough`, and `blast-radius`.
 - **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, and `prove-it`.
 - **Debugging and tests:** `diagnose`, `tdd`, and `fix-change-detector-tests`.

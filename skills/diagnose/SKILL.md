@@ -5,7 +5,7 @@ description: "Disciplined diagnosis loop for hard bugs and performance regressio
 
 # Diagnose
 
-A discipline for hard bugs. Skip phases only when explicitly justified. [Fix Root Causes](../polaris/principles/fix-root-causes.md) says what counts as the cause. This skill is the loop that finds it.
+A discipline for hard bugs. Skip phases only when explicitly justified. [Fix Root Causes](../principle-fix-root-causes/SKILL.md) says what counts as the cause. This skill is the loop that finds it.
 
 When exploring the codebase, use the project's domain glossary to get a clear mental model of the relevant modules, and check ADRs in the area you're touching.
 
@@ -86,11 +86,11 @@ Tool preference:
 
 **Tag every debug log** with a unique prefix, e.g. `[DEBUG-a4f2]`. Cleanup at the end becomes a single grep. Untagged logs survive; tagged logs die.
 
-**Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measurement (timing harness, `performance.now()`, profiler, query plan), then bisect. Measure first, fix second. Before you trust a timing, explain it per [Explain the Number](../polaris/principles/explain-the-number.md).
+**Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measurement (timing harness, `performance.now()`, profiler, query plan), then bisect. Measure first, fix second. Before you trust a timing, explain it per [Explain the Number](../principle-explain-the-number/SKILL.md).
 
-**Retry branch.** When the bug appears only after a crash, retry, or rerun, check whether the operation is safe to repeat, per [Make Operations Idempotent](../polaris/principles/make-operations-idempotent.md).
+**Retry branch.** When the bug appears only after a crash, retry, or rerun, check whether the operation is safe to repeat, per [Make Operations Idempotent](../principle-make-operations-idempotent/SKILL.md).
 
-**Race branch.** When the bug is intermittent and two actors might write the same file, branch, key, or state object, remove the shared write target before adding a lock, per [Separate Before Serializing Shared State](../polaris/principles/separate-before-serializing-shared-state.md).
+**Race branch.** When the bug is intermittent and two actors might write the same file, branch, key, or state object, remove the shared write target before adding a lock, per [Separate Before Serializing Shared State](../principle-separate-before-serializing-shared-state/SKILL.md).
 
 **Process-env mystery branch.** When a value that should be stable turns out wrong in a long-lived process (cwd, PATH, HOME, a config env var), suspect an *import-time side effect*: find out which module the process imports that writes `os.environ`. `os.environ.__setitem__` is C-level and fires no audit hook, so a sampling thread that polls the value and dumps `sys._current_frames()` stacks on the first change is the cheap way to catch the writer red-handed; a probe around the RPC/handler boundary alone will miss writers on other threads.
 
@@ -110,7 +110,7 @@ If a correct seam exists, run one red-green cycle of the `tdd` skill (`../tdd/SK
 4. Watch it pass.
 5. Re-run the Phase 1 feedback loop against the original (un-minimised) scenario.
 
-**A second fix fails the same check** → stop fixing and test the premise the fixes share, per [Attack the Premise](../polaris/principles/attack-the-premise.md).
+**A second fix fails the same check** → stop fixing and test the premise the fixes share, per [Attack the Premise](../principle-attack-the-premise/SKILL.md).
 
 ## Phase 6 — Cleanup + post-mortem
 

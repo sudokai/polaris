@@ -1,0 +1,21 @@
+---
+name: principle-type-system-discipline
+description: "Apply when designing types, reviewing a function signature, or writing code in any statically-typed language. Make illegal states unrepresentable, brand semantic primitives, parse external data at boundaries, don't cast past the compiler, exhaust variants, derive from authoritative schemas. Use for /principle-type-system-discipline."
+disable-model-invocation: true
+---
+
+# Type System Discipline
+
+Apply this rule to the current task. Name the decision it changed.
+
+**Applies when:** Designing types, reviewing a function signature, or writing code in any statically-typed language. Make illegal states unrepresentable, brand semantic primitives, parse external data at boundaries, don't cast past the compiler, exhaust variants, derive from authoritative schemas.
+
+Make the compiler reject impossible states, mismatched primitives, and unhandled variants. Prefer defining errors and special cases out of existence over proliferating handlers.
+
+- **Make illegal states unrepresentable.** Model variants as sum types (discriminated unions, enums with payloads, sealed classes or interfaces), not as a bag of optional fields where contradictory combinations compile. `{ completed: boolean; completedAt?: Date }` admits `completed: true` with no date. Derive the boolean from `completedAt`, or model the two states as separate variants. If you can write a comment explaining when a combination of fields is valid, split it into a sum type. In a language without sum types, such as Go, use an interface whose implementations only this package can construct.
+- **Brand semantic primitives.** `UserId` and `OrderId` are strings underneath but should not be interchangeable. Give each its own type, such as a branded intersection in TypeScript or a newtype elsewhere. Validate once at creation, trust the type downstream. If two arguments share a primitive type but mean different things, brand them.
+- **External data is untyped until parsed.** RPC payloads, JSON, IPC messages, CLI args, config files, environment variables, database rows. Have a parse function at every boundary that turns unstructured input into the typed model. [Boundary Discipline](../principle-boundary-discipline/SKILL.md) says where to put validation.
+- **Don't cast past the compiler.** Casts, unchecked type assertions, forced unwraps, and assertion functions that bypass the compiler are latent runtime crashes. If the compiler can't prove a fact, prove it (validate, narrow, refine the model) or accept that the cast is a hazard. Trace each one to the boundary and validate there.
+- **Make the compiler catch unhandled variants.** A match on a sum type must fail the build when a new variant is added without handling, so the build tells the next agent where to add a case. Use the language's exhaustive match, such as `switch` over a sealed type, `match` on an enum, or a `never` check in TypeScript. Where the compiler does not check exhaustiveness, as in Go, add a linter that does, such as `exhaustive`, and run it in CI.
+- **Derive types from authoritative schemas.** When a protocol buffer, OpenAPI spec, GraphQL schema, database migration, design-token file, or another file owns a shape, derive from it instead of hand-rolling a parallel type. See [Encode Lessons in Structure](../principle-encode-lessons-in-structure/SKILL.md).
+- **Strengthen a type only where partiality appears.** A runtime assertion, null check, or "this should never happen" throw marks the place a type is too weak. Push that check up into the type. Then stop. The type system's job is to track the cases each use site must handle, not to describe the data as precisely as possible. Prefer total functions: the sum of an empty list is 0, so `sum` takes a plain list, but the first item of an empty list has no answer, so `head` takes a non-empty one. If nothing would otherwise fail at runtime, keep the plain type.

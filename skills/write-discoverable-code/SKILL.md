@@ -87,7 +87,7 @@ In Python and JavaScript, the rules in this section hold only if a type checker 
 pyright for Python; TypeScript with `checkJs` or `// @ts-check` for JavaScript. Without
 one, nothing enforces them. Validate at runtime boundaries instead (wrapper classes,
 pydantic, Zod), and rely more on the doc comments in section 3. Place that validation and
-its error handling per [Boundary Discipline](../polaris/principles/boundary-discipline.md).
+its error handling per [Boundary Discipline](../principle-boundary-discipline/SKILL.md).
 
 ## 3. Say it where the search lands
 

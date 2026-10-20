@@ -34,7 +34,7 @@ Choose the smallest review that addresses the decision. State which path you cho
 
 For the consequential path, start two subagents for `kind: reasoning`. Select `level: hard` or `level: very_hard` according to the unresolved reasoning difficulty. Give each its own worktree or scratch directory and start them at the same time. Give each the design task, the same Phase A grounding, and `references/runner-prompt.md`. Neither sees the other's work. Each produces a design package shaped per `references/rationale-template.md`.
 
-On this path, require two independently produced candidates before synthesis, even when the first looks sufficient. Seek whole-shape alternatives, per [Exhaust the Design Space](../polaris/principles/exhaust-the-design-space.md). If the two candidates converge on the same shape, record the convergence and skip the graft.
+On this path, require two independently produced candidates before synthesis, even when the first looks sufficient. Seek whole-shape alternatives, per [Exhaust the Design Space](../principle-exhaust-the-design-space/SKILL.md). If the two candidates converge on the same shape, record the convergence and skip the graft.
 
 On the consequential path, then start one judge subagent for `kind: reasoning`, selecting `level: hard` or `level: very_hard` according to the reasoning difficulty. It wrote neither sketch. Give it both packages by neutral labels, `references/design-red-flags.md`, and the comparison criteria below. It scores each candidate against each criterion and recommends a base. Reviewers and the judge do not start further agents.
 
@@ -42,9 +42,9 @@ Comparison criteria:
 
 - **Red flags.** Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md). Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.
 - **Interface depth.** Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
-- **Extensibility.** Prefer the design a future maintainer can extend without breaking invariants. When two feel tied, prefer the cleaner boundary or the smaller API, per the [Laziness Protocol](../polaris/principles/laziness-protocol.md).
+- **Extensibility.** Prefer the design a future maintainer can extend without breaking invariants. When two feel tied, prefer the cleaner boundary or the smaller API, per the [Laziness Protocol](../principle-laziness-protocol/SKILL.md).
 
-When comparing two candidates, read both yourself before accepting the judge's pick. Resolve disagreements against the criteria and rationales. Graft useful ideas from the losing candidate only when they fit one coherent design, per [Redesign from First Principles](../polaris/principles/redesign-from-first-principles.md). Record the base, verdict, grafts, and rejections in the rationale's "Synthesis decision" section.
+When comparing two candidates, read both yourself before accepting the judge's pick. Resolve disagreements against the criteria and rationales. Graft useful ideas from the losing candidate only when they fit one coherent design, per [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md). Record the base, verdict, grafts, and rejections in the rationale's "Synthesis decision" section.
 
 If independent review is required but unavailable, report the limitation and ask before substituting self-review. Continue grounding and preparing candidates where useful; separate passes do not satisfy the independence requirement.
 
@@ -54,7 +54,7 @@ Default: proceed directly to implementation with the synthesized design. No huma
 
 Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint," "stop and show me before implementing," or similar. Then surface the synthesized design, drawn with the views of the `show-me` skill (`../show-me/SKILL.md`), and pause for sign-off. If the sketch is a state model or an API, offer a prototype that the user can drive, per the `prototype` skill (`../prototype/SKILL.md`), and build it only on yes.
 
-The synthesis can ship as its own commit either way, as the "scaffold first" mode of [Foundational Thinking](../polaris/principles/foundational-thinking.md). Planned and scoped breakage during fill-in is fine, per [Outcome-Oriented Execution](../polaris/principles/outcome-oriented-execution.md).
+The synthesis can ship as its own commit either way, as the "scaffold first" mode of [Foundational Thinking](../principle-foundational-thinking/SKILL.md). Planned and scoped breakage during fill-in is fine, per [Outcome-Oriented Execution](../principle-outcome-oriented-execution/SKILL.md).
 
 If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before writing more code.
 
@@ -64,7 +64,7 @@ Replace `not implemented` bodies with code, pseudocode with logic. The synthesiz
 
 ## Phase E: Scrap when the architecture is wrong
 
-If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per [Redesign from First Principles](../polaris/principles/redesign-from-first-principles.md) and [Fix Root Causes](../polaris/principles/fix-root-causes.md).
+If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md) and [Fix Root Causes](../principle-fix-root-causes/SKILL.md).
 
 The signal is a *pattern*, not single instances. Tells:
 
@@ -80,8 +80,8 @@ Use judgment. A few edge cases don't condemn an architecture. Some problems are 
 When you scrap:
 
 1. Re-run the `how` skill (`../how/SKILL.md`) over what's been built.
-2. Redesign as if the new constraints had been day-one assumptions, per [Redesign from First Principles](../polaris/principles/redesign-from-first-principles.md).
-3. Subtract before adding, per [Subtract Before You Add](../polaris/principles/subtract-before-you-add.md). The new sketch should be smaller than the old one before it grows.
+2. Redesign as if the new constraints had been day-one assumptions, per [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md).
+3. Subtract before adding, per [Subtract Before You Add](../principle-subtract-before-you-add/SKILL.md). The new sketch should be smaller than the old one before it grows.
 4. Return to Phase B and sketch again.
 
 ## Outputs

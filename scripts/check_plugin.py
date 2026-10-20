@@ -50,6 +50,36 @@ EXPECTED_SKILLS = {
     "write-discoverable-code",
 }
 
+# Hidden principle skills (docs/adr/0020). A command needs a skill directory. They stay
+# out of AGENT_INVOCABLE_SKILLS so an agent does not start a principle as a task.
+PRINCIPLE_SLUGS = (
+    "attack-the-premise",
+    "boundary-discipline",
+    "build-the-lever",
+    "encode-lessons-in-structure",
+    "exhaust-the-design-space",
+    "experience-first",
+    "explain-the-number",
+    "fix-root-causes",
+    "foundational-thinking",
+    "guard-the-context-window",
+    "laziness-protocol",
+    "make-operations-idempotent",
+    "migrate-callers-then-delete-legacy-apis",
+    "minimize-reader-load",
+    "model-the-domain",
+    "never-block-on-the-human",
+    "outcome-oriented-execution",
+    "prove-it-works",
+    "redesign-from-first-principles",
+    "separate-before-serializing-shared-state",
+    "sequence-verifiable-units",
+    "subtract-before-you-add",
+    "test-behavior-not-implementation",
+    "type-system-discipline",
+)
+PRINCIPLE_SKILLS = {f"principle-{slug}" for slug in PRINCIPLE_SLUGS}
+
 # Skills that an agent may start on its own (docs/adr/0013). A skill belongs here
 # only when all three hold:
 #   1. It is useful without the router.
@@ -121,10 +151,11 @@ def frontmatter_fields(text: str) -> dict[str, str] | None:
 
 def check_skill_frontmatter(skills_dir: Path) -> list[Problem]:
     problems = []
+    expected = EXPECTED_SKILLS | PRINCIPLE_SKILLS
     found = {path.parent.name for path in skills_dir.glob("*/SKILL.md")}
-    for name in sorted(EXPECTED_SKILLS - found):
+    for name in sorted(expected - found):
         problems.append(Problem(skills_dir, 0, f"missing skill directory `{name}`"))
-    for name in sorted(found - EXPECTED_SKILLS):
+    for name in sorted(found - expected):
         problems.append(Problem(skills_dir / name, 0, f"unexpected skill `{name}`"))
     for skill_file in sorted(skills_dir.glob("*/SKILL.md")):
         fields = frontmatter_fields(skill_file.read_text())
@@ -207,9 +238,12 @@ def check_router_indexes(skills_dir: Path) -> list[Problem]:
     router = skills_dir / "polaris" / "SKILL.md"
     router_text = router.read_text()
     problems = []
-    for principle in sorted((skills_dir / "polaris" / "principles").glob("*.md")):
-        if f"principles/{principle.name}" not in router_text:
-            problems.append(Problem(router, 0, f"principle `{principle.name}` is missing from the principle index"))
+    legacy = skills_dir / "polaris" / "principles"
+    if legacy.exists():
+        problems.append(Problem(legacy, 0, "principles are skills named `principle-<slug>`; delete this directory"))
+    for slug in PRINCIPLE_SLUGS:
+        if f"../principle-{slug}/SKILL.md" not in router_text:
+            problems.append(Problem(router, 0, f"principle `{slug}` is missing from the principle index"))
     for playbook in sorted((skills_dir / "polaris" / "playbooks").glob("*.md")):
         if playbook.name == "README.md":
             continue

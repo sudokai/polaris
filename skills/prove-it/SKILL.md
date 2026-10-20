@@ -5,7 +5,7 @@ description: "Prove or disprove one claim with fresh evidence: restate it falsif
 
 # Prove it
 
-Proof is not a recap. It proves or disproves one specific claim with evidence that someone else can repeat. [Prove It Works](../polaris/principles/prove-it-works.md) says why. This skill says how.
+Proof is not a recap. It proves or disproves one specific claim with evidence that someone else can repeat. [Prove It Works](../principle-prove-it-works/SKILL.md) says why. This skill says how.
 
 Do not use it for vague claims like "the code is cleaner". Ask for a measurable claim first.
 
@@ -18,7 +18,7 @@ Do not use it for vague claims like "the code is cleaner". Ask for a measurable 
    3. For code behavior, a focused test or a minimal repro script that calls the real code.
 3. **Capture a baseline** from the old state: the merge base, the parent commit, the failing branch, or the current broken repro.
 4. **Capture the treatment** from the changed state, with the same command, data, warmup, and environment.
-5. **Compare the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. If the claim is a measured number, explain it per [Explain the Number](../polaris/principles/explain-the-number.md), and follow [`references/measured-numbers.md`](references/measured-numbers.md) before you trust it.
+5. **Compare the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. If the claim is a measured number, explain it per [Explain the Number](../principle-explain-the-number/SKILL.md), and follow [`references/measured-numbers.md`](references/measured-numbers.md) before you trust it.
 6. **Say how far the proof got.** Place the evidence on this ladder, and name the highest step you reached:
    1. Claimed. You said so. Worthless on its own.
    2. Line cited. A real `file:line`, or the library's own source.

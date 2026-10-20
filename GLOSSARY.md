@@ -27,7 +27,8 @@ _Avoid_: built-in skill, plugin skill
 A skill that lives outside the plugin, in a harness's own skill directory.
 
 **Principle**:
-A short rule for one kind of decision, stored as a plain file in `skills/polaris/principles/`. A principle is not a skill.
+A short rule for one kind of decision, shipped as a hidden skill named `principle-<slug>`. The user runs the command; an agent applies the rule from the router and does not start the skill on its own.
+_Avoid_: principle file, task skill
 
 **Playbook**:
 A fixed sequence of steps for one kind of task, naming the skills and principles each step uses.

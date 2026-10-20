@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Link principles
 
-An agent reads the router's principle index only after `/polaris`. In other sessions, it finds a principle only through a link in a skill it starts on its own: one listed in `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py`. This skill finds the gaps, proposes links, and adds the ones the user approves. Rerunning it after it finishes proposes nothing.
+An agent reads the router's principle index only after `/polaris`. In other sessions, it finds a principle only through a link in a skill it starts on its own: one listed in `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py`. The user can also run the principle skill by name. This skill finds the gaps, proposes links, and adds the ones the user approves. Rerunning it after it finishes proposes nothing.
 
 ## 1. Map
 
@@ -16,11 +16,11 @@ If both gap lists are empty, say so and stop.
 
 ## 2. Propose
 
-For each unlinked principle, read its **Applies when:** line and the candidate skills in full. Pick the step in a skill where that condition arises during the skill's work. For each skill that links to no principle, check whether any principle's condition arises in one of its steps.
+For each unlinked principle, read the **Applies when:** line in `skills/principle-<name>/SKILL.md` and the candidate skills in full. Pick the step in a skill where that condition arises during the skill's work. For each skill that links to no principle, check whether any principle's condition arises in one of its steps.
 
 Propose one link per gap, as a table: principle, skill, the step, and the exact line. When no step fits, propose adding the name to `unlinked-on-purpose.md`, with the reason.
 
-Write each link as one trigger line at that step, following the router's form: "**Situation** → per [Principle](../polaris/principles/<name>.md)", or a clause in an existing sentence of that step. Never add a reading list at the top of a skill. Keep the skill's voice; write the line per the `write-clearly` skill.
+Write each link as one trigger line at that step, following the router's form: "**Situation** → per [Principle](../principle-<name>/SKILL.md)", or a clause in an existing sentence of that step. Never add a reading list at the top of a skill. Keep the skill's voice; write the line per the `write-clearly` skill.
 
 ## 3. Confirm
 

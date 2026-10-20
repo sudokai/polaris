@@ -25,7 +25,7 @@ What to collect depends on the argument:
 - **`A...B` or `A..B`:** `git diff` with the argument as given, and `git log A..B --oneline`.
 - **`pr <n|url>`:** `gh pr view <n|url> --json title,body,baseRefName,headRefName,files,comments,reviews` and `gh pr diff <n|url>`.
 
-Start with `git diff --stat` (or `git show --stat`) to see the shape of the change. Open a file's diff only when you are about to explain it, per [Guard the Context Window](../polaris/principles/guard-the-context-window.md). Skip generated code, lockfiles, and formatting-only changes, unless they change behavior, such as a lockfile that upgrades a dependency.
+Start with `git diff --stat` (or `git show --stat`) to see the shape of the change. Open a file's diff only when you are about to explain it, per [Guard the Context Window](../principle-guard-the-context-window/SKILL.md). Skip generated code, lockfiles, and formatting-only changes, unless they change behavior, such as a lockfile that upgrades a dependency.
 
 Read the PR description, commit messages, and review comments. If they don't explain the change, infer the purpose from the code, tests, and names. Follow a ticket or issue only if the PR or a commit links to it. Outside stage 2, read code beyond the diff only to answer a specific question, such as how a function the diff calls works, or how one caller uses the changed code.
 

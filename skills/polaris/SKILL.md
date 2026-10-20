@@ -12,7 +12,7 @@ Read this file in full before any work. It routes the task to a playbook or a sk
 1. If the user says "new task", or the subject changes, match again. Do not continue the previous playbook.
 2. Match the task to a playbook in **Playbooks**, or to a local playbook. If one matches, run it as `playbooks/README.md` describes.
 3. If no playbook matches, work directly from the principles and the triggers below. Route large or cross-cutting work to the `figure-it-out` skill (`../figure-it-out/SKILL.md`).
-4. Before you apply a principle, read its file in `principles/`.
+4. Before you apply a principle, read the linked `principle-<slug>` skill in full. The user can run that same skill by name.
 
 ## Triggers
 
@@ -21,7 +21,7 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 - **About to change code you have not traced**, or asked how something works → the `how` skill (`../how/SKILL.md`).
 - **Asked to explain or walk through a PR, a branch, a commit, or a diff** → the `walkthrough` skill (`../walkthrough/SKILL.md`).
 - **Asked why code is shaped the way it is**, or looking for regression history → the `why` skill (`../why/SKILL.md`).
-- **Any code** → name the data shape first, and choose its organizing structure per [Model the Domain](principles/model-the-domain.md). Name, type, and document it per the `write-discoverable-code` skill (`../write-discoverable-code/SKILL.md`).
+- **Any code** → name the data shape first, and choose its organizing structure per [Model the Domain](../principle-model-the-domain/SKILL.md). Name, type, and document it per the `write-discoverable-code` skill (`../write-discoverable-code/SKILL.md`).
 - **Asked to discuss a plan, flesh out an idea, or settle a design before building** → the `discuss` skill (`../discuss/SKILL.md`).
 - **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` or an ADR → the `domain-modeling` skill (`../domain-modeling/SKILL.md`).
 - **Explaining a design, a flow, or a change that is easier to see than to read** → the views of the `show-me` skill (`../show-me/SKILL.md`).
@@ -40,7 +40,7 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 - **Code that a formal check covers changed after the check's sync commit** → the `maintain-formal-verification-skill` skill (`../maintain-formal-verification-skill/SKILL.md`).
 - **The user corrects a mistake that agents have made before** → the `correct` skill (`../correct/SKILL.md`). Make the mistake impossible instead of writing another rule.
 - **Large or cross-cutting work**, or work the user will review after stepping away → the `figure-it-out` skill (`../figure-it-out/SKILL.md`), with a full-level log from the `decision-log` skill (`../decision-log/SKILL.md`).
-- **About to ask "which approach?", "what should this do?", or "should I do X?"** → decide who makes the call, per [Never Block on the Human](principles/never-block-on-the-human.md). Most calls are yours: read the code, run the smallest throwaway script, or decide and say why. A person judges how a state model, a public API, or a screen feels, through the `prototype` skill (`../prototype/SKILL.md`). Ask the user only for a product or preference call, or before an action you cannot undo.
+- **About to ask "which approach?", "what should this do?", or "should I do X?"** → decide who makes the call, per [Never Block on the Human](../principle-never-block-on-the-human/SKILL.md). Most calls are yours: read the code, run the smallest throwaway script, or decide and say why. A person judges how a state model, a public API, or a screen feels, through the `prototype` skill (`../prototype/SKILL.md`). Ask the user only for a product or preference call, or before an action you cannot undo.
 - **Asked to catch up on recent work** → the `recall` skill (`../recall/SKILL.md`). To resume one specific session → the Session pickup playbook.
 - **The user comes back after stepping away, or asks "where are we?"** → the `ketchup` skill (`../ketchup/SKILL.md`).
 - **A run that the user stepped away from ends** → write the final reply per the `ketchup` skill.
@@ -51,46 +51,46 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 
 ## Principles
 
-Read a principle's file in full before you apply it. Each entry says when it applies.
+Read a principle skill in full before you apply it. Each entry says when it applies. The user can run the same skill by name.
 
 **Core**
 
-- [Laziness Protocol](principles/laziness-protocol.md). Refactoring, sizing a diff, or tempted to add abstractions, layers, or signal threading.
-- [Foundational Thinking](principles/foundational-thinking.md). Before writing logic: core types, data structures, scaffold-before-feature order, and what concurrent actors share.
-- [Redesign from First Principles](principles/redesign-from-first-principles.md). Integrating a new requirement into an existing design.
-- [Attack the Premise](principles/attack-the-premise.md). Two or more fixes that share one premise have failed the same check.
-- [Subtract Before You Add](principles/subtract-before-you-add.md). Sequencing an addition, refactor, or rewrite.
-- [Minimize Reader Load](principles/minimize-reader-load.md). Reviewing or shaping code that is hard to trace.
-- [Outcome-Oriented Execution](principles/outcome-oriented-execution.md). Planned rewrites and migrations with explicit phase boundaries.
-- [Experience First](principles/experience-first.md). Product, UX, or feature-scope tradeoffs.
-- [Exhaust the Design Space](principles/exhaust-the-design-space.md). A novel interaction or architectural decision with no precedent.
-- [Build the Lever](principles/build-the-lever.md). Any nontrivial work: build the script, codemod, or generator that does or proves it.
+- [Laziness Protocol](../principle-laziness-protocol/SKILL.md). Refactoring, sizing a diff, or tempted to add abstractions, layers, or signal threading.
+- [Foundational Thinking](../principle-foundational-thinking/SKILL.md). Before writing logic: core types, data structures, scaffold-before-feature order, and what concurrent actors share.
+- [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md). Integrating a new requirement into an existing design.
+- [Attack the Premise](../principle-attack-the-premise/SKILL.md). Two or more fixes that share one premise have failed the same check.
+- [Subtract Before You Add](../principle-subtract-before-you-add/SKILL.md). Sequencing an addition, refactor, or rewrite.
+- [Minimize Reader Load](../principle-minimize-reader-load/SKILL.md). Reviewing or shaping code that is hard to trace.
+- [Outcome-Oriented Execution](../principle-outcome-oriented-execution/SKILL.md). Planned rewrites and migrations with explicit phase boundaries.
+- [Experience First](../principle-experience-first/SKILL.md). Product, UX, or feature-scope tradeoffs.
+- [Exhaust the Design Space](../principle-exhaust-the-design-space/SKILL.md). A novel interaction or architectural decision with no precedent.
+- [Build the Lever](../principle-build-the-lever/SKILL.md). Any nontrivial work: build the script, codemod, or generator that does or proves it.
 
 **Architecture**
 
-- [Model the Domain](principles/model-the-domain.md). Stateful logic, or code that branches a lot or repeats a shape assumption across files.
-- [Boundary Discipline](principles/boundary-discipline.md). Wiring validation, error handling, or framework adapters.
-- [Type System Discipline](principles/type-system-discipline.md). Designing types or a signature in a typed language.
-- [Make Operations Idempotent](principles/make-operations-idempotent.md). Commands, lifecycle steps, or loops that must survive crashes and retries.
-- [Migrate Callers Then Delete Legacy APIs](principles/migrate-callers-then-delete-legacy-apis.md). Introducing a new internal API while old callers exist.
-- [Separate Before Serializing Shared State](principles/separate-before-serializing-shared-state.md). Concurrent actors might write the same file, branch, key, or object.
+- [Model the Domain](../principle-model-the-domain/SKILL.md). Stateful logic, or code that branches a lot or repeats a shape assumption across files.
+- [Boundary Discipline](../principle-boundary-discipline/SKILL.md). Wiring validation, error handling, or framework adapters.
+- [Type System Discipline](../principle-type-system-discipline/SKILL.md). Designing types or a signature in a typed language.
+- [Make Operations Idempotent](../principle-make-operations-idempotent/SKILL.md). Commands, lifecycle steps, or loops that must survive crashes and retries.
+- [Migrate Callers Then Delete Legacy APIs](../principle-migrate-callers-then-delete-legacy-apis/SKILL.md). Introducing a new internal API while old callers exist.
+- [Separate Before Serializing Shared State](../principle-separate-before-serializing-shared-state/SKILL.md). Concurrent actors might write the same file, branch, key, or object.
 
 **Verification**
 
-- [Prove It Works](principles/prove-it-works.md). Before declaring a task done.
-- [Fix Root Causes](principles/fix-root-causes.md). Debugging.
-- [Sequence Work into Verifiable Units](principles/sequence-verifiable-units.md). Multi-step work, and how you order commits and pull requests.
-- [Test Behavior, Not Implementation](principles/test-behavior-not-implementation.md). Writing, changing, or keeping a test.
-- [Explain the Number](principles/explain-the-number.md). Before you trust, report, or act on a number you measured.
+- [Prove It Works](../principle-prove-it-works/SKILL.md). Before declaring a task done.
+- [Fix Root Causes](../principle-fix-root-causes/SKILL.md). Debugging.
+- [Sequence Work into Verifiable Units](../principle-sequence-verifiable-units/SKILL.md). Multi-step work, and how you order commits and pull requests.
+- [Test Behavior, Not Implementation](../principle-test-behavior-not-implementation/SKILL.md). Writing, changing, or keeping a test.
+- [Explain the Number](../principle-explain-the-number/SKILL.md). Before you trust, report, or act on a number you measured.
 
 **Delegation**
 
-- [Guard the Context Window](principles/guard-the-context-window.md). Large outputs, long files, repeated reads, or fan-out planning.
-- [Never Block on the Human](principles/never-block-on-the-human.md). About to ask the user a question: who makes the call.
+- [Guard the Context Window](../principle-guard-the-context-window/SKILL.md). Large outputs, long files, repeated reads, or fan-out planning.
+- [Never Block on the Human](../principle-never-block-on-the-human/SKILL.md). About to ask the user a question: who makes the call.
 
 **Meta**
 
-- [Encode Lessons in Structure](principles/encode-lessons-in-structure.md). You catch yourself writing the same instruction a second time.
+- [Encode Lessons in Structure](../principle-encode-lessons-in-structure/SKILL.md). You catch yourself writing the same instruction a second time.
 
 ## Playbooks
 

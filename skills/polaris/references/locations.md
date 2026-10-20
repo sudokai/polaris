@@ -40,8 +40,8 @@ Match a task against the bundled playbook index in `../SKILL.md` and against eve
 
 If a project playbook and a user playbook share a file name, the project one replaces the user one. A local playbook never replaces a bundled one: if a local playbook has the same file name as a bundled playbook, run the bundled one and tell the user to rename the local file. Say which file you ran.
 
-A local playbook names skills by name, such as "the `how` skill", and you run that skill. It names bundled principles and references by their path in the router's directory, such as `principles/prove-it-works.md`.
+A local playbook names a skill by name, such as "the `how` skill" or "the `principle-prove-it-works` skill", and you run that skill. It names a reference by its path in the router's directory, such as `references/models.md`.
 
 ## Scope of a change
 
-Never edit the bundled skills, playbooks, principles, or index to record a lesson, and never copy one to change it locally. Record the lesson in a local playbook, a standalone skill, or an instruction file instead. A defect that every polaris user would hit is a proposal for the plugin's source repository: show it to the user, and do not apply it.
+Never edit the bundled skills, including principle skills, playbooks, or the router index to record a lesson, and never copy one to change it locally. Record the lesson in a local playbook, a standalone skill, or an instruction file instead. A defect that every polaris user would hit is a proposal for the plugin's source repository: show it to the user, and do not apply it.

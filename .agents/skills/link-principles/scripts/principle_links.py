@@ -22,17 +22,23 @@ skills_dir = repo / "skills"
 exclusions_file = Path(__file__).resolve().parent.parent / "unlinked-on-purpose.md"
 excluded = set(re.findall(r"^- `([a-z-]+)`", exclusions_file.read_text(), re.M)) if exclusions_file.exists() else set()
 
-principles = sorted(p.stem for p in (skills_dir / "polaris" / "principles").glob("*.md"))
+principles = sorted(p.parent.name.removeprefix("principle-") for p in skills_dir.glob("principle-*/SKILL.md"))
 skill_texts = {s: (skills_dir / s / "SKILL.md").read_text() for s in sorted(AGENT_INVOCABLE_SKILLS)}
+
+def links_to(text: str, principle: str) -> bool:
+    return f"principle-{principle}/SKILL.md" in text
 
 unlinked = []
 for principle in principles:
-    linking = [s for s, text in skill_texts.items() if f"principles/{principle}.md" in text]
+    linking = [s for s, text in skill_texts.items() if links_to(text, principle)]
     print(f"{principle}: {' '.join(linking) or '-'}")
     if not linking and principle not in excluded:
         unlinked.append(principle)
 
-skills_without_links = [s for s, text in skill_texts.items() if "principles/" not in text and s not in excluded]
+skills_without_links = [
+    s for s, text in skill_texts.items()
+    if not any(links_to(text, principle) for principle in principles) and s not in excluded
+]
 
 print(f"\nUnlinked principles ({len(unlinked)}): {' '.join(unlinked) or 'none'}")
 print(f"Left out on purpose: {' '.join(sorted(excluded)) or 'none'}")
