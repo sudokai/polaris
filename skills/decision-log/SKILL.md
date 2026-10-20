@@ -63,7 +63,7 @@ Commit it only when the work is ambitious enough that a reviewer needs the trail
 ## Rules
 
 - Append-only. A wrong call gets a new row that supersedes it. Never edit or delete history.
-- Prefer evidence produced by committed scripts over hand-made one-offs ([Encode Lessons in Structure](../principle-encode-lessons-in-structure/SKILL.md)).
+- Prefer evidence produced by committed scripts over hand-made one-offs ([Build the Lever](../principle-build-the-lever/SKILL.md)).
 
 ## Wrap up
 

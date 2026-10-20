@@ -57,6 +57,8 @@ in Java, Go, Rust, Python, and JavaScript.
 
 ## 2. Types are the documentation agents can't skip
 
+Design types and signatures per [Type System Discipline](../principle-type-system-discipline/SKILL.md), including exhaustive handling of variants and deriving types from authoritative schemas.
+
 - **Give each kind of ID its own type.** A
   `transferOwnership(userId: string, orgId: string)` signature makes argument
   transposition invisible; distinct ID types make it a compile error that names the concepts.

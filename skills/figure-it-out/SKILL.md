@@ -27,7 +27,8 @@ Present the framing and tradeoffs before committing to a long run. Reversible wo
 Decompose into atomic, independently-landable units. Sequence riskiest-unknown-first. Scaffold and verification come before features ([Foundational Thinking](../principle-foundational-thinking/SKILL.md)).
 
 - Build the verification harness before the work, with the baseline captured from the pre-change state, so the check reads as "old value vs new value".
-- For one-way-door design decisions, run the `architect` skill (`../architect/SKILL.md`). Skip it for mechanical work whose shape is already concrete. A second design round over a settled design is over-engineering ([Laziness Protocol](../principle-laziness-protocol/SKILL.md)).
+- For substantial program, system, product, or foundational codebase design, run the `architect` skill (`../architect/SKILL.md`), even when the approach seems clear. Let it scale independent review to uncertainty and consequences. Reuse a design that covers the work; skip a new design round for routine implementation within it ([Laziness Protocol](../principle-laziness-protocol/SKILL.md)).
+- Before delegating non-trivial execution or verification, prefer a rerunnable tool when it can do or prove the work, per [Build the Lever](../principle-build-the-lever/SKILL.md).
 - Decide what fans out. Parallelize only across seams, and give each worker its own worktree or branch ([Separate Before Serializing Shared State](../principle-separate-before-serializing-shared-state/SKILL.md)). Don't over-fan.
 - Write the designed phase list down. That list is what the human reviews.
 

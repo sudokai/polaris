@@ -42,7 +42,7 @@ Use the project's terms from `GLOSSARY.md` in test names and interfaces, and res
 
 Before writing any code:
 
-- [ ] Decide what interface changes are needed
+- [ ] Decide what interface changes are needed; design types and signatures per [Type System Discipline](../principle-type-system-discipline/SKILL.md)
 - [ ] List the behaviors to test (not implementation steps), most important first
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)

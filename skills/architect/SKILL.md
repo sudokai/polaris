@@ -1,12 +1,14 @@
 ---
 name: architect
-description: "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape."
+description: "Design before implementation for any substantial work shaping a program, system, product, or codebase foundations: types, interfaces, ownership, and module structure. Use for /architect, 'architect this', or 'design this', even when the approach seems clear."
 disable-model-invocation: true
 ---
 
 # Architect
 
 Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Scale independent review to the uncertainty and consequences, then fill in code against the chosen sketch.
+
+Use this skill for any substantial body of work involving program, system, or product design, including foundational types, interfaces, ownership, and module structure. Scope and design significance determine when to use it; uncertainty and consequences determine the independent review needed. A clear approach still needs deliberate design. Reuse an existing design when it covers the work; routine implementation within that design does not need another design round.
 
 ## Start
 
@@ -24,11 +26,21 @@ Build a real mental model of every system the new code touches. Reuse source-bac
 
 Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.
 
+For product, UX, or feature-scope tradeoffs, define the intended experience per [Experience First](../principle-experience-first/SKILL.md).
+
 ## Phase B: Sketch
+
+Choose core data structures before logic per [Foundational Thinking](../principle-foundational-thinking/SKILL.md).
+
+When designing state or ownership, choose structures that encode domain rules per [Model the Domain](../principle-model-the-domain/SKILL.md).
+
+When designing types and signatures, make invalid states unrepresentable per [Type System Discipline](../principle-type-system-discipline/SKILL.md).
+
+When designing validation, error handling, or framework adapters, place them per [Boundary Discipline](../principle-boundary-discipline/SKILL.md).
 
 Choose the smallest review that addresses the decision. State which path you chose and why. Choose subagent models with `../polaris/references/models.md`.
 
-- **Settled shape:** follow the established design directly. Record the relevant constraints; no competing sketches or design reviewer are needed.
+- **Settled shape:** ground and document the design, including the caller's usage, types, interfaces, and module boundaries relevant to the work. Reuse an existing sketch where it covers these decisions. No competing sketches or design reviewer are needed.
 - **Moderate uncertainty:** write one proposal yourself, using `references/runner-prompt.md` and `references/rationale-template.md`. Start one fresh reviewer for `kind: reasoning`, `level: hard` with the task, grounding, proposal's usage sketch, types, signatures, and module map, `references/design-red-flags.md`, and the comparison criteria below. Ask it to challenge the shape, identify a stronger alternative if warranted, and cite concrete risks. Do not pass your rationale until its first pass is complete. Reconcile against the source and record the review and your decision.
 - **Consequential commitment:** use two independent designers and a judge as described below. Choose this path for security boundaries, data-loss risks, public compatibility, difficult migrations, or ownership decisions that would be costly to reverse. Also use it when the user requests competing designs.
 
@@ -44,7 +56,7 @@ Comparison criteria:
 - **Interface depth.** Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
 - **Extensibility.** Prefer the design a future maintainer can extend without breaking invariants. When two feel tied, prefer the cleaner boundary or the smaller API, per the [Laziness Protocol](../principle-laziness-protocol/SKILL.md).
 
-When comparing two candidates, read both yourself before accepting the judge's pick. Resolve disagreements against the criteria and rationales. Graft useful ideas from the losing candidate only when they fit one coherent design, per [Redesign from First Principles](../principle-redesign-from-first-principles/SKILL.md). Record the base, verdict, grafts, and rejections in the rationale's "Synthesis decision" section.
+When comparing two candidates, read both yourself before accepting the judge's pick. Resolve disagreements against the criteria and rationales. Graft useful ideas from the losing candidate only when they fit one coherent design. Record the base, verdict, grafts, and rejections in the rationale's "Synthesis decision" section.
 
 If independent review is required but unavailable, report the limitation and ask before substituting self-review. Continue grounding and preparing candidates where useful; separate passes do not satisfy the independence requirement.
 

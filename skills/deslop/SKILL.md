@@ -23,7 +23,7 @@ Review the completed workpackage and simplify its implementation without changin
 - Remove speculative flexibility, configuration, extension points, and generic machinery that have no current requirement.
 - Remove speculative defensive programming inside trusted code. Validate at real trust boundaries; rely on types and established invariants internally.
 - Do not keep fallback behavior for states that should be impossible. Prefer fixing the invariant or type model.
-- Simplify excessive state, boolean flags, branching, indirection, and special cases. Rework the underlying representation when that is clearer.
+- Simplify excessive state, boolean flags, branching, indirection, and special cases. Choose a representation that encodes the domain rules per [Model the Domain](../principle-model-the-domain/SKILL.md).
 - Tighten types so invalid states are unrepresentable, per [Type System Discipline](../principle-type-system-discipline/SKILL.md). Avoid escape hatches such as `any`, unnecessary casts, broad types, and optional fields for impossible states.
 - Prefer direct, readable code over cleverness, premature abstraction, and framework-like infrastructure.
 - Delete comments that merely restate the code, but preserve comments that explain constraints, intent, or non-obvious decisions.

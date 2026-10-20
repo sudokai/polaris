@@ -63,7 +63,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Catch up on their own recent work on a topic | [`recall`](../recall/SKILL.md) |
 | Catch up on what changed in this session, with every call that waits on them | [`ketchup`](../ketchup/SKILL.md) |
 | Know what a change could break outside itself | [`blast-radius`](../blast-radius/SKILL.md) |
-| Settle types and module shape before code that crosses a function boundary | [`architect`](../architect/SKILL.md) |
+| Design a substantial program, system, product, or codebase foundation before implementation, including types and interfaces | [`architect`](../architect/SKILL.md) |
 | Try a design by hand before building it | [`prototype`](../prototype/SKILL.md) |
 | Build a feature or fix a bug test-first, one test at a time | [`tdd`](../tdd/SKILL.md) |
 | Write code that a plain-text search finds in one try | [`write-discoverable-code`](../write-discoverable-code/SKILL.md) |
