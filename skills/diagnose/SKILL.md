@@ -90,6 +90,8 @@ Tool preference:
 
 **Retry branch.** When the bug appears only after a crash, retry, or rerun, check whether the operation is safe to repeat, per [Make Operations Idempotent](../polaris/principles/make-operations-idempotent.md).
 
+**Race branch.** When the bug is intermittent and two actors might write the same file, branch, key, or state object, remove the shared write target before adding a lock, per [Separate Before Serializing Shared State](../polaris/principles/separate-before-serializing-shared-state.md).
+
 **Process-env mystery branch.** When a value that should be stable turns out wrong in a long-lived process (cwd, PATH, HOME, a config env var), suspect an *import-time side effect*: find out which module the process imports that writes `os.environ`. `os.environ.__setitem__` is C-level and fires no audit hook, so a sampling thread that polls the value and dumps `sys._current_frames()` stacks on the first change is the cheap way to catch the writer red-handed; a probe around the RPC/handler boundary alone will miss writers on other threads.
 
 ## Phase 5 — Fix + regression test
