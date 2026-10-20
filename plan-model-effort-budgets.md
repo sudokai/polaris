@@ -1,16 +1,18 @@
 # Implementation Plan: Model–Effort Budgets
 
-Status: historical implementation plan for ADR 0017. Assignment classification, configuration keys, and execution allocations are superseded by [ADR 0018](docs/adr/0018-assignment-kind-and-level.md); use [model selection](skills/polaris/references/models.md) for current instructions.
+Status: historical implementation plan for the initial model-budget system. Its flat categories, user settings location, and allocations are outdated. Use [model allocation by assignment and budget](docs/adr/0003-model-allocation-by-assignment-and-budget.md) for the current rationale and [model selection](skills/polaris/references/models.md) for current instructions.
+
+The original budget design referenced below is available in Git with `git show 5f16be93e86a155b4468bf0bf7f0a19fe9ecd78e:docs/adr/0017-model-effort-budget-profiles.md`. It describes the earlier policy, not the current allocations.
 
 ## Goal
 
-Replace polaris's four fixed delegation roles with model–effort allocations selected by work category and budget. Reduce total task cost without weakening reasoning quality, adding unnecessary agents, or changing the main conversation's model. The accepted tables and their rationale are in `docs/adr/0017-model-effort-budget-profiles.md`; read that file in full before implementation. This plan covers the source plugin, configuration, harness integration, and verification.
+Replace polaris's four fixed delegation roles with model–effort allocations selected by work category and budget. Reduce total task cost without weakening reasoning quality, adding unnecessary agents, or changing the main conversation's model. The accepted tables and their rationale are in the original budget design identified above. This plan covers the source plugin, configuration, harness integration, and verification.
 
 ## Decisions
 
 - Use four budgets: small, medium, large, and unlimited. Default to medium. Budgets select complete model–effort pairs because effort labels alone do not express cost or capability.
 - Use seven assignment categories: ordinary, bounded judgment, substantial reasoning, hardest reasoning, hard implementation, verification execution, and unclassified. Classify each assignment rather than an entire skill. Difficult execution against a settled design differs from finding the design; interpreting verification evidence differs from collecting it.
-- Implement the exact Claude, GPT, xAI, DeepSeek, and GLM tables in ADR 0017. Do not reconstruct them from uniform effort offsets. The tables are selected policies to evaluate, not proven capability equivalences.
+- Implement the exact Claude, GPT, xAI, DeepSeek, and GLM tables in the original budget design. Do not reconstruct them from uniform effort offsets. The tables are selected policies to evaluate, not proven capability equivalences.
 - Default Claude Code to Claude, Codex and pi to GPT, Cursor and Grok Build to xAI, and DeepSeek Harness to DeepSeek. Suggest GPT for Hermes without changing its actual delegation behavior. Allow another accessible profile in every harness that can apply it.
 - Give Astra/Fable-class models unlimited-budget reasoning assignments, not implementation against a settled design. Use medium, high, and xhigh according to the accepted tables. Avoid max when xhigh exists; DeepSeek and GLM may use max because they lack a distinct xhigh level.
 - Keep DeepSeek Flash as the only default DeepSeek model. Use GLM Flash broadly according to its table, never GLM low. Do not infer quality from model names or treat a faster variant as cheaper.
@@ -85,7 +87,7 @@ Setup displays profile, budget, override sources, effective pairs, fallbacks, an
 
 - Routine-model fallbacks are Luna → Sol low, Composer → Grok low, and Haiku/Sonnet → Opus low. These explicit fallback pairs do not alter primary allocation tables.
 - Missing Astra/Fable falls back to Sol/Opus: high for bounded judgment, xhigh for substantial or hardest reasoning.
-- Keep the full Grok-only fallback table from ADR 0017 for xAI routes without Composer. If Composer disappears after setup, use the explicit saved per-category fallback; do not choose between different fallback tables implicitly.
+- Keep the full Grok-only fallback table from the original budget design for xAI routes without Composer. If Composer disappears after setup, use the explicit saved per-category fallback; do not choose between different fallback tables implicitly.
 - Preserve GLM image support: GLM-5.3 is text-only, so visual evidence collection must retain a vision-capable allocation.
 - Map unsupported effort only through documented model-specific rules. DeepSeek's native table already avoids generic medium/xhigh conversion. Do not assume a generic nearest-effort rule is valid or silently accept a harness's default downgrade.
 - If no supported mapping exists, setup asks for and saves a supported level. During a task, pause only the affected assignment when no suitable authorized fallback exists; continue independent work.
@@ -95,11 +97,11 @@ Setup displays profile, budget, override sources, effective pairs, fallbacks, an
 ## Step-by-Step
 
 1. **Read the context and establish the baseline.** Read every file listed at the end of this plan before writing code. Check the worktree, preserve existing plans and unrelated changes, and run `python3 scripts/check_plugin.py`. Start the decision log for implementation. Use `write-discoverable-code` for code and `write-clearly` for instructions and documentation.
-2. **Define profile references and configuration.** Extract the five accepted tables from ADR 0017 into the profile reference files. Preserve all seven categories and four budgets exactly. Rewrite `models.md` with the format, defaults, precedence, task-only behavior, explicit overrides, fallback rules, and progressive loading instructions. Update `locations.md` for YAML paths. Adjust validator harness-fact exceptions for the new reference directory.
+2. **Define profile references and configuration.** Extract the five accepted tables from the original budget design into the profile reference files. Preserve all seven categories and four budgets exactly. Rewrite `models.md` with the format, defaults, precedence, task-only behavior, explicit overrides, fallback rules, and progressive loading instructions. Update `locations.md` for YAML paths. Adjust validator harness-fact exceptions for the new reference directory.
 3. **Update setup and harness application.** Replace the four-role interview with profile/budget selection and optional overrides. Use native catalogue/tool capabilities, while accounting for callable models omitted from listings. Keep credentials in the harness. Codex uses explicit model/effort with fresh child context when its tool requires it; Cursor uses supported model parameters; pi depends on the installed subagent extension; DeepSeek Harness depends on model-selection settings and preset fields. Verify these interfaces against the tools actually available. For Hermes, explain its limitation and leave delegation settings untouched.
 4. **Replace fixed-role agent definitions.** For Claude Code and Grok Build, generate thin definitions for distinct resolved pairs, sharing a definition when categories resolve to the same pair. Register only the necessary shipped defaults; allow setup to write project/user definitions for other budgets and overrides. A task-only budget can use existing definitions or create the required task-specific definition without persisting a different budget; if a new session is needed, report that limitation before starting the assignment. Do not claim unsupported dynamic selection works. Keep Claude and Grok definition directories separate and retain the portable root manifest's restrictions.
 5. **Classify workflow assignments.** Replace actual role references in architect, blast-radius, how, maintain-verification-skill, recall, reflect, why, and session-pickup. Routine exploration/mining usually uses ordinary; familiar review uses bounded judgment; uncertain design uses substantial or hardest reasoning; evidence collection uses verification. Keep the category sensitive to the actual assignment. Do not mechanically convert every `deep` to one category or every judge to hardest. Preserve independent-review context isolation and existing fan-out limits.
-6. **Update discovery and documentation.** Update router guidance, README, locations, setup descriptions, and manifests to describe budgets/categories. Mark ADRs 0004/0005 as superseded only where policy changes, preserving their historical rationale. Keep ADR 0017 as the decision record, with runtime tables pointing to the new authoritative profile references after implementation. Do not claim model availability or cost savings beyond verified evidence.
+6. **Update discovery and documentation.** Update router guidance, README, locations, setup descriptions, and manifests to describe budgets/categories. Record the budget decision and the packaging constraints it preserves, with runtime tables in the authoritative profile references. Do not claim model availability or cost savings beyond verified evidence.
 7. **Verify behavior and review the result.** Apply `no-change-detector-tests` before adding tests. Run structural checks and meaningful scenario checks, inspect generated definitions, and execute targeted live checks where available. Run `deslop`, followed by `sweep-residue`, on the completed workpackage. Refresh installed copies only through the installation skill and report restart/load gaps accurately.
 
 **Handling errors:** configuration errors identify the harness, category, invalid setting, and remedy. Do not overwrite a valid file with unresolved settings. Model failures follow the bounded fallback procedure; independent review remains independent or is explicitly blocked. Verify the model/effort actually used when the harness exposes it.
@@ -109,7 +111,7 @@ Setup displays profile, budget, override sources, effective pairs, fallbacks, an
 ## Acceptance Criteria
 
 - `python3 scripts/check_plugin.py` prints `ok`; `git diff --check` passes.
-- All five profile references reproduce the accepted 7 × 4 allocation tables in ADR 0017. GPT medium ordinary resolves to Sol low, Claude medium ordinary to Sonnet medium, and xAI medium ordinary to Composer with a verified route/tier.
+- All five profile references reproduce the accepted 7 × 4 allocation tables in the original budget design. GPT medium ordinary resolves to Sol low, Claude medium ordinary to Sonnet medium, and xAI medium ordinary to Composer with a verified route/tier.
 - GLM has no low allocation, DeepSeek has no Pro allocation, and Grok build-fast is never presented as an economy fallback. Astra/Fable allocations follow the reasoning eligibility and xhigh ceiling.
 - Project values override user values without discarding unrelated harness settings. A fixed ordinary Luna-high override survives a temporary small/large budget request. That request does not modify saved files.
 - Setup offers GPT by default for pi and Hermes. Hermes's personal delegation configuration is unchanged and its effective behavior is described accurately.
@@ -122,11 +124,10 @@ Setup displays profile, budget, override sources, effective pairs, fallbacks, an
 
 ## Read These Files
 
-Read every file below in full before writing code. ADR 0017 contains every accepted model table; the other ADRs explain the existing packaging constraints.
+This list records the implementation context. For the earlier model tables and role packaging rationale, use the original budget design identified above. The current ADRs explain the retained decisions.
 
-- `docs/adr/0017-model-effort-budget-profiles.md`
-- `docs/adr/0004-skills-name-roles-not-models.md`
-- `docs/adr/0005-role-agents-for-claude-code-and-grok-build.md`
+- `docs/adr/0001-harness-neutral-self-contained-plugin.md`
+- `docs/adr/0003-model-allocation-by-assignment-and-budget.md`
 - `skills/polaris/references/models.md`
 - `skills/polaris/references/harnesses.md`
 - `skills/polaris/references/locations.md`
@@ -175,4 +176,4 @@ Read every file below in full before writing code. ADR 0017 contains every accep
 - `com.anthropic.claude-code/agents/standard.md`
 - `com.anthropic.claude-code/agents/ultra.md`
 
-Recheck the installed harness's public tool schema and model capabilities during implementation. The Hermes source files `tools/delegate_tool.py`, `tools/delegate_tool_config.py`, `hermes_cli/models_catalog_static.py`, and `agent/model_metadata.py` under its installation directory substantiate the current exception and Composer OAuth route; they are evidence sources, not plugin files to modify. Follow the primary-source links in ADR 0017 when local capabilities are incomplete.
+Recheck the installed harness's public tool schema and model capabilities during implementation. The Hermes source files `tools/delegate_tool.py`, `tools/delegate_tool_config.py`, `hermes_cli/models_catalog_static.py`, and `agent/model_metadata.py` under its installation directory substantiate the current exception and Composer OAuth route; they are evidence sources, not plugin files to modify. Follow the primary-source links in the original budget design when local capabilities are incomplete.

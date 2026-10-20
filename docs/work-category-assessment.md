@@ -4,15 +4,15 @@ Assessed on October 19, 2026 against local ADRs, Git history, workflow instructi
 
 ## Recommendation
 
-Use two assignment fields: `kind` and `level`, with five supported combinations and a separate `unclassified` allocation. [ADR 0018](adr/0018-assignment-kind-and-level.md) records the decision and execution-effort reductions. Keep consequences as a separate reason for safeguards and independent review. These are allocation policies to evaluate, not measured optimal boundaries.
+Use two assignment fields: `kind` and `level`, with five supported combinations and a separate `unclassified` allocation. [Model allocation by assignment and budget](adr/0003-model-allocation-by-assignment-and-budget.md) records the current decision. Exact execution allocations live in the profile references. Keep consequences as a separate reason for safeguards and independent review. These are allocation policies to evaluate, not measured optimal boundaries.
 
 ## Why the categories exist
 
-[ADR 0004](adr/0004-skills-name-roles-not-models.md) centralized model and effort selection behind four roles: `fast`, `standard`, `deep`, and `ultra`. In the version before commit `561e4a6`, `deep` combined design, synthesis, and hard code changes. Those assignments could not receive different allocations through that role alone. Inspect with `git show 561e4a6^:skills/polaris/references/models.md`.
+The original policy centralized model and effort selection behind four roles: `fast`, `standard`, `deep`, and `ultra`. In the version before commit `561e4a6`, `deep` combined design, synthesis, and hard code changes. Those assignments could not receive different allocations through that role alone. Inspect with `git show 561e4a6^:skills/polaris/references/models.md`.
 
 Commit `2523a88` scaled delegation to uncertainty and consequences: settled designs could proceed directly, moderate uncertainty received a reviewer, and consequential commitments received independent designs and a judge. This concerns review coverage as well as model selection. Inspect with `git show 2523a88 -- skills/architect/SKILL.md skills/blast-radius/SKILL.md`.
 
-Commit `561e4a6` introduced budget profiles and seven work categories. [ADR 0017](adr/0017-model-effort-budget-profiles.md) explicitly distinguishes finding an algorithm from implementing an agreed algorithm. It also reserves the strongest model class for some reasoning allocations while keeping difficult implementation on the execution model family. These are intentional policy distinctions, not accidental duplication.
+Commit `561e4a6` introduced budget profiles and seven work categories. That design distinguishes finding an algorithm from implementing an agreed algorithm. It also reserves the strongest model class for some reasoning allocations while keeping difficult implementation on the execution model family. These are intentional policy distinctions, not accidental duplication.
 
 ## Assignment boundaries
 

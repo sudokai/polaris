@@ -53,8 +53,9 @@ EXPECTED_SKILLS = {
     "write-discoverable-code",
 }
 
-# Hidden principle skills (docs/adr/0020). A command needs a skill directory. They stay
-# out of AGENT_INVOCABLE_SKILLS so an agent does not start a principle as a task.
+# Hidden principle skills (docs/adr/0002-explicit-and-automatic-skill-invocation.md).
+# A command needs a skill directory. They stay out of AGENT_INVOCABLE_SKILLS so an
+# agent does not start a principle as a task.
 PRINCIPLE_SLUGS = (
     "attack-the-premise",
     "boundary-discipline",
@@ -83,7 +84,8 @@ PRINCIPLE_SLUGS = (
 )
 PRINCIPLE_SKILLS = {f"principle-{slug}" for slug in PRINCIPLE_SLUGS}
 
-# Skills that an agent may start on its own (docs/adr/0013). A skill belongs here
+# Skills that an agent may start on its own. Invocation policy is in
+# docs/adr/0002-explicit-and-automatic-skill-invocation.md. A skill belongs here
 # only when all three hold:
 #   1. It is useful without the router.
 #   2. It is cheap: it starts no fan-out of subagents and writes nothing beyond the task.
@@ -189,7 +191,10 @@ def check_invocation(skills_dir: Path) -> list[Problem]:
         hidden_from_model = fields.get("disable-model-invocation") == "true"
         hidden_from_codex = sidecar.exists() and "allow_implicit_invocation: false" in sidecar.read_text()
         expected = "hidden" if should_hide else "agent-invocable"
-        rule = "see docs/adr/0013 for which skills belong in AGENT_INVOCABLE_SKILLS"
+        rule = (
+            "see docs/adr/0002-explicit-and-automatic-skill-invocation.md "
+            "for which skills belong in AGENT_INVOCABLE_SKILLS"
+        )
         if hidden_from_model != should_hide:
             problems.append(
                 Problem(skill_file, 1, f"{expected} skill has the wrong `disable-model-invocation`; {rule}")
