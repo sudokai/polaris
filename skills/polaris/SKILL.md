@@ -30,7 +30,7 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 - **About to claim that a change works** → [prove-it](../prove-it/SKILL.md). "It compiles" and "the tests pass" are not proof of behavior.
 - **A reported bug, a failure, or a regression** → [diagnose](../diagnose/SKILL.md), which writes its regression test with the `tdd` skill.
 - **Building new behavior that tests can pin down** → [tdd](../tdd/SKILL.md).
-- **Writing, changing, or keeping a test** → [fix-change-detector-tests](../fix-change-detector-tests/SKILL.md).
+- **Writing, changing, or keeping a test** → [no-change-detector-tests](../no-change-detector-tests/SKILL.md).
 - **Starting an implementation that follows a plan or a spec** → [decision-log](../decision-log/SKILL.md), at the light level.
 - **Finished a workpackage** → [deslop](../deslop/SKILL.md), then [sweep-residue](../sweep-residue/SKILL.md).
 - **About to open or update a pull request** → [visual-pr](../visual-pr/SKILL.md).

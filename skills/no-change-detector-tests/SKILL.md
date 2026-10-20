@@ -1,5 +1,5 @@
 ---
-name: fix-change-detector-tests
+name: no-change-detector-tests
 description: Decide whether a new test should exist and what it asserts, and find and replace tests that copy implementation details instead of checking behavior. Use before writing a new test, after writing or changing tests, when refactors require mechanical test updates, mock expectations break too easily, or the user asks to find change-detector tests or improve test value.
 ---
 

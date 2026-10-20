@@ -34,7 +34,7 @@ Check the state that changes the answer, and mention it only when it does:
 2. Run `/setup-polaris`. It shows the profile and budget table, offers fixed kind/level overrides and fallbacks, and saves configuration for the chosen scope. Harness limitations are reported rather than silently ignored. Then it offers once each to set up app verification and formal verification for the project.
 3. Start a real task with `/polaris`, a goal, and a check that can pass or fail.
 
-Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
+Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` can select a different budget or profile. A task-only budget request leaves saved settings and fixed overrides unchanged; `../polaris/references/models.md` defines the selection and fallback rules. Save `/polaris` for work that needs rigor.
 
@@ -71,7 +71,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Strip leftovers of the conversation from finished code and docs | [`sweep-residue`](../sweep-residue/SKILL.md) |
 | Open or update a PR with a short, visual description | [`visual-pr`](../visual-pr/SKILL.md) |
 | Find the cause of a hard bug or a regression | [`diagnose`](../diagnose/SKILL.md) |
-| Replace tests that break on refactors but catch no bugs | [`fix-change-detector-tests`](../fix-change-detector-tests/SKILL.md) |
+| Replace tests that break on refactors but catch no bugs | [`no-change-detector-tests`](../no-change-detector-tests/SKILL.md) |
 | Prove or disprove that a change works | [`prove-it`](../prove-it/SKILL.md) |
 | Give agents a scripted way to drive the app and prove behavior | [`create-verification-skill`](../create-verification-skill/SKILL.md) |
 | Bring a verification skill and its feature map back in line with the app | [`maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
@@ -94,7 +94,7 @@ Close calls:
 - `prototype` is for a call a person must make. When the agent can make the call by running something, it runs the smallest script instead.
 - `sharpen` rewrites the user's prompt in one turn, without asking, and doesn't do the task. `discuss` asks the user over several rounds and stops before any code.
 - `deslop` simplifies the design of finished work. `sweep-residue` then removes what only makes sense to someone who saw the conversation.
-- `tdd` writes tests in red-green cycles. `fix-change-detector-tests` evaluates whether a proposed test should exist and audits existing tests for useful behavior coverage.
+- `tdd` writes tests in red-green cycles. `no-change-detector-tests` evaluates whether a proposed test should exist and audits existing tests for useful behavior coverage.
 - `architect` returns a design and revisits it when evidence invalidates it. A design-only request ends there. If the user also requested implementation, the invoking agent continues that work directly or through a playbook.
 
 ## Playbooks and principles

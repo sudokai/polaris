@@ -30,7 +30,7 @@ Review the completed workpackage and simplify its implementation without changin
 
 ## Simplify tests without weakening coverage
 
-Check the tests added or affected by the workpackage with the `fix-change-detector-tests` skill (`../fix-change-detector-tests/SKILL.md`). Do not delete a failing test just to make the suite pass.
+Check the tests added or affected by the workpackage with the `no-change-detector-tests` skill (`../no-change-detector-tests/SKILL.md`). Do not delete a failing test just to make the suite pass.
 
 ## Approval gate for significant removals
 

@@ -40,10 +40,9 @@ RIGHT (vertical):
 
 Use the project's terms from `GLOSSARY.md` in test names and interfaces, and respect the ADRs in `docs/adr/` for the area you're touching.
 
-Before writing any code:
+Before writing code, list the behaviors to test, most important first. For a small bug fix, identify the intended behavior and the smallest reproduction. Use the design checklist only when introducing or changing interfaces, types, or module boundaries:
 
 - [ ] Decide what interface changes are needed; design types and signatures per [Type System Discipline](../principle-type-system-discipline/SKILL.md)
-- [ ] List the behaviors to test (not implementation steps), most important first
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
 - [ ] Name the core types and data structures first, per [Foundational Thinking](../principle-foundational-thinking/SKILL.md)
@@ -54,7 +53,7 @@ Decide who makes each of these calls per [Never Block on the Human](../principle
 
 ### 2. Tracer Bullet
 
-Before writing this test and every later one, decide whether it should exist and what it asserts, per the `fix-change-detector-tests` skill (`../fix-change-detector-tests/SKILL.md`).
+Before writing this test and every later one, decide whether it should exist and what it asserts, per the `no-change-detector-tests` skill (`../no-change-detector-tests/SKILL.md`).
 
 Write ONE test that confirms ONE thing about the system:
 
@@ -63,7 +62,11 @@ RED:   Write test for first behavior → test fails
 GREEN: Write minimal code to pass → test passes
 ```
 
-This is your tracer bullet - proves the path works end-to-end.
+Run the test before changing production code. Confirm it fails because the intended behavior is missing or broken. If it passes or fails for an unrelated reason, correct the test or reproduction first. After implementation, run it again and confirm it passes.
+
+This first cycle checks that the test can detect the missing behavior through the chosen interface.
+
+If a useful automated test is impractical, use the closest executable check, such as a reproduction command, focused script, or browser check. Avoid disproportionate harness setup, brittle mocks, or unrelated fixture changes. Integration tests remain appropriate when needed to exercise the real behavior. Record the check and its limits; do not claim an observed red-green cycle without before-and-after evidence.
 
 ### 3. Incremental Loop
 
@@ -77,6 +80,7 @@ GREEN: Minimal code to pass → passes
 Rules:
 
 - One test at a time
+- Run each test before implementation and confirm it fails for the intended reason; run it again after implementation and confirm it passes
 - Only enough code to pass current test
 - Don't anticipate future tests
 - Keep tests focused on observable behavior
@@ -95,7 +99,7 @@ After all tests pass, look for [refactor candidates](refactoring.md). Remove bef
 
 **Never refactor while RED.** Get to GREEN first.
 
-When the cycle ends, check the new tests again with the `fix-change-detector-tests` skill.
+When the cycle ends, check the new tests again with the `no-change-detector-tests` skill.
 
 ## Checklist Per Cycle
 
@@ -104,6 +108,13 @@ When the cycle ends, check the new tests again with the `fix-change-detector-tes
 [ ] Test describes behavior, not implementation
 [ ] Test uses public interface only
 [ ] Test would survive internal refactor
+[ ] Test failed for the intended reason before implementation and passed afterward
 [ ] Code is minimal for this test
 [ ] No speculative features added
 ```
+
+## Report
+
+- Name the test or executable check and the failure observed before implementation.
+- Report the passing run afterward and any related validation.
+- If before-and-after evidence is missing, explain why and state what remains unverified.

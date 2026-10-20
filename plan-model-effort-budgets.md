@@ -100,7 +100,7 @@ Setup displays profile, budget, override sources, effective pairs, fallbacks, an
 4. **Replace fixed-role agent definitions.** For Claude Code and Grok Build, generate thin definitions for distinct resolved pairs, sharing a definition when categories resolve to the same pair. Register only the necessary shipped defaults; allow setup to write project/user definitions for other budgets and overrides. A task-only budget can use existing definitions or create the required task-specific definition without persisting a different budget; if a new session is needed, report that limitation before starting the assignment. Do not claim unsupported dynamic selection works. Keep Claude and Grok definition directories separate and retain the portable root manifest's restrictions.
 5. **Classify workflow assignments.** Replace actual role references in architect, blast-radius, how, maintain-verification-skill, recall, reflect, why, and session-pickup. Routine exploration/mining usually uses ordinary; familiar review uses bounded judgment; uncertain design uses substantial or hardest reasoning; evidence collection uses verification. Keep the category sensitive to the actual assignment. Do not mechanically convert every `deep` to one category or every judge to hardest. Preserve independent-review context isolation and existing fan-out limits.
 6. **Update discovery and documentation.** Update router guidance, README, locations, setup descriptions, and manifests to describe budgets/categories. Mark ADRs 0004/0005 as superseded only where policy changes, preserving their historical rationale. Keep ADR 0017 as the decision record, with runtime tables pointing to the new authoritative profile references after implementation. Do not claim model availability or cost savings beyond verified evidence.
-7. **Verify behavior and review the result.** Apply `fix-change-detector-tests` before adding tests. Run structural checks and meaningful scenario checks, inspect generated definitions, and execute targeted live checks where available. Run `deslop`, followed by `sweep-residue`, on the completed workpackage. Refresh installed copies only through the installation skill and report restart/load gaps accurately.
+7. **Verify behavior and review the result.** Apply `no-change-detector-tests` before adding tests. Run structural checks and meaningful scenario checks, inspect generated definitions, and execute targeted live checks where available. Run `deslop`, followed by `sweep-residue`, on the completed workpackage. Refresh installed copies only through the installation skill and report restart/load gaps accurately.
 
 **Handling errors:** configuration errors identify the harness, category, invalid setting, and remedy. Do not overwrite a valid file with unresolved settings. Model failures follow the bounded fallback procedure; independent review remains independent or is explicitly blocked. Verify the model/effort actually used when the harness exposes it.
 
@@ -152,7 +152,7 @@ Read every file below in full before writing code. ADR 0017 contains every accep
 - `skills/polaris/playbooks/session-pickup.md`
 - `skills/decision-log/SKILL.md`
 - `skills/write-discoverable-code/SKILL.md`
-- `skills/fix-change-detector-tests/SKILL.md`
+- `skills/no-change-detector-tests/SKILL.md`
 - `skills/deslop/SKILL.md`
 - `skills/sweep-residue/SKILL.md`
 - `scripts/check_plugin.py`
