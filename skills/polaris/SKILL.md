@@ -23,7 +23,7 @@ The skills below sit next to this one. Most are hidden from automatic selection.
 - **Asked why code is shaped the way it is**, or looking for regression history → [why](../why/SKILL.md).
 - **Any code** → name the data shape first, and choose its organizing structure per [Model the Domain](../principle-model-the-domain/SKILL.md). Name, type, and document it per [write-discoverable-code](../write-discoverable-code/SKILL.md).
 - **Asked to discuss a plan, flesh out an idea, or settle a design before building** → [discuss](../discuss/SKILL.md).
-- **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` or an ADR → [domain-modeling](../domain-modeling/SKILL.md).
+- **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` or an ADR → [define-domain-language](../define-domain-language/SKILL.md).
 - **Explaining a design, a flow, or a change that is easier to see than to read** → [show-me](../show-me/SKILL.md).
 - **Substantial program, system, or product design, including foundational types, interfaces, ownership, or modules** → [architect](../architect/SKILL.md) before implementation, even when the approach seems clear.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → [blast-radius](../blast-radius/SKILL.md).

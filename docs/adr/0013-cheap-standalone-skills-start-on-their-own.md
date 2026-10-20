@@ -6,7 +6,7 @@ This decision replaces ADR 0003. An agent can start a bundled skill on its own w
 2. It is cheap: it starts no fan-out of subagents and writes nothing beyond the task.
 3. The user wants it in sessions that did not start with `/polaris`.
 
-Fourteen skills meet them: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, and `ketchup`, plus `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, and `sweep-residue` from ADR 0014, and `walkthrough` from ADR 0015. Each has no `disable-model-invocation` and no `agents/openai.yaml`. Every other skill except the router stays hidden as ADR 0003 describes. `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py` lists them and fails the check when a skill's switches disagree with the list.
+Fourteen skills meet them: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, and `ketchup`, plus `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, and `sweep-residue` from ADR 0014, and `walkthrough` from ADR 0015. Each has no `disable-model-invocation` and no `agents/openai.yaml`. Every other skill except the router stays hidden as ADR 0003 describes. `AGENT_INVOCABLE_SKILLS` in `scripts/check_plugin.py` lists them and fails the check when a skill's switches disagree with the list.
 
 ## Consequences
 

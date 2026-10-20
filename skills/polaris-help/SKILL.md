@@ -34,7 +34,7 @@ Check the state that changes the answer, and mention it only when it does:
 2. Run `/setup-polaris`. It shows the profile and budget table, offers fixed kind/level overrides and fallbacks, and saves configuration for the chosen scope. Harness limitations are reported rather than silently ignored. Then it offers once each to set up app verification and formal verification for the project.
 3. Start a real task with `/polaris`, a goal, and a check that can pass or fail.
 
-Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `domain-modeling`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
+Installing changes little until the user starts a task. The router runs only on `/polaris`. Fourteen skills start on their own when they fit: `prove-it`, `diagnose`, `fix-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `define-domain-language`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, and `walkthrough`. Offer to word the first prompt with the user, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` can select a different budget or profile. A task-only budget request leaves saved settings and fixed overrides unchanged; `../polaris/references/models.md` defines the selection and fallback rules. Save `/polaris` for work that needs rigor.
 
@@ -55,7 +55,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | [`sharpen`](../sharpen/SKILL.md) |
 | Translate AI prose into plain human language | [`say-it-plainly`](../say-it-plainly/SKILL.md) |
 | Settle a plan or a design through a few rounds of questions, before any code | [`discuss`](../discuss/SKILL.md) |
-| Sharpen the project's terms and record them in `GLOSSARY.md`, or record a decision | [`domain-modeling`](../domain-modeling/SKILL.md) |
+| Sharpen the project's terms and record them in `GLOSSARY.md`, or record a decision | [`define-domain-language`](../define-domain-language/SKILL.md) |
 | See the current topic as a diagram, a code-shape sketch, or an HTML page | [`show-me`](../show-me/SKILL.md) |
 | Know how code works now, or where new code should live | [`how`](../how/SKILL.md) |
 | Know why code is shaped this way, or where a number came from | [`why`](../why/SKILL.md) |

@@ -31,7 +31,7 @@ Diff the pstack file at `origin/main` against the polaris file. A change can alr
 
 ## 3. Propose
 
-Show the user a table: the pstack commit, the change, its polaris counterpart, the category, and for **Port**, what polaris would change. Note any port that reverses how a polaris skill behaves. Those need an ADR in `docs/adr/` that says why, per the `domain-modeling` skill.
+Show the user a table: the pstack commit, the change, its polaris counterpart, the category, and for **Port**, what polaris would change. Note any port that reverses how a polaris skill behaves. Those need an ADR in `docs/adr/` that says why, per the `define-domain-language` skill.
 
 Ask which ports to apply. Apply nothing before the user answers. For each port the user rejects, ask whether to record it under Skipped, with the reason.
 
