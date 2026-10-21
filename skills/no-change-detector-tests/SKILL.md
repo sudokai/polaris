@@ -11,6 +11,12 @@ Tests should catch bugs, not just changes to the code. A change-detector test co
 
 Answer the four questions in step 2 for the test you are about to write. Write it only if it checks a stated requirement and would catch a plausible bug that no existing test catches. Then write it as step 3 describes, and check it as step 4 describes.
 
+Writing no test is a valid outcome. A repository rule such as "add tests when adding features" is met by testing the behavior that has decisions in it. When no new behavior has a decision, say so in the report instead of adding a test to satisfy the rule.
+
+Do not write a test for code that makes no decision. If the code under test has no branch, calculation, ordering, or error case, a test can only restate it. Its expected values come from the code's own declaration, so it fails only when someone edits the declaration, and then the author edits both sides. Put the test on the code that does make a decision, such as the code that builds the value or decides when it is used.
+
+A declaration can still deserve a test when a requirement written outside the code fixes it, such as a published format or protocol. Cite that source and take the expected values from it, not from the code.
+
 ## Workflow for existing tests
 
 ### 1. Find the expected behavior
@@ -28,6 +34,7 @@ Look for these patterns, but do not assume they make a test useless:
 
 - Mock expectations repeat internal calls and their order.
 - Expected values use the same algorithm or helper as the code being tested.
+- Each assertion restates one line of a field-to-field mapping in the code, with the same names and the same literals.
 - Assertions check private structure or source text without a requirement to do so.
 - A harmless refactor requires the same edit across many tests.
 - Snapshots are updated without checking what the differences mean.
