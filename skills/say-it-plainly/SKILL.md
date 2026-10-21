@@ -6,12 +6,11 @@ disable-model-invocation: true
 
 # Say it plainly
 
-Rewrite the text the user points to. If they give no target, rewrite your last message.
+Rewrite the text the user points to. If they give no target, rewrite your last message. 
 
-Write like one human talking to another. Use plain words and coherent sentences. Remove jargon, mannered prose, vague abstractions, and filler. Preserve the meaning and any technical distinctions that matter.
+Ground the rewrite in the surrounding conversation or source material. Give enough context to enhance reader understanding. Do not invent missing context.
 
-Ground the rewrite in the surrounding conversation or source material. Give enough context for the reader to understand what the text refers to and why it matters. Do not invent missing context.
+Write your response more simply and concisely, like one human talking to another, and speak coherently. Use plain language that optimizes for human understanding, but retain clarity and precision. Do not use the dense, hyper-technical AI dialect filled with mannered prose and compound metaphors that LLMs often use. 
 
-Use the project's established terminology, following `GLOSSARY.md` and `GLOSSARY-MAP.md` when available.
+The goal is to aim for more clarity, less jargon, fewer odd turns of phrase, fewer low-value details, and slightly shorter answers overall without losing substance.
 
-Be concise without making the reader reconstruct missing connections.
