@@ -55,4 +55,4 @@ The raw responses, prompts, generated functions, fixture, and usage records for 
 - **Cursor, pi, and DeepSeek Harness:** instructions and profile tables were checked; model selection in a running editor, pi extension, or DeepSeek session was not exercised. Required tool fields, access, speed tier, and effort must be confirmed in that session.
 - **Hermes:** no personal configuration was changed and no separate-process delegation was introduced. Its configured delegation pair, otherwise the parent pair, remains in effect.
 
-Installed plugin copies were not refreshed as part of source verification. In particular, Hermes installation copies committed source; an uncommitted source tree is not proof of an installed update.
+Installed plugin copies were not refreshed as part of that verification. A Hermes plugin install copied the last commit, so an uncommitted tree was not proof of an installed update. The current install reads the repository `skills/` directory from `skills.external_dirs`.

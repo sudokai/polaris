@@ -63,6 +63,7 @@ When you tell the user which command to type, use the form their harness shows:
 
 - **`claude-code`**: `/polaris:<skill>`, such as `/polaris:how`.
 - **`pi`**: `/skill:<skill>`, such as `/skill:how`.
+- **`hermes`**: `/<skill>`, such as `/sweep-residue`. polaris is loaded from `skills.external_dirs`, not from `hermes plugins install`. The plugin install registers `agent-plugin-polaris-<hash>:<skill>` instead.
 - Any other harness: `/<skill>`. If the harness's skill menu shows another form, use that.
 
 ## Rendering pictures

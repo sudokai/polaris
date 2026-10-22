@@ -27,7 +27,7 @@ The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plug
 - **Grok Build:** run `grok plugin install <path-to-polaris> --trust`. Model-pair agents are in `agents/`. Grok copies the plugin at install time. To pick up later edits, run `grok plugin uninstall polaris --confirm`, install it again, and start a new session.
 - **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.
 - **pi:** run `pi install <path-to-polaris>`. pi reads `package.json`.
-- **Hermes:** run `hermes plugins install <git URL or file://path>`, then `hermes plugins enable polaris`. Hermes reads `plugin.json`.
+- **Hermes:** add `<path-to-polaris>/skills` to `skills.external_dirs` in `~/.hermes/config.yaml`, then start a new session. Do not run `hermes plugins install`. That command prefixes every skill command with `agent-plugin-polaris-<hash>:`. If polaris is already installed that way, run `hermes plugins remove polaris`.
 - **DeepSeek Harness (`dsh`):** run `dsh plugin --profile <profile> add <path-to-polaris>` for each profile. dsh reads `package.json` and `cordis.patch.yml`.
 
 To install or refresh it in every harness on your machine, run the repository's `install-polaris` skill from a session in this repository.

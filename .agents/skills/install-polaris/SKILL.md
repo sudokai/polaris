@@ -19,8 +19,57 @@ Run the steps for each harness that is present (`command -v <binary>`), and skip
 | `grok-build` | `grok plugin list` shows `polaris` | `grok plugin install <repo> --trust` | `grok plugin uninstall polaris --confirm`, then the install command again. Grok copies the plugin at install time, and `grok plugin update` leaves that copy unchanged. Start a new session after installing. |
 | `cursor` | `~/.cursor/plugins/local/polaris` exists | Run the Cursor copy command below | Run the same command to refresh the copy. |
 | `pi` | `pi list` shows `<repo>` | `pi install <repo>` | Nothing: pi reads `<repo>`. |
-| `hermes` | `hermes plugins list` shows `polaris` | `hermes plugins install file://<repo> --enable` | `hermes plugins install file://<repo> --force`. Hermes clones the last commit, so uncommitted changes do not reach it. |
+| `hermes` | `skills.external_dirs` contains `<repo>/skills`, and `hermes plugins list --user --json` does not list `polaris` | Run the Hermes command below | Run the same command. |
 | `dsh` | `~/.dsh/profiles/<profile>/package.json` lists `polaris` under `dsh.profile.bundles`, for each profile in `~/.dsh/profiles/` | `dsh plugin --profile <profile> add <repo>` for each profile | Nothing: the profile links `<repo>`. |
+
+Do not install polaris with `hermes plugins install`. That registers each skill as `agent-plugin-polaris-<hash>:<skill>`. Add `<repo>/skills` to `skills.external_dirs`, and remove a `polaris` plugin install if one exists. Hermes reads that directory. Start a new session after the command.
+
+Set `repo` to `<repo>`, then run:
+
+```sh
+repo="/absolute/path/to/polaris"
+skills_dir="$(cd "$repo/skills" && pwd)"
+python3 - "$skills_dir" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+skills_dir = Path(sys.argv[1]).resolve()
+listed = subprocess.run(
+    ["hermes", "plugins", "list", "--user", "--json"],
+    check=True,
+    capture_output=True,
+    text=True,
+)
+plugins = json.loads(listed.stdout)
+if any(item.get("name") == "polaris" for item in plugins):
+    subprocess.check_call(["hermes", "plugins", "remove", "polaris"])
+
+got = subprocess.run(
+    ["hermes", "config", "get", "skills.external_dirs", "--json"],
+    capture_output=True,
+    text=True,
+)
+if got.returncode:
+    if "Config key not set" not in got.stderr:
+        raise SystemExit(got.stderr.strip() or "could not read skills.external_dirs")
+    dirs = []
+else:
+    dirs = json.loads(got.stdout or "[]")
+if not isinstance(dirs, list):
+    raise SystemExit("skills.external_dirs is not a list")
+
+if not any(
+    isinstance(entry, str) and Path(entry).expanduser().resolve() == skills_dir
+    for entry in dirs
+):
+    dirs.append(str(skills_dir))
+    subprocess.check_call(
+        ["hermes", "config", "set", "skills.external_dirs", json.dumps(dirs)]
+    )
+PY
+```
 
 Cursor rejects local-plugin symbolic links whose targets resolve outside `~/.cursor/plugins/local/`. Run this command, with `repo` set to `<repo>`, for both install and refresh:
 
