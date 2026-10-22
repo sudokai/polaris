@@ -34,6 +34,8 @@ Choose core data structures before logic per `principle-foundational-thinking`.
 
 When designing state or ownership, choose structures that encode domain rules per `principle-model-the-domain`.
 
+Use `model-domain` when domain relationships, invariants, state transitions, or ownership need clarification. Reuse an existing source-backed model when it covers the design.
+
 When designing types and signatures, make invalid states unrepresentable per `principle-type-system-discipline`.
 
 When designing validation, error handling, or framework adapters, place them per `principle-boundary-discipline`.
@@ -72,7 +74,7 @@ If the human pushes back on the shape (in a checkpoint or after the fact), treat
 
 ## Phase D: Hand off the design
 
-Return the sketch, rationale, constraints, invariants, open questions, and first implementation step. State which review ran and its limits. Treat the design as the implementation contract.
+Return the sketch, rationale, constraints, invariants, open questions, and first implementation step. State which review ran and its limits. Treat the design as the implementation contract. Preserve choices whose lost rationale could cause harmful changes or repeated investigation with `record-architecture-decision`.
 
 If implementation needs an unexpected parameter or other deviation, inspect the mismatch. Decide whether the design missed a requirement, constraints changed, or implementation exceeds scope. Revise the design when needed and explain why.
 

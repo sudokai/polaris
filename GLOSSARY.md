@@ -42,7 +42,7 @@ The `GLOSSARY.md` file at a project's root that defines the project's terms. The
 _Avoid_: context file
 
 **ADR**:
-An architecture decision record: a short file in `docs/adr/` that records one decision that is hard to reverse, and why it was made.
+An architecture decision record: a short document that preserves an architectural choice and the reasoning future contributors need to understand it.
 _Avoid_: design doc
 
 ### Harnesses and models
@@ -79,10 +79,10 @@ An explicitly authorized replacement pair or a reported harness limitation when 
 ### Local files
 
 **Project scope**:
-Applies to one repository. Its files live in `<project>/.agents/polaris/`.
+Applies to one project, with separate task state for each worktree.
 
 **User scope**:
-Applies to every project for one user. Its files live in `~/.agents/polaris/`.
+Applies across projects for one user. Model settings are specific to a harness; local playbooks are shared across harnesses.
 
 **Local playbook**:
 A playbook in a project or user `playbooks/` directory, outside the bundled index.

@@ -1,45 +1,21 @@
 ---
 name: define-domain-language
-description: Clarify a project's domain concepts, choose consistent terms, and record their definitions. Use when discussing codebase terminology, writing or editing a GLOSSARY.md, or recording or editing an ADR.
+description: Clarify a project's domain concepts, choose consistent terms, and record their definitions. Use when discussing codebase terminology or writing or editing GLOSSARY.md.
 ---
 
 # Define domain language
 
-Clarify domain concepts and relationships as you design. Challenge ambiguous terms, test their meanings with concrete scenarios, and record agreed definitions and decisions as they are resolved. Reading an existing glossary for vocabulary does not require this skill.
+Clarify domain concepts and relationships as you design. Challenge ambiguous terms, test their meanings with concrete scenarios, and record agreed definitions as they are resolved. Reading an existing glossary for vocabulary does not require this skill.
+
+Use `model-domain` when the question extends beyond definitions to domain relationships, lifecycles, ownership, or business rules.
 
 When the model drives code structure, such as stateful logic or a shape assumption repeated across files, choose the structure per `principle-model-the-domain`.
 
 ## File structure
 
-Most repos have a single context:
+Use a root `GLOSSARY.md` for a single context. If `GLOSSARY-MAP.md` exists, follow it to the relevant context's glossary.
 
-```
-/
-├── GLOSSARY.md
-├── docs/
-│   └── adr/
-│       ├── 0001-event-sourced-orders.md
-│       └── 0002-postgres-for-write-model.md
-└── src/
-```
-
-If a `GLOSSARY-MAP.md` exists at the root, the repo has multiple contexts. The map points to where each one lives:
-
-```
-/
-├── GLOSSARY-MAP.md
-├── docs/
-│   └── adr/                          ← system-wide decisions
-├── src/
-│   ├── ordering/
-│   │   ├── GLOSSARY.md
-│   │   └── docs/adr/                 ← context-specific decisions
-│   └── billing/
-│       ├── GLOSSARY.md
-│       └── docs/adr/
-```
-
-Create files lazily: only when you have something to write. If no `GLOSSARY.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
+Create a glossary only when the first term is resolved. Use the structure in `./GLOSSARY-FORMAT.md`.
 
 ## During the session
 
@@ -64,13 +40,3 @@ When the user states how something works, check whether the code agrees. If you 
 When a term is resolved, update `GLOSSARY.md` right there. Don't batch these up: capture them as they happen. Use the format in `./GLOSSARY-FORMAT.md`.
 
 `GLOSSARY.md` should be totally devoid of implementation details. Do not treat `GLOSSARY.md` as a spec, a scratch pad, or a repository for implementation decisions. It is a glossary and nothing else.
-
-### Offer ADRs sparingly
-
-Only offer to create an ADR when all three are true:
-
-1. **Hard to reverse**: the cost of changing your mind later is meaningful
-2. **Surprising without context**: a future reader will wonder "why did they do it this way?"
-3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
-
-If any of the three is missing, skip the ADR. Use the format in `./ADR-FORMAT.md`.
