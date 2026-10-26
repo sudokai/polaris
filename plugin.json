@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "polaris",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "A router skill, engineering principles, and playbooks that guide coding agents to map code, design agent-friendly architecture, and prove behavior. Derived from pstack.",
   "author": { "name": "Kaixi Luo" },
   "license": "MIT",
