@@ -30,6 +30,7 @@ Bundled skills are sibling directories under `skills/`. Resolve a skill name as 
 - **Clarifying domain relationships, ownership, lifecycles, or business rules**, or maintaining domain documentation → `model-domain`.
 - **A design choice needs lasting rationale**, or you are creating, editing, or superseding an ADR → `record-architecture-decision`.
 - **Explaining a design, a flow, or a change that is easier to see than to read** → `show-me`.
+- **Asked for an animated or step-by-step explainer of a change or of how code runs** → `lantern`.
 - **Substantial program, system, or product design, including foundational types, interfaces, ownership, or modules** → `architect` before implementation, even when the approach seems clear.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → `blast-radius`.
 - **About to claim that a change works** → `prove-it`. "It compiles" and "the tests pass" are not proof of behavior.

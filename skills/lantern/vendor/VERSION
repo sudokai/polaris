@@ -1,0 +1,3 @@
+github.com/ivarvong/lantern 2c7bad533be25fbd56d26a9a2b6c5651743f011e
+built with esbuild 0.25.12
+patched with patches/center-doc-box-labels.patch

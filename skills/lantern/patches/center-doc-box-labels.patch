@@ -1,0 +1,12 @@
+Center box and state labels on their shape. Upstream builds these labels at the
+origin and never moves them onto the shape, so they sit near the box's top edge.
+--- a/src/doc.ts
++++ b/src/doc.ts
+@@ -128,6 +128,7 @@ function makeNode(spec: DocNodeSpec): DocNode {
+       label = new Text(spec.label ?? '', { fontSize: spec.fontSize ?? 0.28, color: color(spec.color, C.WHITE), weight: spec.weight ?? 'normal' });
+     }
+   }
++  if (shape && label && ['box', 'state'].includes(spec.kind ?? 'box')) label.moveTo(shape);
+   // box and state labels sit on the shape; slot and pointer labels were placed beside it
+   const g = new DocNode(shape ?? null, label ?? null, { center: false });
+   g.kind = spec.kind ?? 'box';
