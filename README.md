@@ -8,7 +8,7 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 - **Playbooks:** feature development, bug fixes, refactoring, verification setup, session pickup, and safe pauses. Playbooks own the sequence and delivery; skills own each capability's method and output; principles guide decisions.
 - **Principles:** 24 hidden skills named `principle-<slug>`, such as `principle-prove-it-works`. Run the skill to apply that rule. The router indexes the same skills.
 - **Mapping:** `how`, `why`, `walkthrough`, and `blast-radius`.
-- **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, and `prove-it`.
+- **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, `statechart`, and `prove-it`.
 - **Debugging and tests:** `diagnose`, `tdd`, and `no-change-detector-tests`.
 - **Design and correction:** `discuss`, `define-domain-language`, `model-domain`, `record-architecture-decision`, `architect`, `finalize-plan`, `prototype`, `show-me`, `lantern`, and `correct`.
 - **Technical prose:** `technical-writing` for document structure and style, and `deslop-language` for removing AI writing patterns.
@@ -22,7 +22,7 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 
 The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plugin.json` and `skills/`), plus a small manifest for each harness that needs one.
 
-- **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`, which also lists the model-pair agents in `com.anthropic.claude-code/agents/`.
+- **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`, which also lists the model-pair agents in `com.anthropic.claude-code/agents/`. Claude Code leaves auto-update off for third-party marketplaces, so polaris stays on the version you installed. To turn it on, run `/plugin`, open the **Marketplaces** tab, select `polaris`, and choose **Enable auto-update**. To update once by hand, run `claude plugin update polaris@polaris`.
 - **Codex:** the repository is its own marketplace (`.agents/plugins/marketplace.json`). Run `codex plugin marketplace add <path-to-polaris>`, then `codex plugin add polaris@polaris`. The manifest is `.codex-plugin/plugin.json`.
 - **Grok Build:** run `grok plugin install <path-to-polaris> --trust`. Model-pair agents are in `agents/`. Grok copies the plugin at install time. To pick up later edits, run `grok plugin uninstall polaris --confirm`, install it again, and start a new session.
 - **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.

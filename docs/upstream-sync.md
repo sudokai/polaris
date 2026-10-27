@@ -10,9 +10,12 @@ Update the last synced commit after each sync. If you skip a pstack commit on pu
 
 ## Last synced commit
 
-`88d47514b82e7c44f00f2b2a72ff6dd12158038c` (2026-10-19, "pstack: restore /sharpen to the original prompt, return only the rewrite (#729)")
+`519d36aa98955bf680db01bcde5fdfba686dc901` (2026-10-26, "test(pstack): wait for the reap in the statechart SIGKILL view test (#981)")
 
 ## Skipped
 
 - Version bumps and Cursor-specific guide pages under `pstack/docs/guide/`, which polaris has no equivalent for.
 - The Claude Code install note in `poteto-help`, which describes pstack's own install.
+- The `ketchup-video` skill (`3c0fdb4`), which polaris has not adopted.
+- Fixes to the `poteto-mode` scripts `check-plan`, `orch`, `watch-pr`, and `worktree-audit` (`86c2448`, `3c596e7`, `fe096ef`, `96dec8e`, `f83fbe6`), which polaris does not ship.
+- Step renumbering in `swarm` (`e73df47`), which polaris has no counterpart for.

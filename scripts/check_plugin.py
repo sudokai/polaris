@@ -46,6 +46,7 @@ EXPECTED_SKILLS = {
     "setup-polaris",
     "sharpen",
     "show-me",
+    "statechart",
     "say-it-plainly",
     "sweep-residue",
     "tdd",

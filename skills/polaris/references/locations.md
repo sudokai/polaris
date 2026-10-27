@@ -7,7 +7,7 @@ Where polaris reads and writes its local files, and how it finds local playbooks
 - **Project root:** the output of `git rev-parse --show-toplevel`, or the current directory outside git.
 - **Project polaris root:** `<project>/.agents/polaris/`.
 - **User polaris root:** `~/.agents/polaris/` for local playbooks. Model settings use the current harness's configuration directory under [User model settings](#user-model-settings).
-- **Bundled:** the plugin's own `skills/` directory. Never edit an installed copy of it.
+- **Bundled:** the plugin's own `skills/` directory. Never edit an installed copy of it. To change a bundled skill locally, copy its folder as [Scope of a change](#scope-of-a-change) describes.
 
 ## What goes where
 
@@ -17,6 +17,7 @@ Where polaris reads and writes its local files, and how it finds local playbooks
 | Local playbooks | `.agents/polaris/playbooks/<name>.md` | `~/.agents/polaris/playbooks/<name>.md` |
 | New standalone skills | The project skill directory in [harness reference](harnesses.md) | The user skill directory in [harness reference](harnesses.md) |
 | Edits to an existing standalone skill | The directory that holds it | The directory that holds it |
+| Edits to a skill installed by a plugin, including polaris | A copy of its folder in the project skill directory | A copy of its folder in the user skill directory |
 | Preferences | The project's agent instruction file | Every harness's [global instruction file](writing-global-instructions.md), written once per real file, or one harness's file for a harness-specific rule |
 | Correction rule table | The project's agent instruction file | None |
 | Deferred repo fixes | `.agents/polaris/backlog.md` | None |
@@ -44,4 +45,4 @@ A local playbook names a skill by name, such as "the `how` skill" or "the `princ
 
 ## Scope of a change
 
-Never edit the bundled skills, including principle skills, playbooks, or the router index to record a lesson, and never copy one to change it locally. Record the lesson in a local playbook, a standalone skill, or an instruction file instead. A defect that every polaris user would hit is a proposal for the plugin's source repository: show it to the user, and do not apply it.
+Never edit a skill inside an installed plugin, including polaris's bundled skills and principle skills. To change one, copy its whole folder to the same skill name in the project or user skill directory, and edit the copy. The copy no longer receives updates to that skill. Add to bundled playbooks with local playbooks, not by copying the `polaris` skill. A defect that every polaris user would hit is also a proposal for the plugin's source repository: show it to the user, and do not apply it.

@@ -88,6 +88,10 @@ Applies across projects for one user. Model settings are specific to a harness; 
 A playbook in a project or user `playbooks/` directory, outside the bundled index.
 _Avoid_: learned playbook, custom playbook
 
+**Skill copy**:
+A copy of an installed skill's folder in a project or user skill directory, made to change that skill locally. It no longer receives the plugin's updates to that skill.
+_Avoid_: override, fork
+
 **Upstream proposal**:
 A drafted change to the plugin's source repository for a defect every polaris user would hit. It is shown, never applied.
 

@@ -10,4 +10,4 @@ Session and history modes share lesson routing and approval. Their evidence filt
 
 Repeated mistakes call for structural fixes rather than accumulating instructions. A first occurrence may justify a rule; recurrence calls for stronger enforcement. Approved structural work goes to `correct` in the same session unless the user chooses to defer it. The backlog is not a destination for unapproved ideas.
 
-Reviewer coverage, finding formats, scope tests, and application procedures live in [reflect](../../skills/reflect/SKILL.md) and [correct](../../skills/correct/SKILL.md). Learning follows the [customization boundary](0004-local-customization-without-bundled-overrides.md).
+Reviewer coverage, finding formats, scope tests, and application procedures live in [reflect](../../skills/reflect/SKILL.md) and [correct](../../skills/correct/SKILL.md). Learning follows the [customization boundary](0008-local-customization-and-skill-copies.md).

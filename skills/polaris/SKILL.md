@@ -44,6 +44,7 @@ Bundled skills are sibling directories under `skills/`. Resolve a skill name as 
 - **The app changed and its verification skill may be out of date** → `maintain-verification-skill`.
 - **A race, a retry, a state machine, or another property that tests rarely reach** → `create-formal-verification-skill`.
 - **Code that a formal check covers changed after the check's sync commit** → `maintain-formal-verification-skill`.
+- **Someone who owns a behavior needs to see it as states, or a TLA+ result needs reading** → `statechart`.
 - **The user corrects a mistake that agents have made before** → `correct`. Make the mistake impossible instead of writing another rule.
 - **Unattended work** → full-level `decision-log`, even with an existing playbook.
 - **Before asking the user** → `principle-never-block-on-the-human`.

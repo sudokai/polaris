@@ -82,6 +82,7 @@ The default answer is `/polaris`, which runs most of the others when its steps n
 | Bring a verification skill and its feature map back in line with the app | `maintain-verification-skill` |
 | Formally verify a race, an invariant, or another property that tests rarely reach | `create-formal-verification-skill` |
 | Bring a formal verification back in line after the code it covers changed | `maintain-formal-verification-skill` |
+| Show a PM or designer what the user sees as a chart checked by a TLA+ model, with the shortest path to each state that breaks a rule | `statechart` |
 | Design a task-specific playbook when no existing one fits | `figure-it-out` |
 | Keep a decision log while implementing, and review it afterward | `decision-log` |
 | Choose a model profile, budget, and kind/level overrides | `setup-polaris` |
