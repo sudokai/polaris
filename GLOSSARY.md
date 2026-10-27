@@ -48,7 +48,7 @@ _Avoid_: design doc
 ### Harnesses and models
 
 **Harness**:
-An agent client that loads the plugin, such as Claude Code, Codex, or Grok Build. Each has an identifier: `claude-code`, `codex`, `cursor`, `pi`, `hermes`, `dsh`, or `grok-build`.
+An agent client that loads the plugin, such as Claude Code, Codex, or Grok Build. Each has an identifier: `claude-code`, `codex`, `cursor`, `pi`, `hermes`, `dsh`, `grok-build`, or `amp`.
 _Avoid_: client, host, tool
 
 **Harness fact file**:

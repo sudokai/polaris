@@ -45,6 +45,7 @@ Budgets are `small`, `medium` (default), `large`, and `unlimited`. They are allo
 | `codex`, `pi` | `gpt` |
 | `cursor`, `grok-build` | `xai` |
 | `dsh` | `deepseek` |
+| `amp` | Suggest the profile of the provider that serves the current mode. Pairs apply only through listed agent modes. |
 | `hermes` | Suggest `gpt` during setup; existing delegation behavior remains unchanged. |
 
 If the harness is unknown, do not guess that it can apply a pair. Report the limitation and follow [unavailable controls](#unavailable-controls).
@@ -106,6 +107,7 @@ Report substitutions once per task, grouping repeated uses of the same substitut
 - **`pi`**: inspect the installed extension's subagent schema; pi has no built-in subagents. Pass its accepted provider/model and thinking-level fields. Native thinking maps may silently lower unsupported effort, so validate the model's supported controls first.
 - **`dsh`**: use `list_subagent_models` for allowed providers, IDs, and efforts. Pass `provider`, `model`, and `reasoning_effort` when exposed. Model selection must be enabled and requested by the preset. [Setup](../../setup-polaris/SKILL.md#1-identify-the-harness-and-its-controls) describes how to enable it; do not assume a missing field is present.
 - **`grok-build`**: use a loaded agent definition fixing model and effort. Some sessions expose a model argument, but effort may still require a definition; use direct pair fields only when the actual schema supports both. Confirm that the connection accepts the definition's model; Composer may be callable even when `grok models` omits it. Do not infer that the CLI accepts an ID solely from Hermes's catalogue.
+- **`amp`**: `Task` subagents run the parent thread's model and effort, so they cannot apply a pair. Call `list_agent_modes`, then start the child with `create_thread`, passing as `agent_mode` the key of the mode whose description names the resolved model and effort, such as `claude-opus-5-5` ("Claude Opus 5.5 at high"). Wait with `wait_for_threads`. A pair without a matching mode follows [fallbacks](#fallbacks); do not pick a mode that matches the model but not the effort. The child is a separate thread in the user's thread list, so give it a self-contained brief.
 - **`hermes`**: leave its delegation settings unchanged. `delegate_task` uses its configured delegation model/effort, otherwise the parent's settings. Explain that kind/level selection does not apply; do not force Sol medium or launch separate processes to emulate them.
 
 ### Agent definitions

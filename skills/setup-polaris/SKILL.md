@@ -10,9 +10,10 @@ Configure delegated assignments using [model budgets](../polaris/references/mode
 
 ## 1. Identify the harness and its controls
 
-Identify `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, or `hermes` from the available tools. If unknown, report that setup cannot apply model choices here.
+Identify `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, `amp`, or `hermes` from the available tools. If unknown, report that setup cannot apply model choices here.
 
 - **Hermes:** explain that its existing delegation settings apply, otherwise children inherit the main conversation's settings. GPT is a suggestion only. Leave Hermes configuration untouched, do not save a misleading kind/level allocation table, and stop.
+- **Amp:** only the agent modes that `list_agent_modes` returns can apply a pair, and polaris does not create modes. Resolve each pair without a matching mode through a fallback, or report it as unavailable.
 - **pi:** an installed extension must provide subagents. Inspect its actual model/thinking-level fields. If no suitable extension exists, explain the limitation and stop.
 - **dsh:** the subagent tool must expose model selection. If it does not, explain the relevant setting and stop rather than save an ineffective table:
   - Desktop: **Plugins → Official → Subagent**, enable model selection and allow the intended models.
@@ -43,6 +44,7 @@ Detect model IDs, connection routes, supported efforts, tool support, and requir
 | Grok Build | `grok models`, loaded agents, and provider documentation. Missing entries alone do not rule out Composer; confirm callable IDs on the selected connection. |
 | pi | `pi --list-models`, model thinking maps, and the installed subagent extension's schema. |
 | dsh | `list_subagent_models` allowed providers/models and reasoning efforts. |
+| Amp | `list_agent_modes` keys and descriptions, which name each mode's model and effort. `amp plugins show-agent-options` lists model IDs, not runnable modes. |
 
 Do not assume an account can run a model because another harness or catalogue lists it. Mark uncertain access as unverified. Use a minimal harmless model check when the session permits one; do not launch the full task to discover access. Resolve multiple account routes with the user. Keep credentials in the harness's existing configuration.
 
