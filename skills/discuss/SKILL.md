@@ -15,7 +15,7 @@ by reading the code, running a small script, or deciding and saying why.
 
 When the discussion uses a term that is vague, overloaded, or at odds with the
 project's `GLOSSARY.md`, challenge it and record the result per the
-`define-domain-language` skill.
+`sharpen-domain-language` skill.
 
 Proceed in short rounds:
 

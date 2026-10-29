@@ -1,9 +1,9 @@
 ---
-name: define-domain-language
+name: sharpen-domain-language
 description: Clarify a project's domain concepts, choose consistent terms, and record their definitions. Use when discussing codebase terminology or writing or editing GLOSSARY.md.
 ---
 
-# Define domain language
+# Sharpen domain language
 
 Clarify domain concepts and relationships as you design. Challenge ambiguous terms, test their meanings with concrete scenarios, and record agreed definitions as they are resolved. Reading an existing glossary for vocabulary does not require this skill.
 

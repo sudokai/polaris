@@ -13,7 +13,7 @@ This skill changes documentation only. Do not change application code, tests, or
 
 Choose the reader and the question to answer. Read the relevant implementation, glossary, domain documentation, and verification feature map where available.
 
-Use concrete scenarios and boundary cases to identify concepts, relationships, ownership, rules that must always hold, and allowed state transitions. Use `define-domain-language` for ambiguous terms.
+Use concrete scenarios and boundary cases to identify concepts, relationships, ownership, rules that must always hold, and allowed state transitions. Use `sharpen-domain-language` for ambiguous terms.
 
 Distinguish current behavior, intended rules, and proposed changes. Surface contradictions with evidence rather than inventing rules or silently choosing a source.
 

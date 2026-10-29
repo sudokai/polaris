@@ -26,7 +26,7 @@ Bundled skills are sibling directories under `skills/`. Resolve a skill name as 
 - **Any code** → name the data shape first, and choose its organizing structure per `principle-model-the-domain`. Name, type, and document it per `write-discoverable-code`.
 - **Asked to discuss a plan, flesh out an idea, or settle a design before building** → `discuss`.
 - **Asked to save a standalone implementation plan from a settled design** → `finalize-plan`.
-- **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` → `define-domain-language`.
+- **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` → `sharpen-domain-language`.
 - **Clarifying domain relationships, ownership, lifecycles, or business rules**, or maintaining domain documentation → `model-domain`.
 - **A design choice needs lasting rationale**, or you are creating, editing, or superseding an ADR → `record-architecture-decision`.
 - **Explaining a design, a flow, or a change that is easier to see than to read** → `show-me`.

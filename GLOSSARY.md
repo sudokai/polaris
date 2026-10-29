@@ -38,7 +38,7 @@ _Avoid_: workflow, recipe
 One line in the router that names a situation and the skill to run in it.
 
 **Glossary**:
-The `GLOSSARY.md` file at a project's root that defines the project's terms. The `define-domain-language` skill writes it.
+The `GLOSSARY.md` file at a project's root that defines the project's terms. The `sharpen-domain-language` skill writes it.
 _Avoid_: context file
 
 **ADR**:

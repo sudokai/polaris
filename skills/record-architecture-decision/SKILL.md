@@ -13,7 +13,7 @@ Skip routine implementation summaries, obvious choices, and progress logs. Keep 
 
 Read the relevant code and existing ADRs before writing. Establish the constraint, the choice, and why the alternatives were rejected. Distinguish agreed decisions from proposals. Do not invent rationale or present a proposal as accepted.
 
-If the design is unresolved, use the `architect` skill to settle its structure. Use `define-domain-language` when terms need clarification. An ADR records the choice; the model belongs in the code and design.
+If the design is unresolved, use the `architect` skill to settle its structure. Use `sharpen-domain-language` when terms need clarification. An ADR records the choice; the model belongs in the code and design.
 
 ## Write the record
 
