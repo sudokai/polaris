@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+# The statechart tests import fast-check, a dev dependency of skills/statechart/scripts.
+# npm install is cheap when node_modules already matches package.json, so a stale snapshot stays fast.
+echo "[setup] statechart test dependencies"
+started=$SECONDS
+(cd skills/statechart/scripts && npm install --no-audit --no-fund)
+echo "[setup] statechart test dependencies done in $((SECONDS - started))s"
