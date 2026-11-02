@@ -18,6 +18,7 @@ Read this file in full before any work. It routes the task to a playbook or a sk
 
 Bundled skills are sibling directories under `skills/`. Resolve a skill name as `skills/<name>/SKILL.md` from the plugin root. Principle names include the `principle-` prefix. These conventions apply to skill names throughout the bundled skills. Use the shortest clear reference with an explicit, validated path. Add a Markdown link label when it helps the reader decide whether to open the file. Otherwise use a backticked path. Keep configuration paths, output paths, and filename examples in backticks. Resolve supporting paths relative to the document containing the reference, not the working directory or the skill root. Paths explicitly described as project paths resolve from the project root. Most skills are hidden from automatic selection. Run a named skill by reading its file in full and following it. When delegating, pass the plugin root and the absolute path of each skill or prompt file. Copied prompt text keeps its source file as the base for relative references. [The locations reference](references/locations.md) defines local playbooks and where polaris writes its files.
 
+- **Your first message on a task** → say in your own words the user's goal, the problem it solves, and, if the task ships a change, the smallest change you expect to meet the goal. Do not wait for confirmation. If the evidence rules out the change the user asked for, show the evidence and stop. Restate the goal in each subagent brief, in each pull request's **Why the change**, and at the start of each final report, except after a fully specified one-line edit.
 - **About to change code you have not traced**, or asked how something works → `how`.
 - **Asked to explain or walk through a PR, a branch, a commit, or a diff** → `walkthrough`.
 - **Asked why code is shaped the way it is**, or looking for regression history → `why`.
@@ -86,7 +87,7 @@ Bundled skills are sibling directories under `skills/`. Resolve a skill name as 
 - `principle-fix-root-causes`. Debugging.
 - `principle-sequence-verifiable-units`. Multi-step work, and how you order commits and pull requests.
 - `principle-test-behavior-not-implementation`. Writing, changing, or keeping a test.
-- `principle-explain-the-number`. Before you trust, report, or act on a number you measured.
+- `principle-explain-the-number`. Before you measure, and before you trust, report, or act on a number you measured.
 
 **Delegation**
 
