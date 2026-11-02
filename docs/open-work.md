@@ -2,7 +2,7 @@
 
 ## Not yet verified
 
-- **`disable-model-invocation` in Codex and Hermes.** If either ignores it, the hidden skills stay visible there. That is harmless, because the router still opens them by path. Amp ignores it: it logs `Unknown frontmatter field "disable-model-invocation"`, so all polaris skills are visible there.
+- **Hidden skills in Codex and Hermes.** Hidden skills set `disable-model-invocation: true`. Those in `skills/` also set `allow_implicit_invocation: false` in `agents/openai.yaml`, which Codex reads. If Codex or Hermes ignores these settings, the hidden skills stay visible there. That is harmless, because the router still opens them by path. Amp ignores `disable-model-invocation`: it logs `Unknown frontmatter field "disable-model-invocation"`, so all polaris skills are visible there.
 - **Agent-invocable skills in each harness.** That the skills listed in `AGENT_INVOCABLE_SKILLS` in [the validator](../scripts/check_plugin.py) start on their own outside `/polaris`, and that the commands in [Typing a skill command](../skills/polaris/references/harnesses.md#typing-a-skill-command) are right outside Claude Code and pi.
 - **Hermes:** whether its skill management tool can create new skills.
 - **`dsh`:** the `max` effort level and the `deepseek-flash` model, and loading in `dsh-tui` and the desktop app. `dsh-tui` needs a terminal, and no headless profile exists to test it.

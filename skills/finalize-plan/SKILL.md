@@ -1,7 +1,6 @@
 ---
 name: finalize-plan
 description: "Write a standalone implementation plan .md from the agreed design, with no chat references and a list of every file needed to rebuild context."
-disable-model-invocation: true
 ---
 
 # Finalize an implementation plan

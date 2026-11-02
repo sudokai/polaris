@@ -1,7 +1,6 @@
 ---
 name: polaris-help
 description: "Answer questions about using polaris: setup, starting a task with /polaris, and picking the skill, playbook, or principle for a situation. Use for /polaris-help with a question."
-disable-model-invocation: true
 ---
 
 # polaris help
@@ -34,7 +33,7 @@ Check the state that changes the answer, and mention it only when it does:
 2. Run `/setup-polaris`. It shows the profile and budget table, offers fixed kind/level overrides and fallbacks, and saves configuration for the chosen scope. Harness limitations are reported rather than silently ignored. Then it offers once each to set up app verification and formal verification for the project.
 3. Start a real task with `/polaris`, a goal, and a check that can pass or fail.
 
-Installing changes little until the user starts a task. The router runs only on `/polaris`. Eighteen skills start on their own when they fit: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `sharpen-domain-language`, `model-domain`, `record-architecture-decision`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, `walkthrough`, `technical-writing`, and `deslop-language`. Offer to word the first prompt with the user, per `references/prompting.md`.
+Installing changes little until the user starts a task. The router runs only on `/polaris`. Many skills start on their own when they fit, including `prove-it` and `diagnose`. Offer to word the first prompt with the user, per `references/prompting.md`.
 
 If cost is the worry, start with delegation: reuse evidence, follow a settled design directly, and expand `why` and `recall` searches for concrete gaps. Independent review scales with consequences; comprehensive investigation remains available on request. Running `/setup-polaris` can select a different budget or profile. A task-only budget request leaves saved settings and fixed overrides unchanged; [model selection](../polaris/references/models.md) defines the selection and fallback rules. Save `/polaris` for work that needs rigor.
 
@@ -111,7 +110,7 @@ Playbooks are step lists inside `/polaris`, not skills, so they have no command.
 
 For implementation, feature development, bug fixes, and refactoring each have a playbook. They own sequencing, handoffs, checks, and delivery; the skills they call own their methods. The other bundled playbooks cover verification setup, session pickup, and safe pauses. `figure-it-out` designs a task-specific playbook when none fits. Requests only for planning, investigation, explanation, or design stay within that scope.
 
-Each principle is a hidden skill named `principle-<slug>`, such as `principle-prove-it-works`. Run that command to apply the rule to the current task. `/polaris` reads the same skill when a task triggers it, and cites the decision it changed. You can also steer by name, as in "apply prove it works. show me the real output."
+Each principle is a skill named `principle-<slug>`, such as `principle-prove-it-works`. Run that command to apply the rule to the current task. `/polaris` reads the same skill when a task triggers it, and cites the decision it changed. You can also steer by name, as in "apply prove it works. show me the real output."
 
 ## Fix a run that went wrong
 
@@ -120,7 +119,7 @@ Each principle is a hidden skill named `principle-<slug>`, such as `principle-pr
 | A question got treated as the next step of the last task | Say "new task", or say the turn does not need polaris. |
 | A new model choice had no effect | Role agents load in a new session in some harnesses. Start one. |
 | Runs cost more than expected | See the cost paragraph under **Get set up**. |
-| A skill did not start on its own | Only the router and the sixteen skills under **Get set up** can start on their own. The others start from `/polaris` or when the user types them. |
+| A skill did not start on its own | Agents start only some skills on their own. The others start from `/polaris` or when the user types them. |
 | Parallel agents overwrote each other | Give each agent its own worktree. |
 | An unattended run moved but finished nothing | Give it a check that can pass or fail, not a duration. |
 | The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That is the Prove It Works principle. |

@@ -1,7 +1,6 @@
 ---
 name: why
 description: "Investigate why code is shaped this way: design rationale, regressions, postmortems, or data-backed thresholds. Follow history and linked evidence, expand for gaps or contradictions, and return cited findings with explicit search coverage. Use how for runtime behavior."
-disable-model-invocation: true
 ---
 
 # Why

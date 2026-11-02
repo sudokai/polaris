@@ -1,7 +1,6 @@
 ---
 name: link-principles
 description: "Review principle references for useful guidance and discoverability without excessive linking. Add, correct, or remove links where they affect a skill's decisions. Use for /link-principles, or after adding a principle or a skill."
-disable-model-invocation: true
 ---
 
 # Link principles

@@ -1,7 +1,6 @@
 ---
 name: say-it-plainly
 description: "Translate AI prose into clear, natural human language. Use for /say-it-plainly."
-disable-model-invocation: true
 ---
 
 # Say it plainly

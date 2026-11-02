@@ -57,9 +57,9 @@ EXPECTED_SKILLS = {
     "write-discoverable-code",
 }
 
-# Hidden principle skills (docs/adr/0002-explicit-and-automatic-skill-invocation.md).
-# A command needs a skill directory. They stay out of AGENT_INVOCABLE_SKILLS so an
-# agent does not start a principle as a task.
+# Principle skills (docs/adr/0002-explicit-and-automatic-skill-invocation.md).
+# Each one needs a skill directory so its command exists. They are listed in
+# AGENT_INVOCABLE_SKILLS, so an agent may start one when its description fits.
 PRINCIPLE_SLUGS = (
     "attack-the-premise",
     "boundary-discipline",
@@ -116,6 +116,44 @@ AGENT_INVOCABLE_SKILLS = {
     "technical-writing",
     "walkthrough",
     "write-discoverable-code",
+    "architect",
+    "blast-radius",
+    "create-formal-verification-skill",
+    "create-verification-skill",
+    "finalize-plan",
+    "how",
+    "link-principles",
+    "maintain-formal-verification-skill",
+    "polaris-help",
+    "recall",
+    "say-it-plainly",
+    "sharpen",
+    "show-me",
+    "why",
+    "principle-attack-the-premise",
+    "principle-boundary-discipline",
+    "principle-build-the-lever",
+    "principle-encode-lessons-in-structure",
+    "principle-exhaust-the-design-space",
+    "principle-experience-first",
+    "principle-explain-the-number",
+    "principle-fix-root-causes",
+    "principle-foundational-thinking",
+    "principle-guard-the-context-window",
+    "principle-laziness-protocol",
+    "principle-make-operations-idempotent",
+    "principle-migrate-callers-then-delete-legacy-apis",
+    "principle-minimize-reader-load",
+    "principle-model-the-domain",
+    "principle-never-block-on-the-human",
+    "principle-outcome-oriented-execution",
+    "principle-prove-it-works",
+    "principle-redesign-from-first-principles",
+    "principle-separate-before-serializing-shared-state",
+    "principle-sequence-verifiable-units",
+    "principle-subtract-before-you-add",
+    "principle-test-behavior-not-implementation",
+    "principle-type-system-discipline",
 }
 
 # Lowercase "cursor" is a common programming word, such as a pagination cursor, so only

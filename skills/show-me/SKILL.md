@@ -1,7 +1,6 @@
 ---
 name: show-me
 description: "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML pages. Use for /show-me. Other skills draw their views from it."
-disable-model-invocation: true
 ---
 
 # Show me

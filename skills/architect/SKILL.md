@@ -1,7 +1,6 @@
 ---
 name: architect
 description: "Design and review substantial program, system, product, or codebase foundations: types, interfaces, ownership, and modules. Return the design and revise it when evidence shows it no longer fits. Use for /architect, 'architect this', or 'design this', even when the approach seems clear."
-disable-model-invocation: true
 ---
 
 # Architect
