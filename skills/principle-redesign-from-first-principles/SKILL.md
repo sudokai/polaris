@@ -7,8 +7,6 @@ description: "Apply when integrating a new requirement into an existing design."
 
 Apply this rule to the current task. Name the decision it changed.
 
-**Applies when:** Integrating a new requirement into an existing design.
-
 When integrating a change, don't bolt it onto the existing design. Redesign as if the requirement had been a foundational assumption from the start.
 
 - Read all affected files and understand the current design

@@ -7,8 +7,6 @@ description: "Apply when about to ask \"which approach?\", \"what should this do
 
 Apply this rule to the current task. Name the decision it changed.
 
-**Applies when:** About to ask "which approach?", "what should this do?", or "should I do X?".
-
 The human supervises asynchronously. Agents must stay unblocked. Make reasonable decisions, proceed, and let the human course-correct after the fact. Since code changes are reversible and reviewable, a wrong decision usually costs less than blocking.
 
 ## Who makes the call

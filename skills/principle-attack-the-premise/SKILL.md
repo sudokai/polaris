@@ -7,8 +7,6 @@ description: "Apply when two or more fixes that share one premise have failed th
 
 Apply this rule to the current task. Name the decision it changed.
 
-**Applies when:** Two or more fixes that share one premise have failed the same gate. Write the premise down and test it directly before you write another fix that assumes it.
-
 When two or more fixes that share one premise have failed the same gate, suspect the premise, not the fixes.
 
 **Why:** Each failed fix is evidence against the belief it assumed. A third fix on the same premise spends effort where the evidence already says the cause is not.

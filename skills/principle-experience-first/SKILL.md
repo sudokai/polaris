@@ -7,8 +7,6 @@ description: "Apply when product, UX, or feature-scope tradeoffs come up. Choose
 
 Apply this rule to the current task. Name the decision it changed.
 
-**Applies when:** Product, UX, or feature-scope tradeoffs come up. Choose user delight over implementation convenience; ship fewer polished features over more rough ones.
-
 When implementation convenience conflicts with user delight, choose delight.
 
 - Every feature, control, and option must be justified

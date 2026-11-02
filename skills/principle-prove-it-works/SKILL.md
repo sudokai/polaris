@@ -7,8 +7,6 @@ description: "Apply when completing a task, before declaring done. Verify agains
 
 Apply this rule to the current task. Name the decision it changed.
 
-**Applies when:** Completing a task, before declaring done. Verify against the real artifact (run the feature, read the actual value, inspect the diff), not a proxy, self-report, or 'it compiles.'
-
 Verify every task output by checking the real thing directly. Do not infer from proxies, self-reports, or "it compiles."
 
 **Why:** Unverified work has unknown correctness. Indirect verification (file mtimes, output freshness, agent self-reports, cached screenshots) feels cheaper than direct observation. Acting on a wrong inference costs far more than checking the source.

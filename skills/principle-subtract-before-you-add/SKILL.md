@@ -7,8 +7,6 @@ description: "Apply when sequencing an addition, refactor, or rewrite. Remove de
 
 Apply this rule to the current task. Name the decision it changed.
 
-**Applies when:** Sequencing an addition, refactor, or rewrite. Remove dead code, redundant validators, and stub references first, then build on the simpler base.
-
 When evolving a system, remove complexity first, then build. Default to subtraction.
 
 Make simplification a continual investment. Leave the design slightly simpler and more capable behind the same or smaller surface than you found it.

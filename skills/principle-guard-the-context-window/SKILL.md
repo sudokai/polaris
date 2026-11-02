@@ -7,8 +7,6 @@ description: "Apply when context is filling up: large outputs, long files, repea
 
 Apply this rule to the current task. Name the decision it changed.
 
-**Applies when:** Context is filling up: large outputs, long files, repeated reads, fan-out planning. Route bulk to subagents; keep summaries in the main thread, not raw payloads.
-
 **Why:** Context overflow degrades reasoning quality, creates compression artifacts, and halts progress.
 
 **Pattern:**

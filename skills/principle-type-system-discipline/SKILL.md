@@ -7,8 +7,6 @@ description: "Apply when designing types, reviewing a function signature, or wri
 
 Apply this rule to the current task. Name the decision it changed.
 
-**Applies when:** Designing types, reviewing a function signature, or writing code in any statically-typed language. Make illegal states unrepresentable, brand semantic primitives, parse external data at boundaries, don't cast past the compiler, exhaust variants, derive from authoritative schemas.
-
 Make the compiler reject impossible states, mismatched primitives, and unhandled variants. Prefer defining errors and special cases out of existence over proliferating handlers.
 
 - **Make illegal states unrepresentable.** Model variants as sum types (discriminated unions, enums with payloads, sealed classes or interfaces), not as a bag of optional fields where contradictory combinations compile. `{ completed: boolean; completedAt?: Date }` admits `completed: true` with no date. Derive the boolean from `completedAt`, or model the two states as separate variants. If you can write a comment explaining when a combination of fields is valid, split it into a sum type. In a language without sum types, such as Go, use an interface whose implementations only this package can construct.
