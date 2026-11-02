@@ -1,6 +1,6 @@
 ---
 name: show-me
-description: "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML pages. Use for /show-me. Other skills draw their views from it."
+description: "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML pages. Other skills draw their views from it."
 ---
 
 # Show me

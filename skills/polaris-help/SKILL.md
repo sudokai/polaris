@@ -1,6 +1,6 @@
 ---
 name: polaris-help
-description: "Answer questions about using polaris: setup, starting a task with /polaris, and picking the skill, playbook, or principle for a situation. Use for /polaris-help with a question."
+description: "Answer questions about using polaris: setup, starting a task with /polaris, and picking the skill, playbook, or principle for a situation."
 ---
 
 # polaris help

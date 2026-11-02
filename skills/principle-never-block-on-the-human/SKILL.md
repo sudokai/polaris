@@ -1,6 +1,6 @@
 ---
 name: principle-never-block-on-the-human
-description: "Apply when about to ask \"which approach?\", \"what should this do?\", or \"should I do X?\". Use for /principle-never-block-on-the-human."
+description: "Apply when about to ask \"which approach?\", \"what should this do?\", or \"should I do X?\"."
 ---
 
 # Never Block on the Human

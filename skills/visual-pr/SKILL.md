@@ -1,6 +1,6 @@
 ---
 name: visual-pr
-description: "Create or update the current branch's PR with a concise description of why the change exists and how it is built, drawn with the show-me views. Use for /visual-pr, or when about to open or update a PR."
+description: "Create or update the current branch's PR with a concise description of why the change exists and how it is built, drawn with the show-me views. Use when about to open or update a PR."
 disable-model-invocation: true
 ---
 

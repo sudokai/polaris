@@ -1,6 +1,6 @@
 ---
 name: maintain-verification-skill
-description: "Keep a project's verification skill and feature map honest: grouped source reading, live coverage of every feature, and at most one PR of proven corrections. Use for /maintain-verification-skill or \"audit the verify skill\"."
+description: "Keep a project's verification skill and feature map honest: grouped source reading, live coverage of every feature, and at most one PR of proven corrections. Use for \"audit the verify skill\"."
 disable-model-invocation: true
 ---
 

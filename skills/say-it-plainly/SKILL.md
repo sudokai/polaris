@@ -1,6 +1,6 @@
 ---
 name: say-it-plainly
-description: "Translate AI prose into clear, natural human language. Use for /say-it-plainly."
+description: "Translate AI prose into clear, natural human language."
 ---
 
 # Say it plainly

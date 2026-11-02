@@ -1,6 +1,6 @@
 ---
 name: setup-polaris
-description: "Choose a polaris model profile and budget, with optional kind/level overrides and fallbacks, for this project or every project. Use for /setup-polaris, configure polaris models, or changing polaris's model choices."
+description: "Choose a polaris model profile and budget, with optional kind/level overrides and fallbacks, for this project or every project. Use when configuring polaris models, or changing polaris's model choices."
 disable-model-invocation: true
 ---
 

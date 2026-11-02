@@ -1,7 +1,7 @@
 ---
 name: lantern
 argument-hint: "[what to explain: a PR, a commit, a diff, or how some code runs]"
-description: "Make an animated, steppable explainer of a code change or of how code runs, as a Lantern player page that works offline. Use for /lantern, or when asked to animate or step through a PR, a diff, an algorithm, or a flow."
+description: "Make an animated, steppable explainer of a code change or of how code runs, as a Lantern player page that works offline. Use when asked to animate or step through a PR, a diff, an algorithm, or a flow."
 ---
 
 # Lantern

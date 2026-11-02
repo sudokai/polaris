@@ -1,6 +1,6 @@
 ---
 name: principle-redesign-from-first-principles
-description: "Apply when integrating a new requirement into an existing design. Use for /principle-redesign-from-first-principles."
+description: "Apply when integrating a new requirement into an existing design."
 ---
 
 # Redesign From First Principles

@@ -1,6 +1,6 @@
 ---
 name: ketchup
-description: "Catch the user up on what changed in this session since their last message, in plain words and small visuals, and list every item waiting on them with what they need to decide it from the reply alone. Use for /ketchup, \"catch me up\", \"where are we?\", or when the user comes back after stepping away. For work across past sessions, use recall."
+description: "Catch the user up on what changed in this session since their last message, in plain words and small visuals, and list every item waiting on them with what they need to decide it from the reply alone. Use for \"catch me up\", \"where are we?\", or when the user comes back after stepping away. For work across past sessions, use recall."
 ---
 
 # Ketchup

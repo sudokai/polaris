@@ -1,6 +1,6 @@
 ---
 name: figure-it-out
-description: "Design a playbook when none fits a migration, multi-part change, or other task needing coordination. Define steps and checks, then execute under the shared playbook rules when authorized. Use for /figure-it-out or 'figure it out'."
+description: "Design a playbook when none fits a migration, multi-part change, or other task needing coordination. Define steps and checks, then execute under the shared playbook rules when authorized. Use for 'figure it out'."
 disable-model-invocation: true
 ---
 

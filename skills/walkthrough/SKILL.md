@@ -1,7 +1,7 @@
 ---
 name: walkthrough
 argument-hint: "[commit | A...B | A..B | pr <n|url>] (no argument = uncommitted changes, current PR, or current branch vs its base)"
-description: "Explain a PR, branch, commit, or diff in stages, from purpose and background to the code, then a FAQ and a quiz. Use for /walkthrough, or when asked to explain, walk through, or help understand a change."
+description: "Explain a PR, branch, commit, or diff in stages, from purpose and background to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a change."
 ---
 
 # Walkthrough
