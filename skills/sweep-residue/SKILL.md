@@ -16,6 +16,7 @@ If something only makes sense because of that conversation, rewrite it.
 - names, comments, or messages that only make sense if you saw an earlier version
 - reviewer feedback or implementation iterations
 - explanations of what changed instead of how the final thing works
+- details singled out because they are new: an "including X" clause, or a list that names only the newest item among peers the doc never names
 - prior versions or rejected approaches still floating around in code or docs
 - docs that don't match the code — rewrite, don't delete
 - commented-out code
@@ -36,3 +37,5 @@ If something only makes sense because of that conversation, rewrite it.
 *"Does this stand on its own and read as if no prior conversation existed?"*
 
 If no, rewrite it.
+
+Go through the diff hunk by hunk, including one-line edits to files you did not create. For each added line, ask whether the doc would say it if it were written from scratch today. If the line would also work as a bullet in the change summary or the PR description, it describes the change, not the system: rewrite or drop it.
