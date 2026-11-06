@@ -10,7 +10,7 @@ Structured walkthrough of a code changeset, used for guided reviews. Your job is
 By the end, the user should be able to:
 - know just enough background and context needed before diving into the changeset
 - understand the purpose of the changeset, and why it is needed,
-- grok the core idea, intuition and logic behind it
+- grasp the core idea, intuition and logic behind it
 - explain how the main pieces work separately, and then how they fit together
 - spot the risks, delicate spots worth a closer look and follow-ups worth knowing about
 
