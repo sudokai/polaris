@@ -8,6 +8,7 @@ description: "Explain a PR, branch, commit, or diff using a structured format, f
 Structured walkthrough of a code changeset, used for guided reviews. Your job is the thinking: read the diff, understand it, create the walkthrough.
 
 By the end, the user should be able to:
+
 - know just enough background and context needed before diving into the changeset
 - grasp the purpose of the changeset, and why it is needed,
 - understand the core idea, intuition and logic behind it
@@ -123,14 +124,15 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
     - destructive or irreversible operations
     - feature flag changes
     - changed configuration defaults
-  Markdown is supported and encouraged where it genuinely sharpens the prose, never as decoration:
+    Markdown is supported and encouraged where it genuinely sharpens the prose, never as decoration:
   - Backticks around every file name, symbol, function, type, config key, and CLI flag: `refreshToken`, `--dry-run`, `SESSION_TTL`.
   - **Bold** for the one clause a skimming reviewer must not miss; at most one per overview, besides **Look closer**.
   - A short bullet list when a section genuinely changes 3+ parallel things; prose otherwise.
-  - A tiny fenced code block (2-5 lines) only when code says it better than a sentence, e.g. a new API shape. Never paste diff hunks; the diffs render next to the overview already.
-- **diffs**: one or more file references. Each has two fields:
+  - A tiny fenced code block (2-5 lines) only when code says it better than a sentence, e.g. a new API shape. Never paste diff hunks into the overview; they belong in the section's **diffs**.
+- **diffs**: one or more file references. Each has three fields:
   - **file**: the EXACT repo-relative path as it appears in the diff, after the change. Copy it, never invent it, never abbreviate or normalize it (no leading/trailing slash changes, no case changes). `git diff --stat` prints renames as `dir/{old => new}/file.ts`; that is not a path, write `dir/new/file.ts`.
   - **summary**: 1-2 sentences describing the semantic change in THIS file, written from the diff hunks you already have. Say what the change does ("extracts the staging logic into a tri-state override map"), not where it sits ("modifies lines 30-80"). Do NOT open the file, search the codebase, or do any per-file investigation to write it. Do not repeat the section overview: the overview carries the why and the implications; the summary says what this specific file contributes. For a trivial change (import bump, rename fallout), one short clause is enough.
+  - **hunks**: the changed code of THIS file, as one or more simplified `diff` blocks in the style of the `show-me` skill. Keep only the changed lines that matter, with enough unchanged context to show where they sit. Drop imports, formatting-only edits, and boilerplate, and mark each omission with a `…` context line. Where the real hunk is long or noisy, rewrite it as pseudocode or a call-tree `diff`, so the reader sees the shape of the change and not every line. Use the `show-me` view that fits the change: a file-tree `diff` for moves and renames, a call-tree `diff` for control flow, a component-tree `diff` for UI. Never invent lines the diff does not contain, and never change what a line does when you simplify it. Skip hunks for a trivial change that the summary already covers.
 
 ### 6. FAQ
 
