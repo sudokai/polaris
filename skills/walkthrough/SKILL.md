@@ -17,12 +17,12 @@ By the end, the user should be able to:
 
 ## 1. Gather the changeset
 
-Decide what the walkthrough covers, then save exactly that diff:
+Decide what the walkthrough covers, then read exactly that diff:
 
 ```bash
-git diff origin/main...HEAD > guide.patch    # a branch, since it forked
-git diff HEAD > guide.patch                  # uncommitted work
-git show --format= <sha> > guide.patch       # one commit
+git diff origin/main...HEAD    # a branch, since it forked
+git diff HEAD                  # uncommitted work
+git show --format= <sha>       # one commit
 ```
 
 For a PR, check it out (`gh pr checkout <n>`) and diff against its base branch. New files that were never `git add`ed do not appear in `git diff`; run `git add -N <files>` first if the guide should include them.  
@@ -105,6 +105,11 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
 - **overview**: Markdown, 2-6 sentences, plus an optional **Look closer** list. Three jobs, in order:
   1. What changed here, concretely.
   2. Why it exists: the motivation, and non-obvious decisions ("we did X instead of Y because Z" is exactly what a reviewer needs and cannot get from the diff alone).
+     Say what problem the change solves. The diff already shows what changed.
+
+     - Weak: "Adds a `requestId` field to the context object."
+     - Better: "The retry logic must tell duplicate requests apart, but requests carried no unique ID. `requestId` gives each request one, generated when it arrives."
+
   3. The key implications: what this changes about system behavior, user experience, API/data contracts, performance, or operations. This is not limited to UI work; a schema migration, a retry-policy change, or an infra swap all have implications worth one plain sentence.
   Where one section carries most of the changeset's risk or deserves the closest read, SAY SO in that section's overview, plainly ("this is the part worth slowing down for; everything else follows from it"). Use a `> [!IMPORTANT]` or `> [!WARNING]` callout line for a genuinely high-risk behavioral shift or contract change; most sections should have none, and don't repeat it under **Look closer**.
   End with **Look closer:** and a list of what deserves a closer look, or omit it if there's nothing. Check the code you explain for:
@@ -132,7 +137,7 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
 - **diffs**: one or more file references. Each has three fields:
   - **file**: the EXACT repo-relative path as it appears in the diff, after the change. Copy it, never invent it, never abbreviate or normalize it (no leading/trailing slash changes, no case changes). `git diff --stat` prints renames as `dir/{old => new}/file.ts`; that is not a path, write `dir/new/file.ts`.
   - **summary**: 1-2 sentences describing the semantic change in THIS file, written from the diff hunks you already have. Say what the change does ("extracts the staging logic into a tri-state override map"), not where it sits ("modifies lines 30-80"). Do NOT open the file, search the codebase, or do any per-file investigation to write it. Do not repeat the section overview: the overview carries the why and the implications; the summary says what this specific file contributes. For a trivial change (import bump, rename fallout), one short clause is enough.
-  - **hunks**: the changed code of THIS file, as one or more simplified `diff` blocks in the style of the `show-me` skill. Keep only the changed lines that matter, with enough unchanged context to show where they sit. Drop imports, formatting-only edits, and boilerplate. Mark each omission with a `…` context line. Where the real hunk is long or noisy, rewrite it as pseudocode or a call-tree `diff`, so the reader sees the shape of the change and not every line. Use the `show-me` view that fits the change: a file-tree `diff` for moves and renames, a call-tree `diff` for control flow, a component-tree `diff` for UI. Never invent lines the diff does not contain, and never change what a line does when you simplify it. Show a hunk for every file that has a meaningful change. When in doubt, show it. For repetitive mechanical changes, such as a rename or a signature update at many call sites, one representative hunk is enough. Omit hunks only for a change with no behavior, such as an import reorder, a formatting edit, or a one-line rename that the summary already states. Never omit a hunk because the diff is long. Simplify it instead.
+  - **hunks**: the changed code of THIS file as simplified `diff` blocks. Show a hunk for every meaningful change. When in doubt, show it. Trim each hunk to the changed lines that matter plus enough context to place them, and mark cuts with `…`. Never invent lines or alter what a line does. For a repetitive mechanical change, such as a rename or a signature update at many call sites, show one representative hunk. Omit hunks only when a change has no behavior and the summary already states it.
 
 ### 6. FAQ
 
