@@ -1,49 +1,120 @@
 ---
 name: walkthrough
 argument-hint: "[commit | A...B | A..B | pr <n|url>] (no argument = uncommitted changes, current PR, or current branch vs its base)"
-description: "Explain a PR, branch, commit, or diff in stages, from purpose and background to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a change."
+description: "Explain a PR, branch, commit, or diff using a structured format, from background and purpose to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a changeset."
 ---
-
 # Walkthrough
 
-Guided code changeset walkthrough that explains what matters, why the change was made, and how the pieces depend on each other, the way a colleague would. By the end, the user can:
+Structured walkthrough of a code changeset, used for guided reviews. Your job is the thinking: read the diff, understand it, create the walkthrough.
 
-- say what the change is for
-- explain how the main pieces work on their own and together
-- explain each significant part, and why it was done that way
-- spot the risks and follow-ups worth knowing about
+By the end, the user should be able to:
+- know just enough background and context needed before diving into the changeset
+- understand the purpose of the changeset, and why it is needed,
+- grok the core idea, intuition and logic behind it
+- explain how the main pieces work separately, and then how they fit together
+- spot the risks, delicate spots worth a closer look and follow-ups worth knowing about
 
-## Gather the change
+## 1. Gather the changeset
 
-What to collect depends on the argument:
+Decide what the walkthrough covers, then save exactly that diff:
 
-- **No argument:**
-  1. If there are uncommitted changes, ask whether to walk through them or the branch (steps 2–3). Collect `git diff`, `git diff --staged`, and the contents of untracked files (`??` in `git status --porcelain`).
-  2. Otherwise, if the current branch has an open PR (`gh pr view`), treat it as `pr <n>`.
-  3. Otherwise, compare with the base branch: `main`, then `master`, then the remote's default branch (from `git symbolic-ref --short refs/remotes/origin/HEAD`, without the `origin/` prefix). If none exists, stop and tell the user. Collect `git diff <base>...HEAD` and `git log <base>..HEAD --oneline`.
-- **A commit:** `git show <ref>`. For a merge commit, ask which parent to compare against.
-- **`A...B` or `A..B`:** `git diff` with the argument as given, and `git log A..B --oneline`.
-- **`pr <n|url>`:** `gh pr view <n|url> --json title,body,baseRefName,headRefName,files,comments,reviews` and `gh pr diff <n|url>`.
+```bash
+git diff origin/main...HEAD > guide.patch    # a branch, since it forked
+git diff HEAD > guide.patch                  # uncommitted work
+git show --format= <sha> > guide.patch       # one commit
+```
 
-Start with `git diff --stat` (or `git show --stat`) to see the shape of the change. Open a file's diff only when you are about to explain it, per `principle-guard-the-context-window`. Skip generated code, lockfiles, and formatting-only changes, unless they change behavior, such as a lockfile that upgrades a dependency.
+For a PR, check it out (`gh pr checkout <n>`) and diff against its base branch. New files that were never `git add`ed do not appear in `git diff`; run `git add -N <files>` first if the guide should include them.  
 
-Read the PR description, commit messages, and review comments. If they don't explain the change, infer the purpose from the code, tests, and names. Follow a ticket or issue only if the PR or a commit links to it. Outside stage 2, read code beyond the diff only to answer a specific question, such as how a function the diff calls works, or how one caller uses the changed code.
+## 2. Create the walkthrough
 
-## How to explain
+### Identity
 
-- **Talk like a colleague.** Use short sentences with one idea each. Explain each term the first time you use it, and use it consistently after that. Use the codebase's terms. Don't praise or sell the code ("elegant", "robust", "simply"). Be exact about names, numbers, and conditions.
-- **Match the user's level of expertise.** Judge it from their questions. Basic questions, requests to explain a term, or going back to an earlier stage suggest a beginner: go slower, and add background and examples. Questions about edge cases or specific code suggest an expert: give less background, and go into detail only where they ask.
-- **Show, don't tell.** Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation. Use the views of the `show-me` skill to choose the simplest view that is still clear.
-- **Separate facts from inferences.** The user will trust what you say, so when you infer, say so: "The tests suggest this handles X, but the commits don't say." If you can't tell what something is for, ask.
-- **In every stage, flag what deserves a closer look.** Write **Look closer:** in text or `!` in a diagram, followed by the list of things that deserve a closer look. Together, these notes form a short code review. Check the code you explain for the problems in this list, but don't read code outside the change to find more. Flag two categories:
-  - **Possible problems:**
-    - **Correctness:**
+You are a senior engineer who deeply understands this changeset and is organizing it into a guided review: an ordered sequence of chapters that let a reviewer understand a large change in one sitting. The chapters are ordered the way the work was actually reasoned through, not by file path or diff size.
+
+You are NOT doing a bug hunt or writing a findings report; just flag what you notice. Your job is to chapter the diff and, for each chapter, tell the reviewer what changed, why it exists, and what it actually implies: the "this is a big diff, but here is the key part" orientation a reviewer cannot get from reading files in path order.
+
+### Voice
+
+Write like a colleague explaining the change to another capable engineer, out loud, in plain English: assume the reader is skilled but has never seen this codebase. The diff renders next to your words, so your words carry the why and the shape of the change, not the code.
+
+- Short sentences. Twenty-five words is the ceiling and most sentences are shorter. One idea per sentence. If you reach for a dash or a semicolon, end the sentence instead.
+- Plain words. Say file, function, module, request, the server. Not artifact, surface, primitive, chain, backbone. Say what a thing does the first time you name it, then use that same name every time.
+- Code names go in backticks, and a sentence must still read as English with them covered up. Two per sentence at most.
+- No verdicts and no selling: not "elegant", "robust", "seamless", "critically", "importantly", "simply". State the fact.
+
+Use the `say-it-plainly` skill to communicate with the user. 
+
+### Speed
+
+Match the user's level of expertise. Judge it from their questions and followups. Basic questions, requests to explain a term, or going back to an earlier stage suggest a beginner: go slower, and add more background and examples with data, use the skill `say-it-plainly`. Questions about edge cases or specific code suggest an expert: get to the point fast, and go into detail only where they ask, without adding unnecessary preamble.
+
+### Show, don't tell
+
+Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation. Use the views of the `show-me` skill to choose the simplest view that is still clear.
+
+## Stages of the walkthrough
+
+### 1. Background
+
+Give the user just enough prior background and context relevant to the changeset, so that they are well prepared to understand the changeset at hand. Explore the call stack and code surrounding the diffs with the `how` skill on its simple path. We don't know how much the reader already knows, so include a general background for beginners, and then a more narrow background directly tied to the change.
+
+### 2. Purpose
+
+Tell the user the intent/purpose of the changeset and the problem it solves. One short paragraph that someone new to the codebase can follow.
+
+### 3. Core intuition
+
+Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Use the `show-me` views: a pseudocode `diff` or a sequence diagram often works best; for a UI change, sketch the screen before and after; for tricky algorithm or dense UI changes, offer an interactive visualization built with HTML. 
+
+Then explain:
+
+- **Key decisions:** the few choices that explain how the change is organized. For each, say what was chosen and why. Mention any option the author rejected, if the commits, PR, or code show one.
+- **Out of scope:** what the change doesn't do. Look for follow-ups mentioned in the commits or the PR, rough edges the author noted, and nearby code left untouched. For untouched code, say whether it looks deliberate or like an oversight. If you find nothing, skip this without comment.
+
+Use the `why` skill as needed.
+
+### 4. Map
+
+Visually represent the changeset as a map, giving the user a bird's eye view and a mental map of the entire changeset.
+
+Show how the parts of the change connect to each other and to the existing underlying code. Use the `show-me` views to pick the best visual representation. If the map is very large and complex, split it into several sub-maps.
+
+### 5. Changes by section
+
+Each section is a chapter of the review: a title, an overview, and one or more diff references.
+
+#### How to ORDER sections
+
+Order by IMPORTANCE, not by file path, diff size, or the order things happened. The reviewer should be able to stop reading after any chapter and have already seen everything that matters most up to that point:
+
+1. The most important chapter comes first: the implementation heart, the part that, once understood, unlocks everything else. The reviewer should never have to dig for the entrypoint.
+2. Then the consequences, in decreasing signal: call sites updated, downstream logic adjusted, tests for the new behavior. Tests go with the code they exercise unless they are trivial.
+3. Glue and low-signal changes come LAST, grouped together so they never interrupt the reading: wiring, imports, renames, config, generated files. Give that trailing chapter an honest plain title ("Wiring and config", "Housekeeping") and a one-or-two-sentence overview; it does not need more.
+
+#### How to CHUNK sections
+
+A section is a logical unit of change, not a file and not a folder. If three files changed for one reason, that is ONE section referencing three files. If one file has two unrelated changes, split it into two sections. Never default to one-section-per-file; let the logic of the change decide.
+
+Chapters follow the natural fault lines of the work: when a changeset carries more than one distinct piece of work (two features, or a feature plus an unrelated refactor), give each its own chapter(s) — unrelated work never shares a chapter.
+
+#### Section fields
+
+- **title**: Concept-level, e.g. "Payment localization module". NEVER a filename paraphrase like "Changes to payments/locale.ts".
+- **overview**: Markdown, 2-6 sentences, plus an optional **Look closer** list. Three jobs, in order:
+  1. What changed here, concretely.
+  2. Why it exists: the motivation, and non-obvious decisions ("we did X instead of Y because Z" is exactly what a reviewer needs and cannot get from the diff alone).
+  3. The key implications: what this changes about system behavior, user experience, API/data contracts, performance, or operations. This is not limited to UI work; a schema migration, a retry-policy change, or an infra swap all have implications worth one plain sentence.
+  Where one section carries most of the changeset's risk or deserves the closest read, SAY SO in that section's overview, plainly ("this is the part worth slowing down for; everything else follows from it"). Use a `> [!IMPORTANT]` or `> [!WARNING]` callout line for a genuinely high-risk behavioral shift or contract change; most sections should have none, and don't repeat it under **Look closer**.
+  End with **Look closer:** and a list of what deserves a closer look, or omit it if there's nothing. Check the code you explain for:
+  - **Problems:**
+    - **Correctness, aka "the little details":**
       - bugs
       - missing edge case handling
       - surprising behavior
       - suspicious defaults
       - unexplained hard-coded numbers
-    - **Design:** the [design red flags](../architect/references/design-red-flags.md).
+    - **Design, aka "the overall approach":** the [architectural design red flags](../architect/references/design-red-flags.md).
   - **Changes that need a person's attention even when the code looks right:**
     - database migrations
     - new or changed dependencies
@@ -52,119 +123,14 @@ Read the PR description, commit messages, and review comments. If they don't exp
     - destructive or irreversible operations
     - feature flag changes
     - changed configuration defaults
-- **Let the user choose the next stage.** At the end of each stage, say which stage comes next and what it covers. Then ask whether to continue or go to a different stage. For example: "Next is stage 4, Map, which shows how the query, the API, and the feed connect. Should I continue, or go to a different stage?"
-  - **Small change** (a few files, one clear purpose): show all stages through the FAQ in one reply, without pausing. Stop before the quiz.
-  - **Large change** (hundreds of files, thousands of lines, or several unrelated themes): say so, and offer to go through one theme at a time.
-
-## Stages
-
-Start by listing the stages, so the user knows what's coming:
-
-`Stages: 1. Purpose · 2. Background · 3. Core intuition · 4. Map · 5. Changes by section · 6. FAQ · 7. Quiz`
-
-Give each stage a numbered heading, such as `## 4. Map`, so the user always knows where they are. If a stage has little to say about this change, keep it to a line or two instead of skipping it.
-
-### 1. Purpose
-
-Tell the user what they're looking at.
-
-- **Intent:** the problem the change solves, or what it adds. One short paragraph that someone new to the codebase can follow.
-- **Central change:** the part to understand first, because the rest of the change builds on it. Name it in one line, such as "the cursor query in `listPosts`."
-- **Scope:** roughly how many commits, files, and lines.
-- **Themes:** the files grouped by what they do, not by folder, such as "feed pagination" or "database indexes." Mark which themes are mechanical: they follow from other changes and add no ideas of their own, such as renames, formatting, lockfiles, generated code, call sites updated to a new signature.
-
-### 2. Background
-
-Explain the existing system relevant to this change. Explore it with the `how` skill, on its simple path unless the change spans a whole subsystem. We don't know how much the reader already knows, so include a deep background for beginners, and then a more narrow background directly relevant to the change.
-
-### 3. Core intuition
-
-Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Use the `show-me` views: a pseudocode `diff` or a sequence diagram often works best; for a UI change, sketch the screen before and after; for tricky algorithm or dense UI changes, offer an interactive visualization built with HTML. For example, for a change that switches a feed from page numbers to a cursor:
-
-> Before, the feed asked for "the next 3 posts after skipping the first 3." When a new post arrived between two requests, every post moved down by one, so the reader saw a post twice. Now the feed asks for "the 3 posts older than the last one I saw," so new posts don't change the next page:
->
-> ```diff
->  page 1:                   #50  #49  #48
->  post #51 arrives
-> -page 2, skip 3:           #48  #47  #46
-> +page 2, older than #48:   #47  #46  #45
-> ```
->
-> The cursor holds the last post's timestamp and ID. The ID decides the order when two posts share a timestamp.
-
-Then explain:
-
-- **Key decisions:** the few choices that explain how the change is organized. For each, say what was chosen and why. Mention any option the author rejected, if the commits, PR, or code show one.
-- **Out of scope:** what the change doesn't do. Look for follow-ups mentioned in the commits or the PR, rough edges the author noted, and nearby code left untouched. For untouched code, say whether it looks deliberate or like an oversight. If you find nothing, skip this without comment.
-
-### 4. Map
-
-Divide the change into sections, then draw a map of how they fit together. Stage 5 explains the sections one at a time, in the order you list them here.
-
-**Divide the change into sections.** A section groups the hunks that do one job, such as changing a query, adding an index, or replacing a UI component. A section can take hunks from several files, but unrelated hunks never share a section, even within one file. Tests go with the code they check. Every hunk belongs to exactly one section or to the mechanical summary.
-
-**Order the sections by importance,** not by file path or the author's order, so that a user who stops early has seen what matters most:
-
-1. The central change.
-2. The code that follows from it, most important first: the code that calls it, and the logic that changes because of it. When it's easier to follow, put a definition before the code that uses it.
-3. Mechanical changes, as a one-line summary.
-
-**Draw the map.** Show how the parts of the change connect to each other and to the existing code, and label each part with its section number. Draw each view as a `diff`, so that `+` lines mark new code and unchanged lines show the existing code around it. Use the `show-me` views to pick: a call tree for control flow, a component tree for UI structure, or a schema or API contract for data. For messages between components, use a sequence diagram instead. If a view grows past about a dozen items, split it into one view per theme, and show the central change in each view.
-
-**List the sections** under the map. Name the files in each section, and say which section deserves the closest read.
-
-For example, for the cursor change:
-
-```diff
- <Feed>
--  <Pagination page={n}>
-+  <LoadMoreButton>                         § 4
--    GET /api/posts?page=n
-+    GET /api/posts?after=cursor            § 3  ! breaks clients that send ?page=
--      listPosts(page)
-+      listPosts(cursor)                    § 1  returns posts older than the cursor
-+        index on posts (createdAt, id)     § 2  ! blocks writes while it builds
-```
-
-> 1. Page by cursor in `listPosts`: `lib/posts/listPosts.ts`, `lib/posts/listPosts.test.ts`
-> 2. Add an index on `posts (createdAt, id)`: `db/migrations/0042_posts_cursor_index.sql`
-> 3. Accept a cursor in the posts API: `app/api/posts/route.ts`
-> 4. Replace page links with a **Load more** button: `LoadMoreButton.tsx`, `Feed.tsx`, `Pagination.tsx` (deleted)
->
-> **Mechanical:** regenerated API types in `lib/api/types.ts`.
->
-> Section 3 deserves the closest read: older app versions still send `?page=`.
-
-### 5. Changes by section
-
-Go deeper into each part on the map, one section at a time, in the order Map lists them. Each section zooms in on its part: the code, the reasons behind it, and its effects. For each section, give:
-
-- **Title:** a verb and the specific code, such as "Add an index on `posts (createdAt, id)`." Avoid vague titles such as "Update the data layer."
-- **What, why, and what it implies:** what changed, why (especially choices the diff doesn't show), and what it changes about behavior, data, contracts, performance, or how the system is run and deployed. Put each reason next to the fact it explains. For the central change, point back to stage 3 instead of repeating it.
-- **Pseudocode first,** when the code is long but the idea is short.
-- **Key diff hunks,** ordered like the sections: the hunk that does the section's job first, then what follows from it. Trim each hunk to what matters, without import-only or whitespace-only lines. Describe moved code instead of showing it: "moved unchanged from `utils.ts`." For a hunk you don't show, say what it contributes in one clause.
-- **Look closer** notes, right under the hunk they apply to.
-
-If a section uses something that a later section adds, say so.
-
-For example, the first section for the cursor change:
-
-> **1. Page by cursor in `listPosts`.** This is the central change: `listPosts` returns the posts older than the cursor, instead of skipping a number of posts. The query relies on the index that section 2 adds:
->
-> ```diff
-> -export async function listPosts(page) {
-> -  return db.posts.orderBy("createdAt desc").offset(page * 20).limit(20)
-> +export async function listPosts(cursor) {
-> +  return db.posts
-> +    .where("(createdAt, id) < (?, ?)", [cursor.createdAt, cursor.id])
-> +    .orderBy("createdAt desc, id desc")
-> +    .limit(20)
->  }
-> ```
->
-> **Look closer:** the first page has no cursor, but `listPosts` reads `cursor.createdAt` without checking for it.
-
-After each section, ask whether to continue, go to a different section, or look closer at this one. To look closer, show the section's full diff and explain the lines that aren't obvious.
+  Markdown is supported and encouraged where it genuinely sharpens the prose, never as decoration:
+  - Backticks around every file name, symbol, function, type, config key, and CLI flag: `refreshToken`, `--dry-run`, `SESSION_TTL`.
+  - **Bold** for the one clause a skimming reviewer must not miss; at most one per overview, besides **Look closer**.
+  - A short bullet list when a section genuinely changes 3+ parallel things; prose otherwise.
+  - A tiny fenced code block (2-5 lines) only when code says it better than a sentence, e.g. a new API shape. Never paste diff hunks; the diffs render next to the overview already.
+- **diffs**: one or more file references. Each has two fields:
+  - **file**: the EXACT repo-relative path as it appears in the diff, after the change. Copy it, never invent it, never abbreviate or normalize it (no leading/trailing slash changes, no case changes). `git diff --stat` prints renames as `dir/{old => new}/file.ts`; that is not a path, write `dir/new/file.ts`.
+  - **summary**: 1-2 sentences describing the semantic change in THIS file, written from the diff hunks you already have. Say what the change does ("extracts the staging logic into a tri-state override map"), not where it sits ("modifies lines 30-80"). Do NOT open the file, search the codebase, or do any per-file investigation to write it. Do not repeat the section overview: the overview carries the why and the implications; the summary says what this specific file contributes. For a trivial change (import bump, rename fallout), one short clause is enough.
 
 ### 6. FAQ
 
