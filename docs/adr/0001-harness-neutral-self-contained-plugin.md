@@ -4,7 +4,7 @@ polaris keeps pstack's router, principle, playbook, and skill architecture, but 
 
 Every skill polaris depends on ships in the plugin. Depending on the user's separately installed skills would make the same plugin behave differently across installations. Shared methods have one owner: callers read that method instead of copying its rules. Imported files retain their license notices.
 
-Installation uses each harness's supported mechanism. Packaging may include harness-specific manifests and agent definitions when the portable plugin format cannot express the required controls. A successful file install does not prove that a running harness loaded the update.
+Installation uses each harness's supported mechanism. Packaging may include harness-specific manifests when the portable plugin format cannot express the required controls. Agent definitions are generated at setup, not packaged ([ADR 0009](0009-generated-model-pair-definitions.md)). A successful file install does not prove that a running harness loaded the update.
 
 Personal reply preferences belong in the user's instruction files. Upstream imports preserve polaris's adaptations instead of copying upstream model names, version numbers, or harness assumptions.
 

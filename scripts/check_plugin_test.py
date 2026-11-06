@@ -1,4 +1,4 @@
-"""Behavior checks for incomplete model profiles and undiscoverable pair agents.
+"""Behavior checks for incomplete model profiles and bundled pair agents.
 
 Run: python3 -m unittest discover -s scripts -p '*_test.py'
 """
@@ -9,7 +9,7 @@ import shutil
 import tempfile
 import unittest
 
-from check_plugin import check_model_agents, check_model_profiles
+from check_plugin import check_model_profiles, check_no_bundled_agents
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
@@ -23,13 +23,9 @@ class ModelBudgetValidationTest(unittest.TestCase):
         self.skills = self.root / "skills"
         self.profiles = self.skills / "polaris" / "references" / "model-profiles"
         shutil.copytree(REPOSITORY_ROOT / "skills/polaris/references/model-profiles", self.profiles)
-        for directory in ("agents", "com.anthropic.claude-code", ".claude-plugin"):
-            shutil.copytree(REPOSITORY_ROOT / directory, self.root / directory)
-        shutil.copy(REPOSITORY_ROOT / "plugin.json", self.root / "plugin.json")
 
-    def test_complete_profiles_and_discoverable_agents_are_accepted(self):
+    def test_complete_profiles_are_accepted(self):
         self.assertEqual([], check_model_profiles(self.skills))
-        self.assertEqual([], check_model_agents(self.root))
 
     def test_assignment_without_all_budget_allocations_is_rejected(self):
         profile = self.profiles / "gpt.md"
@@ -87,29 +83,38 @@ class ModelBudgetValidationTest(unittest.TestCase):
         profile.write_text("An additional explanation of cost.\n\n" + profile.read_text())
         self.assertEqual([], check_model_profiles(self.skills))
 
-    def test_unregistered_claude_agent_is_rejected(self):
-        manifest = self.root / ".claude-plugin/plugin.json"
-        config = json.loads(manifest.read_text())
-        config["agents"].pop()
-        manifest.write_text(json.dumps(config))
-        self.assertTrue(check_model_agents(self.root))
 
-    def test_reasoning_agent_without_effort_is_rejected(self):
-        agent = self.root / "agents/grok-high.md"
-        agent.write_text(agent.read_text().replace("effort: high\n", ""))
-        self.assertTrue(check_model_agents(self.root))
 
-    def test_agent_body_wording_does_not_affect_validation(self):
-        agent = self.root / "agents/grok-high.md"
-        agent.write_text(agent.read_text() + "\nReturn concise findings.\n")
-        self.assertEqual([], check_model_agents(self.root))
+class BundledAgentValidationTest(unittest.TestCase):
+    def setUp(self):
+        self.workspace = tempfile.TemporaryDirectory()
+        self.addCleanup(self.workspace.cleanup)
+        self.root = Path(self.workspace.name)
+        shutil.copy(REPOSITORY_ROOT / "plugin.json", self.root / "plugin.json")
+        for directory in (".claude-plugin", ".factory-plugin"):
+            shutil.copytree(REPOSITORY_ROOT / directory, self.root / directory)
 
-    def test_portable_manifest_cannot_register_harness_agents(self):
-        manifest = self.root / "plugin.json"
-        config = json.loads(manifest.read_text())
-        config["agents"] = ["./agents/grok-high.md"]
-        manifest.write_text(json.dumps(config))
-        self.assertTrue(check_model_agents(self.root))
+    def test_clean_tree_is_accepted(self):
+        self.assertEqual([], check_no_bundled_agents(self.root))
+
+    def test_bundled_agent_folder_is_rejected(self):
+        for name in ("agents", "droids", "com.anthropic.claude-code"):
+            with self.subTest(folder=name):
+                folder = self.root / name
+                folder.mkdir()
+                self.assertTrue(check_no_bundled_agents(self.root))
+                folder.rmdir()
+
+    def test_manifest_agents_field_is_rejected(self):
+        for name in ("plugin.json", ".claude-plugin/plugin.json", ".factory-plugin/plugin.json"):
+            with self.subTest(manifest=name):
+                manifest = self.root / name
+                original = manifest.read_text()
+                config = json.loads(original)
+                config["agents"] = ["./agents/example.md"]
+                manifest.write_text(json.dumps(config))
+                self.assertTrue(check_no_bundled_agents(self.root))
+                manifest.write_text(original)
 
 
 class DocumentReferenceValidationTest(unittest.TestCase):

@@ -22,9 +22,10 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 
 The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plugin.json` and `skills/`), plus a small manifest for each harness that needs one.
 
-- **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`, which also lists the model-pair agents in `com.anthropic.claude-code/agents/`. Claude Code leaves auto-update off for third-party marketplaces, so polaris stays on the version you installed. To turn it on, run `/plugin`, open the **Marketplaces** tab, select `polaris`, and choose **Enable auto-update**. To update once by hand, run `claude plugin update polaris@polaris`.
+- **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`. Claude Code leaves auto-update off for third-party marketplaces, so polaris stays on the version you installed. To turn it on, run `/plugin`, open the **Marketplaces** tab, select `polaris`, and choose **Enable auto-update**. To update once by hand, run `claude plugin update polaris@polaris`.
 - **Codex:** the repository is its own marketplace (`.agents/plugins/marketplace.json`). Run `codex plugin marketplace add <path-to-polaris>`, then `codex plugin add polaris@polaris`. The manifest is `.codex-plugin/plugin.json`.
-- **Grok Build:** run `grok plugin install <path-to-polaris> --trust`. Model-pair agents are in `agents/`. Grok copies the plugin at install time. To pick up later edits, run `grok plugin uninstall polaris --confirm`, install it again, and start a new session.
+- **Grok Build:** run `grok plugin install <path-to-polaris> --trust`. Grok copies the plugin at install time. To pick up later edits, run `grok plugin uninstall polaris --confirm`, install it again, and start a new session.
+- **Droid (Factory):** run `droid plugin marketplace add <path-to-polaris>`, then `droid plugin install polaris@polaris --scope user`. The manifest is `.factory-plugin/plugin.json`. Droid reads the marketplace in `.claude-plugin/marketplace.json`. Start a new session after installing.
 - **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.
 - **pi:** run `pi install <path-to-polaris>`. pi reads `package.json`.
 - **Hermes:** add `<path-to-polaris>/skills` to `skills.external_dirs` in `~/.hermes/config.yaml`, then start a new session. Do not run `hermes plugins install`. That command prefixes every skill command with `agent-plugin-polaris-<hash>:`. If polaris is already installed that way, run `hermes plugins remove polaris`.
@@ -32,6 +33,8 @@ The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plug
 - **DeepSeek Harness (`dsh`):** run `dsh plugin --profile <profile> add <path-to-polaris>` for each profile. dsh reads `package.json` and `cordis.patch.yml`.
 
 To install or refresh it in every harness on your machine, run the repository's `install-polaris` skill from a session in this repository.
+
+polaris ships no model-pair agent files. `/setup-polaris` generates them for Claude Code, Grok Build, and Droid from the model profiles. After updating from a version that bundled agents, `polaris:opus-high` and the other bundled agents are gone. If you relied on their medium defaults, run `/setup-polaris` again.
 
 ## Use
 

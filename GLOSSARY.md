@@ -48,7 +48,7 @@ _Avoid_: design doc
 ### Harnesses and models
 
 **Harness**:
-An agent client that loads the plugin, such as Claude Code, Codex, or Grok Build. Each has an identifier: `claude-code`, `codex`, `cursor`, `pi`, `hermes`, `dsh`, `grok-build`, or `amp`.
+An agent client that loads the plugin, such as Claude Code, Codex, or Grok Build. Each has an identifier: `claude-code`, `codex`, `cursor`, `pi`, `hermes`, `dsh`, `grok-build`, `amp`, or `droid`.
 _Avoid_: client, host, tool
 
 **Harness fact file**:
@@ -71,7 +71,7 @@ A small, medium, large, or unlimited allocation policy. Medium is the default. A
 A family's table of model–effort pairs by work kind, level, and budget, independent of the harness.
 
 **Model-pair agent**:
-An agent definition that fixes a model and effort for a harness that cannot apply the pair directly.
+An agent definition that fixes a model and effort for a harness that cannot apply the pair directly. `/setup-polaris` generates it from the model profiles; polaris ships none ([ADR 0009](docs/adr/0009-generated-model-pair-definitions.md)).
 
 **Fallback**:
 An explicitly authorized replacement pair or a reported harness limitation when the selected pair cannot run. Required independent judgment cannot silently become self-review.

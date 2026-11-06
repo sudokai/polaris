@@ -45,6 +45,7 @@ Budgets are `small`, `medium` (default), `large`, and `unlimited`. They are allo
 | `codex`, `pi` | `gpt` |
 | `cursor`, `grok-build` | `xai` |
 | `dsh` | `deepseek` |
+| `droid` | The profile matching the session model's provider: Claude → `claude`, GPT → `gpt`, Grok → `xai`, DeepSeek → `deepseek`, GLM → `glm`. Any other provider has no default; setup asks the user to choose. |
 | `amp` | Suggest the profile of the provider that serves the current mode. Pairs apply only through listed agent modes. |
 | `hermes` | Suggest `gpt` during setup; existing delegation behavior remains unchanged. |
 
@@ -106,17 +107,26 @@ Report substitutions once per task, grouping repeated uses of the same substitut
 - **`cursor`**: use the exact model slug/parameters accepted by the spawn tool. Pin standard Composer with `composer-2.5[fast=false]` or `composer-2.5[]`; do not use its default Fast tier as an economy allocation. Grok accepts low/medium/high/xhigh effort where available. Confirm the actual tier and pair on the task card/usage metadata. See [model parameters](https://cursor.com/docs/subagents#model-parameters).
 - **`pi`**: inspect the installed extension's subagent schema; pi has no built-in subagents. Pass its accepted provider/model and thinking-level fields. Native thinking maps may silently lower unsupported effort, so validate the model's supported controls first.
 - **`dsh`**: use `list_subagent_models` for allowed providers, IDs, and efforts. Pass `provider`, `model`, and `reasoning_effort` when exposed. Model selection must be enabled and requested by the preset. [Setup](../../setup-polaris/SKILL.md#1-identify-the-harness-and-its-controls) describes how to enable it; do not assume a missing field is present.
+- **`droid`**: the `Task` tool offers only `complexity`, so it cannot set a pair. Pick the generated droid whose `model` and `reasoningEffort` match the resolved pair, under [agent definitions](#agent-definitions). Before setup, no polaris pair applies: subagents follow Droid's own subagent model settings or the parent model. Report that instead of claiming the pair applied.
 - **`grok-build`**: use a loaded agent definition fixing model and effort. Some sessions expose a model argument, but effort may still require a definition; use direct pair fields only when the actual schema supports both. Confirm that the connection accepts the definition's model; Composer may be callable even when `grok models` omits it. Do not infer that the CLI accepts an ID solely from Hermes's catalogue.
 - **`amp`**: `Task` subagents run the parent thread's model and effort, so they cannot apply a pair. Call `list_agent_modes`, then start the child with `create_thread`, passing as `agent_mode` the key of the mode whose description names the resolved model and effort, such as `claude-opus-5-5` ("Claude Opus 5.5 at high"). Wait with `wait_for_threads`. A pair without a matching mode follows [fallbacks](#fallbacks); do not pick a mode that matches the model but not the effort. The child is a separate thread in the user's thread list, so give it a self-contained brief.
 - **`hermes`**: leave its delegation settings unchanged. `delegate_task` uses its configured delegation model/effort, otherwise the parent's settings. Explain that kind/level selection does not apply; do not force Sol medium or launch separate processes to emulate them.
 
 ### Agent definitions
 
-For Claude sessions without per-spawn effort and for Grok Build, select the loaded definition whose model, effort, and connection match the resolved pair. Never select by kind/level alone when an override or temporary budget changed the pair.
+For Claude sessions without per-spawn effort, for Grok Build, and for Droid, select the loaded definition whose model, effort, and connection match the resolved pair. Never select by kind/level alone when an override or temporary budget changed the pair. Claude Code sessions whose Agent tool exposes `model` and `effort` need no definitions.
 
-Bundled medium defaults and supported fallback pairs are in `../../../com.anthropic.claude-code/agents/` (Claude) and `../../../agents/` (Grok), relative to this file. Their names identify pairs, such as `opus-high` or `grok-high`. Composer definitions are generated only after setup confirms the route-specific ID; the bundled Grok pairs cover its supported primary and fallback allocations. The Claude manifest lists each agent file explicitly; do not put an `agents` field in the portable root manifest.
+polaris ships no definitions: the model profiles are the only record of each pair, and [setup](../../setup-polaris/SKILL.md) generates the files from them. When no matching definition is loaded and the harness can't set the pair per call, follow [unavailable controls](#unavailable-controls) and point the user to `/setup-polaris`.
 
-Setup writes one definition per distinct resolved pair, including configured fallbacks, to the selected project/user `.claude/agents/` or `.grok/agents/` directory. Use `polaris-<model>-<effort>` with punctuation replaced by hyphens, omitting effort for Composer. Include the connection's name in the filename when needed to distinguish routes. Frontmatter fields are `name`, `description`, `model`, and `effort` when prescribed. The body follows the assigned brief; it does not select another model, start agents, or load every profile. Definitions cannot create access to a provider the harness does not support.
+Setup writes one definition per distinct resolved pair, including configured fallbacks, to the selected project or user directory:
+
+| Harness | Project | User |
+| --- | --- | --- |
+| `claude-code` | `.claude/agents/` | `~/.claude/agents/` |
+| `grok-build` | `.grok/agents/` | `~/.grok/agents/` |
+| `droid` | `.factory/droids/` | `~/.factory/droids/` |
+
+Use `polaris-<model>-<effort>` with punctuation replaced by hyphens, omitting effort for Composer. Include the connection's name in the filename when needed to distinguish routes. Frontmatter fields are `name`, `description`, `model`, and `effort` when prescribed. Droid names the effort field `reasoningEffort` and requires a non-empty body. Droid model IDs depend on the route: `custom:` IDs for models added through `customModels`, and the route-specific ID for Composer. The body follows the assigned brief; it does not select another model, start agents, or load every profile. Definitions cannot create access to a provider the harness does not support.
 
 A task-only budget uses matching loaded definitions or creates the needed definition without changing saved budget settings. If the harness needs a new session to load it, say so and pause that assignment; do not run another pair silently. Setup reads back generated definitions, preserves unrelated agents, and reports any reload requirement.
 

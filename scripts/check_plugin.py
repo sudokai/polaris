@@ -392,38 +392,30 @@ def check_model_profiles(skills_dir: Path) -> list[Problem]:
     return problems
 
 
-def check_model_agents(root: Path) -> list[Problem]:
-    """Check that shipped pair agents have valid fields and Claude can discover them."""
+def check_no_bundled_agents(root: Path) -> list[Problem]:
+    """Reject bundled model-pair agents; setup generates them (docs/adr/0009)."""
     problems = []
-    claude_dir = root / "com.anthropic.claude-code" / "agents"
-    for directory in (root / "agents", claude_dir):
-        for agent_file in sorted(directory.glob("*.md")):
-            fields = frontmatter_fields(agent_file.read_text()) or {}
-            for key in ("name", "description", "model", "effort"):
-                if not fields.get(key):
-                    problems.append(Problem(agent_file, 1, f"model-pair agent missing `{key}`"))
-            if fields.get("name") != agent_file.stem:
-                problems.append(Problem(agent_file, 1, "agent name must match its filename"))
-            if fields.get("effort") not in {None, "low", "medium", "high", "xhigh"}:
-                problems.append(Problem(agent_file, 1, "unsupported effort in bundled model-pair agent"))
-            if agent_file.stem in {"ultra", "deep", "standard", "fast"}:
-                problems.append(Problem(agent_file, 1, "replace legacy role agent with a model-pair agent"))
-    manifest = root / ".claude-plugin" / "plugin.json"
-    try:
-        registered = json.loads(manifest.read_text()).get("agents", [])
-        expected = {"./" + str(path.relative_to(root)) for path in claude_dir.glob("*.md")}
-        if not isinstance(registered, list) or any(not isinstance(path, str) for path in registered):
-            problems.append(Problem(manifest, 0, "agents must be a list of model-pair definition paths"))
-        elif set(registered) != expected or len(registered) != len(expected):
-            problems.append(Problem(manifest, 0, "register each shipped Claude model-pair agent exactly once"))
-    except (OSError, ValueError) as error:
-        problems.append(Problem(manifest, 0, f"cannot read agent registrations: {error}"))
-    portable_manifest = root / "plugin.json"
-    try:
-        if "agents" in json.loads(portable_manifest.read_text()):
-            problems.append(Problem(portable_manifest, 0, "portable manifest must not register harness-specific agents"))
-    except (OSError, ValueError) as error:
-        problems.append(Problem(portable_manifest, 0, f"cannot read portable manifest: {error}"))
+    for name in ("agents", "droids", "com.anthropic.claude-code"):
+        if (root / name).exists():
+            problems.append(Problem(root / name, 0, "polaris ships no agent definitions; /setup-polaris generates them"))
+    manifests = (
+        "plugin.json",
+        ".claude-plugin/plugin.json",
+        ".codex-plugin/plugin.json",
+        ".cursor-plugin/plugin.json",
+        ".factory-plugin/plugin.json",
+    )
+    for name in manifests:
+        manifest = root / name
+        if not manifest.exists():
+            continue
+        try:
+            has_agents = "agents" in json.loads(manifest.read_text())
+        except ValueError as error:
+            problems.append(Problem(manifest, 0, f"cannot read manifest: {error}"))
+            continue
+        if has_agents:
+            problems.append(Problem(manifest, 0, "manifest must not have an `agents` field"))
     return problems
 
 
@@ -440,7 +432,7 @@ def main() -> int:
         + check_harness_terms(skills_dir)
         + check_router_indexes(skills_dir)
         + check_model_profiles(skills_dir)
-        + check_model_agents(root)
+        + check_no_bundled_agents(root)
     )
     for problem in problems:
         print(f"{problem.path.relative_to(root)}:{problem.line}: {problem.message}")

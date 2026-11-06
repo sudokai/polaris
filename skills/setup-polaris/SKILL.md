@@ -10,7 +10,7 @@ Configure delegated assignments using [model budgets](../polaris/references/mode
 
 ## 1. Identify the harness and its controls
 
-Identify `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, `amp`, or `hermes` from the available tools. If unknown, report that setup cannot apply model choices here.
+Identify `claude-code`, `codex`, `cursor`, `pi`, `dsh`, `grok-build`, `amp`, `droid`, or `hermes` from the available tools. If unknown, report that setup cannot apply model choices here.
 
 - **Hermes:** explain that its existing delegation settings apply, otherwise children inherit the main conversation's settings. GPT is a suggestion only. Leave Hermes configuration untouched, do not save a misleading kind/level allocation table, and stop.
 - **Amp:** only the agent modes that `list_agent_modes` returns can apply a pair, and polaris does not create modes. Resolve each pair without a matching mode through a fallback, or report it as unavailable.
@@ -38,10 +38,11 @@ Detect model IDs, connection routes, supported efforts, tool support, and requir
 
 | Harness | Capability source |
 | --- | --- |
-| Claude Code | Current spawn schema and model controls; inspect whether per-invocation effort is exposed. Otherwise use loaded agent definitions. |
+| Claude Code | Current spawn schema and model controls; inspect whether per-invocation effort is exposed. Otherwise generate agent definitions. |
 | Codex | Spawn schema and `~/.codex/models_cache.json` supported reasoning efforts. |
 | Cursor | Accepted spawn slugs/parameters and model settings, including the Composer tier. |
-| Grok Build | `grok models`, loaded agents, and provider documentation. Missing entries alone do not rule out Composer; confirm callable IDs on the selected connection. |
+| Droid | `/model`, the `customModels` setting (`custom:` IDs), and Factory's models page for supported efforts. When a model is reachable both natively and through a `custom:` route, ask which one the droid files should use. |
+| Grok Build | `grok models` and provider documentation. Missing entries alone do not rule out Composer; confirm callable IDs on the selected connection. |
 | pi | `pi --list-models`, model thinking maps, and the installed subagent extension's schema. |
 | dsh | `list_subagent_models` allowed providers/models and reasoning efforts. |
 | Amp | `list_agent_modes` keys and descriptions, which name each mode's model and effort. `amp plugins show-agent-options` lists model IDs, not runnable modes. |
@@ -62,11 +63,11 @@ Show all five kind/level combinations and the separate unclassified allocation w
 
 For **this project**, write `.agents/polaris/models.yaml`. For **every project**, write the current harness's user model settings file from [User model settings](../polaris/references/locations.md#user-model-settings); this scope applies only to that harness. Preserve the `harnesses` mapping, other harness sections, and unrelated settings. Omit unchanged defaults; remove a setting when the user resets it so the next scope applies. Do not erase an intentional empty fallback list. Show a diff before writing a user-scope file outside git, as [the locations reference](../polaris/references/locations.md) requires.
 
-For harnesses needing agent definitions, follow [agent definitions](../polaris/references/models.md#agent-definitions). Generate one per distinct resolved primary/fallback pair rather than per kind/level. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions, including after a partial prior run, per `principle-make-operations-idempotent`.
+Generate agent definitions for Claude Code (only when per-call `effort` is missing), Grok Build, and Droid, following [agent definitions](../polaris/references/models.md#agent-definitions). Droid frontmatter is `name`, `description`, `model`, `reasoningEffort`, and a non-empty body. Generate one per distinct resolved primary/fallback pair rather than per kind/level. Inspect loaded definitions before using them; same name does not prove same settings. Write only polaris-owned definitions needed for this selection, preserving unrelated files. Repeating setup with the same choices must produce the same configuration and definitions, including after a partial prior run, per `principle-make-operations-idempotent`.
 
 Save overrides and fallback lists nested by kind and level, with `unclassified` as a separate entry, as [model selection](../polaris/references/models.md) specifies. Merge each kind/level independently; preserve inherited siblings and intentional empty fallback lists. Treat legacy flat category keys as configuration errors rather than silently migrating them.
 
-Read back the saved YAML and definitions. Check that the effective configuration still resolves to the displayed table. If the save or validation fails, report the exact file and remedy; do not claim the change took effect. New definitions may need a new session or reload; state that before suggesting they can be used.
+Read back the saved YAML and definitions. Check that the effective configuration still resolves to the displayed table. If the save or validation fails, report the exact file and remedy; do not claim the change took effect. New definitions may need a new session or reload; state that before suggesting they can be used. Droid picks up new files without a restart; Claude Code and Grok Build need a new session.
 
 ## 5. Report and offer verification skills
 

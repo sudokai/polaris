@@ -18,3 +18,4 @@ The working contracts live with the skills: [Locations](../skills/polaris/refere
 6. [Resume selection uses task identity](adr/0006-resume-selection-uses-task-identity.md)
 7. [Prompt rewriting stops before execution](adr/0007-prompt-rewriting-stops-before-execution.md)
 8. [Local customization and skill copies](adr/0008-local-customization-and-skill-copies.md)
+9. [Generated model-pair definitions](adr/0009-generated-model-pair-definitions.md)
