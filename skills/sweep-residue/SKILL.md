@@ -1,6 +1,6 @@
 ---
 name: sweep-residue
-description: "Sweep shipped code, text, and docs for leftover process residue from implementation-review-fix loops. Use after the `deslop` skill on a finished workpackage, or when the final artifact should stand on its own and read as if no prior conversation existed."
+description: "Sweep shipped code, text, and docs for leftover process residue from iteration and implementation-review-fix loops."
 ---
 
 # Sweep Residue
@@ -9,16 +9,15 @@ Before you ship, read your work like a stranger who just joined the team. They w
 
 If something only makes sense because of that conversation, rewrite it.
 
-## Sweep these
+## Sweep these 
 
-- context leakage
-- conversation breadcrumbs
+- conversation, prompt, or iteration history leakage in code comments, pull request descriptions, or other maintainer-facing prose
 - names, comments, or messages that only make sense if you saw an earlier version
-- reviewer feedback or implementation iterations
 - explanations of what changed instead of how the final thing works
-- details singled out because they are new: an "including X" clause, or a list that names only the newest item among peers the doc never names
+- details singled out because they are new, or a new item in a list
 - prior versions or rejected approaches still floating around in code or docs
-- docs that don't match the code — rewrite, don't delete
+- docs that don't match the code, fix if still valuable, delete if obsolete
+- comments that can be turned into code, per `principle-encode-lessons-in-structure`
 - commented-out code
 - dead code, unused imports, orphan variables
 
@@ -37,5 +36,3 @@ If something only makes sense because of that conversation, rewrite it.
 *"Does this stand on its own and read as if no prior conversation existed?"*
 
 If no, rewrite it.
-
-Go through the diff hunk by hunk, including one-line edits to files you did not create. For each added line, ask whether the doc would say it if it were written from scratch today. If the line would also work as a bullet in the change summary or the PR description, it describes the change, not the system: rewrite or drop it.
