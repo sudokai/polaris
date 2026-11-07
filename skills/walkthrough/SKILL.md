@@ -43,7 +43,7 @@ Write like a colleague explaining the change to another capable engineer, out lo
 - Code names go in backticks, and a sentence must still read as English with them covered up. Two per sentence at most.
 - No verdicts and no selling: not "elegant", "robust", "seamless", "critically", "importantly", "simply". State the fact.
 
-Use the `say-it-plainly` skill to communicate with the user. 
+Use the`technical-writing` and `say-it-plainly` skills to write the guide. 
 
 ## Content chapters
 
@@ -63,7 +63,7 @@ In one short paragraph, explain the solution that the changeset provides. Keep t
 
 ### 4. Core intuition
 
-Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. A pseudocode `diff` or a sequence diagram often works best; for a UI change, sketch the screen before and after; for tricky algorithm or UI interactivity changes, build a a state machine representation using `statechart` along with an interactive visualization built with HTML. Use the `show-me` skills to find the best simplified view for each case.
+Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Use the `show-me` skill to find the best way to visualize the change.
 
 Then explain:
 
@@ -134,18 +134,19 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
 
 Answer the questions the user is most likely to ask about this change, and not covered yet by the walkthrough up to this point. 10 questions max. Keep each answer to a few sentences, pointing to the relevant code. Good questions usually come in these kinds:
 
+- What's the elephant in the room of this change?
 - Why this solution and not the obvious alternative?
 - Could the solution be simpler? Signs of overengineering?
 - What happens to existing data or users?
 - Is there a rollback plan in case the deployment fails?
-- How robust is this code? What happens when something unexpected fails in production.
+- How robust is this code? What happens when something unexpected fails in production?
 - Why does this seemingly unrelated part of the code change?
 - What else does this changeset affect?
 - What did the review comments raise?
 
 ### 8. Quiz
 
-Ask questions that only someone who understands the change can answer: 10 questions max. Ask at least one question about the central change. The others can cover design choices, how the pieces work together, edge cases, or your **Look closer** flags. Don't ask trick questions or repeat FAQ questions.
+Ask questions that only someone who understands the change can answer: 10 questions max. Ask at least one question about the central change. The rest can cover design choices, tradeoffs, how the pieces work together, edge cases, or your **Look closer** flags. Don't ask trick questions, don't repeat questions already covered by the FAQ, and don't ask questions about details of the code that are not shown in the walkthrough's diffs.
 
 Ask how and why, not for facts the user could look up. 
 
