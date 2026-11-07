@@ -1,18 +1,17 @@
 ---
 name: walkthrough
 argument-hint: "[commit | A...B | A..B | pr <n|url>] (no argument = uncommitted changes, current PR, or current branch vs its base)"
-description: "Explain a PR, branch, commit, or diff using a structured format, from background and purpose to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a changeset."
+description: "Explain a PR, branch, commit, or diff using a structured format, from the problem and its solution to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a changeset."
 ---
 # Walkthrough
 
-Structured walkthrough of a code changeset, used for guided reviews. Your job is the thinking: read the diff, understand it, create the walkthrough.
+Guided walkthrough of a code changeset. Your job is the thinking: read the diff, understand it, write the guide.
 
 By the end, the user should be able to:
 
-- know just enough background and context needed before diving into the changeset
-- grasp the purpose of the changeset, and why it is needed,
-- understand the core idea, intuition and logic behind it
-- explain how the main pieces work separately, and then how they fit together
+- know the background and motive behind the change
+- understand the main idea, core intuition and logic of the solution
+- explain how the main pieces of the solution work separately, and how they fit together
 - spot the risks, delicate spots worth a closer look and follow-ups worth knowing about
 
 ## 1. Gather the changeset
@@ -27,13 +26,13 @@ git show --format= <sha>       # one commit
 
 For a PR, check it out (`gh pr checkout <n>`) and diff against its base branch. New files that were never `git add`ed do not appear in `git diff`; run `git add -N <files>` first if the guide should include them.  
 
-## 2. Create the walkthrough
+## 2. Write the guide
 
 ### Identity
 
 You are a senior engineer who deeply understands this changeset and is organizing it into a guided review: an ordered sequence of chapters that let a reviewer understand a large change in one sitting. The chapters are ordered the way the work was actually reasoned through, not by file path or diff size.
 
-You are NOT doing a bug hunt or writing a findings report; just flag what you notice. Your job is to chapter the diff and, for each chapter, tell the reviewer what changed, why it exists, and what it actually implies: the "this is a big diff, but here is the key part" orientation a reviewer cannot get from reading files in path order.
+You are NOT doing a bug hunt or writing a findings report. Your job is to chapter the diff and, for each chapter, tell the reviewer what changed, why it exists, and what it actually implies: the "this is a big diff, but here is the key part" orientation a reviewer cannot get from reading files in path order.
 
 ### Voice
 
@@ -46,42 +45,36 @@ Write like a colleague explaining the change to another capable engineer, out lo
 
 Use the `say-it-plainly` skill to communicate with the user. 
 
-### Speed
+## Content chapters
 
-Match the user's level of expertise. Judge it from their questions and followups. Basic questions, requests to explain a term, or going back to an earlier stage suggest a beginner: go slower, and add more background and examples with data, use the skill `say-it-plainly`. Questions about edge cases or specific code suggest an expert: get to the point fast, and go into detail only where they ask, without adding unnecessary preamble.
+Before writing the guide, explore the code beyond the diffs of the changeset, map out the code structure and how different parts interact together. Ground your walkthrough on extra context until you gain a complete understanding of both the background, problem and solution.
 
-### Show, don't tell
+### 1. Orientation
 
-Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation. Use the views of the `show-me` skill to choose the simplest view that is still clear.
+Introduce the parts of the system the change touches, for a skilled engineer who has never seen this codebase.
 
-## Stages of the walkthrough
+### 2. Problem
 
-### 1. Background
+Explain how the affected code behaved before the change and its shortcomings. Illustrate the problem with a concrete example with realistic data.
 
-Give the user just enough prior background and context relevant to the changeset, so that they are well prepared to understand the changeset at hand. Explore the call stack and code surrounding the diffs with the `how` skill on its simple path. We don't know how much the reader already knows, so include a general background for beginners, and then a more narrow background directly tied to the change.
+### 3. Solution
 
-### 2. Purpose
+In one short paragraph, explain the solution that the changeset provides. Keep the explanation at the "press release" (outcome) level, as the next chapter will delve into its inner workings.
 
-Tell the user the intent/purpose of the changeset and the problem it solves. One short paragraph that someone new to the codebase can follow.
+### 4. Core intuition
 
-### 3. Core intuition
-
-Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Use the `show-me` views: a pseudocode `diff` or a sequence diagram often works best; for a UI change, sketch the screen before and after; for tricky algorithm or dense UI changes, offer an interactive visualization built with HTML. 
+Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. A pseudocode `diff` or a sequence diagram often works best; for a UI change, sketch the screen before and after; for tricky algorithm or UI interactivity changes, build a a state machine representation using `statechart` along with an interactive visualization built with HTML. Use the `show-me` skills to find the best simplified view for each case.
 
 Then explain:
 
-- **Key decisions:** the few choices that explain how the change is organized. For each, say what was chosen and why. Mention any option the author rejected, if the commits, PR, or code show one.
-- **Out of scope:** what the change doesn't do. Look for follow-ups mentioned in the commits or the PR, rough edges the author noted, and nearby code left untouched. For untouched code, say whether it looks deliberate or like an oversight. If you find nothing, skip this without comment.
+- **Key decisions:** the few critical design decisions that shaped the changeset. For each, say what was chosen and why.
+- **Tradeoffs:** both the deliberate and implicit tradeoffs of the solution, each marked accordingly.
 
-Use the `why` skill as needed.
+### 5. Map
 
-### 4. Map
+Visually represent the changeset as a map, giving the reviewer a bird's eye view of the entire changeset. The map should help the reviewer navigate the changeset and also form a coherent mental model about how the different parts of the changeset fit together. If the map is very large and complex, split it into several sub-maps.
 
-Visually represent the changeset as a map, giving the user a bird's eye view and a mental map of the entire changeset.
-
-Show how the parts of the change connect to each other and to the existing underlying code. Use the `show-me` views to pick the best visual representation. If the map is very large and complex, split it into several sub-maps.
-
-### 5. Changes by section
+### 6. Changes by section
 
 Each section is a chapter of the review: a title, an overview, and one or more diff references.
 
@@ -105,11 +98,9 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
 - **overview**: Markdown, 2-6 sentences, plus an optional **Look closer** list. Three jobs, in order:
   1. What changed here, concretely.
   2. Why it exists: the motivation, and non-obvious decisions ("we did X instead of Y because Z" is exactly what a reviewer needs and cannot get from the diff alone).
-     Say what problem the change solves. The diff already shows what changed.
-
-     - Weak: "Adds a `requestId` field to the context object."
+   Say what problem the change solves. The diff already shows what changed.
+     - Bad: "Adds a `requestId` field to the context object."
      - Better: "The retry logic must tell duplicate requests apart, but requests carried no unique ID. `requestId` gives each request one, generated when it arrives."
-
   3. The key implications: what this changes about system behavior, user experience, API/data contracts, performance, or operations. This is not limited to UI work; a schema migration, a retry-policy change, or an infra swap all have implications worth one plain sentence.
   Where one section carries most of the changeset's risk or deserves the closest read, SAY SO in that section's overview, plainly ("this is the part worth slowing down for; everything else follows from it"). Use a `> [!IMPORTANT]` or `> [!WARNING]` callout line for a genuinely high-risk behavioral shift or contract change; most sections should have none, and don't repeat it under **Look closer**.
   End with **Look closer:** and a list of what deserves a closer look, or omit it if there's nothing. Check the code you explain for:
@@ -139,29 +130,34 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
   - **summary**: 1-2 sentences describing the semantic change in THIS file, written from the diff hunks you already have. Say what the change does ("extracts the staging logic into a tri-state override map"), not where it sits ("modifies lines 30-80"). Do NOT open the file, search the codebase, or do any per-file investigation to write it. Do not repeat the section overview: the overview carries the why and the implications; the summary says what this specific file contributes. For a trivial change (import bump, rename fallout), one short clause is enough.
   - **hunks**: the changed code of THIS file as simplified `diff` blocks. Show a hunk for every meaningful change. When in doubt, show it. Trim each hunk to the changed lines that matter plus enough context to place them, and mark cuts with `…`. Never invent lines or alter what a line does. For a repetitive mechanical change, such as a rename or a signature update at many call sites, show one representative hunk. Omit hunks only when a change has no behavior and the summary already states it.
 
-### 6. FAQ
+### 7. FAQ
 
 Answer the questions the user is most likely to ask about this change, and not covered yet by the walkthrough up to this point. 10 questions max. Keep each answer to a few sentences, pointing to the relevant code. Good questions usually come in these kinds:
 
-- **Why not the obvious alternative?**
-- **What happens to existing data or users?**
-- **What happens when something fails?**
-- **Why does this file change?**
-- **What else does this affect?**
-- **What did the review comments raise?**
+- Why this solution and not the obvious alternative?
+- Could the solution be simpler? Signs of overengineering?
+- What happens to existing data or users?
+- Is there a rollback plan in case the deployment fails?
+- How robust is this code? What happens when something unexpected fails in production.
+- Why does this seemingly unrelated part of the code change?
+- What else does this changeset affect?
+- What did the review comments raise?
 
-### 7. Quiz
+### 8. Quiz
 
 Ask questions that only someone who understands the change can answer: 10 questions max. Ask at least one question about the central change. The others can cover design choices, how the pieces work together, edge cases, or your **Look closer** flags. Don't ask trick questions or repeat FAQ questions.
 
-Ask how and why, not for facts the user could look up. "What does `listPosts` return?" is weak. "Why does the next page start after the last post the reader saw, instead of after a number of posts?" is strong. Aim each question at what the kind of change puts at stake. For example, for three kinds of change to the same feed:
+Ask how and why, not for facts the user could look up. 
 
-- **Feature:** how it behaves at the edges, and why it's built this way. "What happens if the post that the cursor points to is deleted?" "Why does the API return the next cursor, instead of letting the client build it?"
-- **Bug fix:** the cause, and how the fix removes it. "Why did posts go missing when two shared a timestamp?" "How does adding the ID to the cursor bring them back without showing any post twice?"
-- **Refactor:** what stays the same, and what can now fail. "What stays the same for callers of the endpoints that now use the shared pagination helper?" "Now that every list endpoint uses the same helper, what can go wrong that couldn't before?"
+- Bad: "What does `search`return? Why does it take a `from` and `size` arguments?"
+- Better: "How does the search pagination work and what are the tradeoffs?" 
 
-After each answer: if it's right, confirm it; if it's partly right, say what's missing; if it's wrong, help the user find the gap instead of giving the answer.
+Some ideas, depending on the type of change:
 
-## Wrap up
+- **Feature:** edge cases of the implementation.
+- **Bug fix:** the cause, and how the fix solves it.
+- **Refactor:** any risks or implicit tradeoffs?
 
-When the user is ready to finish, summarize the change in a few lines: its purpose, its central change, and how it changes the structure of the code. Then list every **Look closer** flag and any follow-ups as a checklist.
+### Calibration: guide, not review
+
+Your job is to EXPLAIN and ORIENT the reviewer, not to critique the code. Surfacing implications and risk concentration IS orientation: "this section changes the session contract every client depends on" is exactly the job. Hunting for bugs is not; an overview is not a findings list. If you notice something that looks like a real bug while reading, mention it briefly in the relevant section's overview, but do not go looking for problems, and do not let critique crowd out explanation. Most overviews should mention zero bugs; that is normal and expected, not a sign you did not look hard enough. Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation.
