@@ -6,7 +6,7 @@ license: MIT
 
 # Write discoverable code
 
-Make code easy to find with plain-text search. Follow project and framework conventions, and preserve public APIs.
+Write code that an agent or a person unfamiliar with the codebase can find by searching for plain text. Follow project and framework conventions, and preserve public APIs.
 
 ## Use searchable names
 

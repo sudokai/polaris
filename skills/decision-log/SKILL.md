@@ -3,7 +3,7 @@ name: decision-log
 description: "Log significant decisions the agent makes when the user's instructions or an implementation plan are underspecified or unclear, and deviations forced by edge cases. Use one TSV row per entry, with its reason, evidence, and outcome."
 ---
 
-Keep a structured  log that records your decisions and deviations you took while implementing code. Write down each decision when you make it, do not reconstruct decisions from memory after the work is finished. 
+Keep a structured log of the decisions you make and the deviations you take while implementing code. Write down each decision when you make it. Do not reconstruct decisions from memory after the work is finished.
 
 Log only:
 
@@ -11,6 +11,8 @@ Log only:
 - **`deviation`**: an edge case that forces you to change the plan. Record the original plan, the edge case, and what you did instead.
 
 Do not log routine work, progress updates, or choices the user or plan already made.
+
+When the instructions or plan leave a choice open, choose the option that is safer, smaller, reversible, and consistent with the existing code. Log it and continue. Stop and ask the user only when the choice cannot be undone or has wide impact, such as data loss, a public API change, or a security change.
 
 Save the log at the path the caller gives. Otherwise, save it as `decisions.tsv` in the working directory, or as `.audit/<task-name>.tsv` when several tasks need separate logs. Do not commit it unless the user asks.
 

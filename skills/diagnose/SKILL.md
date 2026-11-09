@@ -35,6 +35,8 @@ For an investigation-only request, do not change product code. Report the cause,
 
    If no test can reach the failing code path under the real conditions, report that as a finding: the code structure makes this bug hard to test. Keep the closest executable reproduction and state what it does not cover. Do not substitute a shallow test that cannot reproduce the failure.
 
+   If two fixes based on the same explanation fail the same check, stop fixing. Write down the assumption both fixes share, and test whether it holds before you try a third fix. If the test contradicts it, return to step 3 with new hypotheses.
+
 ## Clean up and report
 
 Recheck the original scenario when the fault has been fixed. Remove temporary probes and unused prototypes. Use a unique `[DEBUG-<id>]` prefix for temporary logs so the search for leftovers is complete.

@@ -26,6 +26,11 @@ Combine these structures when the document needs more than one. Keep each sectio
 - Include required permissions, inputs, and environmental assumptions before the steps that depend on them.
 - Keep warnings next to the actions they affect. Explain the consequence and the way to avoid it.
 
+## Be specific
+
+- State concrete consequences, not general risks. Write "renaming a column fails the build", not "schema changes can cause issues".
+- When you weigh tradeoffs, state your conclusion and its reason instead of only listing pros and cons. Keep reference material neutral.
+
 ## Remove ambiguity
 
 - Use one term for each concept. Repeat an established code name instead of substituting a near-synonym.
