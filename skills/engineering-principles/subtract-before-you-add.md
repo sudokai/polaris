@@ -2,7 +2,7 @@
 
 When evolving a system, remove complexity first, then build. Default to subtraction.
 
-Make simplification a continual investment. Leave the design slightly simpler and more capable behind the same or smaller surface than you found it.
+Simplify a little with every change. Leave the design slightly simpler than you found it, at least as capable, and behind the same or a smaller interface.
 
 - Sequence removal before construction
 - Cut before you polish (get to the minimum before investing in quality)

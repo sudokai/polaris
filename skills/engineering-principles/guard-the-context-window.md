@@ -1,6 +1,7 @@
 # Guard the Context Window
 
-**Why:** Context overflow degrades reasoning quality, creates compression artifacts, and halts progress.
+**Why:** When the context window overflows, reasoning degrades, compaction drops details, and work stalls.
 
 **Pattern:**
-- **Size phases and cap scope.** Limit files per phase, set turn budgets, account for mechanism costs.
+- **Send bulk work to subagents.** Let them read the large outputs and long files, and keep only their summaries in the main thread, not the raw output.
+- **Size phases and cap scope.** Limit the files each phase reads, set a turn budget, and count the context that each tool call or subagent brief costs.

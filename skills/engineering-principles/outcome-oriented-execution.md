@@ -5,11 +5,11 @@ Optimize for the intended, verifiable end state rather than preserving smooth in
 **Why:** Keeping every intermediate step fully stable often creates temporary compatibility code that becomes long-lived debt. Converge on the target architecture and prove correctness at explicit verification boundaries.
 
 **Core rule:**
-- Prioritize end-state integrity over transitional stability
+- Put a correct end state ahead of keeping every intermediate state stable
 - Intermediate breakage is acceptable when it is planned, scoped, and reversible
 
 **Guardrails:**
 - Use this for planned rewrites and migrations with explicit phase boundaries
 - Declare where temporary breakage is acceptable
-- Keep high-signal checks for actively touched areas while migrating
-- Require full static and runtime verification at plan completion
+- While migrating, keep running the checks most likely to catch a break in the areas you are changing
+- When the plan is done, run the full static and runtime checks

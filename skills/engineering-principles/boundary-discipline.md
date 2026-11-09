@@ -1,6 +1,6 @@
 # Boundary Discipline
 
-Place validation, type narrowing, and error handling at system boundaries. Trust internal code unconditionally. Business logic lives in pure functions. The shell is thin and mechanical.
+Place validation, type narrowing, and error handling at system boundaries. Trust internal code unconditionally. Business logic lives in pure functions. The code that connects them to the outside world stays thin and mechanical.
 
 **Why:** Scattered validation is noisy, redundant, and gives a false sense of safety. Keep logic out of framework wiring so it can be tested without the framework.
 
@@ -9,7 +9,7 @@ Place validation, type narrowing, and error handling at system boundaries. Trust
 - **Inside the system:** typed data, error propagation, no re-validation. Trust the types.
 - **Across the boundary.** Expose domain concepts, not the boundary's private representation. Keep general-purpose mechanism inside and special-purpose policy at the edge.
 
-**Applications:**
+**Examples:**
 
 Validation and error handling:
 - Validate config at parse time (the boundary), not inside business logic
