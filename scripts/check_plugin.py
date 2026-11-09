@@ -36,6 +36,8 @@ COORDINATOR_SKILLS = {"polaris"}
 # source, never the copy, then run scripts/sync_generated_copies.py. The copy is the
 # source without its YAML frontmatter.
 GENERATED_COPIES = {
+    "self-improve/references/encode-lessons-in-structure.md": "engineering-principles/encode-lessons-in-structure.md",
+    "diagnose/references/measured-numbers.md": "prove-it/references/measured-numbers.md",
     "visual-pr/references/show-me.md": "show-me/SKILL.md",
     "walkthrough/references/show-me.md": "show-me/SKILL.md",
 }

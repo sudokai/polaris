@@ -26,7 +26,7 @@ Prefer a tool that the repo's developers can install and run.
 
 Write a project-local skill in the project skill directory that your harness reads. Give it frontmatter that names the area and says when to use it; without frontmatter, the skill never registers. From the skill alone, the next agent must be able to tell whether a change touches the verified code, run the check, tell a real bug from a modeling error, and update the verification when a change is intended. Include the [coverage record](SKILL.md#coverage-record). Use the repo's real commands, paths, and nouns, and leave no placeholders.
 
-For a TLA+ check, tell the next agent to read each result with the polaris `statechart` skill, which tells each violation as its shortest path in plain words and charts the states when the check passes. Without `statechart`, the agent reads TLC's counterexample trace directly. Name `statechart` only: its commands and paths change between releases, so copy none of them.
+For a TLA+ check, tell the next agent to read each result with the `statechart` skill, which tells each violation as its shortest path in plain words and charts the states when the check passes. Without `statechart`, the agent reads TLC's counterexample trace directly. Name `statechart` only: its commands and paths change between releases, so copy none of them.
 
 ## Prove it, then hand off
 

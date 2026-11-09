@@ -29,7 +29,7 @@ For an investigation-only request, do not change product code. Report the cause,
 
 4. **Identify the fault.** Trace the symptom to the first incorrect decision or invalid state. Handle the state where it originates if it is legitimate; prevent its creation if it is invalid. Do not add a downstream workaround that merely hides the failure.
 
-   For performance regressions, compare equivalent baseline and treatment measurements with `prove-it`, which follows a checklist for measured numbers.
+   For performance regressions, compare equivalent baseline and treatment measurements, following [the measured-numbers checklist](references/measured-numbers.md).
 
 5. **Fix and check the fault.** Before changing production code, write a regression test that runs the same code path and conditions that caused the bug, when practical. Confirm that it fails for the reported reason. Apply the fix, confirm that the test passes, and run related tests.
 
