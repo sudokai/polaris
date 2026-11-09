@@ -1,9 +1,8 @@
 ---
 name: sharpen
-description: "Make a task deeper, not bigger, then rewrite the prompt. Returns the rewritten prompt and does not do the task."
+description: Give back to the user an improved prompt of the task they want to carry out. Use when the user wants to sharpen their prompt language or improve their prompt.
+disable-model-invocation: true
 ---
-
-# Sharpen
 
 I want a deeper version of this task, not a bigger one. Before rewriting it, do four things:
 

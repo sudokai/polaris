@@ -1,6 +1,6 @@
 ---
 name: visual-pr
-description: "Create or update the current branch's PR with a concise description of why the change exists and how it is built, drawn with the show-me views. Use when about to open or update a PR."
+description: "Create or update the current branch's PR with a concise description of why the change exists and how it is built, drawn with compact structural views. Use when about to open or update a PR."
 disable-model-invocation: true
 ---
 
@@ -22,12 +22,12 @@ Create or update the pull request for the current task with a concise descriptio
    - Read the ticket and any relevant task artifacts.
    - Read the complete PR diff and enough surrounding code to understand behavior and ownership.
    - Use `gh pr view` to collect PR metadata and changed files.
-   - Read the `show-me` skill for the views used in the change outline.
+   - Read `references/show-me.md` for the views used in the change outline.
 
-4. Write the PR title and description with `technical-writing`, excluding Diátaxis. Preserve the description template:
-   - Keep **Why the change** to exactly one sentence, and open it with the user's goal.
+4. Write the PR description using the template:
+   - Keep **Why the change** to exactly one sentence.
    - Keep **Special things to note** to 1-3 bullets. Prioritize reviewer warnings, migrations, compatibility constraints, deliberate omissions, or surprising decisions. Write `- None.` when there are no special considerations.
-   - Make **Change outline** a compact structural view built from the `show-me` views, not prose or a file-by-file changelog.
+   - Make **Change outline** a compact structural view, drawn with the views in `references/show-me.md`, rather than prose or a file-by-file changelog.
    - Include only the views that help explain this PR:
      - SQL table and endpoint contract changes, plus pseudocode for business logic.
      - Key data structure and type changes.

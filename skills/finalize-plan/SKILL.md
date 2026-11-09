@@ -1,75 +1,67 @@
 ---
 name: finalize-plan
-description: "Write a standalone implementation plan .md from the agreed design, with no chat references and a list of every file needed to rebuild context."
+description: "Write a standalone implementation plan .md from an agreed design, including its tradeoffs, ordered steps, acceptance checks, and minimum context for a fresh agent."
 ---
 
-# Finalize an implementation plan
+Turn an agreed design into a concise implementation plan saved as a `.md` file. Write for an agent with no conversation access and for a human reviewing the work before implementation.
 
-Turn a settled design from the conversation or supplied design files into a concise implementation plan saved as a `.md` file.
-
-Reuse the design and its rationale. Do not redesign the solution or start implementation. If a missing decision prevents a usable plan, return that gap to the caller.
-
-Write with `technical-writing`. Preserve the plan structure below. Keep implementation steps separate from rationale and reference sections.
-
-Write for a fresh agent with no access to the conversation.
+Preserve the design. Do not redesign the solution or start implementation. If a missing decision prevents a usable plan, return that gap to the appropriate caller and stop.
 
 ## Process
 
-1. **Read the design**. Extract the decisions, rationale, constraints, and details needed for the sections below from the conversation or supplied files.
+1. **Read the design**. Extract the agreed decisions, rationale, constraints, tradeoffs, and verification requirements. Also extract the concrete details an implementer would otherwise have to guess:
+   - API surfaces, interfaces, and type signatures
+   - module boundaries, file structure, and data flow
+   - naming conventions for files, functions, types, and routes
+   - work that was deferred or ruled out
 
-2. **Choose the plan path**. Honor an explicit destination. Otherwise, use `<target-repo-root>/plan-<topic>.md`, or `/tmp/plan-<topic>.md` if no repo root is obvious. Use a descriptive topic in kebab case.
+   Put each detail in the section of the plan where it applies. Inspect the relevant code before naming paths or symbols.
+
+2. **Choose the plan path**. Honor an explicit destination. Otherwise, use `<target-repo-root>/docs/plans/<topic>.md`, or `/tmp/plan-<topic>.md` when no repository root is obvious. Use a descriptive topic in kebab case. Create `docs/plans/` when writing its first plan.
    - Preserve existing plans. Choose an unused filename, adding a numeric suffix when needed. Replace an existing plan only when the user explicitly requests that replacement.
 
-3. **Write the plan**. Include these sections:
+3. **Write the plan** using this structure:
 
    ```markdown
    # Implementation plan: <short title>
 
    ## Goal
 
-   Summarize the intended result and why it matters.
+   State the intended result and why it matters.
 
-   ## Decisions
+   ## Key decisions
 
-   Bullet list of key decisions. Each entry must carry its own rationale.
-   Use present tense: "Use X over Y because Z" (not "We decided...").
+   State each important decision with its rationale and constraints.
 
-   ## Deferred and out of scope
+   ## Tradeoffs
 
-   List excluded work and open questions.
+   Distinguish these labels:
+   - **Explicit:** a tradeoff stated in the design.
+   - **Implicit (inferred):** a tradeoff not stated in the design but derived from its constraints or consequences. Explain the inference without presenting it as an agreed decision.
 
    ## Architecture
 
-   If there are multiple components or modules, show how they fit together.
-   Use a short ASCII diagram or a bullet list of responsibilities.
+   Describe the affected components, responsibilities, interfaces, and state movement. Use a short diagram only when it clarifies these relationships.
 
    ## Implementation steps
 
-   1. Describe one action. Name the file and symbol to change.
+   1. Describe one action, naming the existing or new file and symbol.
    2. Continue in dependency order.
-   3. ...
 
-   **Handling errors**. State how each relevant failure reaches the caller or user.
+   State relevant failure handling and tests within the appropriate steps.
 
-   **Tests**. Name tests to add or update. If none are needed, say why.
+   ## Acceptance checks
 
-   ## Acceptance criteria
+   For each observable completion condition, give its command or operation and expected result. Include user-visible behavior where applicable.
 
-   List observable completion conditions and how to check them. For example:
+   ## Minimum required context
 
-   - "GET /api/users returns 200 with a JSON array of user objects"
-   - "Running `pnpm test` passes all tests"
-   - "The error toast appears when the API call fails (check manually in the browser)"
-
-   ## Read these files
-
-   Read these files in full before writing code:
-
-   - `path/to/file.ts`. Explain its role.
+   - `path/to/existing-file.ts`: explain which contract, convention, or implementation detail to inspect.
+   - `path/to/new-file.ts`: identify files to create separately from files to read.
    ```
 
-4. **Complete "Read these files"**. List every codebase file needed to rebuild context, including affected code, relevant examples, configuration, schemas, and tests.
+4. **Keep scope explicit**. Include excluded work and unresolved questions only when they affect implementation or acceptance. Add no empty sections or generic reassurances.
 
-5. **Check acceptance criteria**. Include commands or observable behaviors with expected results. A passing test suite alone does not establish a user-visible result.
+5. **Minimize the reading set**. List only files essential for understanding the contracts or conventions, making the changes, and performing the checks. Explain what the reader needs from each file. Name relevant sections of large files instead of instructing the agent to load every file in full.
 
-6. **Save and check the plan**. Check that the listed context files exist. Identify files to create separately. Confirm that the steps match the settled design. Return the plan path and any unresolved decisions, then stop.
+6. **Check the plan**. Sweep it for conversation residue using [the checklist](references/sweep-residue.md). Confirm that context files exist, existing paths and symbols are correctly named, and new files are identified. Confirm that the steps implement only the agreed design and the acceptance checks cover the goal. Save the file, return its path and any unresolved decisions, then stop.

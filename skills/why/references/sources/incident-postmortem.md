@@ -1,9 +1,10 @@
-# Incident & Postmortem Context
+# Incident and postmortem evidence
 
-Not a separate source, a **cross-cutting angle**. Incidents often motivate defensive code ("we added this check after the X outage"), so if the target looks defensive (null checks, retry logic, timeout handling, rate limiting, feature flags), specifically hunt for incident history across every available source:
+Defensive code such as retries, timeouts, rate limits, and egress guards may follow an operational failure. Check that possibility when relevant records suggest an incident.
 
-- **Issue tracker**: look for tickets labeled `incident`, `sev-*`, `postmortem-action-item`, or `reliability`
-- **Team chat**: search incident channels around the dates the target code was added
-- **Git**: commits with messages like "fix for incident", "add defensive check", or "revert" followed by "re-apply with..." are strong signals
+- Search issue trackers for incident, severity, reliability, or postmortem labels.
+- Search incident discussions near the change's implementation date.
+- Inspect commits describing an incident, a revert, or a corrected reapplication.
+- Read the relevant postmortem and action items rather than assuming what they say.
 
-If you find an incident link, fetch the full postmortem. Postmortems typically have an "Action Items" section that ties directly to code changes. When several sources corroborate each other (an incident ID appears in a ticket, which appears in a postmortem, which appears in a chat thread that links to the target PR), the evidence is especially strong.
+Connect the incident to the target through dates, symptoms, affected components, and explicit links. Shared identifiers show that records belong to the same investigation; they do not alone establish which code fixed the problem. Distinguish the observed failure, the stated cause, and the preventive action that the team selected.

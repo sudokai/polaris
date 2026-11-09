@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# Append a well-formed row to a decision log (TSV).
-# Usage: log.sh <logfile> <phase> <kind> <decision> <why> <evidence> <result>
-# <kind> is `decision` or `deviation`.
+# Append a well-formed row to a decision log (TSV) and print the new row's id.
+# Usage: log.sh <logfile> <phase> <kind> <decision> <why> <evidence> <result> [supersedes]
+# <kind> is `decision` or `deviation`. [supersedes] is the id of the row this one replaces.
 set -euo pipefail
 
-if [ "$#" -ne 7 ]; then
-	printf 'usage: log.sh <logfile> <phase> <kind> <decision> <why> <evidence> <result>\n' >&2
+usage='usage: log.sh <logfile> <phase> <kind> <decision> <why> <evidence> <result> [supersedes]'
+if [ "$#" -ne 7 ] && [ "$#" -ne 8 ]; then
+	printf '%s\n' "$usage" >&2
 	exit 1
 fi
 
@@ -18,7 +19,8 @@ case "$3" in
 esac
 
 logfile="$1"
-shift
+supersedes="${8:-}"
+header=$'id\tts\tphase\tkind\tdecision\twhy\tevidence\tresult\tsupersedes'
 
 logdir="$(dirname "$logfile")"
 if [ -n "$logdir" ] && [ "$logdir" != "." ] && [ ! -d "$logdir" ]; then
@@ -28,9 +30,18 @@ fi
 # Use `>>` here, never `>`. A network mount can fail this test for a log
 # that exists. Then the cost is one stray header line, not the rows.
 if [ ! -s "$logfile" ]; then
-	printf 'ts\tphase\tkind\tdecision\twhy\tevidence\tresult\n' >> "$logfile"
+	printf '%s\n' "$header" >> "$logfile"
+elif [ "$(head -n 1 "$logfile")" != "$header" ]; then
+	printf 'log.sh: %s has a different header; start a new log for this task\n' "$logfile" >&2
+	exit 1
 fi
 
+if [ -n "$supersedes" ] && ! cut -f1 "$logfile" | tail -n +2 | grep -qxF -- "$supersedes"; then
+	printf 'log.sh: no row with id %s in %s\n' "$supersedes" "$logfile" >&2
+	exit 1
+fi
+
+id=$(($(wc -l < "$logfile")))
 ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 # Strip tabs/newlines/CR so cells stay on one line, and prefix any cell
 # whose first char a spreadsheet would parse as a formula (=, +, -, @)
@@ -46,6 +57,7 @@ clean() {
 		*) printf '%s' "$v" ;;
 	esac
 }
-printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
-	"$ts" "$(clean "$1")" "$(clean "$2")" "$(clean "$3")" "$(clean "$4")" "$(clean "$5")" "$(clean "$6")" \
+printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+	"$id" "$ts" "$(clean "$2")" "$(clean "$3")" "$(clean "$4")" "$(clean "$5")" "$(clean "$6")" "$(clean "$7")" "$supersedes" \
 	>> "$logfile"
+printf '%s\n' "$id"

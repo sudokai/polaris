@@ -123,7 +123,7 @@ cp "$repo/com.ampcode/index.ts" "$destination/index.ts"
 
 Then run `amp skill list` and check that it lists `polaris:polaris`. A running Amp session picks up the copy after `plugins: reload` from the command palette, or in a new session.
 
-Amp also reads skills from Claude Code's `~/.claude/skills/` and `~/.claude/plugins/cache/`, and uses the first skill with each name. So Amp also lists unprefixed polaris skills, such as `polaris` and `how`, from Claude Code's cache, beside the `polaris:` skills. If `amp skill list` shows any from `~/.claude/plugins/cache/polaris/`, report it. Setting `amp.skills.disableClaudeCodeSkills` to `true` in `~/.config/amp/settings.json` removes them, together with every other Claude Code skill. Change that setting only when the user agrees.
+Amp also reads skills from Claude Code's `~/.claude/skills/` and `~/.claude/plugins/cache/`, and uses the first skill with each name. So Amp also lists unprefixed polaris skills, such as `polaris` and `why`, from Claude Code's cache, beside the `polaris:` skills. If `amp skill list` shows any from `~/.claude/plugins/cache/polaris/`, report it. Setting `amp.skills.disableClaudeCodeSkills` to `true` in `~/.config/amp/settings.json` removes them, together with every other Claude Code skill. Change that setting only when the user agrees.
 
 The repository is a dsh bundle: `cordis.patch.yml` adds its `skills/` directory to the profile. dsh installs bundles per profile, including the desktop app's profile. Ask the user to start a new session in each profile and check that the `polaris` skill is listed. Report dsh loading as unverified until they confirm.
 

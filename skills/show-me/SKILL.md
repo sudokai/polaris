@@ -1,6 +1,6 @@
 ---
 name: show-me
-description: "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML pages. Other skills draw their views from it."
+description: Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts.
 ---
 
 # Show me
@@ -45,7 +45,7 @@ src/
 └── transport/      # sends API requests
 ```
 
-- Show component interaction, control flow, or data flow with Mermaid where the harness renders it, and as plain text elsewhere. [rendering guidance](../polaris/references/rendering-pictures.md) lists which harnesses render Mermaid:
+- Show component interaction, control flow, or data flow with Mermaid:
 
 ```mermaid
 sequenceDiagram
@@ -116,21 +116,14 @@ function expandSkill(command: string): string {
 }
 ```
 
-- For a visual UI, layout, state comparison, or concept too dense for Mermaid, or a diagram too dense for plain text in a harness that does not render Mermaid, write one focused HTML file — a diagram, an infographic, or a short slide deck, whichever fits the point. Match the product's colors, type, spacing, and components; use real labels and data; support desktop and mobile. Draw any Mermaid in the page with pele, pinned to an exact version:
+- For a visual UI, layout, state comparison, or concept too dense for Mermaid, write one focused HTML file — a diagram, an infographic, or a short slide deck, whichever fits the point. Match the product's colors, type, spacing, and components; use real labels and data; support desktop and mobile. Then open it for the user:
 
-```html
-<pre class="mermaid">flowchart LR
-  A[Mermaid text] --> B[SVG]</pre>
-<script src="https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js"></script>
-<script>
-  for (const el of document.querySelectorAll('pre.mermaid')) pele.mount(el, el.textContent);
-</script>
 ```
-
-  Write it to a scratch directory, not the project, and show it as [rendering guidance](../polaris/references/rendering-pictures.md) describes.
+Bash(open path/to/show-me-{description}.html)
+```
 
 ## Guidance
 
 Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries needed to answer the user's current question or the options to resolve the current discussion point.
 
-Use one view, or a few. You will rarely need all of them. Don't overwhelm the user.
+You may use one of these, you may use several, it is unlikely you will use all of them. Use your judgement and don't overwhelm the user.

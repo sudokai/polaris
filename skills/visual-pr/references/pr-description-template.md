@@ -10,7 +10,7 @@
 
 ## Change outline
 
-{Use the smallest combination of the following views from the `show-me` skill that explains the implementation. Prefer `diff` blocks for changes to existing shapes and complete blocks for mostly new shapes. Do not include headings for views that are not relevant.}
+{Use the smallest combination of the following views in `show-me.md` that explains the implementation. Prefer `diff` blocks for changes to existing shapes and complete blocks for mostly new shapes. Do not include headings for views that are not relevant.}
 
 {...short-description...}
 

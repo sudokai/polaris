@@ -1,58 +1,29 @@
 # polaris
 
-polaris is an agent plugin that guides coding agents through a codebase and through a workflow. Its router skill, `polaris`, matches each task to a playbook or a skill, and names the engineering principles that govern each decision. Its skills focus on mapping code before changing it, designing architecture that agents can extend safely, proving behavior on the real app, and learning from past sessions.
+polaris is an agent plugin that guides coding agents through a codebase and through a workflow. Its router skill, `polaris`, matches each task to a playbook or a skill, and names the engineering principles that govern each decision. Its skills help agents understand code, settle designs, prove behavior on the real app, and hand work back to the user.
 
 ## What's inside
 
-- **Router:** `skills/polaris/`, with playbooks in `playbooks/`, [model budgets](skills/polaris/references/models.md), and [per-harness facts](skills/polaris/references/harnesses.md).
-- **Playbooks:** feature development, bug fixes, refactoring, verification setup, session pickup, and safe pauses. Playbooks own the sequence and delivery; skills own each capability's method and output; principles guide decisions.
-- **Principles:** 24 skills named `principle-<slug>`, such as `principle-prove-it-works`. Run the skill to apply that rule. The router indexes the same skills.
-- **Mapping:** `how`, `why`, `walkthrough`, and `blast-radius`.
-- **Verification:** `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, `statechart`, and `prove-it`.
-- **Debugging and tests:** `diagnose`, `tdd`, and `no-change-detector-tests`.
-- **Design and correction:** `discuss`, `sharpen-domain-language`, `model-domain`, `record-architecture-decision`, `architect`, `finalize-plan`, `prototype`, `show-me`, `lantern`, and `correct`.
-- **Technical prose:** `technical-writing` for document structure and style, and `deslop-language` for removing AI writing patterns.
-- **Writing and finishing code:** `write-discoverable-code`, `deslop`, `sweep-residue`, and `visual-pr`.
-- **Task-specific playbooks and decisions:** `figure-it-out` designs a playbook when none fits; `decision-log` records decisions during execution.
-- **Learning from history:** `reflect` and `recall`.
-- **Conversation:** `ketchup`, `restate-my-intent`, `sharpen`, and `say-it-plainly`.
-- **Setup and help:** `setup-polaris` and `polaris-help`.
-
-## Install
-
-The plugin follows the [Agent Plugins](https://agent-plugins.org/) format (`plugin.json` and `skills/`), plus a small manifest for each harness that needs one.
-
-- **Claude Code:** the repository is its own marketplace. Run `claude plugin marketplace add <path-to-polaris>`, then `claude plugin install polaris@polaris`. To try it for one session, run `claude --plugin-dir <path-to-polaris>`. The manifest is `.claude-plugin/plugin.json`. Claude Code leaves auto-update off for third-party marketplaces, so polaris stays on the version you installed. To turn it on, run `/plugin`, open the **Marketplaces** tab, select `polaris`, and choose **Enable auto-update**. To update once by hand, run `claude plugin update polaris@polaris`.
-- **Codex:** the repository is its own marketplace (`.agents/plugins/marketplace.json`). Run `codex plugin marketplace add <path-to-polaris>`, then `codex plugin add polaris@polaris`. The manifest is `.codex-plugin/plugin.json`.
-- **Grok Build:** run `grok plugin install <path-to-polaris> --trust`. Grok copies the plugin at install time. To pick up later edits, run `grok plugin uninstall polaris --confirm`, install it again, and start a new session.
-- **Droid (Factory):** run `droid plugin marketplace add <path-to-polaris>`, then `droid plugin install polaris@polaris --scope user`. The manifest is `.factory-plugin/plugin.json`. Droid reads the marketplace in `.claude-plugin/marketplace.json`. Start a new session after installing.
-- **Cursor:** install it as a plugin. The manifest is `.cursor-plugin/plugin.json`.
-- **pi:** run `pi install <path-to-polaris>`. pi reads `package.json`.
-- **Hermes:** add `<path-to-polaris>/skills` to `skills.external_dirs` in `~/.hermes/config.yaml`, then start a new session. Do not run `hermes plugins install`. That command prefixes every skill command with `agent-plugin-polaris-<hash>:`. If polaris is already installed that way, run `hermes plugins remove polaris`.
-- **Amp:** copy the repository to `~/.config/amp/plugins/polaris/`, with `com.ampcode/index.ts` copied to that directory's `index.ts`. The `install-polaris` skill has the command. Amp then lists each skill as `polaris:<skill>`. Amp has no skill command: ask for a skill by name, such as "use the `polaris:polaris` skill". Amp ignores a symbolic link to the repository, so run the command again after each change, then run `plugins: reload` from the command palette. Amp also lists Claude Code's cached polaris skills, which can be stale, unless `amp.skills.disableClaudeCodeSkills` is `true` in `~/.config/amp/settings.json`. That setting hides every Claude Code skill in Amp, not only polaris's, so the install does not change it. Set it yourself if you want only the current `polaris:` skills.
-- **DeepSeek Harness (`dsh`):** run `dsh plugin --profile <profile> add <path-to-polaris>` for each profile. dsh reads `package.json` and `cordis.patch.yml`.
-
-To install or refresh it in every harness on your machine, run the repository's `install-polaris` skill from a session in this repository.
-
-polaris ships no model-pair agent files. `/setup-polaris` generates them for Claude Code, Grok Build, and Droid from the model profiles. After updating from a version that bundled agents, `polaris:opus-high` and the other bundled agents are gone. If you relied on their medium defaults, run `/setup-polaris` again.
+- **Router:** `skills/polaris/`. It names the skill, playbook, or principle for the situations an agent runs into during a task.
+- **Playbooks:** `skills/polaris/playbooks/`. The router's Playbooks section says when each one applies. Playbooks own the sequence and delivery; skills own each capability's method and output; principles guide decisions.
+- **Principles:** `skills/engineering-principles/`. Its `SKILL.md` indexes the principles by the situation each one governs; run the `engineering-principles` skill to apply the ones that fit the current task.
+- **Skills:** one folder per skill in `skills/`. Each `SKILL.md` description says what the skill does and when to use it.
 
 ## Use
 
 Start a task with `/polaris` (in pi, `/skill:polaris`; in Amp, ask for the `polaris:polaris` skill), followed by what you want.
 
-For implementation, the router selects the feature-development, bug-fix, or refactor playbook. Steps reuse prior findings and valid evidence, and call only the skills the task needs. A design-only request returns a design; it does not start implementation. `figure-it-out` creates a task-specific playbook when existing ones do not fit. The shared execution and completion rules live in [playbook execution rules](skills/polaris/playbooks/README.md).
+The router sends each task to the skills it needs. Before substantial work, it has the agent build a harness to check the result and a playbook for the task, and run the playbook as [the playbook rules](skills/polaris/playbooks/README.md) describe. A design-only request returns a design; it does not start implementation.
 
-Run `/setup-polaris` to select a provider profile, a budget (medium by default), and optional fixed kind/level overrides. Assignments have a kind (`reasoning` or `execution`) and a level within that kind. Profiles select model–effort pairs for those assignments; they do not change the main conversation's model. Project configuration is saved in `.agents/polaris/models.yaml`. User configuration goes in the current harness's config directory, such as `~/.codex/polaris/models.yaml`. Hermes retains its existing delegation settings. For help with polaris itself, run `/polaris-help` with a question.
-
-Nineteen skills also start on their own when they fit, without `/polaris`: `prove-it`, `diagnose`, `no-change-detector-tests`, `decision-log`, `prototype`, `restate-my-intent`, `ketchup`, `discuss`, `sharpen-domain-language`, `model-domain`, `record-architecture-decision`, `tdd`, `write-discoverable-code`, `deslop`, `sweep-residue`, `walkthrough`, `lantern`, `technical-writing`, and `deslop-language`.
+Skills without `disable-model-invocation: true` in their frontmatter also start on their own when they fit, without `/polaris`. [Agent-invocable skills](docs/decisions/2026-11-09-agent-invocable-skills.md) explains which skills qualify.
 
 ## Local files
 
-polaris keeps project model settings, local playbooks, the deferred-fix backlog, and resume notes in `.agents/polaris/`. User model settings live in each harness's config directory; user playbooks live in `~/.agents/polaris/playbooks/`. A project setting wins over a user setting. Local playbooks add to the bundled ones and never replace them. `reflect` records lessons there and in instruction files instead of editing the plugin. [Locations](skills/polaris/references/locations.md) is the full contract.
+polaris keeps project playbooks and resume notes in `.agents/polaris/`, and user playbooks in `~/.agents/polaris/playbooks/`. A project playbook replaces a user playbook with the same file name. Local playbooks add to the bundled ones and never replace them. Approved session lessons go into local playbooks or local copies of installed skills, never into the plugin cache.
 
 ## Documentation
 
-[Glossary](GLOSSARY.md) defines the terms polaris uses. [polaris documentation](docs/README.md) indexes the decision records and the open work.
+[polaris documentation](docs/README.md) indexes the decision records and the open work.
 
 ## Develop
 
@@ -63,7 +34,7 @@ python3 scripts/check_plugin.py
 python3 -m unittest discover -s scripts -p '*_test.py'
 ```
 
-The structural check covers skill frontmatter, links, router indexes, complete profile tables, agent registrations, and harness-specific terms. The tests exercise invalid allocations and undiscoverable agents without tying validation to prose wording. In Claude Code, `claude plugin validate .` also checks the manifest.
+The structural check covers skill frontmatter, invocation settings, links, router and principle indexes, bundled agents, and harness-specific terms. It rejects counts and lists of skills outside the router and the principles index, because the skill folders are the only inventory. It also rejects links that leave a skill's folder, stale generated copies, and names of skills that do not exist. Some skills carry a generated copy of another skill's file, listed in `GENERATED_COPIES` in `scripts/check_plugin.py`. Edit the source, then run `python3 scripts/sync_generated_copies.py`. The tests run each check on small sample trees, without tying validation to prose wording. In Claude Code, `claude plugin validate .` also checks the manifest.
 
 ## License
 

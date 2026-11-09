@@ -1,130 +1,73 @@
 ---
 name: polaris
-description: "Route engineering work through polaris's principles, playbooks, and skills: map the code first, design for agents, and prove behavior on the real artifact. Use only for /polaris."
+description: "Route engineering work to the right playbook, skill, or principle. Use only for /polaris."
 ---
 
 # polaris
 
-Read this file in full before any work. It routes the task to a playbook or a skill, and it names the principles that govern every decision.
+Read this file in full before any work.
 
-## For each new task
+## Start each task
 
-1. If the user says "new task", or the subject changes, match again. Do not continue the previous playbook.
-2. Match the requested outcome to a playbook in **Playbooks**, or to a local playbook. Requests only for explanation, investigation, discussion, design, or a prototype stay with the relevant skill. If a playbook matches, run it as [Playbooks](playbooks/README.md) describes; its steps own the task's sequence and completion.
-3. If no playbook fits, work directly from the principles and triggers below for a narrow task. Use `figure-it-out` to design a task-specific playbook for work needing additional coordination. Size alone does not disqualify an existing playbook.
-4. Before you apply a principle, read the named `principle-<slug>` skill in full. The user can run that same skill by name.
+1. For each new task, say in your own words the user's goal, the problem it solves, and, if the task ships a change, the smallest change you expect to meet the goal. Do not wait for confirmation. If the evidence rules out the change the user asked for, show the evidence and stop.
+2. Match the request to a playbook in [Playbooks](#playbooks). A request only to explain, investigate, discuss, design, or prototype goes to the skill that fits and doesn't authorize implementation.
+3. Before substantial work, set up a way to check the result on the real artifact, write a playbook for the task following the format in [the playbook rules](playbooks/README.md), save it with the task's working files, and run it.
 
-## Triggers
+## Skills
 
-Bundled skills are sibling directories under `skills/`. Resolve a skill name as `skills/<name>/SKILL.md` from the plugin root. Principle names include the `principle-` prefix. These conventions apply to skill names throughout the bundled skills. Use the shortest clear reference with an explicit, validated path. Add a Markdown link label when it helps the reader decide whether to open the file. Otherwise use a backticked path. Keep configuration paths, output paths, and filename examples in backticks. Resolve supporting paths relative to the document containing the reference, not the working directory or the skill root. Paths explicitly described as project paths resolve from the project root. Most skills are hidden from automatic selection. Run a named skill by reading its file in full and following it. When delegating, pass the plugin root and the absolute path of each skill or prompt file. Copied prompt text keeps its source file as the base for relative references. [The locations reference](references/locations.md) defines local playbooks and where polaris writes its files.
+Each skill is `skills/<name>/SKILL.md` under the plugin root. Run one by reading it in full and following it.
 
-- **Your first message on a task** → say in your own words the user's goal, the problem it solves, and, if the task ships a change, the smallest change you expect to meet the goal. Do not wait for confirmation. If the evidence rules out the change the user asked for, show the evidence and stop. Restate the goal in each subagent brief, in each pull request's **Why the change**, and at the start of each final report, except after a fully specified one-line edit.
-- **About to change code you have not traced**, or asked how something works → `how`.
-- **Asked to explain or walk through a PR, a branch, a commit, or a diff** → `walkthrough`.
-- **Asked why code is shaped the way it is**, or looking for regression history → `why`.
-- **Writing or reviewing docs, RFCs, READMEs, plans, playbooks, PR descriptions, or commit messages** → `technical-writing`.
-- **Editing prose to remove AI writing patterns** → `deslop-language`.
-- **Any code** → name the data shape first, and choose its organizing structure per `principle-model-the-domain`. Name, type, and document it per `write-discoverable-code`.
-- **Asked to discuss a plan, flesh out an idea, or settle a design before building** → `discuss`.
-- **Asked to save a standalone implementation plan from a settled design** → `finalize-plan`.
-- **A domain term is vague, overloaded, or new**, or you are editing `GLOSSARY.md` → `sharpen-domain-language`.
-- **Clarifying domain relationships, ownership, lifecycles, or business rules**, or maintaining domain documentation → `model-domain`.
-- **A design choice needs lasting rationale**, or you are creating, editing, or superseding an ADR → `record-architecture-decision`.
-- **Explaining a design, a flow, or a change that is easier to see than to read** → `show-me`.
-- **Asked for an animated or step-by-step explainer of a change or of how code runs** → `lantern`.
-- **Substantial program, system, or product design, including foundational types, interfaces, ownership, or modules** → `architect` before implementation, even when the approach seems clear.
+- **A reported bug, a failure, or a regression** → `diagnose`.
+- **Code you need to change has a constraint or design you can't explain**, or you need its regression history → `why`.
+- **An open product or design choice that questions can settle**, or asked to discuss a plan or flesh out an idea → `discuss`, to reach a clear plan through Socratic questioning.
+- **The user isn't sure yet what they want, or a design's tradeoffs and hidden assumptions are unclear** → `prototype`, to learn from contrasting versions the user tries.
+- **A decision whose reasons the code can't show later**: what was true at the time, the options set aside, or what it replaces → `record-architecture-decision`. Also when creating, editing, or superseding an ADR.
+- **The project has no scripted way to drive its app**, or the app changed and its verification skill may be out of date → `empirical-verification-skill`.
+- **Stateful logic, or code that branches a lot** → decide the shape of the data first, following the `model-the-domain` principle. Name, type, and document code as `write-discoverable-code` describes.
+- **Changing structure while keeping behavior** → capture a baseline through the users' interfaces before editing, and compare against it with `prove-it` afterwards.
+- **Writing, changing, or keeping a test** → the `test-behavior-not-implementation` principle.
+- **A significant choice is left to you because the instructions or plan are unclear, or an edge case forces a deviation** → `decision-log`.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → `blast-radius`.
-- **About to claim that a change works** → `prove-it`. "It compiles" and "the tests pass" are not proof of behavior.
-- **A reported bug, a failure, or a regression** → `diagnose`, which writes its regression test with the `tdd` skill.
-- **Building new behavior that tests can pin down** → `tdd`.
-- **Writing, changing, or keeping a test** → `no-change-detector-tests`.
-- **Starting an implementation that follows a plan or a spec** → `decision-log`, at the light level.
+- **A race, a retry, or another property that tests rarely reach, and the check must stay in the project**, or code that a formal check covers changed after the check's sync commit → `formal-verification-skill`.
+- **About to claim that a change works** → `prove-it`.
 - **Finished a workpackage** → `deslop`, then `sweep-residue`.
 - **About to open or update a pull request** → `visual-pr`.
-- **The project has no scripted way to drive its app** → the Set up verification playbook.
-- **The app changed and its verification skill may be out of date** → `maintain-verification-skill`.
-- **A race, a retry, a state machine, or another property that tests rarely reach** → `create-formal-verification-skill`.
-- **Code that a formal check covers changed after the check's sync commit** → `maintain-formal-verification-skill`.
-- **Someone who owns a behavior needs to see it as states, or a TLA+ result needs reading** → `statechart`.
-- **The user corrects a mistake that agents have made before** → `correct`. Make the mistake impossible instead of writing another rule.
-- **Unattended work** → full-level `decision-log`, even with an existing playbook.
-- **Before asking the user** → `principle-never-block-on-the-human`.
-- **Asked to catch up on recent work** → `recall`. To resume one specific session → the Session pickup playbook.
-- **User returns after stepping away or asks "where are we?"** → `ketchup`.
-- **When a run the user stepped away from ends** → `ketchup` for the final reply.
-- **Asked to pause, or about to run out of context** → the Pause safely playbook.
-- **A session taught something worth keeping**, the user says "reflect", or asked to turn the user's habits into playbooks or skills → `reflect`.
-- **Asked to change which models polaris uses** → `setup-polaris`.
-- **A skill or playbook is broken mid-task** → finish the task without silently working around it, and propose the fix as a separate change.
+- **Asked to catch up, "where are we?", or the user returns after stepping away** → `ketchup` for this session, `recall` for work across past sessions. When a run the user stepped away from ends, write the final reply with `ketchup`.
+- **Explaining a design, a flow, or a change that is easier to see than to read** → `show-me`.
+- **Writing or reviewing docs, RFCs, READMEs, plans, playbooks, PR descriptions, or commit messages** → `technical-writing`.
+- **Before asking the user** → the `never-block-on-the-human` principle.
 
 ## Principles
 
-**Core**
-
-- `principle-laziness-protocol`. Refactoring, sizing a diff, or tempted to add abstractions, layers, or signal threading.
-- `principle-foundational-thinking`. Before writing logic: core types, data structures, scaffold-before-feature order, and what concurrent actors share.
-- `principle-redesign-from-first-principles`. Integrating a new requirement into an existing design.
-- `principle-attack-the-premise`. Two or more fixes that share one premise have failed the same check.
-- `principle-subtract-before-you-add`. Sequencing an addition, refactor, or rewrite.
-- `principle-minimize-reader-load`. Reviewing or shaping code that is hard to trace.
-- `principle-outcome-oriented-execution`. Planned rewrites and migrations with explicit phase boundaries.
-- `principle-experience-first`. Product, UX, or feature-scope tradeoffs.
-- `principle-exhaust-the-design-space`. A novel interaction or architectural decision with no precedent.
-- `principle-build-the-lever`. Any nontrivial work: build the script, codemod, or generator that does or proves it.
-
-**Architecture**
-
-- `principle-model-the-domain`. Stateful logic, or code that branches a lot or repeats a shape assumption across files.
-- `principle-boundary-discipline`. Wiring validation, error handling, or framework adapters.
-- `principle-type-system-discipline`. Designing types or a signature in a typed language.
-- `principle-make-operations-idempotent`. Commands, lifecycle steps, or loops that must survive crashes and retries.
-- `principle-migrate-callers-then-delete-legacy-apis`. Introducing a new internal API while old callers exist.
-- `principle-separate-before-serializing-shared-state`. Concurrent actors might write the same file, branch, key, or object.
-
-**Verification**
-
-- `principle-prove-it-works`. Before declaring a task done.
-- `principle-fix-root-causes`. Debugging.
-- `principle-sequence-verifiable-units`. Multi-step work, and how you order commits and pull requests.
-- `principle-test-behavior-not-implementation`. Writing, changing, or keeping a test.
-- `principle-explain-the-number`. Before you measure, and before you trust, report, or act on a number you measured.
-
-**Delegation**
-
-- `principle-guard-the-context-window`. Large outputs, long files, repeated reads, or fan-out planning.
-- `principle-never-block-on-the-human`. About to ask the user a question: who makes the call.
-
-**Meta**
-
-- `principle-encode-lessons-in-structure`. You catch yourself writing the same instruction a second time.
+Before a design, coding, testing, debugging, or delegation decision, read [the principles index](../engineering-principles/SKILL.md) and follow it.
 
 ## Playbooks
 
-Run matched playbooks under [Playbooks](playbooks/README.md). Resolve each bundled playbook title as `playbooks/<title>.md` relative to this skill, with the title in lowercase and spaces replaced by hyphens. Explicit paths override this convention. Also match the local playbooks in `.agents/polaris/playbooks/` in the project root and in `~`, as [the locations reference](references/locations.md) describes.
+Run a matched playbook as [the playbook rules](playbooks/README.md) describe.
 
-- **Feature development.** Add or change intended behavior.
-- **Bug fix.** Fix a reported failure or performance regression.
-- **Refactor.** Change structure while preserving agreed behavior and external contracts.
-- **Set up verification.** The project has no scripted way to launch its app, drive a feature, and capture evidence.
-- **Session pickup.** Resume or take over another agent's unfinished work from a transcript, a branch, or a resume note.
-- **Pause safely.** Stop in-flight work cleanly so that another session can resume it.
+- **[Session pickup](playbooks/session-pickup.md).** Resume or take over unfinished work from a resume note, a branch, or a transcript, including "where did I leave off on X?".
+- **[Pause safely](playbooks/pause-safely.md).** When asked to pause, or about to run out of context, stop cleanly so another session can pick up the work.
 
-Explicit pause, pickup, and verification-setup requests use their specific playbooks. A missing harness discovered during feature or refactor work is a nested verification step, not a replacement for the original task. Planning-only requests do not authorize implementation.
+Also match local playbooks: every `*.md` file in `.agents/polaris/playbooks/` in the project root and in `~`. A project playbook replaces a user playbook with the same file name.
 
 ## Autonomy
 
 - **Proceed without asking** on reversible work, including commits on a working branch, local experiments, and research.
-- **Always pause** before irreversible actions: force-pushing a shared branch, deploying, deleting data, and sending messages to customers or other people.
-- **Keep going** when the user says "don't stop", "run until done", or that they are stepping away. Pause only for the irreversible actions in the previous item, or for a product call that no experiment can settle.
-- **"No" is an acceptable answer.** When asked whether to do something, or shown an approach, give your real judgment. Push back when the premise is wrong.
+- **Keep going** until done when the user says "don't stop", "run until done", or that they are stepping away. Ask only before irreversible actions, such as force-pushing a shared branch, deploying, deleting data, or messaging other people, or for a product decision that no experiment can settle. When a skill asks for approval while the user is away, skip that change and list it in the final reply.
+- **Give your real judgment** when asked whether to do something. Push back when the premise is wrong.
 
 ## Delegation
 
-Before delegating, read [delegation guidance](references/delegation.md) and select the model–effort pair under [model budgets](references/models.md).
+Start a subagent only for one of these:
+
+- **Saving context.** You need the result of bulk reading or searching, not the reading itself.
+- **Independent review.** The reviewer must be free of your context and conclusions. Give it the evidence and proposals, not your verdict. Never ask the author of a change to review it.
+- **Parallel work.** Independent pieces run at the same time, each in its own worktree or scratch directory.
+
+Brief each subagent with the user's goal, the absolute paths of the skills and files it needs, and what to return. You own its work: review each diff, combine the findings, and make the decisions.
 
 ## Replies
 
-- **Name the principles that shaped your decisions**, and the choice each one changed. Cite only principles whose file you read in this session.
-- **Label each claim** as measured, inferred, or a guess, in the same sentence.
+- **Label each claim the user might act on** as measured, inferred, or a guess.
 - **Never fabricate a link, citation, or transcript reference.** Link only what you produced or read in this session.
 - **Never hand the user a check you could run yourself.** Run it and report the result.

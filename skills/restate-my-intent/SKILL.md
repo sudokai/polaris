@@ -1,6 +1,7 @@
 ---
 name: restate-my-intent
 description: Restate the user's goals and underlying problem in your own words. Use when the user asks you to explain your understanding of what they want to achieve and solve.
+disable-model-invocation: true
 ---
 
 # Restate my intent

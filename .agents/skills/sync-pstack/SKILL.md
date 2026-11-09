@@ -21,7 +21,7 @@ If no commits are listed, say so and stop.
 
 ## 2. Compare against polaris
 
-Read each commit's message and its diff. For each changed pstack file, find its polaris counterpart. Many skills keep their names. Renamed ones include `poteto-help` → `polaris-help`, `poteto-mode` → `polaris`, `setup-pstack` → `setup-polaris`, and `in-your-own-words` → `restate-my-intent`. If a name gives no match, search polaris for the changed sentences.
+Read each commit's message and its diff. For each changed pstack file, find its polaris counterpart. Many skills keep their names. Renamed ones include `poteto-mode` → `polaris` and `in-your-own-words` → `restate-my-intent`. `poteto-help` and `setup-pstack` have no counterpart: polaris has no help or model setup skill. If a name gives no match, search polaris for the changed sentences.
 
 Diff the pstack file at `origin/main` against the polaris file. A change can already be in polaris from an earlier port, so judge each one by what polaris says now, not by the commit. Sort every change into one of these:
 
@@ -31,7 +31,7 @@ Diff the pstack file at `origin/main` against the polaris file. A change can alr
 
 ## 3. Propose
 
-Show the user a table: the pstack commit, the change, its polaris counterpart, the category, and for **Port**, what polaris would change. Note any port that reverses how a polaris skill behaves. Those need an ADR in `docs/adr/` that says why, per the `sharpen-domain-language` skill.
+Show the user a table: the pstack commit, the change, its polaris counterpart, the category, and for **Port**, what polaris would change. Note any port that reverses how a polaris skill behaves. Those need a decision record in `docs/decisions/` that says why, per the `record-architecture-decision` skill.
 
 Ask which ports to apply. Apply nothing before the user answers. For each port the user rejects, ask whether to record it under Skipped, with the reason.
 
@@ -39,9 +39,9 @@ Ask which ports to apply. Apply nothing before the user answers. For each port t
 
 Run these steps from the Polaris repository root. Paths in this section are relative to that root.
 
-1. Port each approved change in polaris's terms: polaris's skill names, its harness-neutral wording (no Cursor-only features), and the `write-clearly` skill. Adapt the change to polaris's text; do not paste pstack's text over polaris's own edits.
-2. Update every place that describes a ported skill, such as the tables and recipes in `polaris-help`.
-3. Write any ADRs and add them to the list in `docs/README.md`.
+1. Port each approved change in polaris's terms: polaris's skill names, its harness-neutral wording (no Cursor-only features), and the `technical-writing` skill. Adapt the change to polaris's text; do not paste pstack's text over polaris's own edits.
+2. Update every place that describes a ported skill, such as the skill lists in `README.md`.
+3. Record any consequential decision in `docs/decisions/` with the `record-architecture-decision` skill.
 4. In `docs/upstream-sync.md`, set the last synced commit to the newest commit you reviewed, with its date and subject, and add the skipped changes and their reasons. Move it forward only past commits whose every change is ported, already in polaris, or recorded as skipped. Otherwise the next run would miss the open ones.
 5. Run `python3 scripts/check_plugin.py`.
 

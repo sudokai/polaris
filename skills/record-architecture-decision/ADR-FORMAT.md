@@ -1,28 +1,68 @@
-# ADR Format
+# Decision record format
 
-ADRs live in `docs/adr/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc.
+Use one Markdown file for each decision. Name the file `YYYY-MM-DD-short-decision-title.md`. Date-based names give records a stable chronological order without allocating sequential numbers across contributors.
 
-Create the `docs/adr/` directory lazily: only when the first ADR is needed.
+## Lifecycle metadata
 
-## Template
+Start each record with YAML frontmatter:
 
-```md
-# {Short title of the decision}
-
-{1-3 sentences: what's the context, what did we decide, and why.}
+```yaml
+---
+status: proposed
+created: YYYY-MM-DD
+---
 ```
 
-That's it. An ADR can be a single paragraph. The value is in recording *that* a decision was made and *why*, not in filling out sections.
+Use one of four statuses:
 
-## Optional sections
+- `proposed`: the choice is under consideration.
+- `accepted`: the choice governs current work.
+- `rejected`: the proposal was declined and its rationale is worth preserving.
+- `superseded`: another record replaces this choice.
 
-Only include these when they add genuine value. Most ADRs won't need them.
+A replacement record links its predecessor:
 
-- **Status** frontmatter (`proposed | accepted | deprecated | superseded by ADR-NNNN`): useful when decisions are revisited
-- **Considered Options**: only when the rejected alternatives are worth remembering
-- **Consequences**: only when non-obvious downstream effects need to be called out
+```yaml
+supersedes: 2025-06-12-cache-results-in-the-request.md
+```
 
-## Numbering
+A superseded record links its replacement:
 
-Scan `docs/adr/` for the highest existing number and increment by one.
+```yaml
+status: superseded
+superseded_by: 2026-11-07-store-results-with-the-work-item.md
+```
 
+Use the linked record's filename without its directory when both records share a directory. Otherwise, describe the path from `docs/decisions/`. Keep exactly one `superseded_by` link. A list of `supersedes` links is valid when one new decision replaces several.
+
+## Body
+
+Use a title that names the decision:
+
+```markdown
+# {Short title naming the decision}
+
+## Context
+
+{Describe the problem, observed conditions, requirements, and constraints that shape the choice. Distinguish evidence from assumptions.}
+
+## Decision
+
+{State the chosen approach and its scope directly. A proposed or rejected record describes that proposal rather than an agreed choice.}
+
+## Rationale
+
+{Explain why the choice fits. Describe plausible alternatives and the reasons for rejecting them.}
+
+## Consequences
+
+{State the resulting obligations, tradeoffs, compatibility limits, and conditions that would justify another decision.}
+
+## Evidence
+
+{Link supporting requirements, measurements, reviews, or code when they help assess the choice.}
+```
+
+A short record can answer Context, Decision, Rationale, and Consequences in ordinary prose without these headings. Add the headings when they help the reader assess a complex or consequential choice. Include Evidence only when there is evidence worth linking.
+
+Do not add empty sections or repeat the filename in a `title` field. Current behavior belongs in code and current architecture documentation. The record preserves why this choice was made under the stated conditions.

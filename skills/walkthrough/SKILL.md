@@ -3,9 +3,8 @@ name: walkthrough
 argument-hint: "[commit | A...B | A..B | pr <n|url>] (no argument = uncommitted changes, current PR, or current branch vs its base)"
 description: "Explain a PR, branch, commit, or diff using a structured format, from the problem and its solution to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a changeset."
 ---
-# Walkthrough
 
-Guided walkthrough of a code changeset. Your job is the thinking: read the diff, understand it, write the guide.
+Write a guided walkthrough of a code changeset. Your job is the thinking: read the diff, understand it, write the guide.
 
 By the end, the user should be able to:
 
@@ -43,8 +42,6 @@ Write like a colleague explaining the change to another capable engineer, out lo
 - Code names go in backticks, and a sentence must still read as English with them covered up. Two per sentence at most.
 - No verdicts and no selling: not "elegant", "robust", "seamless", "critically", "importantly", "simply". State the fact.
 
-Use the`technical-writing` and `say-it-plainly` skills to write the guide. 
-
 ## Content chapters
 
 Before writing the guide, explore the code beyond the diffs of the changeset, map out the code structure and how different parts interact together. Ground your walkthrough on extra context until you gain a complete understanding of both the background, problem and solution.
@@ -63,7 +60,7 @@ In one short paragraph, explain the solution that the changeset provides. Keep t
 
 ### 4. Core intuition
 
-Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Use the `show-me` skill to find the best way to visualize the change.
+Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Read `references/show-me.md` to find the best way to visualize the change.
 
 Then explain:
 
@@ -111,7 +108,7 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
       - surprising behavior
       - suspicious defaults
       - unexplained hard-coded numbers
-    - **Design, aka "the overall approach":** the [architectural design red flags](../architect/references/design-red-flags.md).
+    - **Design, aka "the overall approach":** the [architectural design red flags](references/design-red-flags.md).
   - **Changes that need a person's attention even when the code looks right:**
     - database migrations
     - new or changed dependencies

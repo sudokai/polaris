@@ -1,51 +1,43 @@
-# Code Archaeology (git + in-repo)
+# Code and repository history
 
-## What this source contains
+Repository history anchors a question in actual code changes. It may not preserve the author's reason. Follow requirement and discussion links when commit messages do not explain the decision.
 
-- Commit history (messages, dates, authors, diffs)
-- PR descriptions, review comments, and discussion threads (via `gh`)
-- Inline code comments, TODOs, FIXMEs, deprecation notes
-- ADRs (architectural decision records) if the repo keeps them
-- Tests, whose names and assertions often encode the edge cases that motivated a change
-- Related files modified in the same commits (co-change signal)
-- CHANGELOG entries and release notes in the repo
-- Issue/ticket IDs in commit messages and PR bodies
-
-The most trustworthy source, tied directly to the code, and the most complete. Everything that went through the repo should be here.
-
-## How to search it
-
-Expand the seed commit list:
+## Locate the change
 
 ```bash
-# History through renames
-git log --follow --oneline -- <file>
-
-# Pickaxe: commits that added or removed this exact text
-git log -S '<exact_string_from_code>' -- <file>
-
-# Or for patterns:
-git log -G '<regex>' -- <file>
-
-# Who wrote each line and when
+# Locate the commits responsible for the current lines
 git blame -L <start>,<end> <file>
 
-# One commit's full diff
-git show <hash>
+# Inspect recent changes and history through a rename
+git log --oneline -20 -- <file>
+git log --follow --oneline -- <file>
 
-# Commits between two points affecting this file
+# Find commits that added or removed exact text or a matching pattern
+git log -S '<exact_string_from_code>' -- <file>
+git log -G '<regex>' -- <file>
+
+# Read a commit or the changes between two revisions
+git show <hash>
 git log <old>..<new> -p -- <file>
 ```
 
-Look for out-of-band docs:
+## Find associated evidence
+
+Use the available repository, review, and issue tools to inspect:
+
+- The complete diff, commit message, and linked PR
+- Review discussions, requested changes, and linked issues
+- Nearby comments, `TODO` and `FIXME` notes, and decision records
+- Tests added or changed with the target
+- Other files changed in the same commit
+- Release notes and changelog entries
+
+These searches can locate related records:
 
 ```bash
-# ADRs often live in docs/adr/ or similar
 rg -l -i 'architecture.decision' --glob '*.md'
-
-# TODOs and FIXMEs near the target
 rg -n -C2 '(TODO|FIXME|HACK|XXX|NOTE)' <target_file>
-
-# Related tests
 rg -l '<symbol>' --glob '*test*'
 ```
+
+Read the cited source rather than drawing a conclusion from its title. Record the commit hash, PR or issue identifier, document link, or file and line range needed to verify each finding.

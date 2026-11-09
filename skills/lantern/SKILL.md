@@ -65,7 +65,7 @@ Then open `player.html` in a browser and play it once from start to end. It star
 
 ## Hand it over
 
-Show `player.html` as [rendering guidance](../polaris/references/rendering-pictures.md) describes, and give the path to the scene JSON so the user can change it.
+Open `player.html` for the user, and give its path and the path to the scene JSON so the user can change it.
 
 Tell the user how to use the player: Space plays and pauses, the arrow keys move between steps, and **Copy link** copies a link to the current step. In a link, `?scene=scene&step=<name>` opens the player at that step.
 

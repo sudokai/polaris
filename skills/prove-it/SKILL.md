@@ -1,68 +1,45 @@
 ---
 name: prove-it
-description: "Prove or disprove one claim with fresh evidence: compare changed behavior or accept a new artifact against observable criteria, then return VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Use for \"prove it\", \"verify this\", \"did this fix it\", \"show me the evidence\", or before claiming that a change works."
+description: "Verify one claim against real behavior and report VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Use for \"prove it\", \"verify this\", \"did this fix it\", \"show me the evidence\", or before claiming that a change works."
 ---
 
 # Prove it
 
-Proof is not a recap. It proves or disproves one specific claim with evidence that someone else can repeat. `principle-prove-it-works` says why. This skill says how.
+Verify one claim with evidence that another person can reproduce. Derive the pass condition from the request, requirements, or existing contracts. Ask the user only when the missing condition requires their decision.
 
-Do not use it for vague claims like "the code is cleaner". Ask for a measurable claim first.
+## Run the check
 
-## Workflow
+1. **State the claim and its pass condition.** For a behavior change, name the expected difference and any behavior that must remain unchanged. For a new artifact, list its acceptance criteria and starting state.
 
-1. **Restate the claim so it can be shown false.** Name the condition, the metric, and the threshold. For example: "After the fix, saving a note with an emoji title persists the title across a restart."
-2. **Pick the surface.** Use the smallest surface that can disprove the claim, in this order:
-   1. The project's `verify-<app>` skill, made by the `create-verification-skill` skill, when the claim is about user-visible behavior. Follow its launch, doctor, drive, evidence, and cleanup steps.
-   2. If the project has no verification skill and the claim is about user-visible behavior, offer to create one with the Set up verification playbook. Until it exists, drive the app with the smallest local harness you can build.
-   3. For code behavior, a focused test or a minimal repro script that calls the real code.
-3. **Choose the comparison.** For a change claim, capture a baseline from the old state: the merge base, parent commit, failing branch, or broken repro. For acceptance of a new artifact, state observable pass/fail criteria and initial conditions; do not invent a broken predecessor.
-4. **Run the check.** For a change claim, capture the treatment with the same command, data, warmup, and environment. For acceptance, follow the artifact's instructions from the stated initial conditions and record the resulting behavior, including cleanup when it is part of the claim.
-5. **Inspect the raw artifacts**: numbers, screenshots, terminal transcripts, HTTP responses, profiles, heap snapshots, or test output. Compare them against the claimed relationship or acceptance criteria. If the claim is a measured number, explain it per `principle-explain-the-number`, and follow `references/measured-numbers.md` before you trust it.
-6. **Say how far the proof got.** Place the evidence on this ladder, and name the highest step you reached:
-   1. Claimed. You said so. Worthless on its own.
-   2. Line cited. A real `file:line`, or the library's own source.
-   3. Failure walked through. You walked the failure step by step, and it does not happen.
-   4. Script run. A script or test that calls the real code ran, and would fail loudly if the claim were wrong.
-   5. Reproduced in the app. You drove the running app and observed the result.
-7. **Return exactly one verdict:** `VERIFIED`, `NOT VERIFIED`, or `INCONCLUSIVE`.
+2. **Exercise the real behavior.**
+   - For user-visible behavior, follow the project's `verify-<app>` skill when one exists. Otherwise, use the smallest harness that drives the real user path.
+   - For code behavior, use a focused test or script that calls the real implementation.
+   - For a bug fix, check the original failure scenario. A minimized regression test alone does not prove that the original scenario works.
 
-## Verdict rules
+3. **Establish the comparison when the claim needs one.** Compare old and new behavior under equivalent commands, inputs, environment, warmup, and configuration. Reuse an earlier baseline when it describes the same old state. For acceptance, test each criterion from the documented starting state instead.
 
-- `VERIFIED`: baseline and treatment satisfy the claimed relationship, including equivalence for a behavior-preserving refactor, with no obvious confound; or an acceptance run meets all stated criteria on the real artifact.
-- `NOT VERIFIED`: the comparison fails the claimed relationship or threshold, or the artifact fails an acceptance criterion.
-- `INCONCLUSIVE`: a required baseline is missing, the signal is noisy, the measurement failed, the surface was wrong, or the conditions prevent a valid comparison or acceptance run.
+4. **Inspect the raw output.** Check for errors, skipped work, and unrelated activity that could affect the result. Save relevant output when it is needed to reproduce or audit the claim. For performance claims, follow [the measured-numbers checklist](references/measured-numbers.md). For evals, use representative trials and compare models only when the claim requires it.
 
-"Inconclusive" is never a pass. Do not soften a negative result. A clear `NOT VERIFIED` is useful.
+5. **Compare the observation with the pass condition.** If the setup or measurement failed, fix the check. Do not weaken the criterion or narrow the claim to hide a failure.
 
-## Artifacts
+## Return one verdict
 
-When it is safe to write artifacts, keep them where a reviewer can rerun the check:
+- `VERIFIED`: Valid evidence meets every acceptance criterion, including any required comparison with the old behavior.
+- `NOT VERIFIED`: A valid check shows that the behavior fails the claim or an acceptance criterion.
+- `INCONCLUSIVE`: The available setup, baseline, measurements, or conditions cannot establish the claim.
 
-```text
-<scratch>/prove-it/<claim-slug>/
-├── claim.md
-├── baseline/
-├── treatment/
-├── diff/
-└── verdict.md
-```
+Do not report an unrun or invalid check as verified. Reuse valid evidence rather than repeating a check that adds no information.
 
-Keep a script that reruns the comparison next to the artifacts. If the artifacts may contain sensitive code, prompts, screenshots, HTTP bodies, or heap data, keep only the minimal evidence inline unless the user agrees to storing it on disk.
+## Report the evidence
 
-For acceptance, keep the criteria, initial conditions, run output, and verdict; baseline and treatment directories are unnecessary. In the reply below, replace the baseline/treatment line with each criterion, observed result, and evidence path.
-
-## Output
+For an explicit verification request or a complex claim, use this format:
 
 ```text
 VERIFIED | NOT VERIFIED | INCONCLUSIVE
-Claim: <falsifiable claim>
-Surface: <verification skill, harness, test, or script used>
-Proof reached: <highest ladder step>
-
-Evidence:
-<metric or artifact>: baseline=<...>, treatment=<...>, delta=<...>, threshold=<...>
-
-Reasoning:
-<one short paragraph that names the evidence and any confounds>
+Claim: <claim and pass condition>
+Check: <verification skill, test, script, harness, or app path>
+Evidence: <expected and observed results, with output or artifact paths>
+Limitations: <confounds, missing evidence, or none>
 ```
+
+For routine implementation work, give the same facts in concise prose. Keep custom checks and raw artifacts when they help the user rerun or audit the result. Do not include secrets or personal data in saved evidence or replies.

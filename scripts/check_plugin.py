@@ -11,150 +11,14 @@ from __future__ import annotations
 import json
 import re
 import sys
+from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
 
-EXPECTED_SKILLS = {
-    "polaris",
-    "architect",
-    "blast-radius",
-    "correct",
-    "create-formal-verification-skill",
-    "create-verification-skill",
-    "decision-log",
-    "deslop",
-    "deslop-language",
-    "diagnose",
-    "discuss",
-    "sharpen-domain-language",
-    "model-domain",
-    "record-architecture-decision",
-    "figure-it-out",
-    "finalize-plan",
-    "no-change-detector-tests",
-    "how",
-    "ketchup",
-    "lantern",
-    "maintain-formal-verification-skill",
-    "maintain-verification-skill",
-    "polaris-help",
-    "prove-it",
-    "prototype",
-    "recall",
-    "reflect",
-    "restate-my-intent",
-    "setup-polaris",
-    "sharpen",
-    "show-me",
-    "statechart",
-    "say-it-plainly",
-    "sweep-residue",
-    "tdd",
-    "technical-writing",
-    "visual-pr",
-    "walkthrough",
-    "why",
-    "write-discoverable-code",
-}
-
-# Principle skills (docs/adr/0002-explicit-and-automatic-skill-invocation.md).
-# Each one needs a skill directory so its command exists. They are listed in
-# AGENT_INVOCABLE_SKILLS, so an agent may start one when its description fits.
-PRINCIPLE_SLUGS = (
-    "attack-the-premise",
-    "boundary-discipline",
-    "build-the-lever",
-    "encode-lessons-in-structure",
-    "exhaust-the-design-space",
-    "experience-first",
-    "explain-the-number",
-    "fix-root-causes",
-    "foundational-thinking",
-    "guard-the-context-window",
-    "laziness-protocol",
-    "make-operations-idempotent",
-    "migrate-callers-then-delete-legacy-apis",
-    "minimize-reader-load",
-    "model-the-domain",
-    "never-block-on-the-human",
-    "outcome-oriented-execution",
-    "prove-it-works",
-    "redesign-from-first-principles",
-    "separate-before-serializing-shared-state",
-    "sequence-verifiable-units",
-    "subtract-before-you-add",
-    "test-behavior-not-implementation",
-    "type-system-discipline",
-)
-PRINCIPLE_SKILLS = {f"principle-{slug}" for slug in PRINCIPLE_SLUGS}
-
-# Skills that an agent may start on its own. Invocation policy is in
-# docs/adr/0002-explicit-and-automatic-skill-invocation.md. A skill belongs here
-# only when all three hold:
-#   1. It is useful without the router.
-#   2. It is cheap: it starts no fan-out of subagents and writes nothing beyond the task.
-#   3. The user wants it in sessions that did not start with `/polaris`.
-# Every other skill except the router is hidden: `disable-model-invocation: true`,
-# and in Codex `allow_implicit_invocation: false` in `agents/openai.yaml`.
-AGENT_INVOCABLE_SKILLS = {
-    "decision-log",
-    "deslop",
-    "deslop-language",
-    "diagnose",
-    "discuss",
-    "sharpen-domain-language",
-    "model-domain",
-    "record-architecture-decision",
-    "no-change-detector-tests",
-    "ketchup",
-    "lantern",
-    "prototype",
-    "prove-it",
-    "restate-my-intent",
-    "sweep-residue",
-    "tdd",
-    "technical-writing",
-    "walkthrough",
-    "write-discoverable-code",
-    "architect",
-    "blast-radius",
-    "create-formal-verification-skill",
-    "create-verification-skill",
-    "finalize-plan",
-    "how",
-    "link-principles",
-    "maintain-formal-verification-skill",
-    "polaris-help",
-    "recall",
-    "say-it-plainly",
-    "sharpen",
-    "show-me",
-    "why",
-    "principle-attack-the-premise",
-    "principle-boundary-discipline",
-    "principle-build-the-lever",
-    "principle-encode-lessons-in-structure",
-    "principle-exhaust-the-design-space",
-    "principle-experience-first",
-    "principle-explain-the-number",
-    "principle-fix-root-causes",
-    "principle-foundational-thinking",
-    "principle-guard-the-context-window",
-    "principle-laziness-protocol",
-    "principle-make-operations-idempotent",
-    "principle-migrate-callers-then-delete-legacy-apis",
-    "principle-minimize-reader-load",
-    "principle-model-the-domain",
-    "principle-never-block-on-the-human",
-    "principle-outcome-oriented-execution",
-    "principle-prove-it-works",
-    "principle-redesign-from-first-principles",
-    "principle-separate-before-serializing-shared-state",
-    "principle-sequence-verifiable-units",
-    "principle-subtract-before-you-add",
-    "principle-test-behavior-not-implementation",
-    "principle-type-system-discipline",
-}
+# The engineering-principles skill indexes the principle files beside its SKILL.md.
+PRINCIPLES_SKILL = "engineering-principles"
+# Principles are files in the engineering-principles skill, not skills named like `principle-prove-it-works`.
+LEGACY_PRINCIPLE_REFERENCE = re.compile(r"\bprinciple-[a-z]+(?:-[a-z]+)*")
 
 # Lowercase "cursor" is a common programming word, such as a pagination cursor, so only
 # the capitalized name and the `.cursor` directory count as the Cursor harness.
@@ -163,26 +27,44 @@ HARNESS_SPECIFIC_TERMS = re.compile(
     re.IGNORECASE,
 )
 
-# Files that hold harness-specific facts on purpose, relative to `skills/`.
-HARNESS_FACT_FILES = (
-    "polaris/references/models.md",
-    "polaris/references/model-profiles/",
-    "polaris/references/harnesses.md",
-    "polaris/references/rendering-pictures.md",
-    "polaris/references/writing-global-instructions.md",
-    "setup-polaris/",
+# Skills that coordinate other skills and may link into their folders. Every other skill
+# must keep working when its folder is copied out of the plugin on its own.
+COORDINATOR_SKILLS = {"polaris"}
+
+# Files generated from a source file in another skill, so a skill can carry know-how it
+# needs without linking outside its folder. Paths are relative to `skills/`. Edit the
+# source, never the copy, then run scripts/sync_generated_copies.py. The copy is the
+# source without its YAML frontmatter.
+GENERATED_COPIES = {
+    "visual-pr/references/show-me.md": "show-me/SKILL.md",
+    "walkthrough/references/show-me.md": "show-me/SKILL.md",
+}
+
+# Skills installed by something other than this plugin that bundled skills may name.
+EXTERNAL_SKILLS = {"librarian"}
+
+# Slash commands that belong to a harness, not to a skill.
+HARNESS_COMMANDS = {"create-skill", "model", "plugin", "reload-plugins"}
+
+# Phrases that name a skill: "the `why` skill", "`polaris:why`", a slash command such as
+# "`/why`" or "`/why <question>`", and router lines such as "→ `why`". Bare backticked
+# words are not matched, because most of them are not skills.
+SKILL_NAME = r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*"
+SKILL_REFERENCE = re.compile(
+    rf"`(?:polaris:)?({SKILL_NAME})` skill\b|`polaris:({SKILL_NAME})`|→ `({SKILL_NAME})`|`/({SKILL_NAME})[` ]"
 )
+
+# A count of skills, principles, or playbooks, such as "24 engineering principles". Counts
+# of two or fewer are ordinary prose, such as "a dependency between two skills".
+INVENTORY_COUNT = re.compile(
+    r"(?i)\b(?:[3-9]|\d{2,}|three|four|five|six|seven|eight|nine|ten|eleven|twelve|"
+    r"\w+teen|twenty|thirty|forty|fifty)(?:-\w+)?\s+(?:\w+\s+)?(?:skills|principles|playbooks)\b"
+)
+# A line naming this many skills is an inventory. The router's triggers are exempt.
+INVENTORY_NAMES = 4
 
 MARKDOWN_LINK = re.compile(r"\]\(([^)\s]+)\)")
 BACKTICKED_PATH = re.compile(r"`((?:(?:\.\./|\./)+|(?:references|principles|playbooks)/)[^`\s<>*]+|[\w-]+\.md(?:#[^`\s]+)?)`")
-
-# Supported work kind/level combinations; unclassified is validated separately.
-WORK_ASSIGNMENTS = {
-    ("execution", "regular"), ("execution", "complex"),
-    ("reasoning", "scoped"), ("reasoning", "hard"), ("reasoning", "very_hard"),
-}
-MODEL_PROFILES = {"claude", "gpt", "xai", "deepseek", "glm"}
-
 
 @dataclass(frozen=True)
 class Problem:
@@ -205,12 +87,6 @@ def frontmatter_fields(text: str) -> dict[str, str] | None:
 
 def check_skill_frontmatter(skills_dir: Path) -> list[Problem]:
     problems = []
-    expected = EXPECTED_SKILLS | PRINCIPLE_SKILLS
-    found = {path.parent.name for path in skills_dir.glob("*/SKILL.md")}
-    for name in sorted(expected - found):
-        problems.append(Problem(skills_dir, 0, f"missing skill directory `{name}`"))
-    for name in sorted(found - expected):
-        problems.append(Problem(skills_dir / name, 0, f"unexpected skill `{name}`"))
     for skill_file in sorted(skills_dir.glob("*/SKILL.md")):
         fields = frontmatter_fields(skill_file.read_text())
         if fields is None:
@@ -227,27 +103,28 @@ def check_skill_frontmatter(skills_dir: Path) -> list[Problem]:
 
 
 def check_invocation(skills_dir: Path) -> list[Problem]:
+    """Require Codex's sidecar to hide exactly the skills that hide themselves from the model.
+
+    A skill's frontmatter decides whether an agent may start it on its own, per
+    docs/decisions/2026-11-09-agent-invocable-skills.md. The router is exempt.
+    """
     problems = []
     for skill_file in sorted(skills_dir.glob("*/SKILL.md")):
-        name = skill_file.parent.name
-        if name == "polaris":
+        if skill_file.parent.name == "polaris":
             continue
-        should_hide = name not in AGENT_INVOCABLE_SKILLS
         fields = frontmatter_fields(skill_file.read_text()) or {}
-        sidecar = skill_file.parent / "agents" / "openai.yaml"
         hidden_from_model = fields.get("disable-model-invocation") == "true"
-        hidden_from_codex = sidecar.exists() and "allow_implicit_invocation: false" in sidecar.read_text()
-        expected = "hidden" if should_hide else "agent-invocable"
-        rule = (
-            "see docs/adr/0002-explicit-and-automatic-skill-invocation.md "
-            "for which skills belong in AGENT_INVOCABLE_SKILLS"
-        )
-        if hidden_from_model != should_hide:
-            problems.append(
-                Problem(skill_file, 1, f"{expected} skill has the wrong `disable-model-invocation`; {rule}")
-            )
-        if hidden_from_codex != should_hide:
-            problems.append(Problem(sidecar, 0, f"{expected} skill has the wrong `allow_implicit_invocation`; {rule}"))
+        sidecar = skill_file.parent / "agents" / "openai.yaml"
+        sidecar_text = sidecar.read_text() if sidecar.is_file() else ""
+        # Codex allows implicit invocation when a skill has no sidecar setting.
+        hidden_from_codex = "allow_implicit_invocation: false" in sidecar_text
+        expected = "false" if hidden_from_model else "true"
+        if hidden_from_codex != hidden_from_model:
+            setting = "hides" if hidden_from_model else "does not hide"
+            problems.append(Problem(
+                sidecar, 0,
+                f"frontmatter {setting} this skill from the model, so set `allow_implicit_invocation: {expected}`",
+            ))
     return problems
 
 
@@ -279,29 +156,122 @@ def resolves(target: str, md_file: Path) -> bool:
     return anchor in headings
 
 
+def prose_lines(md_file: Path) -> Iterator[tuple[int, str]]:
+    """Yield numbered lines of a Markdown file, skipping fenced code blocks."""
+    in_code_block = False
+    for number, line in enumerate(md_file.read_text(errors="replace").splitlines(), start=1):
+        if line.lstrip().startswith("```"):
+            in_code_block = not in_code_block
+            continue
+        if not in_code_block:
+            yield number, line
+
+
+def document_references(md_file: Path) -> Iterator[tuple[int, str]]:
+    """Yield each linked or backticked document path in a Markdown file, except URLs."""
+    for number, line in prose_lines(md_file):
+        targets = [m.group(1) for m in MARKDOWN_LINK.finditer(line)]
+        targets += [m.group(1) for m in BACKTICKED_PATH.finditer(line)
+                    if not line[:m.start()].endswith("[")]
+        for target in targets:
+            if not re.match(r"^[a-z]+:", target):
+                yield number, target
+
+
 def check_links(skills_dir: Path) -> list[Problem]:
     problems = []
     for md_file in sorted(skills_dir.rglob("*.md")):
-        in_code_block = False
-        for number, line in enumerate(md_file.read_text().splitlines(), start=1):
-            if line.lstrip().startswith("```"):
-                in_code_block = not in_code_block
+        for number, target in document_references(md_file):
+            if target == "SKILL.md":
                 continue
-            if in_code_block:
+            if "/" not in target and "#" not in target and not (md_file.parent / target).exists():
+                if not any(skills_dir.rglob(target)):
+                    continue
+            if not resolves(target, md_file):
+                problems.append(Problem(md_file, number, f"document reference `{target}` does not resolve from its containing file or names a missing heading"))
+    return problems
+
+
+def check_self_contained_skills(skills_dir: Path) -> list[Problem]:
+    """Reject links that leave a skill's folder, which break when the folder is copied out."""
+    problems = []
+    for md_file in sorted(skills_dir.rglob("*.md")):
+        skill_dir = skills_dir / md_file.relative_to(skills_dir).parts[0]
+        if skill_dir.name in COORDINATOR_SKILLS:
+            continue
+        for number, target in dict.fromkeys(document_references(md_file)):
+            path = target.partition("#")[0]
+            if "/" not in path:
                 continue
-            targets = [m.group(1) for m in MARKDOWN_LINK.finditer(line)]
-            targets += [m.group(1) for m in BACKTICKED_PATH.finditer(line)
-                        if not line[:m.start()].endswith("[")]
-            for target in targets:
-                if re.match(r"^[a-z]+:", target):
-                    continue
-                if target == "SKILL.md":
-                    continue
-                if "/" not in target and "#" not in target and not (md_file.parent / target).exists():
-                    if not any(skills_dir.rglob(target)):
-                        continue
-                if not resolves(target, md_file):
-                    problems.append(Problem(md_file, number, f"document reference `{target}` does not resolve from its containing file or names a missing heading"))
+            if not (md_file.parent / path).resolve().is_relative_to(skill_dir.resolve()):
+                problems.append(Problem(
+                    md_file, number,
+                    f"`{target}` leaves the `{skill_dir.name}` folder; name the skill and the result you need, "
+                    "or carry the file as a generated copy",
+                ))
+    return problems
+
+
+def generated_copy_text(source_text: str) -> str:
+    """Return what a generated copy of `source_text` must contain: the source without frontmatter."""
+    return re.sub(r"^---\n.*?\n---\n", "", source_text, count=1, flags=re.DOTALL).lstrip("\n")
+
+
+def check_generated_copies(skills_dir: Path, copies: dict[str, str] = GENERATED_COPIES) -> list[Problem]:
+    """Reject a generated copy that is missing or differs from its source."""
+    problems = []
+    for copy_path, source_path in sorted(copies.items()):
+        copy_file, source_file = skills_dir / copy_path, skills_dir / source_path
+        if not source_file.is_file():
+            problems.append(Problem(copy_file, 0, f"source `{source_path}` of this generated copy does not exist"))
+        elif not copy_file.is_file():
+            problems.append(Problem(copy_file, 0, f"generated copy of `{source_path}` is missing; run `python3 scripts/sync_generated_copies.py`"))
+        elif copy_file.read_text() != generated_copy_text(source_file.read_text()):
+            problems.append(Problem(copy_file, 0, f"generated copy is stale; run `python3 scripts/sync_generated_copies.py` to regenerate it from `{source_path}`"))
+    return problems
+
+
+def check_skill_names(root: Path) -> list[Problem]:
+    """Reject names of skills that neither this plugin nor its maintainer skills provide."""
+    skill_roots = [root / "skills", root / ".agents" / "skills"]
+    known = EXTERNAL_SKILLS | {path.parent.name for base in skill_roots for path in base.glob("*/SKILL.md")}
+    documents = [md_file for base in skill_roots for md_file in sorted(base.rglob("*.md"))]
+    documents += [readme for readme in [root / "README.md"] if readme.is_file()]
+    problems = []
+    for md_file in documents:
+        for number, line in prose_lines(md_file):
+            for match in SKILL_REFERENCE.finditer(line):
+                name = next(group for group in match.groups() if group)
+                is_harness_command = match.group(4) is not None and name in HARNESS_COMMANDS
+                if name not in known and not is_harness_command:
+                    problems.append(Problem(md_file, number, f"names skill `{name}`, which does not exist"))
+    return problems
+
+
+def check_skill_inventories(root: Path) -> list[Problem]:
+    """Reject counts and lists of skills, which go stale as skills are added or removed.
+
+    The skill folders are the inventory. The router's triggers and the principles index
+    route to skills and principles, so they are exempt.
+    """
+    known = {path.parent.name for path in (root / "skills").glob("*/SKILL.md")}
+    exempt = {root / "skills" / "polaris" / "SKILL.md", root / "skills" / PRINCIPLES_SKILL / "SKILL.md"}
+    documents = [root / "README.md", *sorted((root / "docs").rglob("*.md"))]
+    documents += [md_file for base in ("skills", ".agents/skills") for md_file in sorted((root / base).rglob("*.md"))]
+    problems = []
+    for md_file in documents:
+        if md_file in exempt or not md_file.is_file() or "vendor" in md_file.parts:
+            continue
+        for number, line in prose_lines(md_file):
+            count = INVENTORY_COUNT.search(line)
+            if count:
+                problems.append(Problem(md_file, number, f"`{count.group(0)}` counts an inventory; describe it without a number"))
+            names = {name for name in re.findall(rf"`/?(?:polaris:)?({SKILL_NAME})`", line) if name in known}
+            if len(names) >= INVENTORY_NAMES:
+                problems.append(Problem(
+                    md_file, number,
+                    f"names {len(names)} skills; point to where the skills are found instead of listing them",
+                ))
     return problems
 
 
@@ -309,9 +279,6 @@ def check_harness_terms(skills_dir: Path) -> list[Problem]:
     problems = []
     for md_file in sorted(skills_dir.rglob("*")):
         if not md_file.is_file():
-            continue
-        relative = md_file.relative_to(skills_dir).as_posix()
-        if relative.startswith(HARNESS_FACT_FILES):
             continue
         for number, line in enumerate(md_file.read_text(errors="replace").splitlines(), start=1):
             match = HARNESS_SPECIFIC_TERMS.search(line)
@@ -324,12 +291,6 @@ def check_router_indexes(skills_dir: Path) -> list[Problem]:
     router = skills_dir / "polaris" / "SKILL.md"
     router_text = router.read_text()
     problems = []
-    legacy = skills_dir / "polaris" / "principles"
-    if legacy.exists():
-        problems.append(Problem(legacy, 0, "principles are skills named `principle-<slug>`; delete this directory"))
-    for slug in PRINCIPLE_SLUGS:
-        if f"`principle-{slug}`" not in router_text:
-            problems.append(Problem(router, 0, f"principle `{slug}` is missing from the principle index"))
     for playbook in sorted((skills_dir / "polaris" / "playbooks").glob("*.md")):
         if playbook.name == "README.md":
             continue
@@ -339,65 +300,36 @@ def check_router_indexes(skills_dir: Path) -> list[Problem]:
     return problems
 
 
-def check_model_profiles(skills_dir: Path) -> list[Problem]:
-    """Reject incomplete kind/level or unclassified tables and excluded efforts."""
-    profiles_dir = skills_dir / "polaris" / "references" / "model-profiles"
+def check_principle_index(skills_dir: Path) -> list[Problem]:
+    """Require each principle file to appear exactly once in the index, and no `principle-<slug>` names."""
+    principles_dir = skills_dir / PRINCIPLES_SKILL
+    index = principles_dir / "SKILL.md"
+    index_targets = re.findall(r"\]\(([\w-]+\.md)\)", index.read_text())
+    principle_files = {path.name for path in principles_dir.glob("*.md")} - {"SKILL.md"}
     problems = []
-    found = {path.stem for path in profiles_dir.glob("*.md")}
-    for name in sorted(MODEL_PROFILES - found):
-        problems.append(Problem(profiles_dir, 0, f"missing model profile `{name}`"))
-    for profile_file in sorted(profiles_dir.glob("*.md")):
-        assignments: list[tuple[str, ...]] = []
-        table_type = None
-        table_types = []
-        for number, line in enumerate(profile_file.read_text().splitlines() + [""], start=1):
-            if line.startswith("| Kind |") or line.startswith("| Fallback |"):
-                table_type = "assignments" if line.startswith("| Kind |") else "fallback"
-                table_types.append(table_type)
-                continue
-            if line.startswith("| ---"):
-                continue
-            if not line.startswith("| `"):
-                if table_type is not None:
-                    expected = WORK_ASSIGNMENTS if table_type == "assignments" else {("unclassified",)}
-                    if len(assignments) != len(expected) or set(assignments) != expected:
-                        problems.append(Problem(profile_file, number, "allocation table must cover each kind/level or unclassified fallback once"))
-                    assignments = []
-                    table_type = None
-                continue
-            cells = [cell.strip() for cell in line.strip("|").split("|")]
-            if table_type is None:
-                problems.append(Problem(profile_file, number, "allocation row needs a Kind/Level or Fallback table header"))
-                continue
-            key_width = 2 if table_type == "assignments" else 1
-            assignments.append(tuple(cell.strip("`") for cell in cells[:key_width]))
-            if len(cells) != key_width + 4 or any(not cell for cell in cells):
-                problems.append(Problem(profile_file, number, "allocation row needs a complete assignment and four budget pairs"))
-                continue
-            for cell in cells[key_width:]:
-                effort = cell.split()[-1].lower()
-                if cell == "Composer" and profile_file.stem == "xai":
-                    continue
-                if effort not in {"low", "medium", "high", "xhigh", "max"}:
-                    problems.append(Problem(profile_file, number, f"unknown allocation effort `{effort}`"))
-                elif profile_file.stem in {"claude", "gpt", "xai"} and effort == "max":
-                    problems.append(Problem(profile_file, number, "use xhigh instead of max in this profile"))
-                elif profile_file.stem == "glm" and effort not in {"high", "max"}:
-                    problems.append(Problem(profile_file, number, "GLM allocations use high or max only"))
-                elif profile_file.stem == "deepseek" and effort not in {"low", "high", "max"}:
-                    problems.append(Problem(profile_file, number, "DeepSeek allocations require native low/high/max effort"))
-        expected_tables = ["assignments", "fallback"] * (2 if profile_file.stem == "xai" else 1)
-        if table_types != expected_tables:
-            problems.append(Problem(profile_file, 0, "each profile allocation table needs a separate unclassified fallback table; xAI also needs its Grok-only tables"))
+    for name in sorted(principle_files):
+        count = index_targets.count(name)
+        if count != 1:
+            problems.append(Problem(index, 0, f"principle `{name}` is linked {count} times in the index; link it once"))
+    for name in sorted(set(index_targets) - principle_files):
+        problems.append(Problem(index, 0, f"index links `{name}`, which is not a principle file"))
+    for md_file in sorted(skills_dir.rglob("*.md")):
+        for number, line in enumerate(md_file.read_text().splitlines(), start=1):
+            match = LEGACY_PRINCIPLE_REFERENCE.search(line)
+            if match:
+                problems.append(Problem(
+                    md_file, number,
+                    f"`{match.group(0)}` is not a skill; name the principle by its slug in `{PRINCIPLES_SKILL}`",
+                ))
     return problems
 
 
 def check_no_bundled_agents(root: Path) -> list[Problem]:
-    """Reject bundled model-pair agents; setup generates them (docs/adr/0009)."""
+    """Reject bundled agent definitions; polaris ships skills only."""
     problems = []
     for name in ("agents", "droids", "com.anthropic.claude-code"):
         if (root / name).exists():
-            problems.append(Problem(root / name, 0, "polaris ships no agent definitions; /setup-polaris generates them"))
+            problems.append(Problem(root / name, 0, "polaris ships no agent definitions"))
     manifests = (
         "plugin.json",
         ".claude-plugin/plugin.json",
@@ -430,9 +362,13 @@ def main() -> int:
         + check_invocation(skills_dir)
         + check_links(skills_dir)
         + check_harness_terms(skills_dir)
+        + check_skill_inventories(root)
         + check_router_indexes(skills_dir)
-        + check_model_profiles(skills_dir)
+        + check_principle_index(skills_dir)
         + check_no_bundled_agents(root)
+        + check_self_contained_skills(skills_dir)
+        + check_generated_copies(skills_dir)
+        + check_skill_names(root)
     )
     for problem in problems:
         print(f"{problem.path.relative_to(root)}:{problem.line}: {problem.message}")
