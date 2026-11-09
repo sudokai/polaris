@@ -128,6 +128,27 @@ def check_invocation(skills_dir: Path) -> list[Problem]:
     return problems
 
 
+FENCE = re.compile(r"(`{3,}|~{3,})(.*)")
+
+
+def outside_code_blocks(text: str) -> Iterator[tuple[int, str]]:
+    """Yield numbered Markdown lines that are outside fenced code blocks.
+
+    A block opens with three or more backticks or tildes, and closes only with a run of the
+    same character at least as long and nothing after it, so a block can show other fences.
+    """
+    fence = None
+    for number, line in enumerate(text.splitlines(), start=1):
+        match = FENCE.match(line.lstrip())
+        if fence is None:
+            if match and not (match[1][0] == "`" and "`" in match[2]):
+                fence = match[1]
+            else:
+                yield number, line
+        elif match and match[1][0] == fence[0] and len(match[1]) >= len(fence) and not match[2].strip():
+            fence = None
+
+
 def resolves(target: str, md_file: Path) -> bool:
     """Resolve a document reference from its containing file, including heading anchors."""
     file_name, separator, anchor = target.partition("#")
@@ -140,13 +161,7 @@ def resolves(target: str, md_file: Path) -> bool:
         return False
     headings = set()
     counts = {}
-    in_code_block = False
-    for line in destination.read_text().splitlines():
-        if line.lstrip().startswith(("```", "~~~")):
-            in_code_block = not in_code_block
-            continue
-        if in_code_block:
-            continue
+    for _, line in outside_code_blocks(destination.read_text()):
         match = re.match(r"^#{1,6} +(.+?)(?: +#+)?$", line)
         if match:
             slug = re.sub(r"[^\w\- ]", "", match.group(1).lower()).replace(" ", "-")
@@ -158,13 +173,7 @@ def resolves(target: str, md_file: Path) -> bool:
 
 def prose_lines(md_file: Path) -> Iterator[tuple[int, str]]:
     """Yield numbered lines of a Markdown file, skipping fenced code blocks."""
-    in_code_block = False
-    for number, line in enumerate(md_file.read_text(errors="replace").splitlines(), start=1):
-        if line.lstrip().startswith("```"):
-            in_code_block = not in_code_block
-            continue
-        if not in_code_block:
-            yield number, line
+    yield from outside_code_blocks(md_file.read_text(errors="replace"))
 
 
 def document_references(md_file: Path) -> Iterator[tuple[int, str]]:

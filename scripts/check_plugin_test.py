@@ -82,6 +82,12 @@ class DocumentReferenceValidationTest(unittest.TestCase):
         self.assertEqual([], self.check_document(
             "Read [`definitions.md`](models.md). Write `NOTES.md`. Use a `SKILL.md` file.\n"))
 
+    def test_headings_in_code_blocks_are_not_anchors(self):
+        for fence in ("```\n# Fake\n```", "~~~\n# Fake\n~~~", "```\n~~~\n# Fake\n```", "~~~~\n~~~\n# Fake\n~~~~"):
+            with self.subTest(fence=fence):
+                (self.references / "models.md").write_text(f"# Models\n\n{fence}\n")
+                self.assertTrue(self.check_document("[Fake](models.md#fake)"))
+
 
 class SelfContainedSkillTest(unittest.TestCase):
     def setUp(self):
@@ -112,7 +118,10 @@ class SelfContainedSkillTest(unittest.TestCase):
         self.assertEqual([], self.check_skill("polaris", "[Notes](../sibling/references/notes.md)\n"))
 
     def test_paths_in_code_blocks_are_not_links(self):
-        self.assertEqual([], self.check_skill("example", "```sh\ncat ../sibling/references/notes.md\n```\n"))
+        for block in ("```sh\n{}\n```", "~~~sh\n{}\n~~~", "````md\n```\n{}\n````"):
+            with self.subTest(block=block):
+                text = block.format("Read `../sibling/references/notes.md`.") + "\n"
+                self.assertEqual([], self.check_skill("example", text))
 
 
 class GeneratedCopyTest(unittest.TestCase):
