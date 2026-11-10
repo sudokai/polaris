@@ -1,6 +1,6 @@
 ---
 name: finalize-plan
-description: "Write a standalone implementation plan .md from an agreed design, including its tradeoffs, ordered steps, acceptance checks, and minimum context for a fresh agent."
+description: "Write a standalone implementation plan .md from an agreed design, including its tradeoffs, ordered steps, acceptance checks, and out-of-scope guardrails, and the context a fresh agent needs."
 ---
 
 Turn an agreed design into a concise implementation plan saved as a `.md` file. Write for an agent with no conversation access and for a human reviewing the work before implementation.
@@ -13,7 +13,7 @@ Preserve the design. Do not redesign the solution or start implementation. If a 
    - API surfaces, interfaces, and type signatures
    - module boundaries, file structure, and data flow
    - naming conventions for files, functions, types, and routes
-   - work that was deferred or ruled out
+   - work that is out of scope
 
    Put each detail in the section of the plan where it applies. Inspect the relevant code before naming paths or symbols.
 
@@ -32,6 +32,10 @@ Preserve the design. Do not redesign the solution or start implementation. If a 
    ## Key decisions
 
    State each important decision with its rationale and constraints.
+
+   ## Out of scope
+
+   List work the implementer must not do, such as adjacent refactors, features, or files to leave untouched. Give a reason when it is not obvious.
 
    ## Tradeoffs
 
@@ -54,14 +58,24 @@ Preserve the design. Do not redesign the solution or start implementation. If a 
 
    For each observable completion condition, give its command or operation and expected result. Include user-visible behavior where applicable.
 
-   ## Minimum required context
+   ## Context
 
-   - `path/to/existing-file.ts`: explain which contract, convention, or implementation detail to inspect.
-   - `path/to/new-file.ts`: identify files to create separately from files to read.
+   ### Minimum required context
+
+   Read these files in full before writing code:
+
+   - `path/to/existing-file.ts`: explain which contract, convention, or implementation detail it holds.
+
+   ### Additional context
+
+   Read as needed. Together with the minimum required context, these let the reader rebuild the full context:
+
+   - `path/to/example.ts`: explain what it shows, naming the relevant section of a large file.
+   - `path/to/new-file.ts`: files to create, listed separately from files to read.
    ```
 
-4. **Keep scope explicit**. Include excluded work and unresolved questions only when they affect implementation or acceptance. Add no empty sections or generic reassurances.
+4. **Keep scope explicit**. Always fill "Out of scope" with the guardrails the implementer needs. Include unresolved questions only when they affect implementation or acceptance. Add no other empty sections or generic reassurances.
 
-5. **Minimize the reading set**. List only files essential for understanding the contracts or conventions, making the changes, and performing the checks. Explain what the reader needs from each file. Name relevant sections of large files instead of instructing the agent to load every file in full.
+5. **Split the reading set**. Minimum required context is the files the implementer must understand fully to make the changes or run the checks. Everything else needed to rebuild context (examples, configuration, schemas, tests, related code) goes under additional context. Explain what the reader needs from each file.
 
 6. **Check the plan**. Sweep it for conversation residue using [the checklist](references/sweep-residue.md). Confirm that context files exist, existing paths and symbols are correctly named, and new files are identified. Confirm that the steps implement only the agreed design and the acceptance checks cover the goal. Save the file, return its path and any unresolved decisions, then stop.
