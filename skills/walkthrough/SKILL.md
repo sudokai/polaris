@@ -1,10 +1,10 @@
 ---
 name: walkthrough
 argument-hint: "[commit | A...B | A..B | pr <n|url>] (no argument = uncommitted changes, current PR, or current branch vs its base)"
-description: "Explain a PR, branch, commit, or diff using a structured format, from the problem and its solution to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a changeset."
+description: "Explain a PR, branch, commit, or diff as an interactive HTML page, from the problem and its solution to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a changeset."
 ---
 
-Write a guided walkthrough of a code changeset. Your job is the thinking: read the diff, understand it, write the guide.
+Write a guided walkthrough of a code changeset. Your job is the thinking: read the diff, understand it, write the guide. The guide is an interactive HTML page: you write its content as `walkthrough.json` and a simulator fragment, and [step 3](#3-build-the-page) renders them.
 
 By the end, the user should be able to:
 
@@ -39,12 +39,17 @@ Write like a colleague explaining the change to another capable engineer, out lo
 
 - Short sentences. Twenty-five words is the ceiling and most sentences are shorter. One idea per sentence. If you reach for a dash or a semicolon, end the sentence instead.
 - Plain words. Say file, function, module, request, the server. Not artifact, surface, primitive, chain, backbone. Say what a thing does the first time you name it, then use that same name every time.
-- Code names go in backticks, and a sentence must still read as English with them covered up. Two per sentence at most.
+- Code names go in `<code>` in html fields. Fields that take plain text get the bare name. A sentence must still read as English with the code names covered up. Two per sentence at most.
 - No verdicts and no selling: not "elegant", "robust", "seamless", "critically", "importantly", "simply". State the fact.
+- Write every chapter in the voice described in `references/say-it-plainly.md`: what a technical colleague explaining the change would say out loud. Keep the technical precision and drop the jargon and stiff phrasing. Write "if the cache is down, people still see the page", not "a degraded cache tier never surfaces failures".
 
 ## Content chapters
 
 Before writing the guide, explore the code beyond the diffs of the changeset, map out the code structure and how different parts interact together. Ground your walkthrough on extra context until you gain a complete understanding of both the background, problem and solution.
+
+### Title and lede
+
+The `lede` under the title is one sentence saying what the change does and what that changes for the people or systems it affects. It does not describe the page ("A guided review of…"). Don't add branch names, commit hashes or file counts. Say each idea once: the lede, Solution and Core intuition must not repeat the same summary.
 
 ### 1. Orientation
 
@@ -62,14 +67,30 @@ In one short paragraph, explain the solution that the changeset provides. Keep t
 
 Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Read `references/show-me.md` to find the best way to visualize the change.
 
+When what the change does depends on something a reader can vary, build a **simulator**: a small interactive widget where the reader changes what matters and sees the result. Pick the shape that fits the change, or mix them:
+
+- **Logic:** the reader changes the inputs (a user's role, whether a feature flag is on, an expired session, an item out of stock) and sees what each part of the system returns.
+- **Data:** the reader picks or edits a sample record and sees it before and after the change, or at each step it passes through, such as a migration, an import or a transform.
+- **UI:** the reader switches between states (empty, loading, error), screen widths, or before and after, and sees a sketch of the screen.
+- **Timing:** the reader steps through events in order (two requests arrive at once, a cache entry expires, a scheduled job runs) and sees the state after each one.
+- **Scale:** the reader changes the input size and sees how the work grows before and after the change, such as the number of queries for 10 or 1,000 items.
+
+Follow the format in [walkthrough-json.md](references/walkthrough-json.md#the-simulator-fragment). A change with nothing to vary, such as a rename or a refactor that changes no behavior, has no simulator.
+
+- Derive its rules from the code in the changeset, not from your summary of it. Before you finish, check each rule against the code again.
+- Label made-up values as example data. Check every specific number the simulator shows, such as a timeout, a page size or a retry count, against its constant in the code.
+- A UI simulator is a sketch drawn in the page, not the real component. Say so in its note, and take its colors, sizes and text from the changed code.
+
 Then explain:
 
-- **Key decisions:** the few critical design decisions that shaped the changeset. For each, say what was chosen and why.
+- **Key decisions:** the few critical design decisions that shaped the changeset. Group them by the question each one answers. For each, say what was chosen, the alternative it was chosen instead of, and why. Link it to the section that implements it, when one does.
 - **Tradeoffs:** both the deliberate and implicit tradeoffs of the solution, each marked accordingly.
 
 ### 5. Map
 
-Visually represent the changeset as a map, giving the reviewer a bird's eye view of the entire changeset. The map should help the reviewer navigate the changeset and also form a coherent mental model about how the different parts of the changeset fit together. If the map is very large and complex, split it into several sub-maps.
+Visually represent the changeset as a map, giving the reviewer a bird's eye view of the entire changeset. The map should help the reviewer navigate the changeset and also form a coherent mental model about how the different parts of the changeset fit together.
+
+Every box links to its section of the changes, and each section has at most one box. Describe in each box what that part does, not which files or classes it touches. If the change depends on a system outside the repo, or deletes a component, show it as its own band.
 
 ### 6. Changes by section
 
@@ -92,14 +113,14 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
 #### Section fields
 
 - **title**: Concept-level, e.g. "Payment localization module". NEVER a filename paraphrase like "Changes to payments/locale.ts".
-- **overview**: Markdown, 2-6 sentences, plus an optional **Look closer** list. Three jobs, in order:
+- **overview**: HTML, 2-6 sentences, plus an optional **Look closer** list. Three jobs, in order:
   1. What changed here, concretely.
   2. Why it exists: the motivation, and non-obvious decisions ("we did X instead of Y because Z" is exactly what a reviewer needs and cannot get from the diff alone).
    Say what problem the change solves. The diff already shows what changed.
      - Bad: "Adds a `requestId` field to the context object."
      - Better: "The retry logic must tell duplicate requests apart, but requests carried no unique ID. `requestId` gives each request one, generated when it arrives."
   3. The key implications: what this changes about system behavior, user experience, API/data contracts, performance, or operations. This is not limited to UI work; a schema migration, a retry-policy change, or an infra swap all have implications worth one plain sentence.
-  Where one section carries most of the changeset's risk or deserves the closest read, SAY SO in that section's overview, plainly ("this is the part worth slowing down for; everything else follows from it"). Use a `> [!IMPORTANT]` or `> [!WARNING]` callout line for a genuinely high-risk behavioral shift or contract change; most sections should have none, and don't repeat it under **Look closer**.
+  Where one section carries most of the changeset's risk or deserves the closest read, SAY SO in that section's overview, plainly ("read this section closely: every other section builds on it"). Use an `important` or `warning` callout for a genuinely high-risk behavioral shift or contract change; most sections should have none, and don't repeat it under **Look closer**.
   End with **Look closer:** and a list of what deserves a closer look, or omit it if there's nothing. Check the code you explain for:
   - **Problems:**
     - **Correctness, aka "the little details":**
@@ -117,15 +138,15 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
     - destructive or irreversible operations
     - feature flag changes
     - changed configuration defaults
-    Markdown is supported and encouraged where it genuinely sharpens the prose, never as decoration:
-  - Backticks around every file name, symbol, function, type, config key, and CLI flag: `refreshToken`, `--dry-run`, `SESSION_TTL`.
-  - **Bold** for the one clause a skimming reviewer must not miss; at most one per overview, besides **Look closer**.
+    Formatting is supported and encouraged where it genuinely sharpens the prose, never as decoration:
+  - `<code>` around every file name, symbol, function, type, config key, and CLI flag: `refreshToken`, `--dry-run`, `SESSION_TTL`.
+  - `<strong>` for the one clause a skimming reviewer must not miss; at most one per overview.
   - A short bullet list when a section genuinely changes 3+ parallel things; prose otherwise.
-  - A tiny fenced code block (2-5 lines) only when code says it better than a sentence, e.g. a new API shape. Never paste diff hunks into the overview; they belong in the section's **diffs**.
-- **diffs**: one or more file references. Each has three fields:
-  - **file**: the EXACT repo-relative path as it appears in the diff, after the change. Copy it, never invent it, never abbreviate or normalize it (no leading/trailing slash changes, no case changes). `git diff --stat` prints renames as `dir/{old => new}/file.ts`; that is not a path, write `dir/new/file.ts`.
+  - A tiny `<pre><code>` block (2-5 lines) only when code says it better than a sentence, e.g. a new API shape. Never paste diff hunks into the overview; they belong in the section's **files**.
+- **files**: one or more file references. Each has three fields:
+  - **path**: the EXACT repo-relative path as it appears in the diff, after the change. Copy it, never invent it, never abbreviate or normalize it (no leading/trailing slash changes, no case changes). `git diff --stat` prints renames as `dir/{old => new}/file.ts`; that is not a path, write `dir/new/file.ts`.
   - **summary**: one sentence describing the semantic change in THIS file, written from the diff hunks you already have. Say what the change does ("extracts the staging logic into a tri-state override map"), not where it sits ("modifies lines 30-80"). Do NOT open the file, search the codebase, or do any per-file investigation to write it. Do not repeat the section overview: the overview carries the why and the implications; the summary says what this specific file contributes. For a trivial change (import bump, rename fallout), one short clause is enough.
-  - **hunks**: the changed code of THIS file as simplified `diff` blocks. Every file with a meaningful change has at least one hunk, including new files. Do not replace a hunk with a prose description of what the code contains: a summary that lists an enum's values, a parser's cases or a type's fields is a hunk you did not write. Show a hunk for every meaningful change. When in doubt, show it. Trim each hunk to the changed lines that matter plus enough context to place them, and mark cuts with `…`. Never invent lines or alter what a line does.
+  - **hunk**: the changed code of THIS file as simplified diff text. Every file with a meaningful change has at least one hunk, including new files. Do not replace a hunk with a prose description of what the code contains: a summary that lists an enum's values, a parser's cases or a type's fields is a hunk you did not write. Show a hunk for every meaningful change. When in doubt, show it. Trim each hunk to the changed lines that matter plus enough context to place them, and mark cuts with `…`. Never invent lines or alter what a line does.
     - For a new file, show its key lines as `+` lines: the signature, the enum constants, the mapping or the core branch.
     - When the code is too long or noisy to show as is, use a pseudocode diff or one of the views in `references/show-me.md`, such as a table or a call tree.
     - For a repetitive mechanical change, such as a rename or a signature update at many call sites, show one representative hunk.
@@ -166,6 +187,8 @@ For a change that adds a per-IP rate limit to a login endpoint:
 - Bad (a detail of the code): "What is the counter's expiry in seconds?"
 - Better (an edge case): "An office of 200 people shares one IP address. What happens to them?"
 
+Each question has four options: the right answer and three wrong ones that a reader who skimmed could believe. A wrong option should rest on a real misunderstanding, such as "the old endpoint keeps working", not on something absurd. Put the right answer in a different position from one question to the next. Each question carries a `why`: one or two sentences on why the right answer is right.
+
 Avoid trick questions, repeats of the FAQ, and questions about code the walkthrough doesn't show. Tailor the questions to the kind of change:
 
 - **Feature:** edge cases, and what the design leaves unprotected or unsupported.
@@ -175,3 +198,18 @@ Avoid trick questions, repeats of the FAQ, and questions about code the walkthro
 ### Calibration: guide, not review
 
 Your job is to EXPLAIN and ORIENT the reviewer, not to critique the code. Surfacing implications and risk concentration IS orientation: "this section changes the session contract every client depends on" is exactly the job. Hunting for bugs is not; an overview is not a findings list. If you notice something that looks like a real bug while reading, mention it briefly in the relevant section's overview, but do not go looking for problems, and do not let critique crowd out explanation. Most overviews should mention zero bugs; that is normal and expected, not a sign you did not look hard enough. Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation. Before you finish, check each section: where a paragraph or a summary describes code, replace it with the code or a visual of it.
+
+## 3. Build the page
+
+1. Write the content as `walkthrough.json`, and the simulator, if there is one, as `simulator.html`, following [walkthrough-json.md](references/walkthrough-json.md). Put both in a scratch folder, not in the repository.
+2. Render the page:
+
+   ```bash
+   python3 <this skill's folder>/scripts/render_walkthrough.py walkthrough.json --simulator simulator.html --out walkthrough.html
+   ```
+
+   Leave out `--simulator` when there is no simulator. If the script lists problems, fix each one and render again. Don't edit the generated HTML.
+3. Open the page once in a browser, at desktop width and at phone width, if you can. Use the simulator's controls, if there is a simulator, and answer one quiz question. Fix what you see, render again, and stop.
+4. If your environment can publish pages, publish `walkthrough.html` privately and give the user the link. Otherwise give its path.
+
+Reply in chat with a few lines: what the change does, the link or path, and anything you flagged under **Look closer** that needs a decision. The page is the walkthrough, so don't repeat its chapters in chat.
