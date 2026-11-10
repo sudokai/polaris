@@ -147,18 +147,30 @@ Answer the questions the user is most likely to ask about this change, and not c
 
 ### 8. Quiz
 
-Ask questions that only someone who understands the change can answer: 10 questions max. Ask at least one question about the central change. The rest can cover design choices, tradeoffs, how the pieces work together, edge cases, or your **Look closer** flags. Don't ask trick questions, don't repeat questions already covered by the FAQ, and don't ask questions about details of the code that are not shown in the walkthrough's diffs.
+Check that the reader understands the ideas behind the change, not its code. Ask 10 questions at most, favoring these topics in this order:
 
-Ask how and why, not for facts the user could look up. 
+1. **Core concept:** the main idea and why it works.
+2. **Tradeoffs:** what the design gives up, and when the alternative would be better.
+3. **Edge cases:** what happens at the boundaries, when something fails, or when the input is unusual.
+4. **Interactions:** how the parts depend on each other, and what breaks if one of them changes.
+5. **Risks:** the points you flagged under **Look closer**.
 
-- Bad: "What does `search`return? Why does it take a `from` and `size` arguments?"
-- Better: "How does the search pagination work and what are the tradeoffs?" 
+Frame each question as a situation or a decision. A reader who followed the walkthrough should be able to answer without remembering a name, a value, or a line of code. Mention a name only when the question is about that thing.
 
-Some ideas, depending on the type of change:
+For a change that adds a per-IP rate limit to a login endpoint:
 
-- **Feature:** edge cases of the implementation.
-- **Bug fix:** the cause, and how the fix solves it.
-- **Refactor:** any risks or implicit tradeoffs?
+- Bad (recalls code): "What does `RateLimiter.allow` return when the counter is full?"
+- Better (core concept): "A user enters a wrong password five times in a row. What happens on the sixth try, and when can they try again?"
+- Bad (a fact to look up): "Which class stores the attempt counters?"
+- Better (a tradeoff): "Why keep the counters in server memory instead of a database, and what goes wrong when you run two servers?"
+- Bad (a detail of the code): "What is the counter's expiry in seconds?"
+- Better (an edge case): "An office of 200 people shares one IP address. What happens to them?"
+
+Avoid trick questions, repeats of the FAQ, and questions about code the walkthrough doesn't show. Tailor the questions to the kind of change:
+
+- **Feature:** edge cases, and what the design leaves unprotected or unsupported.
+- **Bug fix:** the cause, why the fix removes it, and a nearby case it doesn't cover.
+- **Refactor:** what behavior must stay the same, and what risks or hidden tradeoffs it carries.
 
 ### Calibration: guide, not review
 
