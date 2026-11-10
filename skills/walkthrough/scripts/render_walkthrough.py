@@ -3,6 +3,10 @@
 
 Usage:
     python3 render_walkthrough.py walkthrough.json --simulator simulator.html --out walkthrough.html
+    python3 render_walkthrough.py walkthrough.json --prose
+
+--prose prints every piece of text the reader will see, as plain text with its JSON path, so the
+wording can be reviewed in one pass before rendering.
 
 The page layout, styles and behavior live in ../assets/walkthrough-template.html. This script
 validates the walkthrough content, fills the template's walkthrough:* slots, renders the diff
@@ -31,6 +35,10 @@ CHAPTER_TITLES = ("Orientation", "Problem", "Solution", "Core intuition", "Map",
 # Anchors that a page host may use for its own panels, so a section id must not take them.
 RESERVED_IDS = ("settings", "sidebar", "customize", "upgrade", "downloads")
 SECTION_ID = re.compile(r"^[a-z][a-z0-9-]*$")
+# Inline formatting that a plain-text field would show as literal text.
+FORMATTING_TAG = re.compile(r"<\s*/?\s*(code|strong|em|b|i|a|br|span|kbd|sup|sub)\b", re.IGNORECASE)
+# A "Look closer" heading written into an overview instead of the look_closer list.
+LOOK_CLOSER_IN_OVERVIEW = re.compile(r">\s*Look closer\b", re.IGNORECASE)
 FILE_BADGES = ("new", "deleted")
 CALLOUT_KINDS = ("warning", "important")
 TRADEOFF_KINDS = ("deliberate", "implicit")
@@ -63,17 +71,20 @@ class _Checker:
     def fail(self, path: str, message: str) -> None:
         self.problems.append(f"{path}: {message}")
 
-    def text(self, value, path: str, required: bool = True) -> bool:
+    def text(self, value, path: str, required: bool = True, plain: bool = True) -> bool:
         if value is None and not required:
             return True
         if not isinstance(value, str) or (required and not value.strip()):
             self.fail(path, "must be a non-empty string")
             return False
+        if plain and FORMATTING_TAG.search(value):
+            self.fail(path, "must be plain text; HTML tags such as <code> show as literal text here, so write the bare name")
+            return False
         return True
 
     def markup(self, value, path: str, required: bool = True) -> None:
         """HTML fragments are inserted as written, so they must not carry their own scripts."""
-        if self.text(value, path, required) and value and re.search(r"<\s*script", value, re.IGNORECASE):
+        if self.text(value, path, required, plain=False) and value and re.search(r"<\s*script", value, re.IGNORECASE):
             self.fail(path, "must not contain <script>; put simulator code in the simulator file")
 
     def items(self, value, path: str, required: bool = True) -> list:
@@ -122,6 +133,8 @@ def validate_walkthrough(data) -> None:
         check.text(section.get("nav"), f"{path}.nav")
         check.text(section.get("title"), f"{path}.title")
         check.markup(section.get("overview"), f"{path}.overview")
+        if isinstance(section.get("overview"), str) and LOOK_CLOSER_IN_OVERVIEW.search(section["overview"]):
+            check.fail(f"{path}.overview", "has a Look closer list; move its items to look_closer, which the page shows as a box")
         for j, callout in enumerate(check.items(section.get("callouts"), f"{path}.callouts", required=False)):
             cpath = f"{path}.callouts[{j}]"
             if not isinstance(callout, dict):
@@ -141,7 +154,7 @@ def validate_walkthrough(data) -> None:
             check.markup(changed_file.get("summary"), f"{fpath}.summary")
             if changed_file.get("badge") is not None:
                 check.one_of(changed_file.get("badge"), FILE_BADGES, f"{fpath}.badge")
-            check.text(changed_file.get("hunk"), f"{fpath}.hunk", required=False)
+            check.text(changed_file.get("hunk"), f"{fpath}.hunk", required=False, plain=False)
 
     known_sections = set(section_ids)
 
@@ -439,6 +452,24 @@ def render_main(data: dict, simulator_markup: str) -> str:
     ])
 
 
+# Fields that hold code, ids or settings rather than text the reader sees.
+NOT_PROSE_KEYS = {"hunk", "path", "id", "section", "kind", "style", "type", "badge", "correct", "emphasis"}
+
+
+def prose_lines(data, path: str = "") -> list[str]:
+    """Every reader-facing string in the walkthrough, as "json.path: plain text", in page order."""
+    if isinstance(data, dict):
+        return [line for key, value in data.items() if key not in NOT_PROSE_KEYS
+                for line in prose_lines(value, f"{path}.{key}" if path else key)]
+    if isinstance(data, list):
+        return [line for i, value in enumerate(data) for line in prose_lines(value, f"{path}[{i}]")]
+    if isinstance(data, str) and data.strip():
+        text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", data))).strip()
+        text = re.sub(r" ([.,;:!?)])", r"\1", text).replace("( ", "(")
+        return [f"{path}: {text}"]
+    return []
+
+
 def quiz_json(data: dict) -> str:
     """The quiz as JSON that is safe inside a <script> element."""
     payload = {
@@ -475,13 +506,18 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Render an interactive walkthrough page from walkthrough.json.")
     parser.add_argument("walkthrough_json", type=Path, help="the walkthrough content")
     parser.add_argument("--simulator", type=Path, help="HTML fragment with the changeset's simulator markup and script")
-    parser.add_argument("--out", type=Path, required=True, help="where to write the page")
+    modes = parser.add_mutually_exclusive_group(required=True)
+    modes.add_argument("--out", type=Path, help="where to write the page")
+    modes.add_argument("--prose", action="store_true", help="print the reader-facing text for review instead of rendering")
     args = parser.parse_args(argv)
     try:
         data = json.loads(args.walkthrough_json.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         print(f"{ERROR_PREFIX} cannot read {args.walkthrough_json}: {error}", file=sys.stderr)
         return 1
+    if args.prose:
+        print("\n".join(prose_lines(data)))
+        return 0
     fragment = args.simulator.read_text(encoding="utf-8") if args.simulator else ""
     try:
         page = render_walkthrough(data, fragment)

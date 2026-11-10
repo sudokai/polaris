@@ -155,6 +155,22 @@ class RenderWalkthroughTest(unittest.TestCase):
 
         self.assertIn("quiz: every right answer is in the same position; vary it between questions", self.problems_for(self.data))
 
+    def test_rejects_formatting_tags_in_a_plain_text_field(self):
+        self.data["decisions"][0]["items"][0]["choice"] = "Retry only with an <code>Idempotency-Key</code>"
+
+        self.assertIn(
+            "decisions[0].items[0].choice: must be plain text; HTML tags such as <code> show as literal text here, so write the bare name",
+            self.problems_for(self.data),
+        )
+
+    def test_rejects_a_look_closer_list_written_into_an_overview(self):
+        self.data["sections"][0]["overview"] = "<p>Only keyed requests retry.</p><p><strong>Look closer:</strong></p><ul><li>x</li></ul>"
+
+        self.assertIn(
+            "sections[0].overview: has a Look closer list; move its items to look_closer, which the page shows as a box",
+            self.problems_for(self.data),
+        )
+
     def test_rejects_a_question_without_four_options(self):
         self.data["quiz"][0]["options"] = ["Retried once", "Fails"]
 
@@ -179,6 +195,27 @@ class RenderWalkthroughTest(unittest.TestCase):
             self.assertEqual(code, 1)
             self.assertFalse(out.exists())
             self.assertIn("walkthrough-render: title: must be a non-empty string", stderr.getvalue())
+
+    def test_prose_lists_reader_text_with_its_path_and_skips_code(self):
+        lines = render_walkthrough.prose_lines(self.data)
+
+        self.assertIn("lede: Payments retry once on a timeout.", lines)
+        self.assertIn("sections[0].files[0].summary: Retries requests that carry an Idempotency-Key.", lines)
+        self.assertIn("quiz[1].options[2]: Rejected", lines)
+        self.assertFalse(any(line.startswith(("sections[0].files[0].hunk", "sections[0].id", "quiz[0].correct")) for line in lines))
+
+    def test_command_line_prose_mode_prints_the_text_and_writes_nothing(self):
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "walkthrough.json"
+            source.write_text(json.dumps(self.data))
+            stdout = io.StringIO()
+
+            with contextlib.redirect_stdout(stdout):
+                code = render_walkthrough.main([str(source), "--prose"])
+
+            self.assertEqual(code, 0)
+            self.assertIn("faq[0].question: What if the key is missing?", stdout.getvalue())
+            self.assertEqual(sorted(p.name for p in Path(folder).iterdir()), ["walkthrough.json"])
 
     def test_command_line_writes_the_page_when_input_is_valid(self):
         with tempfile.TemporaryDirectory() as folder:

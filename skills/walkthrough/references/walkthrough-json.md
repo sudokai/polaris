@@ -6,6 +6,8 @@
 python3 scripts/render_walkthrough.py walkthrough.json --simulator simulator.html --out walkthrough.html
 ```
 
+To review the wording before rendering, run it with `--prose` instead of `--out`. It prints every piece of text the reader will see, as plain text, each line starting with its JSON path.
+
 The script prints `Wrote <path>` on success. On failure it prints one line per problem, each starting with `walkthrough-render:` and the JSON path, and writes nothing. Fix every listed problem and run it again.
 
 The page's styles and behavior live in `assets/walkthrough-template.html`. Don't edit the generated HTML; change the JSON or the simulator and render again.

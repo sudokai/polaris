@@ -113,15 +113,15 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
 #### Section fields
 
 - **title**: Concept-level, e.g. "Payment localization module". NEVER a filename paraphrase like "Changes to payments/locale.ts".
-- **overview**: HTML, 2-6 sentences, plus an optional **Look closer** list. Three jobs, in order:
+- **overview**: HTML, 2-6 sentences. Three jobs, in order:
   1. What changed here, concretely.
   2. Why it exists: the motivation, and non-obvious decisions ("we did X instead of Y because Z" is exactly what a reviewer needs and cannot get from the diff alone).
    Say what problem the change solves. The diff already shows what changed.
      - Bad: "Adds a `requestId` field to the context object."
      - Better: "The retry logic must tell duplicate requests apart, but requests carried no unique ID. `requestId` gives each request one, generated when it arrives."
   3. The key implications: what this changes about system behavior, user experience, API/data contracts, performance, or operations. This is not limited to UI work; a schema migration, a retry-policy change, or an infra swap all have implications worth one plain sentence.
-  Where one section carries most of the changeset's risk or deserves the closest read, SAY SO in that section's overview, plainly ("read this section closely: every other section builds on it"). Use an `important` or `warning` callout for a genuinely high-risk behavioral shift or contract change; most sections should have none, and don't repeat it under **Look closer**.
-  End with **Look closer:** and a list of what deserves a closer look, or omit it if there's nothing. Check the code you explain for:
+  Where one section carries most of the changeset's risk or deserves the closest read, SAY SO in that section's overview, plainly ("read this section closely: every other section builds on it"). For a genuinely high-risk behavioral shift or contract change, add an `important` or `warning` entry to the section's **callouts**; most sections have none, and don't repeat a callout under **Look closer**.
+- **look_closer**: a list of what deserves a closer look, shown as a box after the overview. Leave it out when there's nothing. Don't write it into the overview. Check the code you explain for:
   - **Problems:**
     - **Correctness, aka "the little details":**
       - bugs
@@ -202,14 +202,21 @@ Your job is to EXPLAIN and ORIENT the reviewer, not to critique the code. Surfac
 ## 3. Build the page
 
 1. Write the content as `walkthrough.json`, and the simulator, if there is one, as `simulator.html`, following [walkthrough-json.md](references/walkthrough-json.md). Put both in a scratch folder, not in the repository.
-2. Render the page:
+2. Review the wording. Print every piece of text the reader will see:
+
+   ```bash
+   python3 <this skill's folder>/scripts/render_walkthrough.py walkthrough.json --prose
+   ```
+
+   Read it all the way through. Wherever it doesn't sound like `references/say-it-plainly.md`, fix it in `walkthrough.json`: figures of speech, jargon, details the reviewer doesn't need, and sentences that got vague when you simplified them. Then reread what you changed.
+3. Render the page:
 
    ```bash
    python3 <this skill's folder>/scripts/render_walkthrough.py walkthrough.json --simulator simulator.html --out walkthrough.html
    ```
 
    Leave out `--simulator` when there is no simulator. If the script lists problems, fix each one and render again. Don't edit the generated HTML.
-3. Open the page once in a browser, at desktop width and at phone width, if you can. Use the simulator's controls, if there is a simulator, and answer one quiz question. Fix what you see, render again, and stop.
-4. If your environment can publish pages, publish `walkthrough.html` privately and give the user the link. Otherwise give its path.
+4. Open the page once in a browser, at desktop width and at phone width, if you can. Use the simulator's controls, if there is a simulator, and answer one quiz question. Fix what you see, render again, and stop.
+5. If your environment can publish pages, publish `walkthrough.html` privately and give the user the link. Otherwise give its path.
 
 Reply in chat with a few lines: what the change does, the link or path, and anything you flagged under **Look closer** that needs a decision. The page is the walkthrough, so don't repeat its chapters in chat.
