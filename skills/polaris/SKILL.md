@@ -31,7 +31,7 @@ Each skill is `skills/<name>/SKILL.md` under the plugin root. Run one by reading
 - **A race, a retry, or another property that tests rarely reach, and the check must stay in the project**, or code that a formal check covers changed after the check's sync commit → `formal-verification-skill`.
 - **About to claim that a change works** → `prove-it`.
 - **Finished a workpackage** → `deslop`, then `sweep-residue`.
-- **Asked to clean up, split, or reorder commits** → `refactor-commits`.
+- **Asked to refactor commits to make them easier to review** → `refactor-commits`.
 - **About to open or update a pull request** → `visual-pr`.
 - **Asked to catch up, "where are we?", or the user returns after stepping away** → `ketchup` for this session, `recall` for work across past sessions. When a run the user stepped away from ends, write the final reply with `ketchup`.
 - **Explaining a design, a flow, or a change that is easier to see than to read** → `show-me`.
