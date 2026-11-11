@@ -39,6 +39,8 @@ SECTION_ID = re.compile(r"^[a-z][a-z0-9-]*$")
 FORMATTING_TAG = re.compile(r"<\s*/?\s*(code|strong|em|b|i|a|br|span|kbd|sup|sub)\b", re.IGNORECASE)
 # A "Look closer" heading written into an overview instead of the look_closer list.
 LOOK_CLOSER_IN_OVERVIEW = re.compile(r">\s*Look closer\b", re.IGNORECASE)
+# The Mermaid source of a diagram that the page draws with Pele.
+MERMAID_BLOCK = re.compile(r"<pre\b[^>]*\bclass=\"[^\"]*\bmermaid\b[^\"]*\"[^>]*>(.*?)</pre>", re.IGNORECASE | re.DOTALL)
 FILE_BADGES = ("new", "deleted")
 CALLOUT_KINDS = ("warning", "important")
 TRADEOFF_KINDS = ("deliberate", "implicit")
@@ -83,9 +85,14 @@ class _Checker:
         return True
 
     def markup(self, value, path: str, required: bool = True) -> None:
-        """HTML fragments are inserted as written, so they must not carry their own scripts."""
-        if self.text(value, path, required, plain=False) and value and re.search(r"<\s*script", value, re.IGNORECASE):
+        """HTML fragments are inserted as written, so they must not carry their own scripts, and
+        Mermaid source must escape < so the browser keeps it as text."""
+        if not (self.text(value, path, required, plain=False) and value):
+            return
+        if re.search(r"<\s*script", value, re.IGNORECASE):
             self.fail(path, "must not contain <script>; put simulator code in the simulator file")
+        if any("<" in source for source in MERMAID_BLOCK.findall(value)):
+            self.fail(path, "has a raw < inside <pre class=\"mermaid\">; the browser reads it as a tag, so write &lt;")
 
     def items(self, value, path: str, required: bool = True) -> list:
         if value is None and not required:
@@ -266,21 +273,62 @@ def esc(text: str) -> str:
     return html.escape(text, quote=True)
 
 
-def render_hunk(hunk: str) -> str:
-    """Renders simplified diff text: '+' added, '-' removed, '…' a cut, anything else context."""
+def is_cut(line: str) -> bool:
+    return line.lstrip().startswith("…")
+
+
+def is_new_code(lines: list[str]) -> bool:
+    """True when every line is added: nothing removed and no context to tell apart."""
+    return any(line.startswith("+") for line in lines) and all(
+        line.startswith("+") or is_cut(line) or not line.strip() for line in lines
+    )
+
+
+def code_language(path: str) -> str:
+    """The highlight.js language name to try: the file extension, or the bare name, such as Makefile."""
+    name = path.rpartition("/")[2]
+    return (name.rpartition(".")[2] if "." in name else name).lower()
+
+
+def render_new_code(lines: list[str], language: str) -> str:
+    """Renders an all-added hunk as plain code, one <code> per run of lines between cuts, so
+    highlighting never spans a cut."""
+    parts: list[str] = []
+    run: list[str] = []
+
+    def flush() -> None:
+        if run:
+            source = "\n".join(run)
+            parts.append(f'<code data-lang="{esc(language)}">{esc(source)}</code>')
+            run.clear()
+
+    for line in lines:
+        if is_cut(line):
+            flush()
+            parts.append(f'<span class="g">{esc(line)}</span>')
+        else:
+            run.append(line[1:] if line.startswith("+") else line)
+    flush()
+    return f'<pre class="code">{"".join(parts)}</pre>'
+
+
+def render_hunk(hunk: str, path: str) -> str:
+    """Renders simplified diff text: '+' added, '-' removed, '…' a cut, anything else context.
+    The page highlights it in the language of path; a hunk of only added lines renders as plain code."""
     lines = hunk.strip("\n").split("\n")
+    language = code_language(path)
+    if is_new_code(lines):
+        return render_new_code(lines, language)
     spans = []
     for line in lines:
-        if line.startswith("+"):
-            kind = "a"
-        elif line.startswith("-"):
-            kind = "r"
-        elif line.lstrip().startswith("…"):
-            kind = "g"
+        if line.startswith(("+", "-")):
+            kind = "a" if line.startswith("+") else "r"
+            content = f'<span class="sign">{line[0]}</span>{esc(line[1:])}'
         else:
-            kind = "c"
-        spans.append(f'<span class="{kind}">{esc(line) or " "}</span>')
-    return f'<pre class="diff">{"".join(spans)}</pre>'
+            kind = "g" if is_cut(line) else "c"
+            content = esc(line) or " "
+        spans.append(f'<span class="{kind}">{content}</span>')
+    return f'<pre class="diff" data-lang="{esc(language)}">{"".join(spans)}</pre>'
 
 
 def render_file_path(path: str, badge: str | None) -> str:
@@ -294,7 +342,7 @@ def render_file(changed_file: dict) -> str:
     head = render_file_path(changed_file["path"], changed_file.get("badge"))
     summary = f'<span class="sum">{changed_file["summary"]}</span>'
     if changed_file.get("hunk"):
-        return f'<details class="file" open><summary>{head}{summary}</summary>{render_hunk(changed_file["hunk"])}</details>'
+        return f'<details class="file" open><summary>{head}{summary}</summary>{render_hunk(changed_file["hunk"], changed_file["path"])}</details>'
     return f'<div class="file nohunk"><div class="file-head">{head}{summary}</div></div>'
 
 
@@ -419,12 +467,7 @@ def render_main(data: dict, simulator_markup: str) -> str:
         intuition.append(simulator_markup)
     intuition.append(render_decisions(data["decisions"], numbers))
     intuition.append(render_tradeoffs(data["tradeoffs"]))
-    changes = [
-        '  <div class="changes-intro">',
-        f'    {data["changes_intro"]}',
-        '    <button class="btn toggle-diffs" type="button" aria-pressed="false">Collapse all diffs</button>',
-        "  </div>",
-    ]
+    changes = [f'  {data["changes_intro"]}']
     changes += [render_section(section, numbers[section["id"]]) for section in data["sections"]]
     faq = "\n".join(
         f'    <details class="faq"><summary>{esc(entry["question"])}</summary><div>{entry["answer"]}</div></details>'

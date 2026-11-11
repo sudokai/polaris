@@ -65,7 +65,7 @@ In one short paragraph, explain the solution that the changeset provides. Keep t
 
 ### 4. Core intuition
 
-Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Read `references/show-me.md` to find the best way to visualize the change.
+Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Read `references/show-me.md` to find the best way to visualize the change. Write a Mermaid diagram as a `<pre class="mermaid">` block in any html field; the page draws it with [Pele](https://pele.run/). Don't render Mermaid with another tool.
 
 When what the change does depends on something a reader can vary, build a **simulator**: a small interactive widget where the reader changes what matters and sees the result. Pick the shape that fits the change, or mix them:
 
@@ -147,7 +147,7 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
   - **path**: the EXACT repo-relative path as it appears in the diff, after the change. Copy it, never invent it, never abbreviate or normalize it (no leading/trailing slash changes, no case changes). `git diff --stat` prints renames as `dir/{old => new}/file.ts`; that is not a path, write `dir/new/file.ts`.
   - **summary**: one sentence describing the semantic change in THIS file, written from the diff hunks you already have. Say what the change does ("extracts the staging logic into a tri-state override map"), not where it sits ("modifies lines 30-80"). Do NOT open the file, search the codebase, or do any per-file investigation to write it. Do not repeat the section overview: the overview carries the why and the implications; the summary says what this specific file contributes. For a trivial change (import bump, rename fallout), one short clause is enough.
   - **hunk**: the changed code of THIS file as simplified diff text. Every file with a meaningful change has at least one hunk, including new files. Do not replace a hunk with a prose description of what the code contains: a summary that lists an enum's values, a parser's cases or a type's fields is a hunk you did not write. Show a hunk for every meaningful change. When in doubt, show it. Trim each hunk to the changed lines that matter plus enough context to place them, and mark cuts with `…`. Never invent lines or alter what a line does.
-    - For a new file, show its key lines as `+` lines: the signature, the enum constants, the mapping or the core branch.
+    - For a new file, show its key lines as `+` lines: the signature, the enum constants, the mapping or the core branch. The page shows a hunk of only `+` lines as plain code with syntax highlighting.
     - When the code is too long or noisy to show as is, use a pseudocode diff or one of the views in `references/show-me.md`, such as a table or a call tree.
     - For a repetitive mechanical change, such as a rename or a signature update at many call sites, show one representative hunk.
     - Omit the hunk when the reviewer could predict this file's diff from the hunks already shown, such as an import bump, a deleted dependency or a call site adjusted to a new signature. The one-sentence summary is enough. A one-line change that turns a feature on, such as a registration, is not predictable: show it.

@@ -25,6 +25,7 @@ Classes you can use inside html fields:
 | `<div class="table-wrap"><table>…</table></div>` | Any table. On phones the rows stack, labelled by the column headers |
 | `<span class="status ok">200</span>`, `bad`, `neutral` | A result, such as an HTTP status, an exit code or a validation verdict |
 | `<span class="example">example data</span>` | A label on made-up values |
+| `<pre class="mermaid">…</pre>` | A Mermaid diagram. The page draws it with [Pele](https://pele.run/) to fit the column. Write `<` as `&lt;` and `&` as `&amp;` |
 
 ## Top-level fields
 
@@ -85,7 +86,7 @@ Each section gets at most one box, and every `section` must be the id of a secti
 - `look_closer`: optional list of html items.
 - `files[].summary`: html, one sentence.
 - `files[].badge`: optional, `new` or `deleted`.
-- `files[].hunk`: optional simplified diff text. Lines starting with `+` render as added, `-` as removed, `…` as a cut, anything else as context. To show two hunks of one file, put a `…` line between them. Without `hunk` the file shows as a plain row with its summary.
+- `files[].hunk`: optional simplified diff text. Lines starting with `+` render as added, `-` as removed, `…` as a cut, anything else as context. To show two hunks of one file, put a `…` line between them. The page highlights hunks in the language of the file's extension. A hunk of only `+` lines, cuts and blank lines shows as plain code, without the `+` signs or the added-line tint. Without `hunk` the file shows as a plain row with its summary.
 
 ### quiz
 

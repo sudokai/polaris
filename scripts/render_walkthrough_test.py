@@ -85,14 +85,48 @@ class RenderWalkthroughTest(unittest.TestCase):
         self.assertIn('<a href="#retry-policy">See 6.1</a>', page)
         self.assertIn('<span class="s">6.1</span>', page)
         self.assertIn('href="#wiring"><span class="k">Config · 6.2</span>', page)
-        self.assertIn('<span class="a">+export function shouldRetry(r) {</span>', page)
-        self.assertIn('<span class="r">-  return true;</span>', page)
+        self.assertIn('<span class="a"><span class="sign">+</span>export function shouldRetry(r) {</span>', page)
+        self.assertIn('<span class="r"><span class="sign">-</span>  return true;</span>', page)
         self.assertIn('<span class="g">…</span>', page)
         self.assertIn('<div class="file nohunk">', page)
         self.assertIn('<span class="dir">src/http/</span><span class="file-name">RetryPolicy.ts</span>', page)
         self.assertIn('<span class="sum">Retries requests that carry an <code>Idempotency-Key</code>.</span>', page)
         self.assertIn('<a class="node emphasis" href="#retry-policy">', page)
 
+    def test_hunk_of_only_added_lines_renders_as_plain_code_in_the_file_language(self):
+        self.data["sections"][1]["files"][0] = {
+            "path": "src/VisitorClass.java", "badge": "new", "summary": "Parses the header.",
+            "hunk": "+public enum VisitorClass {\n+  HUMAN(\"human\");\n…\n+  static VisitorClass from(String header) {\n\n+  }",
+        }
+
+        page = render_walkthrough.render_walkthrough(self.data)
+
+        self.assertIn(
+            '<pre class="code"><code data-lang="java">public enum VisitorClass {\n  HUMAN(&quot;human&quot;);</code>'
+            '<span class="g">…</span><code data-lang="java">  static VisitorClass from(String header) {\n\n  }</code></pre>',
+            page,
+        )
+
+    def test_hunk_with_a_removed_or_context_line_stays_a_diff(self):
+        page = render_walkthrough.render_walkthrough(self.data)
+
+        self.assertNotIn('<pre class="code">', page)
+        self.assertIn('<pre class="diff" data-lang="ts">', page)
+
+    def test_rejects_a_raw_less_than_sign_inside_a_mermaid_block(self):
+        self.data["solution"] = '<pre class="mermaid">flowchart LR\n  A[x <b>y</b>] --> B</pre>'
+
+        self.assertIn(
+            'solution: has a raw < inside <pre class="mermaid">; the browser reads it as a tag, so write &lt;',
+            self.problems_for(self.data),
+        )
+
+    def test_mermaid_block_with_escaped_text_renders_as_written(self):
+        self.data["solution"] = '<pre class="mermaid">flowchart LR\n  A[a &lt; b] --> B</pre>'
+
+        page = render_walkthrough.render_walkthrough(self.data)
+
+        self.assertIn('<pre class="mermaid">flowchart LR\n  A[a &lt; b] --> B</pre>', page)
     def test_decision_without_a_section_renders_without_a_link(self):
         del self.data["decisions"][0]["items"][0]["section"]
 

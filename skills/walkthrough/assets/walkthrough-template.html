@@ -27,11 +27,19 @@
   --ok-soft: #e2f1e7;
   --bad: #a13222;
   --bad-soft: #f8e4e0;
-  --add-bg: #e5f2e7;
-  --add-ink: #1d5530;
-  --del-bg: #f8e6e3;
-  --del-ink: #8a2a1f;
+  /* Added and removed lines are blue and orange, not green and red, so readers with red-green color blindness can tell them apart */
+  --add-bg: #c9e9f9;
+  --add-ink: #023754;
+  --del-bg: #fde2ce;
+  --del-ink: #632500;
   --code-bg: #eef1ee;
+  --hunk-bg: #f8fbf9;
+  --hl-keyword: #561677;
+  --hl-string: #014321;
+  --hl-number: #503402;
+  --hl-title: #033e56;
+  --hl-type: #602902;
+  --hl-comment: #414d49;
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -50,7 +58,8 @@
     --paper: #121816; --surface: #19211f; --ink: #e3e9e6; --muted: #9eaba6; --line: #2f3a37;
     --accent: #72b6d6; --accent-soft: #1c3240; --warn: #e3b052; --warn-soft: #33291378;
     --ok: #74cd99; --ok-soft: #163524; --bad: #f2917f; --bad-soft: #41211b;
-    --add-bg: #16311e; --add-ink: #a2dfb2; --del-bg: #3b1d19; --del-ink: #f3aa9c; --code-bg: #141b19;
+    --add-bg: #16323e; --add-ink: #b2dfff; --del-bg: #4d1e04; --del-ink: #fecba9; --code-bg: #141b19; --hunk-bg: #0e1311;
+    --hl-keyword: #e2cbfe; --hl-string: #9be3b2; --hl-number: #f5cf86; --hl-title: #94ddfd; --hl-type: #fec9a7; --hl-comment: #c3ceca;
     color-scheme: dark;
   }
 }
@@ -58,7 +67,8 @@
   --paper: #121816; --surface: #19211f; --ink: #e3e9e6; --muted: #9eaba6; --line: #2f3a37;
   --accent: #72b6d6; --accent-soft: #1c3240; --warn: #e3b052; --warn-soft: #33291378;
   --ok: #74cd99; --ok-soft: #163524; --bad: #f2917f; --bad-soft: #41211b;
-  --add-bg: #16311e; --add-ink: #a2dfb2; --del-bg: #3b1d19; --del-ink: #f3aa9c; --code-bg: #141b19;
+  --add-bg: #16323e; --add-ink: #b2dfff; --del-bg: #4d1e04; --del-ink: #fecba9; --code-bg: #141b19; --hunk-bg: #0e1311;
+    --hl-keyword: #e2cbfe; --hl-string: #9be3b2; --hl-number: #f5cf86; --hl-title: #94ddfd; --hl-type: #fec9a7; --hl-comment: #c3ceca;
   color-scheme: dark;
 }
 
@@ -126,7 +136,6 @@ table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .rail a.active .n { color: var(--accent); }
 .rail ol ol { padding: 2px 0 6px 2em; }
 .rail ol ol a { font-size: 0.84rem; grid-template-columns: 2.3em 1fr; padding: 4px 8px; }
-.rail .tools { margin-top: 20px; padding: 16px 8px 0; border-top: 1px solid var(--line); }
 
 main { padding: 48px clamp(16px, 4vw, 64px) 96px; max-width: 1000px; }
 header.intro { padding-bottom: 32px; border-bottom: 1px solid var(--line); }
@@ -294,8 +303,6 @@ a.band:hover { border-color: var(--accent); background: var(--accent-soft); }
 .change h3 { margin-top: 0; font-size: 1.3rem; font-weight: 800; }
 .change .num { color: var(--accent); margin-right: 8px; font-variant-numeric: tabular-nums; }
 .files { display: grid; gap: 8px; margin-top: 1.2rem; }
-.changes-intro { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
-.changes-intro p { margin: 0; }
 .file { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 details.file > summary, .file > .file-head { list-style: none; cursor: pointer; padding: 10px 14px 10px 36px; display: grid; gap: 2px; position: relative; }
 .file > .file-head { cursor: default; }
@@ -315,16 +322,44 @@ details.file > summary:hover .file-name { color: var(--accent); }
 .badge { font-family: var(--font-body); font-size: 0.7rem; font-weight: 600; margin-left: 8px; padding: 1px 7px; border-radius: 999px; vertical-align: 1px; }
 .badge.new { background: var(--ok-soft); color: var(--ok); }
 .badge.del { background: var(--bad-soft); color: var(--bad); }
-pre.diff {
+pre.diff, pre.code {
   margin: 0; padding: 8px 0; overflow-x: auto; border-top: 1px solid var(--line);
-  background: var(--code-bg); font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6; tab-size: 2;
+  background: var(--hunk-bg); font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.6; tab-size: 2;
   scrollbar-width: thin;
 }
-pre.diff span { display: block; padding: 0 16px; white-space: pre; min-width: max-content; }
-pre.diff .a { background: var(--add-bg); color: var(--add-ink); }
-pre.diff .r { background: var(--del-bg); color: var(--del-ink); }
-pre.diff .g { color: var(--muted); }
-pre.diff .c { color: var(--ink); }
+pre.diff > span { display: block; padding: 0 16px; white-space: pre; min-width: max-content; }
+pre.diff > .a { background: var(--add-bg); color: var(--add-ink); }
+pre.diff > .r { background: var(--del-bg); color: var(--del-ink); }
+pre.diff > .g { color: var(--muted); }
+pre.diff > .c { color: var(--ink); }
+/* Once highlight.js colors a diff, the tint and the sign mark each line as added or removed */
+pre.diff.highlighted > .a, pre.diff.highlighted > .r { color: var(--ink); }
+pre.diff > span > .sign { font-weight: 700; }
+pre.diff > .a > .sign { color: var(--add-ink); }
+pre.diff > .r > .sign { color: var(--del-ink); }
+/* New code: no diff signs; highlight.js colors the tokens once it loads */
+pre.code > code, pre.code > .g { display: block; padding: 0 16px; white-space: pre; min-width: max-content; }
+pre.code > code { font: inherit; background: none; border: 0; border-radius: 0; overflow-wrap: normal; color: var(--ink); }
+pre.code > .g { color: var(--muted); }
+.hljs-keyword, .hljs-built_in, .hljs-tag, .hljs-name, .hljs-selector-tag { color: var(--hl-keyword); }
+.hljs-string, .hljs-regexp, .hljs-symbol, .hljs-template-tag { color: var(--hl-string); }
+.hljs-number, .hljs-literal { color: var(--hl-number); }
+.hljs-title, .hljs-section, .hljs-meta, .hljs-attr, .hljs-attribute { color: var(--hl-title); }
+.hljs-type, .hljs-title.class_, .hljs-title.class_.inherited__ { color: var(--hl-type); }
+.hljs-comment, .hljs-quote, .hljs-doctag { color: var(--hl-comment); }
+.hljs-comment, .hljs-quote { font-style: italic; }
+
+/* Mermaid diagrams: the source shows until Pele replaces it with an SVG */
+pre.mermaid {
+  margin: 1.1rem 0; padding: 12px 16px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--code-bg); font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.6; color: var(--muted);
+}
+.diagram {
+  margin: 1.1rem 0; padding: 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+  --pele-bg: var(--surface); --pele-fg: var(--ink); --pele-muted: var(--muted); --pele-line: var(--muted);
+  --pele-surface: var(--paper); --pele-surface-alt: var(--accent-soft); --pele-border: color-mix(in srgb, var(--muted) 55%, var(--line));
+  --pele-accent: var(--accent); --pele-font: var(--font-body); --pele-font-mono: var(--font-mono);
+}
 
 /* FAQ */
 .faq-list { display: grid; gap: 8px; max-width: 82ch; }
@@ -393,7 +428,7 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
     padding: 10px 12px; border-right: 0; border-bottom: 1px solid var(--line);
     display: flex; align-items: center; gap: 12px;
   }
-  .rail .brand, .rail .tools { display: none; }
+  .rail .brand { display: none; }
   .rail > ol { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; flex: 1 1 auto; min-width: 0; position: relative; }
   .rail > ol::-webkit-scrollbar { display: none; }
   .rail ol ol { display: none; }
@@ -414,7 +449,8 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
   .table-wrap td:first-child { white-space: normal; }
   .table-wrap td[data-label]::before { content: attr(data-label); display: block; font-size: 0.74rem; font-weight: 600; color: var(--muted); margin-bottom: 1px; }
   .decision { grid-template-columns: minmax(0, 1fr); gap: 4px; }
-  pre.diff span { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; padding-left: calc(12px + 2ch); text-indent: -2ch; }
+  pre.diff > span { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; padding-left: calc(12px + 2ch); text-indent: -2ch; }
+  pre.code > code, pre.code > .g { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; }
 }
 @media (max-width: 480px) {
   h2 { font-size: 1.4rem; }
@@ -430,9 +466,6 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
   <ol id="toc">
 <!-- walkthrough:rail -->
   </ol>
-  <div class="tools">
-    <button class="btn toggle-diffs" type="button" aria-pressed="false">Collapse all diffs</button>
-  </div>
 </nav>
 
 <main>
@@ -442,7 +475,7 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
 
 <script type="application/json" id="walkthrough-quiz"><!-- walkthrough:quiz-json --></script>
 <script>
-/* Walkthrough page engine: tables, diff toggles, chapter rail, deep links, map link names and the quiz.
+/* Walkthrough page engine: tables, code colors, Mermaid diagrams, chapter rail, deep links, map link names and the quiz.
    It exposes window.walkthrough for the changeset's simulator script, which runs after this one. */
 (function () {
   "use strict";
@@ -499,19 +532,95 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
   }
   window.walkthrough = { escapeHtml: escapeHtml, labelTable: labelTable, statusPill: statusPill, detailLines: detailLines, codeList: codeList, fillResultRows: fillResultRows };
 
-  /* Diff toggles: one in the rail, one at the top of the Changes chapter, kept in sync */
-  var toggles = document.querySelectorAll(".toggle-diffs");
-  var collapsed = false;
-  toggles.forEach(function (toggle) {
-    toggle.addEventListener("click", function () {
-      collapsed = !collapsed;
-      document.querySelectorAll("details.file").forEach(function (d) { d.open = !collapsed; });
-      toggles.forEach(function (t) {
-        t.textContent = collapsed ? "Expand all diffs" : "Collapse all diffs";
-        t.setAttribute("aria-pressed", String(collapsed));
-      });
+  /* Libraries load only when the page has something for them. Without the network, the page keeps
+     the Mermaid source and uncolored code. */
+  function loadScript(src, integrity, onload) {
+    var script = document.createElement("script");
+    script.src = src;
+    script.integrity = integrity;
+    script.crossOrigin = "anonymous";
+    script.onload = onload;
+    document.head.appendChild(script);
+  }
+
+  /* Splits highlighted HTML into lines, closing the spans open at each line break and reopening them on the next line */
+  function splitHighlightedLines(highlighted) {
+    var lines = [], open = [], line = "";
+    highlighted.split(/(<span[^>]*>|<\/span>|\n)/).forEach(function (part) {
+      if (part === "\n") {
+        lines.push(line + "</span>".repeat(open.length));
+        line = open.join("");
+        return;
+      }
+      if (part === "</span>") open.pop();
+      else if (part.indexOf("<span") === 0) open.push(part);
+      line += part;
     });
-  });
+    lines.push(line + "</span>".repeat(open.length));
+    return lines;
+  }
+
+  /* A diff colors its old side (context and removed lines) and its new side (context and added lines)
+     separately, as each reads as valid code on its own. A cut ends both sides. */
+  function highlightDiff(pre, highlight) {
+    var segment = [];
+    function colorSegment() {
+      [["c", "r"], ["c", "a"]].forEach(function (kinds, side) {
+        var rows = segment.filter(function (row) { return kinds.indexOf(row.kind) >= 0; });
+        if (!rows.length) return;
+        var lines = splitHighlightedLines(highlight(rows.map(function (row) { return row.code; }).join("\n")));
+        rows.forEach(function (row, i) {
+          if (row.kind === "c" && side === 0) return;
+          row.line.innerHTML = (row.sign ? '<span class="sign">' + row.sign + "</span>" : "") + lines[i];
+        });
+      });
+      segment = [];
+    }
+    Array.prototype.forEach.call(pre.children, function (line) {
+      var kind = line.className, text = line.textContent;
+      if (kind === "g") { colorSegment(); return; }
+      var signed = kind === "a" || kind === "r";
+      segment.push({ line: line, kind: kind, sign: signed ? text.charAt(0) : "", code: signed ? text.slice(1) : text });
+    });
+    colorSegment();
+    pre.classList.add("highlighted");
+  }
+
+  /* Code and diffs: color tokens by the file's language; unknown languages stay plain */
+  var newCode = document.querySelectorAll("pre.code > code[data-lang]");
+  var diffs = document.querySelectorAll("pre.diff[data-lang]");
+  if (newCode.length || diffs.length) {
+    loadScript("https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.12.0/highlight.min.js",
+      "sha384-wjfDDhOPPdjtva8vWBhWeVprSpmxisEu5aYT3q1JyACqXpdKpo3PWZTMVq24MBix", function () {
+        var hljs = window.hljs;
+        function highlighter(language) {
+          return function (source) { return hljs.highlight(source, { language: language, ignoreIllegals: true }).value; };
+        }
+        newCode.forEach(function (code) {
+          var language = code.getAttribute("data-lang");
+          if (hljs.getLanguage(language)) code.innerHTML = highlighter(language)(code.textContent);
+        });
+        diffs.forEach(function (pre) {
+          var language = pre.getAttribute("data-lang");
+          if (hljs.getLanguage(language)) highlightDiff(pre, highlighter(language));
+        });
+      });
+  }
+
+  /* Mermaid diagrams: Pele draws each one to fit its column. A diagram Pele can't draw keeps its source. */
+  var mermaidBlocks = document.querySelectorAll("pre.mermaid");
+  if (mermaidBlocks.length) {
+    loadScript("https://cdn.jsdelivr.net/npm/pele@1.13.0/dist/pele.global.js",
+      "sha384-vDPV1LDXGIwjU5/gMUtHbn/WAmwRmOgkQpiq+Rm4d/BPTsdfpIUpvi2xVET6z85W", function () {
+        mermaidBlocks.forEach(function (pre) {
+          var box = document.createElement("div");
+          box.className = "diagram";
+          pre.replaceWith(box);
+          var diagram = window.pele.mount(box, pre.textContent);
+          if (!diagram.result) { diagram.destroy(); box.replaceWith(pre); }
+        });
+      });
+  }
 
   /* Chapter rail: highlight the chapter being read */
   var links = Array.prototype.slice.call(document.querySelectorAll("#toc a"));
