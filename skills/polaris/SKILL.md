@@ -23,6 +23,7 @@ Each skill is `skills/<name>/SKILL.md` under the plugin root. Run one by reading
 - **The user isn't sure yet what they want, or a design's tradeoffs and hidden assumptions are unclear** → `prototype`, to learn from contrasting versions the user tries.
 - **A decision whose reasons the code can't show later**: what was true at the time, the options set aside, or what it replaces → `record-architecture-decision`. Also when creating, editing, or superseding an ADR.
 - **The project has no scripted way to drive its app**, or the app changed and its verification skill may be out of date → `empirical-verification-skill`.
+- **Building a new module, library, or multi-file feature** → `skeleton-coding`, to fix the structure and contracts before writing the bodies.
 - **Stateful logic, or code that branches a lot** → decide the shape of the data first, following the `model-the-domain` principle. Name, type, and document code as `write-discoverable-code` describes.
 - **Changing structure while keeping behavior** → capture a baseline through the users' interfaces before editing, and compare against it with `prove-it` afterwards.
 - **Writing, changing, or keeping a test** → the `test-behavior-not-implementation` principle.
