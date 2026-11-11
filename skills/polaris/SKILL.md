@@ -37,6 +37,7 @@ Each skill is `skills/<name>/SKILL.md` under the plugin root. Run one by reading
 - **Asked to catch up, "where are we?", or the user returns after stepping away** → `ketchup` for this session, `recall` for work across past sessions. When a run the user stepped away from ends, write the final reply with `ketchup`.
 - **Explaining a design, a flow, or a change that is easier to see than to read** → `show-me`.
 - **Writing or reviewing docs, RFCs, READMEs, plans, playbooks, PR descriptions, or commit messages** → `technical-writing`.
+- **Prose that is hard to follow, or asked to deslop or clarify writing** → `clarify`.
 - **Before asking the user** → the `never-block-on-the-human` principle.
 
 ## Principles
