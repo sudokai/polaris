@@ -42,6 +42,7 @@ Write like a colleague explaining the change to another capable engineer, out lo
 - Code names go in `<code>` in html fields. Fields that take plain text get the bare name. A sentence must still read as English with the code names covered up. Two per sentence at most.
 - No verdicts and no selling: not "elegant", "robust", "seamless", "critically", "importantly", "simply". State the fact.
 - Write every chapter in the voice described in `references/say-it-plainly.md`: what a technical colleague explaining the change would say out loud. Keep the technical precision and drop the jargon and stiff phrasing. Write "if the cache is down, people still see the page", not "a degraded cache tier never surfaces failures".
+- Write each sentence so that it has none of the three faults in `references/clarify.md`: hidden characters and actions, vague wording, and empty statements or misplaced emphasis.
 
 ## Content chapters
 
@@ -208,7 +209,12 @@ Your job is to EXPLAIN and ORIENT the reviewer, not to critique the code. Pointi
    python3 <this skill's folder>/scripts/render_walkthrough.py walkthrough.json --prose
    ```
 
-   Read it all the way through. Wherever it doesn't sound like `references/say-it-plainly.md`, fix it in `walkthrough.json`: figures of speech, jargon, details the reviewer doesn't need, and sentences that got vague when you simplified them. Then reread what you changed.
+   Read it all the way through once for each step below, and make every fix in `walkthrough.json`:
+
+   1. Rewrite what doesn't sound like `references/say-it-plainly.md`: figures of speech, jargon, and details the reviewer doesn't need.
+   2. Check every sentence, including the ones you just rewrote, for the three faults in `references/clarify.md`, and fix each fault you find. When you can't tell who acts or what a phrase refers to, find the answer in the code instead of asking the user.
+
+   Then reread what you changed.
 3. Render the page:
 
    ```bash

@@ -41,6 +41,7 @@ GENERATED_COPIES = {
     "visual-pr/references/show-me.md": "show-me/SKILL.md",
     "walkthrough/references/show-me.md": "show-me/SKILL.md",
     "walkthrough/references/say-it-plainly.md": "say-it-plainly/SKILL.md",
+    "walkthrough/references/clarify.md": "clarify/SKILL.md",
 }
 
 # Skills installed by something other than this plugin that bundled skills may name.
