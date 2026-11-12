@@ -16,7 +16,7 @@ Every sentence tells a small story: someone or something (the character) does so
 - Unclear: "A request for grapes was made upon the duck's arrival at the lemonade stand."
 - Clear: "The duck walked up to the lemonade stand and asked for grapes."
 
-Look for actions turned into nouns ("arrival", "request", "validation", "reproduction") and for subjects that are abstractions while the real actor sits elsewhere or is missing. Keep a different order only when it serves a purpose, such as keeping the topic of a paragraph in the subject position.
+Look for actions turned into nouns ("arrival", "request", "validation", "reproduction") and for subjects that are abstractions while the real actor sits elsewhere or is missing. Put something other than the character in the subject only when it serves a purpose, such as keeping the paragraph's topic in the subject position.
 
 ## 2. Vague wording
 
@@ -28,12 +28,12 @@ The reader must know exactly what each word refers to.
 
 ## 3. Empty statements and misplaced emphasis
 
-A reader skimming the sentence should get its point in one pass.
+A reader skimming the message should get its point in one pass.
 
 - Unclear: "Nothing else depends on anything but the result, so I'll report as soon as the poll returns."
 - Clear: "I'll report the result when the poll finishes. Nothing else is pending."
 
-Find the one thing the reader needs from the sentence and lead with it. Cut statements that tell the reader nothing they can use or don't already know. Put supporting reasons after the point, or drop them.
+Find the one thing the reader needs and put it first in the message or paragraph. Cut statements that tell the reader nothing new or nothing they can act on. Put supporting reasons after the point, or drop them.
 
 ## Rules
 
