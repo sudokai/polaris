@@ -28,6 +28,7 @@ When you finish, end your reply with one line per principle that changed a decis
 - Stateful logic, or code that branches a lot or repeats a data-shape assumption across files → [model-the-domain](model-the-domain.md)
 - Wiring validation, error handling, or framework adapters → [boundary-discipline](boundary-discipline.md)
 - Designing types or a function signature in a statically typed language → [type-system-discipline](type-system-discipline.md)
+- Choosing the structure of a module, component, or API → [optimized-for-change](optimized-for-change.md)
 - Commands, lifecycle steps, or loops that must survive crashes, restarts, and retries → [make-operations-idempotent](make-operations-idempotent.md)
 - Introducing a new internal API while callers of the old one still exist → [migrate-callers-then-delete-legacy-apis](migrate-callers-then-delete-legacy-apis.md)
 - Concurrent actors might write the same file, branch, key, or object → [separate-before-serializing-shared-state](separate-before-serializing-shared-state.md)
