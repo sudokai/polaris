@@ -138,6 +138,13 @@ table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .rail ol ol a { font-size: 0.84rem; grid-template-columns: 2.3em 1fr; padding: 4px 8px; }
 
 main { padding: 48px clamp(16px, 4vw, 64px) 96px; max-width: 1000px; }
+.skip-link {
+  position: fixed; inset-block-start: 8px; inset-inline-start: 8px; z-index: 10;
+  padding: 8px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--ink);
+  transform: translateY(calc(-100% - 10px));
+}
+.skip-link:focus { transform: none; }
 header.intro { padding-bottom: 32px; border-bottom: 1px solid var(--line); }
 .lede { font-size: 1.1rem; line-height: 1.55; color: var(--muted); max-width: 64ch; margin-bottom: 0; }
 section.chapter { padding: 44px 0 40px; border-bottom: 1px solid var(--line); }
@@ -154,7 +161,7 @@ section.chapter:last-child { border-bottom: 0; }
 .btn:active { transform: translateY(1px); }
 
 /* Tables */
-.table-wrap { overflow-x: auto; margin: 1.1rem 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.table-wrap { container-type: inline-size; overflow-x: auto; margin: 1.1rem 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .table-wrap table { width: 100%; font-size: 0.9rem; }
 .table-wrap th, .table-wrap td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .table-wrap tr:last-child td { border-bottom: 0; }
@@ -440,14 +447,16 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
   .deflist dt { border-bottom: 0; padding-bottom: 2px; }
   .deflist dd { padding-top: 0; }
 }
-@media (max-width: 600px) {
-  .table-wrap table, .table-wrap tbody, .table-wrap tr, .table-wrap td { display: block; width: 100%; }
-  .table-wrap thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@container (width < 600px) {
+  .table-wrap table, .table-wrap tbody, .table-wrap tr, .table-wrap tbody th, .table-wrap td { display: block; width: 100%; }
+  .table-wrap thead { display: none; }
   .table-wrap tr { padding: 10px 14px; border-bottom: 1px solid var(--line); }
   .table-wrap tr:last-child { border-bottom: 0; }
-  .table-wrap td, .table-wrap tr:last-child td { border-bottom: 0; padding: 3px 0; }
+  .table-wrap tbody th, .table-wrap td, .table-wrap tr:last-child td { border-bottom: 0; padding: 3px 0; }
   .table-wrap td:first-child { white-space: normal; }
   .table-wrap td[data-label]::before { content: attr(data-label); display: block; font-size: 0.74rem; font-weight: 600; color: var(--muted); margin-bottom: 1px; }
+}
+@media (max-width: 600px) {
   .decision { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   pre.diff > span { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; padding-left: calc(12px + 2ch); text-indent: -2ch; }
   pre.code > code, pre.code > .g { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; }
@@ -460,6 +469,7 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="shell">
 <nav class="rail" aria-label="Chapters">
   <div class="brand"><!-- walkthrough:rail-title --></div>
@@ -468,7 +478,7 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
   </ol>
 </nav>
 
-<main>
+<main id="main-content" tabindex="-1">
 <!-- walkthrough:main -->
 </main>
 </div>
@@ -487,12 +497,25 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
   /* Tables keep their semantics when phones stack them as blocks, and each cell knows its column name */
   function labelTable(table) {
     var heads = Array.prototype.map.call(table.querySelectorAll("thead th"), function (th) { return th.textContent; });
+    var wrapper = table.closest(".table-wrap");
+    if (wrapper) {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute("role", "region");
+      if (!wrapper.hasAttribute("aria-label") && !wrapper.hasAttribute("aria-labelledby")) {
+        var caption = table.querySelector("caption");
+        wrapper.setAttribute("aria-label", caption ? caption.textContent : "Table: " + heads.join(", "));
+      }
+    }
     table.setAttribute("role", "table");
     table.querySelectorAll("thead, tbody").forEach(function (g) { g.setAttribute("role", "rowgroup"); });
     table.querySelectorAll("tr").forEach(function (tr) {
       tr.setAttribute("role", "row");
       Array.prototype.forEach.call(tr.children, function (cell, k) {
-        if (cell.tagName === "TH") cell.setAttribute("role", "columnheader");
+        if (cell.tagName === "TH") {
+          var rowHeader = cell.getAttribute("scope") === "row" || (!cell.hasAttribute("scope") && !cell.closest("thead"));
+          if (!cell.hasAttribute("scope")) cell.setAttribute("scope", rowHeader ? "row" : "col");
+          cell.setAttribute("role", rowHeader ? "rowheader" : "columnheader");
+        }
         else { cell.setAttribute("role", "cell"); if (heads[k]) cell.setAttribute("data-label", heads[k]); }
       });
     });
@@ -717,10 +740,10 @@ details.faq > div p { margin: 0.2rem 0 0.4rem; }
     el.className = "q";
     el.innerHTML =
       '<div class="qt" id="qt-' + i + '"><span class="qn">' + (i + 1) + "</span><span>" + escapeHtml(item.question) + "</span></div>" +
-      '<ul class="opts" role="group" aria-labelledby="qt-' + i + '">' +
+      '<div role="group" aria-labelledby="qt-' + i + '"><ul class="opts" role="list">' +
       item.options.map(function (o, j) {
         return '<li><button class="opt" type="button" data-j="' + j + '"><span class="l">' + LETTERS[j] + "</span><span>" + escapeHtml(o) + "</span></button></li>";
-      }).join("") + "</ul>" +
+      }).join("") + "</ul></div>" +
       '<div class="verdict" hidden tabindex="-1"></div>';
     var buttons = Array.prototype.slice.call(el.querySelectorAll(".opt"));
     var verdict = el.querySelector(".verdict");
