@@ -56,6 +56,8 @@ The `lede` under the title is one sentence saying what the change does and what 
 
 Introduce the parts of the system the change touches, for a skilled engineer who has never seen this codebase.
 
+Start with prose explaining how those parts fit together. Follow it with a glossary using `<dl class="deflist">`, with one term per part.
+
 ### 2. Problem
 
 Explain how the affected code behaved before the change and its shortcomings. Illustrate the problem with a concrete example with realistic data.
@@ -68,7 +70,7 @@ In one short paragraph, explain the solution that the changeset provides. Keep t
 
 Explain the idea behind the central change in its simplest form. Illustrate it with realistic example data, leaving out unimportant details. Read `references/show-me.md` to find the best way to visualize the change. Write a Mermaid diagram as a `<pre class="mermaid">` block in any html field; the page draws it with [Pele](https://pele.run/). Don't render Mermaid with another tool.
 
-When what the change does depends on something a reader can vary, build a **simulator**: a small interactive widget where the reader changes what matters and sees the result. Pick the shape that fits the change, or mix them:
+Always include a central interactive model in Core intuition: a **simulator** where the reader changes what matters and sees the result. Pick the shape that fits the change, or mix them:
 
 - **Logic:** the reader changes the inputs (a user's role, whether a feature flag is on, an expired session, an item out of stock) and sees what each part of the system returns.
 - **Data:** the reader picks or edits a sample record and sees it before and after the change, or at each step it passes through, such as a migration, an import or a transform.
@@ -76,9 +78,11 @@ When what the change does depends on something a reader can vary, build a **simu
 - **Timing:** the reader steps through events in order (two requests arrive at once, a cache entry expires, a scheduled job runs) and sees the state after each one.
 - **Scale:** the reader changes the input size and sees how the work grows before and after the change, such as the number of queries for 10 or 1,000 items.
 
-Follow the format in [walkthrough-json.md](references/walkthrough-json.md#the-simulator-fragment). A change with nothing to vary, such as a rename or a refactor that changes no behavior, has no simulator.
+Follow the format in [walkthrough-json.md](references/walkthrough-json.md#the-simulator-fragment). For a rename or a refactor that changes no behavior, let the reader compare before and after or trace how the parts fit together. Show what stays the same.
 
-- Derive its rules from the code in the changeset, not from your summary of it. Before you finish, check each rule against the code again.
+Chapters can contain smaller, local demonstrations when a simulator would help the reader understand that part of the change. Place each beside the explanation it supports.
+
+- Derive each simulator's rules from the code in the changeset, not from your summary of it. Before you finish, check each rule against the code again.
 - Label made-up values as example data. Check every specific number the simulator shows, such as a timeout, a page size or a retry count, against its constant in the code.
 - A UI simulator is a sketch drawn in the page, not the real component. Say so in its note, and take its colors, sizes and text from the changed code.
 
@@ -202,7 +206,7 @@ Your job is to EXPLAIN and ORIENT the reviewer, not to critique the code. Pointi
 
 ## 3. Build the page
 
-1. Write the content as `walkthrough.json`, and the simulator, if there is one, as `simulator.html`, following [walkthrough-json.md](references/walkthrough-json.md). Put both in a scratch folder, not in the repository.
+1. Write the content as `walkthrough.json` and the central simulator as `simulator.html`, following [walkthrough-json.md](references/walkthrough-json.md). Put both in a scratch folder, not in the repository.
 2. Review the wording. Print every piece of text the reader will see:
 
    ```bash
@@ -221,8 +225,8 @@ Your job is to EXPLAIN and ORIENT the reviewer, not to critique the code. Pointi
    python3 <this skill's folder>/scripts/render_walkthrough.py walkthrough.json --simulator simulator.html --out walkthrough.html
    ```
 
-   Leave out `--simulator` when there is no simulator. If the script lists problems, fix each one and render again. Don't edit the generated HTML.
-4. Open the page once in a browser, at desktop width and at phone width, if you can. Use the simulator's controls, if there is a simulator, and answer one quiz question. Fix what you see, render again, and stop.
+   If the script lists problems, fix each one and render again. Don't edit the generated HTML.
+4. Open the page once in a browser, at desktop width and at phone width, if you can. Use the central simulator's controls and any local demonstrations, and answer one quiz question. Fix what you see, render again, and stop.
 5. If your environment can publish pages, publish `walkthrough.html` privately and give the user the link. Otherwise give its path.
 
 Reply in chat with a few lines: what the change does, the link or path, and anything you flagged under **Look closer** that needs a decision. The page is the walkthrough, so don't repeat its chapters in chat.

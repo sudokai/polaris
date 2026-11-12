@@ -21,7 +21,7 @@ Classes you can use inside html fields:
 
 | Class | Use |
 |---|---|
-| `<dl class="deflist">` with `<dt>`/`<dd>` | Orientation: one term per part of the system |
+| `<dl class="deflist">` with `<dt>`/`<dd>` | Orientation glossary, after the introductory prose: one term per part of the system |
 | `<div class="table-wrap"><table>…</table></div>` | Any table. On phones the rows stack, labelled by the column headers |
 | `<span class="status ok">200</span>`, `bad`, `neutral` | A result, such as an HTTP status, an exit code or a validation verdict |
 | `<span class="example">example data</span>` | A label on made-up values |
@@ -102,7 +102,9 @@ Exactly 4 options. `correct` is the index of the right option. The script reject
 
 ## The simulator fragment
 
-`simulator.html` holds the changeset's simulator, when it has one: its markup, then one `<script>`. Without a simulator, leave out `--simulator`. The render script places the markup after the Core intuition intro, and the fragment's script runs after the page's own script.
+`simulator.html` holds the required central interactive model: its markup, then one `<script>`. The render script places the markup after the Core intuition intro, and the fragment's script runs after the page's own script.
+
+For smaller, local demonstrations, put the markup in the relevant chapter's html field, such as `sections[].overview`. Put their JavaScript in the same `simulator.html` script, not in JSON html fields. Give each demonstration unique element IDs and radio-group names, and scope its controls and updates to its own container.
 
 Build the markup from these classes. Use the ones the change needs:
 
