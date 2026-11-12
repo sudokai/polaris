@@ -50,4 +50,4 @@ Examples: Databricks, Snowflake, BigQuery, ClickHouse, dbt, Redshift.
 
 - **Search:** list the available tables before you assume names. Look for feature-usage events, experiment and feature-flag exposure tables, and pipeline lineage that feeds the target.
 - **Good evidence:** an experiment result or usage number that a PR or doc cites as the reason for the change.
-- **Pitfalls:** an event that exists only shows that someone logged it; a step change in volume may be new instrumentation, not new behavior; notebooks are often not queryable (report them as a gap).
+- **Pitfalls:** an event's existence shows only that someone logged it; a step change in volume may be new instrumentation, not new behavior; notebooks are often not queryable (report them as a gap).

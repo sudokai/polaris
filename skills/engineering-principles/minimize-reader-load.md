@@ -7,6 +7,6 @@ Maintainability is the work a reader must do to understand code. Track two axes:
 - **Make interfaces hide more than they expose.** A broad interface that hides little complexity makes readers learn both the surface and the implementation. Prefer boundaries that hide meaningful decisions.
 - **Shrink state scope:** prefer pure functions (returns over mutations), locals over fields, fields over module state, and module state over globals. Derive values from their source instead of keeping copies in sync.
 - **Name the invariant at the boundary,** not in every consumer, so the reader learns it once.
-- Before adding a layer or a piece of state, ask: does it reduce reader load elsewhere by at least as much?
+- Before adding a layer or a piece of state, ask: does it remove at least as much reader load elsewhere as it adds?
 
 **The test:** can a new reader answer "where does X come from?" and "what can change X?" in under 30 seconds? If not, cut layers or cut state.

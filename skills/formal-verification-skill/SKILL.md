@@ -21,4 +21,4 @@ Each verify skill keeps this record for each of its checks, under a `Coverage` h
 - **Covers:** the files and functions that the check describes.
 - **Scope:** the bounds and assumptions.
 - **Run:** the one command that runs the check.
-- **Synced at:** the commit at which the verification was last confirmed to describe the code. Move it forward only after confirming that at the new commit.
+- **Synced at:** the commit at which the verification was last confirmed to describe the code. Move it forward only after you confirm, at the new commit, that the verification still describes the code.

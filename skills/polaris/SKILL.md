@@ -29,7 +29,7 @@ Each skill is `skills/<name>/SKILL.md` under the plugin root. Run one by reading
 - **Writing, changing, or keeping a test** → the `test-behavior-not-implementation` principle.
 - **A significant choice is left to you because the instructions or plan are unclear, or an edge case forces a deviation** → `decision-log`.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → `blast-radius`.
-- **A race, a retry, or another property that tests rarely reach, and the check must stay in the project**, or code that a formal check covers changed after the check's sync commit → `formal-verification-skill`.
+- **A race, a retry, or another property that tests rarely reach, and the check must stay in the project**, or code that a formal check covers changed after the commit the check was last synced to → `formal-verification-skill`.
 - **About to claim that a change works** → `prove-it`.
 - **Finished a workpackage** → `deslop`, then `sweep-residue`.
 - **Asked to refactor commits to make them easier to review** → `refactor-commits`.

@@ -17,7 +17,7 @@ Treat an explanation suggested by the user as a hypothesis to check, not as an a
 
 Record the relevant paths, symbols, and line ranges. Reuse evidence already collected for this task.
 
-Use [code history commands](references/sources/code-archaeology.md) to locate the change that introduced the decision. A later commit may show only a rename, formatting, or a partial fix. Read the relevant patch and commit message, nearby comments, tests changed at the same time, and available decision records.
+Use [code history commands](references/sources/code-archaeology.md) to locate the change that introduced the decision. The latest commit on a line may be only a rename, a reformat, or a partial fix. Read the relevant patch and commit message, nearby comments, tests changed at the same time, and available decision records.
 
 Read relevant PRs and review discussions in full, including comments and review threads. Preserve exact locations for each finding.
 
@@ -29,7 +29,7 @@ When a material gap or disagreement remains, search the available source most li
 
 Continue while a promising source could materially change the answer. Otherwise stop and report the remaining uncertainty. For a comprehensive investigation, check each available and relevant source category. Record unavailable sources and unnecessary categories separately. Do not treat either one as an empty search.
 
-Delegate only source searches that require substantial reading or useful parallel coverage. Give each read-only investigator the question, code anchor, assigned section of the source playbook, and completed searches. Ask for citations, contradictions, and search gaps.
+Delegate a source search only when it needs a lot of reading or when running it alongside other searches saves time. Give each read-only investigator the question, code anchor, assigned section of the source playbook, and completed searches. Ask for citations, contradictions, and search gaps.
 
 ## Step 4. Weigh and report the evidence
 
@@ -41,7 +41,7 @@ Follow the [evidence rules](references/epistemics.md):
 - Describe meaningful searches that returned nothing and sources you could not access.
 - Say **unknown** when the available records do not answer the question.
 
-If a consequential action depends on resolving contradictory or uncertain evidence, ask a reviewer who has not seen your explanation to inspect the same sources. Check the review against those sources and report its limits. A review is unnecessary when you can simply report the disagreement.
+If a consequential action depends on resolving contradictory or uncertain evidence, and reporting the disagreement is not enough, ask a reviewer who has not seen your explanation to inspect the same sources. Check the review against those sources and report its limits.
 
 Answer the original question first. For a narrow question, concise prose may suffice. Separate findings, interpretations, and unknowns whenever they could otherwise be mistaken for one another.
 

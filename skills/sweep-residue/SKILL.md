@@ -11,10 +11,10 @@ If something only makes sense because of that conversation, rewrite it.
 
 ## Sweep these 
 
-- conversation, prompt, or iteration history leakage in code comments, pull request descriptions, or other maintainer-facing prose
+- details from the conversation, prompt, or iteration history that leaked into code comments, pull request descriptions, or other maintainer-facing prose
 - names, comments, or messages that only make sense if you saw an earlier version
 - explanations of what changed instead of how the final thing works
-- details singled out because they are new, or a new item in a list
+- details or list items called out only because they are new
 - prior versions or rejected approaches still floating around in code or docs
 - docs that don't match the code, fix if still valuable, delete if obsolete
 - commented-out code

@@ -8,7 +8,7 @@ Reach for:
 - A typed model instead of loose parameters or repeated shape assumptions.
 - A map, registry, lookup table, or discriminated union instead of branching spread across files.
 - A reducer or command/event model instead of ad hoc state mutations.
-- A module organized around one body of domain knowledge instead of a sequence such as load, validate, transform, and save. Execution order is not ownership.
+- A module organized around one body of domain knowledge instead of a sequence such as load, validate, transform, and save. Group code by the knowledge it owns, not by the order it runs in.
 - A small module boundary that gathers repeated behavior, ownership, or invariants.
 - A queue, cache, index, graph, tree, or normalized collection where the access pattern calls for it.
 - Any other structure that fits. When none fits, work out what the code must never allow and how the data gets read, then find the structure that encodes exactly that.

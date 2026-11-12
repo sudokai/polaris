@@ -124,6 +124,6 @@ Bash(open path/to/show-me-{description}.html)
 
 ## Guidance
 
-Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries needed to answer the user's current question or the options to resolve the current discussion point.
+Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries needed to answer the user's current question or to compare the options in the current discussion.
 
-You may use one of these, you may use several, it is unlikely you will use all of them. Use your judgement and don't overwhelm the user.
+Use only the views the point needs: often one, sometimes several, rarely all. Don't overwhelm the user.

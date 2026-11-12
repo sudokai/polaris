@@ -13,6 +13,6 @@ Default to building the lever. Skip it only when the task is trivial, a couple o
 - Applying this principle produces a file. If you cited it and there is no codemod, script, generator, or delegate skill in the diff, you didn't apply it.
 - Commit the lever when the work outlives the session.
 
-The bar is triviality, not repetition. A one-off still earns a lever when the lever is what makes the work checkable. As `laziness-protocol.md` says, build the smallest script that does or proves the job, never a framework.
+Build a lever whenever the work isn't trivial, even if it won't repeat. A one-off still earns a lever when the lever is what makes the work checkable. As `laziness-protocol.md` says, build the smallest script that does or proves the job, never a framework.
 
 This differs from `encode-lessons-in-structure.md`, which turns a recurring instruction into a lasting guardrail. This principle is about getting the current work done faster and making it easy to review. For scripting the verification itself, see `prove-it-works.md`.

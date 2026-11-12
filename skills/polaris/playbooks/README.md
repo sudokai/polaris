@@ -5,9 +5,9 @@ A playbook defines the task's sequence, handoffs, checks, and delivery. Skills p
 ## Running a playbook
 
 1. Open the matched playbook file.
-2. Copy its numbered steps verbatim into the todo list before adding task details. Put nested playbook steps under the current step, then return to the caller.
+2. Copy its numbered steps verbatim into the todo list before adding task details. When a step runs another playbook, put that playbook's steps under the current step. When they finish, continue the playbook that called it.
 3. Run applicable steps; mark skipped ones with `skip: <reason>`. Keep the work proportional to the task. Small changes need no new design or unrelated investigation.
-4. Pass each skill the goal, constraints, findings, file paths, and checks already run. Reuse valid evidence; repeat checks when changes to the code, environment, or claim invalidate it.
+4. Pass each skill the goal, constraints, findings, file paths, and checks already run. Reuse valid evidence; repeat a check when the code, environment, or claim has changed since the check ran.
 5. Follow the playbook's `Reply:` line. A nested playbook returns its result to the caller for the overall reply.
 
 ## Format

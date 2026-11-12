@@ -5,7 +5,7 @@ description: "Build a throwaway prototype to learn from someone using it before 
 
 # Prototype
 
-Follow Bob Moesta's approach: prototype to learn, not to verify. Try possibilities to discover the boundaries of the solution through contrasting prototypes, to help the user clarify what they want, learn about design tradeoffs and surface implicit and/or hidden assumptions. Do not use the prototype to prove that designs already chosen are right.
+Follow Bob Moesta's approach: prototype to learn, not to verify. Build contrasting prototypes to find the boundaries of the solution. They help the user clarify what they want, learn the design tradeoffs, and surface implicit or hidden assumptions. Do not use the prototype to prove that designs already chosen are right.
 
 ## Propose prototypes
 

@@ -5,8 +5,8 @@
 - **List what else the number could be measuring, and rule out each one with evidence.** The usual suspects are errors, skipped or cached work, code that never ran, one side of a comparison left on default settings, noise, and a piece too small to matter end to end.
 - **Keep the evidence with the number.** Put the run count, the spread, and the limiter in the notes or a linked artifact.
 
-For an eval result, ask the same of the trials: did every run do the task, does the gap hold across trials and models, and does the scenario matter.
+For an eval result, ask the same of the trials: did every run do the task, does the gap hold across trials and models, and does the scenario matter to real users.
 
 You skipped this if you started a run before naming the result that would change a decision, if a number has no run count, spread, or named limiter beside it, or if the claimed saving is larger than the total time the changed part took.
 
-This differs from `prove-it-works.md`, which checks that an output is real.
+`prove-it-works.md` checks that an output is real; this principle checks what a measured number actually shows.

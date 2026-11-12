@@ -15,7 +15,7 @@ Work in a scratch folder outside the repository. Write a spec and its config, th
 <skill dir>/scripts/statechart SPEC.tla [--config FILE] [--view FILE] [--out DIR]
 ```
 
-The script needs Node 22.18 or later, Bun, or Deno. Its first run installs TLC and Java with mise, so it needs the network. `--out` must name a new or empty folder; it gets the report, `chart.mmd`, `tlc.out`, and a `tlc-RULE.out` for each rule whose bug path the chart does not show. The command exits 0 when every rule holds, 1 when a rule breaks, and 2 when TLC or the command fails.
+The script needs Node 22.18 or later, Bun, or Deno. Its first run installs TLC and Java with mise, so it needs the network. `--out` must name a new or empty folder. The command writes into it the report, `chart.mmd`, `tlc.out`, and a `tlc-RULE.out` for each rule whose bug path the chart does not show. The command exits 0 when every rule holds, 1 when a rule breaks, and 2 when TLC or the command fails.
 
 ## Write the spec
 
@@ -38,9 +38,9 @@ In `vars`, a TLA+ sequence is an object keyed from 1 (`v.pc[1]`), and a set is a
 
 Name states by what the reader sees or cares about, such as "Paying" or "Lease held, write pending", never by variable names.
 
-`step(action, from, to)` gets the TLC action name and the values before and after, and returns the arrow label. Write it as what happens to the user, such as "you press play" or "the connect fails", not as the code or action name. Give the same label to actions that end in the same chart state, so they share one arrow. Put a condition at the end in brackets, in the reader's words: `you press play [while the file loads]`. In a regions chart, the command already writes conditions on other regions, such as `[when Offline]`, and your brackets replace them, so leave those out. When a hidden value decides where a step goes, name the outcome: "the roster read fails".
+`step(action, from, to)` gets the TLC action name and the values before and after, and returns the arrow label. Write it as what happens to the user, such as "you press play" or "the connect fails", not as the code or action name. Give the same label to actions that end in the same chart state, so they share one arrow. Put a condition at the end in brackets, in the reader's words: `you press play [while the file loads]`. In a regions chart, don't write conditions on other regions, such as `[when Offline]`. The command adds them, and any brackets you write replace them. When a hidden value decides where a step goes, name the outcome: "the roster read fails".
 
-Optional exports: `group(vars)` returns a phase name, and each chart state gets its group's color (no color when its model states disagree). `colors` maps groups to blue, orange, purple, yellow, teal, tan, or pink. `title` is a string shown at the top.
+Optional exports: `group(vars)` returns a phase name, and each chart state gets its group's color. A chart state gets no color when the model states behind it fall in different groups. `colors` maps groups to blue, orange, purple, yellow, teal, tan, or pink. `title` is a string shown at the top.
 
 ## Keep the chart readable
 
@@ -58,7 +58,7 @@ If it is still too busy, return `null` from `step()` for steps the reader does n
 - `breaks` marks a chart state where every model state behind it breaks a rule. `mayBreak` marks one where only some do. Merging states can turn `breaks` into `mayBreak`. The legend names the rules for each mark. When a mark covers two rules, say in the hand-off which state breaks which rule.
 - In a regions chart, a mark can mean that the state breaks a rule only together with a state in another region. Check the bug path in the report before saying which state is wrong.
 - The chart includes states after a bug, because TLC goes past it.
-- With VIEW or SYMMETRY, TLC treats equivalent states as one, and an arrow can lead to that representative. The report says when this happens.
+- With VIEW or SYMMETRY, TLC lets one state stand for each set of equivalent states, and an arrow can lead to that representative. The report says when this happens.
 - TLC checks rules in states past a CONSTRAINT or ACTION_CONSTRAINT, but does not explore them or check them for deadlock. The chart draws such a state only when it ends a shortest bug path.
 - After a rule breaks, the command removes it and runs TLC again, until no rule breaks. These reruns stop at 100,000 distinct states. Rules that a rerun did not reach are listed under "Rules not checked": they may hold or break. To check them, remove the broken rules from the config or shrink the model.
 - `tlc.out` is TLC's output on the config as written.

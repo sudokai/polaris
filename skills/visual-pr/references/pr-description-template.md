@@ -10,7 +10,7 @@
 
 ## Change outline
 
-{Use the smallest combination of the following views in `show-me.md` that explains the implementation. Prefer `diff` blocks for changes to existing shapes and complete blocks for mostly new shapes. Do not include headings for views that are not relevant.}
+{Use the fewest views from `show-me.md` that explain the implementation; the blocks below sketch the common ones. Prefer `diff` blocks for changes to existing shapes and complete blocks for mostly new shapes. Do not include headings for views that are not relevant.}
 
 {...short-description...}
 
@@ -50,4 +50,4 @@
 {Show changed call trees, call stacks, control flow, or data flow.}
 ```
 
-{Tell the story in the order that makes it easiest to understand. It may make sense to show files first, or it may make sense to establish a data structure, SQL table, or API contract first. All views and subheadings are optional. Use only the views that help explain the PR, and name or order them based on the change rather than a fixed template. Write it as one human would write to another. Use `diff` for a focused change to an existing shape. Show the complete target shape in a language-specific or `text` block when it is new, high-level, or clearer without diff notation.}
+{Order the views so the story is easiest to follow: files first, or a data structure, SQL table, or API contract first. All views and subheadings are optional; name and order them to fit the change. Write the outline as one human would write to another. Show a complete shape in a language-specific or `text` block when it is new, high-level, or clearer without diff notation.}

@@ -16,7 +16,7 @@ Verify one claim with evidence that another person can reproduce. Derive the pas
    - For code behavior, use a focused test or script that calls the real implementation.
    - For a bug fix, check the original failure scenario. A minimized regression test alone does not prove that the original scenario works.
 
-3. **Establish the comparison when the claim needs one.** Compare old and new behavior under equivalent commands, inputs, environment, warmup, and configuration. Reuse an earlier baseline when it describes the same old state. For acceptance, test each criterion from the documented starting state instead.
+3. **Establish the comparison when the claim needs one.** Compare old and new behavior under equivalent commands, inputs, environment, warmup, and configuration. Reuse an earlier baseline when it describes the same old state. For a new artifact, test each acceptance criterion from the documented starting state instead.
 
 4. **Inspect the raw output.** Check for errors, skipped work, and unrelated activity that could affect the result. Save relevant output when it is needed to reproduce or audit the claim. For performance claims, follow [the measured-numbers checklist](references/measured-numbers.md). For evals, use representative trials and compare models only when the claim requires it.
 

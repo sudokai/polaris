@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 A verification skill lets the next agent prove behavior on the real app: launch it, drive a feature the way a user would, and capture evidence. It lives in the project as `verify-<app>/`, in the project skill directory that your harness reads, with a feature map in `verify-<app>/features/`. Write it for an agent that reads it cold, mid-task, and has never seen the app.
 
-A project verification skill is one whose body has launch and drive sections and a feature map, usually `verify-*/`. If several exist, ask which one. Pick the mode, and say which:
+To find an existing verification skill, look for a project skill whose body has launch and drive sections and a feature map. It is usually named `verify-*/`. If several exist, ask which one. Pick the mode, and say which:
 
 - **Create** when the project has none: follow [create.md](create.md).
 - **Maintain** when one exists and the app changed, or the user asks to audit it: follow [maintain.md](maintain.md).

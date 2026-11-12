@@ -18,7 +18,7 @@ Before rewriting:
    git branch backup/refactor-commits-$(date +%Y%m%d-%H%M%S)
    ```
 
-2. Record the tree of the full working tree, including uncommitted and untracked files.
+2. Record the tree hash of the whole working tree, including uncommitted and untracked files.
 
    ```bash
    TMP_INDEX=$(mktemp -u)

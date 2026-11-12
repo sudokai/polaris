@@ -12,7 +12,7 @@ For a requested rough estimate, one run is enough. Label it as a single run, che
 
 2. **Match the conditions.** Use equivalent release builds, flags, versions, data, caches, concurrency, connection pools, and transaction settings. If tuning differs, the result describes the configurations rather than the implementations.
 
-3. **Check the environment.** Record system load and available CPUs. Alternate baseline and treatment runs so both experience similar conditions. Check whether the load generator reaches its limit first. Profile separately because profiling changes performance.
+3. **Check the environment.** Record system load and available CPUs. Alternate baseline and treatment runs so both experience similar conditions. Check whether the load generator hits its own limit before the system under test does. Profile separately because profiling changes performance.
 
 4. **Check physical limits.** Compare throughput with disk and network bandwidth, operation costs with CPU capacity, and time saved with time spent in the changed code. Investigate impossible results for caching, skipped work, errors, or a broken measurement.
 

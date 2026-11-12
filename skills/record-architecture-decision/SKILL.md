@@ -5,7 +5,7 @@ description: Record a consequential architectural choice with its context, ratio
 
 # Record architecture decision
 
-The code shows what was decided, but not when or why. A dated record does, and together the records are a cheap index of the project's history. So write down what was true when the decision was made, not just the decision. Write one when losing a decision's rationale could cause a harmful reversal or repeated costly investigation. Skip routine implementation summaries, obvious choices, and progress logs. Keep working-session decisions in `decision-log`.
+The code shows what was decided, but not when or why. A dated record does, and together the records are a cheap index of the project's history. So write down what was true when the decision was made, not just the decision. Write one when, without the decision's rationale, someone could reverse the decision and cause harm, or spend effort investigating it again. Skip routine implementation summaries, obvious choices, and progress logs. Keep working-session decisions in `decision-log`.
 
 ## Ground the choice
 

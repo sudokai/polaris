@@ -25,4 +25,4 @@ Code organization:
 
 **The tests:**
 - "Is this data crossing a system boundary right now?" If not, validation is redundant.
-- "Can this be a pure function that the shell just calls?" If yes, extract it.
+- "Can this be a pure function that the boundary code just calls?" If yes, extract it.

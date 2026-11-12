@@ -2,10 +2,9 @@
 
 Optimize for the intended, verifiable end state rather than preserving smooth intermediate states.
 
-**Why:** Keeping every intermediate step fully stable often creates temporary compatibility code that becomes long-lived debt. Converge on the target architecture and prove correctness at explicit verification boundaries.
+**Why:** Keeping every intermediate step fully stable often creates temporary compatibility code that becomes long-lived debt. Move to the target architecture and prove it correct at checkpoints the plan names.
 
 **Core rule:**
-- Put a correct end state ahead of keeping every intermediate state stable
 - Intermediate breakage is acceptable when it is planned, scoped, and reversible
 
 **Guardrails:**

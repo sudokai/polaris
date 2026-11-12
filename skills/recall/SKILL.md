@@ -9,13 +9,13 @@ description: "Reconstruct your recent working context from your own chat history
 
 Keep it tight and on-topic. Read only what the in-scope threads need, then stop.
 
-Your own chat history holds what you did and decided. The shared record holds user reports, prior fixes, incidents, and decisions under other names. Start with relevant transcripts, linked artifacts, and current state. Expand into the shared record when they leave a concrete gap or conflict, especially for a feature with unresolved symptoms or reverted fixes.
+Your own chat history holds what you did and decided. The shared record holds user reports, prior fixes, incidents, and decisions, often recorded by other people and filed under different names. Start with relevant transcripts, linked artifacts, and current state. Expand into the shared record when they leave a concrete gap or conflict, especially for a feature with unresolved symptoms or reverted fixes.
 
-1. Confirm the request needs recall. Resuming one specific prior chat, collecting lessons from the current session, and writing a human-readable summary of your work are different tasks. If the user already gave you a full state capsule (paths, branch, the change), use it and skip the mining.
+1. Confirm the request needs recall. These tasks are not recall: resuming one specific prior chat, collecting lessons from the current session, and writing a human-readable summary of your work. If the user already gave you a full state capsule (paths, branch, the change), use it and skip the mining.
 2. Lock the scope before searching. Pin the window ("recent" is a real range, default the last 7 days), the topic if named, and the workspace (default the active one. Never read another project's transcripts without being asked). State the scope back. Never quietly turn "all" into "recent N".
 3. Filter chat history before delegating. Order candidates by real modification time (`ls -t`), grep the topic, and read matching regions. Skip the current chat plus obvious noise (subagent, eval, and test chats). Read a small set directly. For bulk reading, split matching transcripts into non-overlapping slices for subagents; they do not start more agents. Each returns concise findings: topic, the user's goal, decisions, open threads, struggles and corrections, and artifacts, citing the chat UUID. Keep raw transcripts out of the main context.
 4. Follow linked PRs, tickets, design documents, chat threads, or error reports that bear on the current state. Reuse evidence already gathered. For unresolved symptoms, missing decisions, or conflicting history, use the `why` skill to find the current state, what has been tried and did not hold, and what users still report. Search a relevant source even without a link when it could resolve a concrete gap. A named feature alone does not require searching every system. If the user requests a comprehensive investigation, search every available source, and say why you skipped any.
-5. Verify against live state. Take the PRs, branches, and tickets that the mining and the sweep surfaced and check them with `git` and `gh`. When the answer hinges on what an agent actually did (the tools it ran, files it read, errors it hit), read the full transcript, not just a trimmed local copy.
+5. Verify against live state. Check the PRs, branches, and tickets found in steps 3 and 4 with `git` and `gh`. When the answer hinges on what an agent actually did (the tools it ran, files it read, errors it hit), read the full transcript, not just a trimmed local copy.
 6. Write the brief to the [output contract](#output-contract). Group by thread. Stay on the named topic.
 
 ## Output contract
@@ -23,7 +23,7 @@ Your own chat history holds what you did and decided. The shared record holds us
 Lead with the capsule, then the thread status, then the problems, then the next move. Deeper detail goes below or gets cut.
 
 - **Capsule.** At most 5 bullets. What this work is and where it stands overall.
-- **Threads.** One line each, prefixed with exactly one status tag: `[merged #N]`, `[open PR #N]`, `[in flight <branch>]`, `[verified, uncommitted]`, `[reverted #N]`, or `[planned, not started]`. A thread with no tag is not done yet, so tag it.
+- **Threads.** One line each, prefixed with exactly one status tag: `[merged #N]`, `[open PR #N]`, `[in flight <branch>]`, `[verified, uncommitted]`, `[reverted #N]`, or `[planned, not started]`. Every thread gets a tag. If none fits yet, you haven't finished checking that thread.
 - **Problems.** At most 5, the recurring ones. Include the symptoms users keep reporting and any fix that shipped and was reverted, so the next attempt starts where the last one failed.
 - **Next move.** The single most useful next action, concrete.
 - **Coverage.** Briefly name the records searched, material sources unavailable or left unsearched, and unresolved gaps. Do not present a partial search as the complete shared record.

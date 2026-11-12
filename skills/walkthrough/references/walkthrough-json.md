@@ -127,7 +127,8 @@ The page script provides `window.walkthrough`:
 - `codeList(names)`: one name or a list of names as code, one per line. Use it to show several things that get the same result in one row.
 - `statusPill(kind, text)`: a result label. `kind` is `ok`, `bad` or `neutral`.
 - `detailLines(lines)`: small muted lines under a result, such as response headers or log fields.
-- `escapeHtml(text)` and `labelTable(table)`.
+- `escapeHtml(text)`: escapes `&`, `<`, and `>` so text is safe inside HTML.
+- `labelTable(table)`: gives each cell its column name so the table still reads when a phone stacks the rows.
 
 ### Example: logic
 

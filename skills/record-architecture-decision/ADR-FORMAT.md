@@ -33,7 +33,7 @@ status: superseded
 superseded_by: 2026-11-07-store-results-with-the-work-item.md
 ```
 
-Use the linked record's filename without its directory when both records share a directory. Otherwise, describe the path from `docs/decisions/`. Keep exactly one `superseded_by` link. A list of `supersedes` links is valid when one new decision replaces several.
+Use the linked record's filename without its directory when both records share a directory. Otherwise, give the path relative to `docs/decisions/`. Keep exactly one `superseded_by` link. A list of `supersedes` links is valid when one new decision replaces several.
 
 ## Body
 

@@ -7,7 +7,7 @@ Review the completed workpackage and simplify its implementation without changin
 
 ## Scope
 
-- Focus on code added or affected by the workpackage and the nearby code needed to simplify it coherently.
+- Focus on code that the workpackage added or affected, and on the nearby code you need to change to simplify that code coherently.
 - Do not perform unrelated cleanup.
 - Read the affected files in full and understand the relevant invariants, call sites, tests, and public API before editing.
 - Optimize for a direct, coherent, maintainable design—not the smallest diff.
@@ -42,7 +42,7 @@ Rewrite such a test to call the code the way its users do, and to check results,
 
 ## Approval gate for significant removals
 
-Before making any significant or potentially intentional removal, stop and ask the user for approval. First explain:
+Before you remove anything significant, or anything that may have been kept on purpose, stop and ask the user for approval. First explain:
 
 1. what you propose to remove or change;
 2. why it appears unnecessary or overly defensive;
@@ -50,7 +50,7 @@ Before making any significant or potentially intentional removal, stop and ask t
 4. the simpler replacement, if any; and
 5. your recommendation.
 
-Wait for explicit approval before applying that change. Do not bundle approval for multiple independent decisions; present them separately when the tradeoffs differ.
+Wait for explicit approval before applying that change. Do not ask for one approval that covers several independent decisions; present each one separately when their tradeoffs differ.
 
 Treat a decision as significant when it removes or materially changes any of the following:
 
@@ -66,7 +66,7 @@ Routine, behavior-preserving cleanup does not require approval, such as inlining
 ## Constraints
 
 - Preserve intended behavior unless the user explicitly approves a change.
-- Do not remove code merely because it is unused until you have checked whether it is a public API, extension point, generated entry point, or intentionally retained compatibility surface.
+- Before you remove code because it is unused, check whether it is a public API, an extension point, a generated entry point, or something kept on purpose for compatibility.
 - Do not replace clear code with a new abstraction solely to reduce line count.
 - Do not weaken tests to permit simplification. Update tests only when an approved behavior change or a cleaner equivalent structure requires it. Do not loosen an assertion, update an expected value just because the output changed, or delete a failing test to make the suite pass. Delete a test only when other tests already cover everything it checks.
 - Follow the repository's validation and testing instructions after edits.
@@ -77,7 +77,7 @@ After editing, review the final diff for avoidable complexity, duplication, indi
 
 - what was simplified, in the code and in the tests;
 - which invariants the implementation now relies on;
-- any significant removals you did not make because approval was not granted; and
+- any significant removals you did not make because the user did not approve them; and
 - the validation performed and its results.
 
-Passing tests and type checks is necessary but not sufficient. Leave the affected code easier to understand and change.
+Passing tests and type checks does not finish the work: the affected code must also be easier to understand and change.

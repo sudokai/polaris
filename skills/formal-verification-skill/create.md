@@ -32,4 +32,4 @@ For a TLA+ check, tell the next agent to read each result with the `statechart` 
 
 Follow the verify skill once, as the next agent would, on a scratch change that breaks the property in the real code. It must catch the break. Then drop the scratch change and confirm that the check is back where it started: passing, or failing only on the findings you will report. If the skill misses the break or a step does not run, fix the skill or the verification, not the scratch change.
 
-Tell the user what you verified, which tool you used and why, the bounds, what the check found in plain words, how to run it, and what it does not cover. Suggest a second target only if you found a close one. Tell the user to run this skill's maintain mode when code that the check covers changes without a recheck.
+Tell the user what you verified, which tool you used and why, the bounds, what the check found in plain words, how to run it, and what it does not cover. Suggest a second target only if you found one nearly as strong as the first. Tell the user to run this skill's maintain mode when code that the check covers changes without a recheck.

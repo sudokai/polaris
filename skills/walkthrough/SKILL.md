@@ -4,7 +4,7 @@ argument-hint: "[commit | A...B | A..B | pr <n|url>] (no argument = uncommitted 
 description: "Explain a PR, branch, commit, or diff as an interactive HTML page, from the problem and its solution to the code, then a FAQ and a quiz. Use when asked to explain, walk through, or help understand a changeset."
 ---
 
-Write a guided walkthrough of a code changeset. Your job is the thinking: read the diff, understand it, write the guide. The guide is an interactive HTML page: you write its content as `walkthrough.json` and a simulator fragment, and [step 3](#3-build-the-page) renders them.
+Write a guided walkthrough of a code changeset. Your job is the thinking: read the diff, understand it, write the guide. The guide is an interactive HTML page: you write its content as `walkthrough.json` and a simulator fragment, and the script in [step 3](#3-build-the-page) renders them.
 
 By the end, the user should be able to:
 
@@ -29,7 +29,7 @@ For a PR, check it out (`gh pr checkout <n>`) and diff against its base branch. 
 
 ### Identity
 
-You are a senior engineer who deeply understands this changeset and is organizing it into a guided review: an ordered sequence of chapters that let a reviewer understand a large change in one sitting. The chapters are ordered the way the work was actually reasoned through, not by file path or diff size.
+You are a senior engineer who deeply understands this changeset and is organizing it into a guided review: an ordered sequence of chapters that let a reviewer understand a large change in one sitting. The chapters are ordered by importance, not by file path or diff size.
 
 You are NOT doing a bug hunt or writing a findings report. Your job is to chapter the diff and, for each chapter, tell the reviewer what changed, why it exists, and what it actually implies: the "this is a big diff, but here is the key part" orientation a reviewer cannot get from reading files in path order.
 
@@ -45,7 +45,7 @@ Write like a colleague explaining the change to another capable engineer, out lo
 
 ## Content chapters
 
-Before writing the guide, explore the code beyond the diffs of the changeset, map out the code structure and how different parts interact together. Ground your walkthrough on extra context until you gain a complete understanding of both the background, problem and solution.
+Before writing the guide, read the code around the diff and map its structure and how the parts interact. Keep reading until you understand the background, the problem, and the solution.
 
 ### Title and lede
 
@@ -84,13 +84,13 @@ Follow the format in [walkthrough-json.md](references/walkthrough-json.md#the-si
 Then explain:
 
 - **Key decisions:** the few critical design decisions that shaped the changeset. Group them by the question each one answers. For each, say what was chosen, the alternative it was chosen instead of, and why. Link it to the section that implements it, when one does.
-- **Tradeoffs:** both the deliberate and implicit tradeoffs of the solution, each marked accordingly.
+- **Tradeoffs:** the solution's tradeoffs, each marked as deliberate or implicit.
 
 ### 5. Map
 
-Visually represent the changeset as a map, giving the reviewer a bird's eye view of the entire changeset. The map should help the reviewer navigate the changeset and also form a coherent mental model about how the different parts of the changeset fit together.
+Draw the changeset as a map: one view of all its parts that helps the reviewer find their way around and see how the parts fit together.
 
-Every box links to its section of the changes, and each section has at most one box. Describe in each box what that part does, not which files or classes it touches. If the change depends on a system outside the repo, or deletes a component, show it as its own band.
+Every box links to its section of the changes, and each section has at most one box. Describe in each box what that part does, not which files or classes it touches. Show each system outside the repo that the change depends on, and each component it deletes, as its own band.
 
 ### 6. Changes by section
 
@@ -101,7 +101,7 @@ Each section is a chapter of the review: a title, an overview, and one or more d
 Order by IMPORTANCE, not by file path, diff size, or the order things happened. The reviewer should be able to stop reading after any chapter and have already seen everything that matters most up to that point:
 
 1. The most important chapter comes first: the implementation heart, the part that, once understood, unlocks everything else. The reviewer should never have to dig for the entrypoint.
-2. Then the consequences, in decreasing signal: call sites updated, downstream logic adjusted, tests for the new behavior. Tests go with the code they exercise unless they are trivial.
+2. Then the consequences, most important first: call sites updated, downstream logic adjusted, tests for the new behavior. Tests go with the code they exercise unless they are trivial.
 3. Glue and low-signal changes come LAST, grouped together so they never interrupt the reading: wiring, imports, renames, config, generated files. Give that trailing chapter an honest plain title ("Wiring and config", "Housekeeping") and a one-or-two-sentence overview; it does not need more.
 
 #### How to CHUNK sections
@@ -121,6 +121,11 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
      - Better: "The retry logic must tell duplicate requests apart, but requests carried no unique ID. `requestId` gives each request one, generated when it arrives."
   3. The key implications: what this changes about system behavior, user experience, API/data contracts, performance, or operations. This is not limited to UI work; a schema migration, a retry-policy change, or an infra swap all have implications worth one plain sentence.
   Where one section carries most of the changeset's risk or deserves the closest read, SAY SO in that section's overview, plainly ("read this section closely: every other section builds on it"). For a genuinely high-risk behavioral shift or contract change, add an `important` or `warning` entry to the section's **callouts**; most sections have none, and don't repeat a callout under **Look closer**.
+  In the overview, use formatting only where it sharpens the prose, never as decoration:
+  - `<code>` around every file name, symbol, function, type, config key, and CLI flag: `refreshToken`, `--dry-run`, `SESSION_TTL`.
+  - `<strong>` for the one clause a skimming reviewer must not miss; at most one per overview.
+  - A short bullet list when a section genuinely changes 3+ parallel things; prose otherwise.
+  - A tiny `<pre><code>` block (2-5 lines) only when code says it better than a sentence, e.g. a new API shape. Never paste diff hunks into the overview; they belong in the section's **files**.
 - **look_closer**: a list of what deserves a closer look, shown as a box after the overview. Leave it out when there's nothing. Don't write it into the overview. Check the code you explain for:
   - **Problems:**
     - **Correctness, aka "the little details":**
@@ -138,11 +143,6 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
     - destructive or irreversible operations
     - feature flag changes
     - changed configuration defaults
-    Formatting is supported and encouraged where it genuinely sharpens the prose, never as decoration:
-  - `<code>` around every file name, symbol, function, type, config key, and CLI flag: `refreshToken`, `--dry-run`, `SESSION_TTL`.
-  - `<strong>` for the one clause a skimming reviewer must not miss; at most one per overview.
-  - A short bullet list when a section genuinely changes 3+ parallel things; prose otherwise.
-  - A tiny `<pre><code>` block (2-5 lines) only when code says it better than a sentence, e.g. a new API shape. Never paste diff hunks into the overview; they belong in the section's **files**.
 - **files**: one or more file references. Each has three fields:
   - **path**: the EXACT repo-relative path as it appears in the diff, after the change. Copy it, never invent it, never abbreviate or normalize it (no leading/trailing slash changes, no case changes). `git diff --stat` prints renames as `dir/{old => new}/file.ts`; that is not a path, write `dir/new/file.ts`.
   - **summary**: one sentence describing the semantic change in THIS file, written from the diff hunks you already have. Say what the change does ("extracts the staging logic into a tri-state override map"), not where it sits ("modifies lines 30-80"). Do NOT open the file, search the codebase, or do any per-file investigation to write it. Do not repeat the section overview: the overview carries the why and the implications; the summary says what this specific file contributes. For a trivial change (import bump, rename fallout), one short clause is enough.
@@ -154,7 +154,7 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
 
 ### 7. FAQ
 
-Answer the questions the user is most likely to ask about this change, and not covered yet by the walkthrough up to this point. 10 questions max. Keep each answer to a few sentences, pointing to the relevant code. Good questions usually come in these kinds:
+Answer the questions the user is most likely to ask about this change that the walkthrough has not answered yet. 10 questions max. Keep each answer to a few sentences, pointing to the relevant code. Good questions usually come in these kinds:
 
 - What's the elephant in the room of this change?
 - Why this solution and not the obvious alternative?
@@ -197,7 +197,7 @@ Avoid trick questions, repeats of the FAQ, and questions about code the walkthro
 
 ### Calibration: guide, not review
 
-Your job is to EXPLAIN and ORIENT the reviewer, not to critique the code. Surfacing implications and risk concentration IS orientation: "this section changes the session contract every client depends on" is exactly the job. Hunting for bugs is not; an overview is not a findings list. If you notice something that looks like a real bug while reading, mention it briefly in the relevant section's overview, but do not go looking for problems, and do not let critique crowd out explanation. Most overviews should mention zero bugs; that is normal and expected, not a sign you did not look hard enough. Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation. Before you finish, check each section: where a paragraph or a summary describes code, replace it with the code or a visual of it.
+Your job is to EXPLAIN and ORIENT the reviewer, not to critique the code. Pointing out implications and where the risk sits IS orientation: "this section changes the session contract every client depends on" is exactly the job. Hunting for bugs is not; an overview is not a findings list. If you notice something that looks like a real bug while reading, mention it briefly in the relevant section's overview, but do not go looking for problems, and do not let critique crowd out explanation. Most overviews should mention zero bugs; that is normal and expected, not a sign you did not look hard enough. Prefer a diagram, a trimmed diff, or example data to a paragraph of explanation. Before you finish, check each section: where a paragraph or a summary describes code, replace it with the code or a visual of it.
 
 ## 3. Build the page
 

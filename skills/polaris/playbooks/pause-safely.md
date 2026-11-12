@@ -5,7 +5,7 @@
 Pause only on an explicit request to pause, or when the session is about to run out of context. On "keep going", "going to bed, keep going", or "don't stop", do not pause.
 
 1. Stop at a safe boundary. Finish the current atomic step or back out of it. Start nothing new, and stop any subagents you started.
-2. Take no irreversible action to pause. Do not open a pull request or push unless one was already out.
+2. Take no irreversible action to pause. Do not open a pull request, and push only if a pull request was already open.
 3. Make the work durable. Commit uncommitted edits as one clear `wip:` commit on the current branch so that nothing is lost. If the tree is broken, say so in one line of the commit body.
 4. Write the resume note in the [resume note format](references/resume-note.md). If this task already has a note, update it. If a note with your slug exists for a different task, choose another slug. Keep the note out of git: if `git check-ignore` does not already match the path, add `.agents/polaris/resume/` to the file that `git rev-parse --git-path info/exclude` prints, creating its directory if it is missing.
 

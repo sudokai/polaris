@@ -5,7 +5,7 @@ description: "Write a standalone implementation plan .md from an agreed design, 
 
 Turn an agreed design into a concise implementation plan saved as a `.md` file. Write for an agent with no conversation access and for a human reviewing the work before implementation.
 
-Preserve the design. Do not redesign the solution or start implementation. If a missing decision prevents a usable plan, return that gap to the appropriate caller and stop.
+Preserve the design. Do not redesign the solution or start implementation. If the design lacks a decision that the plan needs, report the missing decision to whoever asked for the plan, and stop.
 
 ## Process
 

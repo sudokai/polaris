@@ -16,7 +16,7 @@ Create or update the pull request for the current task with a concise descriptio
    - Check the current branch for a PR with `gh pr view --json url,number,title,state,baseRefName,headRefName 2>/dev/null`.
    - If no PR exists, inspect `git status --short --branch` and the commits on the current branch.
    - Commit task-related changes when needed, push the branch with an upstream, and create a PR for it. Follow the repository's git safety protocol.
-   - Ask the user to select a PR only when the current branch has no relevant work and there is no safe current-branch PR to create.
+   - Ask the user to pick a PR only when the current branch holds no work for this task and you cannot safely create a PR from it.
 
 3. Gather only the context needed to explain the change:
    - Read the ticket and any relevant task artifacts.

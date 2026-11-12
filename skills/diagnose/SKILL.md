@@ -3,7 +3,7 @@ name: diagnose
 description: "Diagnose bugs and regressions through reproduction, falsifiable hypotheses, targeted instrumentation, and regression checks. Use when something is broken or failing, especially when the cause is not obvious after initial inspection."
 ---
 
-Find the fault that caused the failure. Work from the reported symptom and observed evidence rather than from the first plausible code change.
+Find the fault that caused the failure. Work from the reported symptom and observed evidence, not from the first fix that seems plausible.
 
 For an investigation-only request, do not change product code. Report the cause, evidence, and proposed fix.
 
@@ -11,9 +11,9 @@ For an investigation-only request, do not change product code. Report the cause,
 
 1. **Define the symptom.** State the expected and actual behavior. Capture the exact error, output, timing, affected inputs, and environment that distinguish this failure from others nearby. Inspect the immediate stack trace and code first. Read any ADRs for the affected area.
 
-2. **Build a feedback signal.** Choose the fastest check that reproduces the failure through its real path. Use an existing test when it reaches the failure. Otherwise, consider a CLI or HTTP script to drive the real entry point, browser automation for UI behavior, replay of a captured request or event, or a small harness around the failing path. Use bisection when comparing known states can isolate the cause, or differential and property tests when outputs diverge.
+2. **Build a feedback signal.** Choose the fastest check that reproduces the failure through its real path. Use an existing test when it reaches the failure. Otherwise, consider a CLI or HTTP script to drive the real entry point, browser automation for UI behavior, replay of a captured request or event, or a small harness around the failing path. Use bisection when you have a known-good and a known-bad state to compare, or differential and property tests when outputs diverge.
 
-   Make the check assert the reported symptom, not any failure. Repeat it enough to establish the pattern. For an intermittent failure, increase the reproduction rate with realistic repetition, concurrency, or controlled timing, or capture traces when changing the timing would alter the failure.
+   Make the check assert the reported symptom, not any failure. Run it enough times to see how often and under what conditions the failure occurs. For an intermittent failure, increase the reproduction rate with realistic repetition, concurrency, or controlled timing, or capture traces when changing the timing would alter the failure.
 
    For a manual-only reproduction, adapt `scripts/hitl-loop.template.sh` to capture each action and observed result.
 
@@ -25,9 +25,9 @@ For an investigation-only request, do not change product code. Report the cause,
 
    Show the ranked list to the user before testing. They may know about a recent deploy or a cause they already ruled out. If they are not available, continue without waiting. Test the cheapest prediction that separates the hypotheses.
 
-   Use a debugger, REPL, targeted logs, or a measurement that exposes the deciding state. Change one variable at a time when practical. Treat a probe that contradicts the prediction as evidence, including when it disproves the preferred explanation.
+   Use a debugger, REPL, targeted logs, or a measurement that shows the state that decides between the hypotheses. Change one variable at a time when practical. Treat a probe that contradicts the prediction as evidence, including when it disproves the preferred explanation.
 
-4. **Identify the fault.** Trace the symptom to the first incorrect decision or invalid state. Handle the state where it originates if it is legitimate; prevent its creation if it is invalid. Do not add a downstream workaround that merely hides the failure.
+4. **Identify the fault.** Trace the symptom to the first incorrect decision or invalid state. If that state is legitimate, handle it where it starts. If it is invalid, stop the code from creating it. Do not add a downstream workaround that merely hides the failure.
 
    For performance regressions, compare equivalent baseline and treatment measurements, following [the measured-numbers checklist](references/measured-numbers.md).
 
@@ -45,4 +45,4 @@ Report the confirmed or possible cause, reproduction evidence, fix or proposed f
 
 State the confirmed cause in the commit or PR message.
 
-After the fix, ask what would have prevented the bug, such as code that tests cannot reach, tangled callers, or hidden coupling. If a structural change would help, recommend it after the fix, not before.
+After the fix, work out what would have prevented the bug, such as code that tests cannot reach, tangled callers, or hidden coupling. If a structural change would help, recommend it after the fix, not before.

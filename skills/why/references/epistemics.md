@@ -27,6 +27,6 @@ Preserve contradictions with citations. Different records may describe different
 - Every claim about motivation has a citation or a clear inference label.
 - The phrasing does not imply more certainty than the evidence supports.
 - Contradictory accounts and material unknowns remain visible.
-- Empty searches include sufficient scope or query detail to evaluate their significance.
+- Each empty search names its scope and query, so the reader can judge what the empty result means.
 - Unavailable sources are distinguished from searched sources with no relevant findings.
 - Unnecessary detail does not hide the answer to the original question.
