@@ -28,12 +28,12 @@ The reader must know exactly what each word refers to.
 
 ## 3. Empty statements and misplaced emphasis
 
-A reader skimming the message should get its point in one pass.
+A reader skimming the sentence should get its point in one pass.
 
 - Unclear: "Nothing else depends on anything but the result, so I'll report as soon as the poll returns."
 - Clear: "I'll report the result when the poll finishes. Nothing else is pending."
 
-Find the one thing the reader needs and put it first in the message or paragraph. Cut statements that tell the reader nothing new or nothing they can act on. Put supporting reasons after the point, or drop them.
+Find the one thing the reader needs from the sentence and lead with it. Cut statements that tell the reader nothing new or nothing they can use. Put supporting reasons after the point, or drop them.
 
 ## Rules
 
