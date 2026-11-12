@@ -16,6 +16,7 @@ When you finish, end your reply with one line per principle that changed a decis
 - Fitting a new requirement into an existing design → [redesign-from-first-principles](redesign-from-first-principles.md)
 - Two or more fixes that rest on the same premise have failed the same check → [attack-the-premise](attack-the-premise.md)
 - Ordering an addition, a refactor, or a rewrite → [subtract-before-you-add](subtract-before-you-add.md)
+- Scoping a first version of internal code, or a rare case that would make internal code complex → [worse-is-better](worse-is-better.md)
 - Reviewing or shaping code that is hard to trace → [minimize-reader-load](minimize-reader-load.md)
 - A planned rewrite or migration with explicit phase boundaries → [outcome-oriented-execution](outcome-oriented-execution.md)
 - Product, UX, or feature-scope tradeoffs → [experience-first](experience-first.md)
