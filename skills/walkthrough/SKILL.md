@@ -23,7 +23,7 @@ git diff HEAD                  # uncommitted work
 git show --format= <sha>       # one commit
 ```
 
-For a PR, check it out (`gh pr checkout <n>`) and diff against its base branch. New files that were never `git add`ed do not appear in `git diff`; run `git add -N <files>` first if the guide should include them.  
+For a PR, check it out (`gh pr checkout <n>`) and diff against its base branch. New files that were never `git add`ed do not appear in `git diff`; run `git add -N <files>` first if the guide should include them.
 
 ## 2. Write the guide
 
@@ -62,7 +62,7 @@ Explain how the affected code behaved before the change and its shortcomings. Il
 
 ### 3. Solution
 
-In one short paragraph, explain the solution that the changeset provides. Keep the explanation at the "press release" (outcome) level, as the next chapter will delve into its inner workings.
+In one short paragraph, explain the solution that the changeset provides. Keep the explanation at the "press release" (outcome) level. The next chapter explains how it works.
 
 ### 4. Core intuition
 
@@ -109,7 +109,7 @@ Order by IMPORTANCE, not by file path, diff size, or the order things happened. 
 
 A section is a logical unit of change, not a file and not a folder. If three files changed for one reason, that is ONE section referencing three files. If one file has two unrelated changes, split it into two sections. Never default to one-section-per-file; let the logic of the change decide.
 
-Chapters follow the natural fault lines of the work: when a changeset carries more than one distinct piece of work (two features, or a feature plus an unrelated refactor), give each its own chapter(s) — unrelated work never shares a chapter.
+Chapters follow the natural fault lines of the work: when a changeset carries more than one distinct piece of work (two features, or a feature plus an unrelated refactor), give each its own chapter(s). Unrelated work never shares a chapter.
 
 #### Section fields
 
@@ -117,7 +117,7 @@ Chapters follow the natural fault lines of the work: when a changeset carries mo
 - **overview**: HTML, 2-6 sentences. Three jobs, in order:
   1. What changed here, concretely.
   2. Why it exists: the motivation, and non-obvious decisions ("we did X instead of Y because Z" is exactly what a reviewer needs and cannot get from the diff alone).
-   Say what problem the change solves. The diff already shows what changed.
+     Say what problem the change solves. The diff already shows what changed.
      - Bad: "Adds a `requestId` field to the context object."
      - Better: "The retry logic must tell duplicate requests apart, but requests carried no unique ID. `requestId` gives each request one, generated when it arrives."
   3. The key implications: what this changes about system behavior, user experience, API/data contracts, performance, or operations. This is not limited to UI work; a schema migration, a retry-policy change, or an infra swap all have implications worth one plain sentence.
