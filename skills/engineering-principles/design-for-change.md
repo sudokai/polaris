@@ -1,4 +1,4 @@
-# Optimized for Change
+# Design for Change
 
 Judge code by how easily it can change, not only by how well it reads today. A small change in requirements can make the most elegant code fall apart.
 
