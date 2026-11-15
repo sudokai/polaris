@@ -23,3 +23,7 @@ Update the last synced commit after each sync. If you skip a pstack commit on pu
 - Changes to the Autopilot-full, Autopilot-stack, Orchestrate, Babysit, Multi-phase plan, Opening a PR, and Autonomous run playbooks (`ab1f702`), and the Orchestrate rewrite that deletes the `orch` scripts (`c742dd6`). polaris has none of these playbooks.
 - The model fallback chain for a rejected Task slug in `poteto-mode` (`ab1f702`). polaris's model budgets already have their own fallback rules, and the chain is specific to Cursor model slugs.
 - Subtitles in `ketchup-video` (`ab1f702`).
+
+## Amp proving-changes
+
+The `Prove a change` playbook and the `techniques.md` and `agent-instructions.md` references of `prove-it` are ported from Amp's built-in `proving-changes` skill, version `cf678151223cb596`. Amp ships the skill without a public repository, so compare a newer version with that one by hand and port the changes that apply.
