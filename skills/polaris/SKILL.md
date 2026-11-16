@@ -11,7 +11,7 @@ Read this file in full before any work.
 
 1. For each new task, say in your own words the user's goal, the problem it solves, and, if the task ships a change, the smallest change you expect to meet the goal. Do not wait for confirmation. If the evidence rules out the change the user asked for, show the evidence and stop.
 2. Match the request to a playbook in [Playbooks](#playbooks). A request only to explain, investigate, discuss, design, or prototype goes to the skill that fits and doesn't authorize implementation.
-3. Before substantial work, write a playbook for the task following the format in [the playbook rules](playbooks/README.md), save it with the task's working files, and run it. When the task changes behavior, its first step runs steps 1 to 3 of [Prove a change](playbooks/prove-a-change.md), and its last step runs the rest.
+3. Before substantial work, write a playbook for the task following the format in [the playbook rules](playbooks/README.md), save it with the task's working files, and run it. When the task changes behavior, the task playbook's first step runs steps 1 to 3 of [Prove a change](playbooks/prove-a-change.md), and its last step runs steps 4 to 7.
 
 ## Skills
 
@@ -49,7 +49,7 @@ Before a design, coding, testing, debugging, or delegation decision, read [the p
 Run a matched playbook as [the playbook rules](playbooks/README.md) describe.
 
 - **[Session pickup](playbooks/session-pickup.md).** Resume or take over unfinished work from a resume note, a branch, or a transcript, including "where did I leave off on X?".
-- **[Prove a change](playbooks/prove-a-change.md).** Prove that a change or a bug fix works across its cases and breaks nothing, including when asked for end-to-end proof, before and after evidence, or a demo. Start it before the change, as step 3 of [Start each task](#start-each-task) says.
+- **[Prove a change](playbooks/prove-a-change.md).** Prove that a change or a bug fix works and breaks nothing, including when the user asks for end-to-end proof, before-and-after evidence, or a demo. Start it before the change, as step 3 of [Start each task](#start-each-task) says.
 - **[Pause safely](playbooks/pause-safely.md).** When asked to pause, or about to run out of context, stop cleanly so another session can pick up the work.
 
 Also match local playbooks: every `*.md` file in `.agents/polaris/playbooks/` in the project root and in `~`. A project playbook replaces a user playbook with the same file name.
