@@ -13,7 +13,7 @@ polaris is an agent plugin that guides coding agents through a codebase and thro
 
 Start a task with `/polaris` (in pi, `/skill:polaris`; in Amp, ask for the `polaris:polaris` skill), followed by what you want.
 
-The router sends each task to the skills it needs. Before substantial work, it has the agent build a harness to check the result and a playbook for the task, and run the playbook as [the playbook rules](skills/polaris/playbooks/README.md) describe. A design-only request returns a design; it does not start implementation.
+The router sends each task to the skills it needs. Before substantial work, it has the agent write a playbook for the task and run it as [the playbook rules](skills/polaris/playbooks/README.md) describe. When the task changes behavior, the playbook starts with the cases, harness, and baseline that will prove the result. A design-only request returns a design; it does not start implementation.
 
 Skills without `disable-model-invocation: true` in their frontmatter also start on their own when they fit, without `/polaris`. [Agent-invocable skills](docs/decisions/2026-11-09-agent-invocable-skills.md) explains which skills qualify.
 

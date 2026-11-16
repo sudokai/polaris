@@ -11,7 +11,7 @@ Read this file in full before any work.
 
 1. For each new task, say in your own words the user's goal, the problem it solves, and, if the task ships a change, the smallest change you expect to meet the goal. Do not wait for confirmation. If the evidence rules out the change the user asked for, show the evidence and stop.
 2. Match the request to a playbook in [Playbooks](#playbooks). A request only to explain, investigate, discuss, design, or prototype goes to the skill that fits and doesn't authorize implementation.
-3. Before substantial work, set up a way to check the result on the real artifact, write a playbook for the task following the format in [the playbook rules](playbooks/README.md), save it with the task's working files, and run it.
+3. Before substantial work, write a playbook for the task following the format in [the playbook rules](playbooks/README.md), save it with the task's working files, and run it. When the task changes behavior, the task playbook's first step runs steps 1 to 3 of [Prove a change](playbooks/prove-a-change.md), and its last step runs steps 4 to 7.
 
 ## Skills
 
@@ -25,12 +25,12 @@ Each skill is `skills/<name>/SKILL.md` under the plugin root. Run one by reading
 - **The project has no scripted way to drive its app**, or the app changed and its verification skill may be out of date → `empirical-verification-skill`.
 - **Building a new module, library, or multi-file feature** → `skeleton-coding`, to fix the structure and contracts before writing the bodies.
 - **Stateful logic, or code that branches a lot** → decide the shape of the data first, following the `model-the-domain` principle. Name, type, and document code as `write-discoverable-code` describes.
-- **Changing structure while keeping behavior** → capture a baseline through the users' interfaces before editing, and compare against it with `prove-it` afterwards.
+- **Changing structure while keeping behavior** → [Prove a change](playbooks/prove-a-change.md), with the claim that behavior is unchanged: capture the baseline through the users' interfaces before editing.
 - **Writing, changing, or keeping a test** → the `test-behavior-not-implementation` principle.
 - **A significant choice is left to you because the instructions or plan are unclear, or an edge case forces a deviation** → `decision-log`.
 - **Asked what a change could break**, or reviewing a change you do not trust yet → `blast-radius`.
 - **A race, a retry, or another property that tests rarely reach, and the check must stay in the project**, or code that a formal check covers changed after the commit the check was last synced to → `formal-verification-skill`.
-- **About to claim that a change works** → `prove-it`.
+- **About to claim that one behavior works** → `prove-it`. To prove a whole change, run [Prove a change](playbooks/prove-a-change.md).
 - **Finished a workpackage** → `deslop`, then `sweep-residue`.
 - **Asked to refactor commits to make them easier to review** → `refactor-commits`.
 - **About to open or update a pull request** → `visual-pr`.
@@ -49,6 +49,7 @@ Before a design, coding, testing, debugging, or delegation decision, read [the p
 Run a matched playbook as [the playbook rules](playbooks/README.md) describe.
 
 - **[Session pickup](playbooks/session-pickup.md).** Resume or take over unfinished work from a resume note, a branch, or a transcript, including "where did I leave off on X?".
+- **[Prove a change](playbooks/prove-a-change.md).** Prove that a change or a bug fix works and breaks nothing, including when the user asks for end-to-end proof, before-and-after evidence, or a demo. Start it before the change, as step 3 of [Start each task](#start-each-task) says.
 - **[Pause safely](playbooks/pause-safely.md).** When asked to pause, or about to run out of context, stop cleanly so another session can pick up the work.
 
 Also match local playbooks: every `*.md` file in `.agents/polaris/playbooks/` in the project root and in `~`. A project playbook replaces a user playbook with the same file name.
